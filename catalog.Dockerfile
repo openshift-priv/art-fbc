@@ -20,11 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=openshift-4.18
-ENV __doozer_key=helloworld-operator
-ENV __doozer_version=4.18.0
-ENV __doozer_release=20250612103400
-ENV __doozer_bundle_nvrs=helloworld-operator-bundle-container-v4.18.0.202506120631.p2.g6113180.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/openshift-eng/ocp-build-data
-LABEL io.openshift.build.commit.id=6113180a2ea339b7a6c2d59d6f287dcf18e97396
-LABEL com.redhat.art.nvr=helloworld-operator-fbc-4.18.0-20250612103400
