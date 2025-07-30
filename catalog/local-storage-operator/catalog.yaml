@@ -15,32 +15,28 @@ entries:
   skipRange: '>=4.3.0 <4.19.0-202507011209'
 - name: local-storage-operator.v4.19.0-202507081507
   skipRange: '>=4.3.0 <4.19.0-202507081507'
-- name: local-storage-operator.v4.19.0-202507281903
-  skipRange: '>=4.3.0 <4.19.0-202507281903'
+- name: local-storage-operator.v4.19.0-202507171007
+  skipRange: '>=4.3.0 <4.19.0-202507171007'
   skips:
-  - local-storage-operator.v4.19.0-202412090538
-  - local-storage-operator.v4.19.0-202501161938
-  - local-storage-operator.v4.19.0-202502032136
-  - local-storage-operator.v4.19.0-202503032209
-  - local-storage-operator.v4.19.0-202503260216
-  - local-storage-operator.v4.19.0-202504141539
-  - local-storage-operator.v4.19.0-202504230513
-  - local-storage-operator.v4.19.0-202504240553
-  - local-storage-operator.v4.19.0-202504241448
-  - local-storage-operator.v4.19.0-202504250617
-  - local-storage-operator.v4.19.0-202504282247
-  - local-storage-operator.v4.19.0-202505121540
   - local-storage-operator.v4.19.0-202505151212
-  - local-storage-operator.v4.19.0-202505200051
-  - local-storage-operator.v4.19.0-202505210330
-  - local-storage-operator.v4.19.0-202506111842
-  - local-storage-operator.v4.19.0-202506161807
-  - local-storage-operator.v4.19.0-202506301438
-  - local-storage-operator.v4.19.0-202506301707
   - local-storage-operator.v4.19.0-202507010037
-  - local-storage-operator.v4.19.0-202507011209
+  - local-storage-operator.v4.19.0-202503260216
   - local-storage-operator.v4.19.0-202507071107
   - local-storage-operator.v4.19.0-202507081507
+  - local-storage-operator.v4.19.0-202412090538
+  - local-storage-operator.v4.19.0-202505200051
+  - local-storage-operator.v4.19.0-202506161807
+  - local-storage-operator.v4.19.0-202504141539
+  - local-storage-operator.v4.19.0-202506111842
+  - local-storage-operator.v4.19.0-202504282247
+  - local-storage-operator.v4.19.0-202506301707
+  - local-storage-operator.v4.19.0-202501161938
+  - local-storage-operator.v4.19.0-202505121540
+  - local-storage-operator.v4.19.0-202503032209
+  - local-storage-operator.v4.19.0-202506301438
+  - local-storage-operator.v4.19.0-202505210330
+  - local-storage-operator.v4.19.0-202502032136
+  - local-storage-operator.v4.19.0-202507011209
 name: stable
 package: local-storage-operator
 schema: olm.channel
@@ -76,25 +72,127 @@ properties:
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  }\n]"
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "local.storage.openshift.io/v1",
+            "kind": "LocalVolume",
+            "metadata": {
+              "name": "example"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassDevices": [
+                {
+                  "devicePaths": [
+                    "/dev/disk/by-id/ata-crucial"
+                  ],
+                  "fsType": "ext4",
+                  "storageClassName": "foobar",
+                  "volumeMode": "Filesystem"
+                }
+              ]
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeSet",
+            "metadata": {
+              "name": "example-localvolumeset"
+            },
+            "spec": {
+              "deviceInclusionSpec": {
+                "deviceMechanicalProperties": [
+                  "Rotational",
+                  "NonRotational"
+                ],
+                "deviceTypes": [
+                  "disk"
+                ],
+                "maxSize": "100G",
+                "minSize": "10G"
+              },
+              "maxDeviceCount": 10,
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassName": "example-storageclass",
+              "volumeMode": "Block"
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeDiscovery",
+            "metadata": {
+              "name": "auto-discover-devices"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
       capabilities: Full Lifecycle
       categories: Storage
       containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:8ec0e567e99f57b51414648e900e92472b6cdf8209789fa18e38cbd4d494e4ec
-      createdAt: '2019-08-14T00:00:00Z'
+      createdAt: "2019-08-14T00:00:00Z"
       description: Configure and use local storage volumes.
-      features.operators.openshift.io/csi: 'false'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'true'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
+      features.operators.openshift.io/csi: "false"
+      features.operators.openshift.io/disconnected: "true"
+      features.operators.openshift.io/fips-compliant: "true"
+      features.operators.openshift.io/proxy-aware: "true"
+      features.operators.openshift.io/tls-profiles: "false"
+      features.operators.openshift.io/token-auth-aws: "false"
+      features.operators.openshift.io/token-auth-azure: "false"
+      features.operators.openshift.io/token-auth-gcp: "false"
       olm.skipRange: '>=4.3.0 <4.19.0-202505210330'
-      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/cluster-monitoring: "true"
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine",
+        "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
       support: Red Hat
@@ -110,7 +208,8 @@ properties:
         - description: User requested management state of this object
           displayName: Requested management state
           path: managementState
-        - description: Log level of local volume diskmaker and provisioner for this object
+        - description: Log level of local volume diskmaker and provisioner for this
+            object
           displayName: LogLevel
           path: logLevel
         - description: Selected nodes for local storage
@@ -134,7 +233,9 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1
-      - description: A Local Volume set allows you to filter a set of storage volumes, group them and create a dedicated storage class to consume storage from the set of volumes.
+      - description: A Local Volume set allows you to filter a set of storage volumes,
+          group them and create a dedicated storage class to consume storage from
+          the set of volumes.
         displayName: Local Volume Set
         kind: LocalVolumeSet
         name: localvolumesets.local.storage.openshift.io
@@ -147,7 +248,8 @@ properties:
         - description: StorageClassName to use for set of matched devices
           displayName: StorageClassName
           path: storageClassName
-        - description: VolumeMode determines whether the PV created is Block or Filesystem. By default it will be block
+        - description: VolumeMode determines whether the PV created is Block or Filesystem.
+            By default it will be block
           displayName: VolumeMode
           path: volumeMode
         - description: FSType type to create when volumeMode is Filesystem
@@ -174,7 +276,8 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1alpha1
-      - description: Discover list of potentially usable disks on the chosen set of nodes
+      - description: Discover list of potentially usable disks on the chosen set of
+          nodes
         displayName: Local Volume Discovery
         kind: LocalVolumeDiscovery
         name: localvolumediscoveries.local.storage.openshift.io
@@ -211,16 +314,17 @@ properties:
           displayName: NodeName
           path: nodeName
         statusDescriptors:
-        - description: DiscoveredTimeStamp is the last timestamp when the list of discovered devices was updated
+        - description: DiscoveredTimeStamp is the last timestamp when the list of
+            discovered devices was updated
           displayName: DiscoveredTimeStamp
           path: discoveredTimeStamp
-        - description: DiscoveredDevices contains the list of devices discovered on the node
+        - description: DiscoveredDevices contains the list of devices discovered on
+            the node
           displayName: DiscoveredDevices
           path: discoveredDevices
         version: v1alpha1
-    description: 'Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
-
-      '
+    description: |
+      Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
     displayName: Local Storage
     installModes:
     - supported: true
@@ -235,7 +339,7 @@ properties:
     - storage
     - local storage
     labels:
-      operator-metering: 'true'
+      operator-metering: "true"
       operatorframework.io/arch.amd64: supported
       operatorframework.io/arch.arm64: supported
       operatorframework.io/arch.ppc64le: supported
@@ -260,7 +364,7 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:8e33602bb9e51f8e5152ae7ef9d6b7ebcbdb32ffdbfcf48264bf37017d111e34
   name: ose-local-storage-mustgather-rhel9
 - image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:1833b983d8c5de87de3a274742413a5bc015b7243bb39fd0700287e90b1ae048
-  name: ''
+  name: ""
 - image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:8ec0e567e99f57b51414648e900e92472b6cdf8209789fa18e38cbd4d494e4ec
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
@@ -296,25 +400,127 @@ properties:
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  }\n]"
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "local.storage.openshift.io/v1",
+            "kind": "LocalVolume",
+            "metadata": {
+              "name": "example"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassDevices": [
+                {
+                  "devicePaths": [
+                    "/dev/disk/by-id/ata-crucial"
+                  ],
+                  "fsType": "ext4",
+                  "storageClassName": "foobar",
+                  "volumeMode": "Filesystem"
+                }
+              ]
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeSet",
+            "metadata": {
+              "name": "example-localvolumeset"
+            },
+            "spec": {
+              "deviceInclusionSpec": {
+                "deviceMechanicalProperties": [
+                  "Rotational",
+                  "NonRotational"
+                ],
+                "deviceTypes": [
+                  "disk"
+                ],
+                "maxSize": "100G",
+                "minSize": "10G"
+              },
+              "maxDeviceCount": 10,
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassName": "example-storageclass",
+              "volumeMode": "Block"
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeDiscovery",
+            "metadata": {
+              "name": "auto-discover-devices"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
       capabilities: Full Lifecycle
       categories: Storage
       containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:689a570ac1e2ae83e55e9b3b63a431a983af7de27b0cb10c9e35eac8591d9ecc
-      createdAt: '2019-08-14T00:00:00Z'
+      createdAt: "2019-08-14T00:00:00Z"
       description: Configure and use local storage volumes.
-      features.operators.openshift.io/csi: 'false'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'true'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
+      features.operators.openshift.io/csi: "false"
+      features.operators.openshift.io/disconnected: "true"
+      features.operators.openshift.io/fips-compliant: "true"
+      features.operators.openshift.io/proxy-aware: "true"
+      features.operators.openshift.io/tls-profiles: "false"
+      features.operators.openshift.io/token-auth-aws: "false"
+      features.operators.openshift.io/token-auth-azure: "false"
+      features.operators.openshift.io/token-auth-gcp: "false"
       olm.skipRange: '>=4.3.0 <4.19.0-202506161807'
-      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/cluster-monitoring: "true"
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine",
+        "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
       support: Red Hat
@@ -330,7 +536,8 @@ properties:
         - description: User requested management state of this object
           displayName: Requested management state
           path: managementState
-        - description: Log level of local volume diskmaker and provisioner for this object
+        - description: Log level of local volume diskmaker and provisioner for this
+            object
           displayName: LogLevel
           path: logLevel
         - description: Selected nodes for local storage
@@ -354,7 +561,9 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1
-      - description: A Local Volume set allows you to filter a set of storage volumes, group them and create a dedicated storage class to consume storage from the set of volumes.
+      - description: A Local Volume set allows you to filter a set of storage volumes,
+          group them and create a dedicated storage class to consume storage from
+          the set of volumes.
         displayName: Local Volume Set
         kind: LocalVolumeSet
         name: localvolumesets.local.storage.openshift.io
@@ -367,7 +576,8 @@ properties:
         - description: StorageClassName to use for set of matched devices
           displayName: StorageClassName
           path: storageClassName
-        - description: VolumeMode determines whether the PV created is Block or Filesystem. By default it will be block
+        - description: VolumeMode determines whether the PV created is Block or Filesystem.
+            By default it will be block
           displayName: VolumeMode
           path: volumeMode
         - description: FSType type to create when volumeMode is Filesystem
@@ -394,7 +604,8 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1alpha1
-      - description: Discover list of potentially usable disks on the chosen set of nodes
+      - description: Discover list of potentially usable disks on the chosen set of
+          nodes
         displayName: Local Volume Discovery
         kind: LocalVolumeDiscovery
         name: localvolumediscoveries.local.storage.openshift.io
@@ -431,16 +642,17 @@ properties:
           displayName: NodeName
           path: nodeName
         statusDescriptors:
-        - description: DiscoveredTimeStamp is the last timestamp when the list of discovered devices was updated
+        - description: DiscoveredTimeStamp is the last timestamp when the list of
+            discovered devices was updated
           displayName: DiscoveredTimeStamp
           path: discoveredTimeStamp
-        - description: DiscoveredDevices contains the list of devices discovered on the node
+        - description: DiscoveredDevices contains the list of devices discovered on
+            the node
           displayName: DiscoveredDevices
           path: discoveredDevices
         version: v1alpha1
-    description: 'Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
-
-      '
+    description: |
+      Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
     displayName: Local Storage
     installModes:
     - supported: true
@@ -455,7 +667,7 @@ properties:
     - storage
     - local storage
     labels:
-      operator-metering: 'true'
+      operator-metering: "true"
       operatorframework.io/arch.amd64: supported
       operatorframework.io/arch.arm64: supported
       operatorframework.io/arch.ppc64le: supported
@@ -480,7 +692,7 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:2578b8655f6f287cd75271628fd5d7ffa792c77513927880a91c8790c8c1c820
   name: ose-local-storage-mustgather-rhel9
 - image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:c8290c5cec0280a76732367627a401c5bd3a06fcec92d360de0dd9d50693ef5e
-  name: ''
+  name: ""
 - image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:689a570ac1e2ae83e55e9b3b63a431a983af7de27b0cb10c9e35eac8591d9ecc
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
@@ -516,25 +728,127 @@ properties:
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  }\n]"
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "local.storage.openshift.io/v1",
+            "kind": "LocalVolume",
+            "metadata": {
+              "name": "example"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassDevices": [
+                {
+                  "devicePaths": [
+                    "/dev/disk/by-id/ata-crucial"
+                  ],
+                  "fsType": "ext4",
+                  "storageClassName": "foobar",
+                  "volumeMode": "Filesystem"
+                }
+              ]
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeSet",
+            "metadata": {
+              "name": "example-localvolumeset"
+            },
+            "spec": {
+              "deviceInclusionSpec": {
+                "deviceMechanicalProperties": [
+                  "Rotational",
+                  "NonRotational"
+                ],
+                "deviceTypes": [
+                  "disk"
+                ],
+                "maxSize": "100G",
+                "minSize": "10G"
+              },
+              "maxDeviceCount": 10,
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassName": "example-storageclass",
+              "volumeMode": "Block"
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeDiscovery",
+            "metadata": {
+              "name": "auto-discover-devices"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
       capabilities: Full Lifecycle
       categories: Storage
       containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:723d83db0dbbbdf766d8f11c4f8bf7ceb48357cd2229c24e2e99d1e5d3b74b9d
-      createdAt: '2019-08-14T00:00:00Z'
+      createdAt: "2019-08-14T00:00:00Z"
       description: Configure and use local storage volumes.
-      features.operators.openshift.io/csi: 'false'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'true'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
+      features.operators.openshift.io/csi: "false"
+      features.operators.openshift.io/disconnected: "true"
+      features.operators.openshift.io/fips-compliant: "true"
+      features.operators.openshift.io/proxy-aware: "true"
+      features.operators.openshift.io/tls-profiles: "false"
+      features.operators.openshift.io/token-auth-aws: "false"
+      features.operators.openshift.io/token-auth-azure: "false"
+      features.operators.openshift.io/token-auth-gcp: "false"
       olm.skipRange: '>=4.3.0 <4.19.0-202507011209'
-      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/cluster-monitoring: "true"
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine",
+        "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
       support: Red Hat
@@ -550,7 +864,8 @@ properties:
         - description: User requested management state of this object
           displayName: Requested management state
           path: managementState
-        - description: Log level of local volume diskmaker and provisioner for this object
+        - description: Log level of local volume diskmaker and provisioner for this
+            object
           displayName: LogLevel
           path: logLevel
         - description: Selected nodes for local storage
@@ -574,7 +889,9 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1
-      - description: A Local Volume set allows you to filter a set of storage volumes, group them and create a dedicated storage class to consume storage from the set of volumes.
+      - description: A Local Volume set allows you to filter a set of storage volumes,
+          group them and create a dedicated storage class to consume storage from
+          the set of volumes.
         displayName: Local Volume Set
         kind: LocalVolumeSet
         name: localvolumesets.local.storage.openshift.io
@@ -587,7 +904,8 @@ properties:
         - description: StorageClassName to use for set of matched devices
           displayName: StorageClassName
           path: storageClassName
-        - description: VolumeMode determines whether the PV created is Block or Filesystem. By default it will be block
+        - description: VolumeMode determines whether the PV created is Block or Filesystem.
+            By default it will be block
           displayName: VolumeMode
           path: volumeMode
         - description: FSType type to create when volumeMode is Filesystem
@@ -614,7 +932,8 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1alpha1
-      - description: Discover list of potentially usable disks on the chosen set of nodes
+      - description: Discover list of potentially usable disks on the chosen set of
+          nodes
         displayName: Local Volume Discovery
         kind: LocalVolumeDiscovery
         name: localvolumediscoveries.local.storage.openshift.io
@@ -651,16 +970,17 @@ properties:
           displayName: NodeName
           path: nodeName
         statusDescriptors:
-        - description: DiscoveredTimeStamp is the last timestamp when the list of discovered devices was updated
+        - description: DiscoveredTimeStamp is the last timestamp when the list of
+            discovered devices was updated
           displayName: DiscoveredTimeStamp
           path: discoveredTimeStamp
-        - description: DiscoveredDevices contains the list of devices discovered on the node
+        - description: DiscoveredDevices contains the list of devices discovered on
+            the node
           displayName: DiscoveredDevices
           path: discoveredDevices
         version: v1alpha1
-    description: 'Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
-
-      '
+    description: |
+      Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
     displayName: Local Storage
     installModes:
     - supported: true
@@ -675,7 +995,7 @@ properties:
     - storage
     - local storage
     labels:
-      operator-metering: 'true'
+      operator-metering: "true"
       operatorframework.io/arch.amd64: supported
       operatorframework.io/arch.arm64: supported
       operatorframework.io/arch.ppc64le: supported
@@ -700,7 +1020,7 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:2456d68cd823cf29d62138a392565966c6f3dc7e58845beec50d9705fb797bd0
   name: ose-local-storage-mustgather-rhel9
 - image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:6854323058057c5284189febad8a36b08a6b5594bb64a9cdf8479364f2a560ba
-  name: ''
+  name: ""
 - image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:723d83db0dbbbdf766d8f11c4f8bf7ceb48357cd2229c24e2e99d1e5d3b74b9d
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
@@ -736,25 +1056,127 @@ properties:
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  }\n]"
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "local.storage.openshift.io/v1",
+            "kind": "LocalVolume",
+            "metadata": {
+              "name": "example"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassDevices": [
+                {
+                  "devicePaths": [
+                    "/dev/disk/by-id/ata-crucial"
+                  ],
+                  "fsType": "ext4",
+                  "storageClassName": "foobar",
+                  "volumeMode": "Filesystem"
+                }
+              ]
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeSet",
+            "metadata": {
+              "name": "example-localvolumeset"
+            },
+            "spec": {
+              "deviceInclusionSpec": {
+                "deviceMechanicalProperties": [
+                  "Rotational",
+                  "NonRotational"
+                ],
+                "deviceTypes": [
+                  "disk"
+                ],
+                "maxSize": "100G",
+                "minSize": "10G"
+              },
+              "maxDeviceCount": 10,
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassName": "example-storageclass",
+              "volumeMode": "Block"
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeDiscovery",
+            "metadata": {
+              "name": "auto-discover-devices"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
       capabilities: Full Lifecycle
       categories: Storage
       containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:5e7475f14201d3c799088d859927b5e50c6e7a425d2a14decebc895e79af5ea8
-      createdAt: '2019-08-14T00:00:00Z'
+      createdAt: "2019-08-14T00:00:00Z"
       description: Configure and use local storage volumes.
-      features.operators.openshift.io/csi: 'false'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'true'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
+      features.operators.openshift.io/csi: "false"
+      features.operators.openshift.io/disconnected: "true"
+      features.operators.openshift.io/fips-compliant: "true"
+      features.operators.openshift.io/proxy-aware: "true"
+      features.operators.openshift.io/tls-profiles: "false"
+      features.operators.openshift.io/token-auth-aws: "false"
+      features.operators.openshift.io/token-auth-azure: "false"
+      features.operators.openshift.io/token-auth-gcp: "false"
       olm.skipRange: '>=4.3.0 <4.19.0-202507081507'
-      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/cluster-monitoring: "true"
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine",
+        "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
       support: Red Hat
@@ -770,7 +1192,8 @@ properties:
         - description: User requested management state of this object
           displayName: Requested management state
           path: managementState
-        - description: Log level of local volume diskmaker and provisioner for this object
+        - description: Log level of local volume diskmaker and provisioner for this
+            object
           displayName: LogLevel
           path: logLevel
         - description: Selected nodes for local storage
@@ -794,7 +1217,9 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1
-      - description: A Local Volume set allows you to filter a set of storage volumes, group them and create a dedicated storage class to consume storage from the set of volumes.
+      - description: A Local Volume set allows you to filter a set of storage volumes,
+          group them and create a dedicated storage class to consume storage from
+          the set of volumes.
         displayName: Local Volume Set
         kind: LocalVolumeSet
         name: localvolumesets.local.storage.openshift.io
@@ -807,7 +1232,8 @@ properties:
         - description: StorageClassName to use for set of matched devices
           displayName: StorageClassName
           path: storageClassName
-        - description: VolumeMode determines whether the PV created is Block or Filesystem. By default it will be block
+        - description: VolumeMode determines whether the PV created is Block or Filesystem.
+            By default it will be block
           displayName: VolumeMode
           path: volumeMode
         - description: FSType type to create when volumeMode is Filesystem
@@ -834,7 +1260,8 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1alpha1
-      - description: Discover list of potentially usable disks on the chosen set of nodes
+      - description: Discover list of potentially usable disks on the chosen set of
+          nodes
         displayName: Local Volume Discovery
         kind: LocalVolumeDiscovery
         name: localvolumediscoveries.local.storage.openshift.io
@@ -871,16 +1298,17 @@ properties:
           displayName: NodeName
           path: nodeName
         statusDescriptors:
-        - description: DiscoveredTimeStamp is the last timestamp when the list of discovered devices was updated
+        - description: DiscoveredTimeStamp is the last timestamp when the list of
+            discovered devices was updated
           displayName: DiscoveredTimeStamp
           path: discoveredTimeStamp
-        - description: DiscoveredDevices contains the list of devices discovered on the node
+        - description: DiscoveredDevices contains the list of devices discovered on
+            the node
           displayName: DiscoveredDevices
           path: discoveredDevices
         version: v1alpha1
-    description: 'Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
-
-      '
+    description: |
+      Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
     displayName: Local Storage
     installModes:
     - supported: true
@@ -895,7 +1323,7 @@ properties:
     - storage
     - local storage
     labels:
-      operator-metering: 'true'
+      operator-metering: "true"
       operatorframework.io/arch.amd64: supported
       operatorframework.io/arch.arm64: supported
       operatorframework.io/arch.ppc64le: supported
@@ -920,13 +1348,13 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:84a707f621c801ebdc1b8c003308faa2fc3f213a0f955340f364c3a9e9cc0c4e
   name: ose-local-storage-mustgather-rhel9
 - image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:8266458711bafd30d7f42f9dd10bd18c0065fad193da92eb1b274235c535f5eb
-  name: ''
+  name: ""
 - image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:5e7475f14201d3c799088d859927b5e50c6e7a425d2a14decebc895e79af5ea8
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:396c12957fe5b0320eb4be1e97351ef65ffcd0848034e19523418b64b66aa3cb
-name: local-storage-operator.v4.19.0-202507281903
+image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:bd699201ad722705567a60f9fadf8f2698d91601462112a64e79a559c8baad61
+name: local-storage-operator.v4.19.0-202507171007
 package: local-storage-operator
 properties:
 - type: olm.gvk
@@ -950,34 +1378,136 @@ properties:
     kind: LocalVolumeSet
     version: v1alpha1
 - type: olm.maxOpenShiftVersion
-  value: '4.20'
+  value: "4.20"
 - type: olm.package
   value:
     packageName: local-storage-operator
-    version: 4.19.0-202507281903
+    version: 4.19.0-202507171007
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  }\n]"
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "local.storage.openshift.io/v1",
+            "kind": "LocalVolume",
+            "metadata": {
+              "name": "example"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassDevices": [
+                {
+                  "devicePaths": [
+                    "/dev/disk/by-id/ata-crucial"
+                  ],
+                  "fsType": "ext4",
+                  "storageClassName": "foobar",
+                  "volumeMode": "Filesystem"
+                }
+              ]
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeSet",
+            "metadata": {
+              "name": "example-localvolumeset"
+            },
+            "spec": {
+              "deviceInclusionSpec": {
+                "deviceMechanicalProperties": [
+                  "Rotational",
+                  "NonRotational"
+                ],
+                "deviceTypes": [
+                  "disk"
+                ],
+                "maxSize": "100G",
+                "minSize": "10G"
+              },
+              "maxDeviceCount": 10,
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "storageClassName": "example-storageclass",
+              "volumeMode": "Block"
+            }
+          },
+          {
+            "apiVersion": "local.storage.openshift.io/v1alpha1",
+            "kind": "LocalVolumeDiscovery",
+            "metadata": {
+              "name": "auto-discover-devices"
+            },
+            "spec": {
+              "nodeSelector": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "kubernetes.io/hostname",
+                        "operator": "In",
+                        "values": [
+                          "worker-0",
+                          "worker-1"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:b76012f45213a8b0966ba81d7e32039778d83071e4860fa47597a277766d672a
-      createdAt: '2019-08-14T00:00:00Z'
+      containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:2f7f259c8051257b0ac42ecfe3adf38ff1c7e23c922525541ee332019ef7e887
+      createdAt: "2019-08-14T00:00:00Z"
       description: Configure and use local storage volumes.
-      features.operators.openshift.io/csi: 'false'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'true'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
+      features.operators.openshift.io/csi: "false"
+      features.operators.openshift.io/disconnected: "true"
+      features.operators.openshift.io/fips-compliant: "true"
+      features.operators.openshift.io/proxy-aware: "true"
+      features.operators.openshift.io/tls-profiles: "false"
+      features.operators.openshift.io/token-auth-aws: "false"
+      features.operators.openshift.io/token-auth-azure: "false"
+      features.operators.openshift.io/token-auth-gcp: "false"
       olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "4.20"}]'
-      olm.skipRange: '>=4.3.0 <4.19.0-202507281903'
-      operatorframework.io/cluster-monitoring: 'true'
+      olm.skipRange: '>=4.3.0 <4.19.0-202507171007'
+      operatorframework.io/cluster-monitoring: "true"
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine",
+        "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
       support: Red Hat
@@ -993,7 +1523,8 @@ properties:
         - description: User requested management state of this object
           displayName: Requested management state
           path: managementState
-        - description: Log level of local volume diskmaker and provisioner for this object
+        - description: Log level of local volume diskmaker and provisioner for this
+            object
           displayName: LogLevel
           path: logLevel
         - description: Selected nodes for local storage
@@ -1017,7 +1548,9 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1
-      - description: A Local Volume set allows you to filter a set of storage volumes, group them and create a dedicated storage class to consume storage from the set of volumes.
+      - description: A Local Volume set allows you to filter a set of storage volumes,
+          group them and create a dedicated storage class to consume storage from
+          the set of volumes.
         displayName: Local Volume Set
         kind: LocalVolumeSet
         name: localvolumesets.local.storage.openshift.io
@@ -1030,7 +1563,8 @@ properties:
         - description: StorageClassName to use for set of matched devices
           displayName: StorageClassName
           path: storageClassName
-        - description: VolumeMode determines whether the PV created is Block or Filesystem. By default it will be block
+        - description: VolumeMode determines whether the PV created is Block or Filesystem.
+            By default it will be block
           displayName: VolumeMode
           path: volumeMode
         - description: FSType type to create when volumeMode is Filesystem
@@ -1057,7 +1591,8 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:io.kubernetes.conditions
         version: v1alpha1
-      - description: Discover list of potentially usable disks on the chosen set of nodes
+      - description: Discover list of potentially usable disks on the chosen set of
+          nodes
         displayName: Local Volume Discovery
         kind: LocalVolumeDiscovery
         name: localvolumediscoveries.local.storage.openshift.io
@@ -1094,16 +1629,17 @@ properties:
           displayName: NodeName
           path: nodeName
         statusDescriptors:
-        - description: DiscoveredTimeStamp is the last timestamp when the list of discovered devices was updated
+        - description: DiscoveredTimeStamp is the last timestamp when the list of
+            discovered devices was updated
           displayName: DiscoveredTimeStamp
           path: discoveredTimeStamp
-        - description: DiscoveredDevices contains the list of devices discovered on the node
+        - description: DiscoveredDevices contains the list of devices discovered on
+            the node
           displayName: DiscoveredDevices
           path: discoveredDevices
         version: v1alpha1
-    description: 'Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
-
-      '
+    description: |
+      Operator that configures local storage volumes for use in Kubernetes and OpenShift. OpenShift 4.2 and above are the only supported OpenShift versions.
     displayName: Local Storage
     installModes:
     - supported: true
@@ -1118,7 +1654,7 @@ properties:
     - storage
     - local storage
     labels:
-      operator-metering: 'true'
+      operator-metering: "true"
       operatorframework.io/arch.amd64: supported
       operatorframework.io/arch.arm64: supported
       operatorframework.io/arch.ppc64le: supported
@@ -1136,14 +1672,14 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:396c12957fe5b0320eb4be1e97351ef65ffcd0848034e19523418b64b66aa3cb
-  name: ''
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:1997fcf18ea1af9fdf3e067177f948c230816cf540bdc0e56b475dde437ef778
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:e36df60ccac0c21c8c6959da1023a40085fddc181977381ed3ec7f2783ac1712
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-local-storage-diskmaker-rhel9@sha256:cd30efe39760f4ffa95b7b5e88684a04e2de48ae412f95dfb720ab3addc82382
+- image: registry.redhat.io/openshift4/ose-local-storage-diskmaker-rhel9@sha256:46dd4c66b87c785959f12680cb1cb9fbbc669e2a6e2cc2c11ce890bb41f41b9f
   name: ose-local-storage-diskmaker-rhel9
-- image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:4a2c80ebecf7a95ead000cae5efd72736d29087524163f19eaf5ec37ab8e8535
+- image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:693d9be5cd5d254e57d95f822070e10b49fa6cab85a2578a9b69c9208219048d
   name: ose-local-storage-mustgather-rhel9
-- image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:b76012f45213a8b0966ba81d7e32039778d83071e4860fa47597a277766d672a
+- image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:bd699201ad722705567a60f9fadf8f2698d91601462112a64e79a559c8baad61
+  name: ""
+- image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:2f7f259c8051257b0ac42ecfe3adf38ff1c7e23c922525541ee332019ef7e887
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
