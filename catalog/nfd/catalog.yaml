@@ -19,26 +19,28 @@ entries:
   skipRange: '>=4.9.0 <4.19.0-202507081507'
 - name: nfd.4.19.0-202507171007
   skipRange: '>=4.9.0 <4.19.0-202507171007'
-- name: nfd.4.19.0-202507290904
-  skipRange: '>=4.9.0 <4.19.0-202507290904'
+- name: nfd.4.19.0-202507291138
+  skipRange: '>=4.9.0 <4.19.0-202507291138'
   skips:
-  - nfd.4.19.0-202503031239
+  - nfd.4.19.0-202507281107
   - nfd.4.19.0-202503101515
-  - nfd.4.19.0-202503180241
-  - nfd.4.19.0-202504101741
-  - nfd.4.19.0-202505050840
   - nfd.4.19.0-202505121540
   - nfd.4.19.0-202505200051
   - nfd.4.19.0-202505221646
-  - nfd.4.19.0-202506021915
-  - nfd.4.19.0-202506051543
-  - nfd.4.19.0-202506111842
-  - nfd.4.19.0-202506190836
-  - nfd.4.19.0-202507010037
-  - nfd.4.19.0-202507011209
   - nfd.4.19.0-202507071107
-  - nfd.4.19.0-202507081507
+  - nfd.4.19.0-202506021915
   - nfd.4.19.0-202507171007
+  - nfd.4.19.0-202505050840
+  - nfd.4.19.0-202507010037
+  - nfd.4.19.0-202503180241
+  - nfd.4.19.0-202506051543
+  - nfd.4.19.0-202503031239
+  - nfd.4.19.0-202506190836
+  - nfd.4.19.0-202507230607
+  - nfd.4.19.0-202504101741
+  - nfd.4.19.0-202507081507
+  - nfd.4.19.0-202507011209
+  - nfd.4.19.0-202506111842
 name: stable
 package: nfd
 schema: olm.channel
@@ -1117,8 +1119,8 @@ relatedImages:
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:3b7d78bc4ad612a5c8287d954175c99d08d674f12f0db270d39b3b140982bb9e
-name: nfd.4.19.0-202507290904
+image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:efd4e48ff3ebfaa448cafdd1a67930280f39244492dab3fafc147bbdcce38552
+name: nfd.4.19.0-202507291138
 package: nfd
 properties:
 - type: olm.gvk
@@ -1154,14 +1156,14 @@ properties:
 - type: olm.package
   value:
     packageName: nfd
-    version: 4.19.0-202507290904
+    version: 4.19.0-202507291138
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"nfd.k8s-sigs.io/v1alpha1\",\n    \"kind\": \"NodeFeatureRule\",\n    \"metadata\": {\n      \"name\": \"my-sample-rule-object\"\n    },\n    \"spec\": {\n      \"rules\": [\n        {\n          \"labels\": {\n            \"my-sample-feature\": \"true\"\n          },\n          \"matchFeatures\": [\n            {\n              \"feature\": \"kernel.loadedmodule\",\n              \"matchExpressions\": {\n                \"dummy\": {\n                  \"op\": \"Exists\"\n                }\n              }\n            },\n            {\n              \"feature\": \"kernel.config\",\n              \"matchExpressions\": {\n                \"X86\": {\n                  \"op\": \"In\",\n                  \"value\": [\n                    \"y\"\n                  ]\n                }\n              }\n            }\n          ],\n          \"name\": \"my sample rule\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1\",\n    \"kind\": \"NodeFeatureDiscovery\",\n    \"metadata\": {\n      \"name\": \"nfd-instance\",\n      \"namespace\": \"openshift-nfd\"\n    },\n    \"spec\": {\n      \"customConfig\": {\n        \"configData\": \"#    - name: \\\"more.kernel.features\\\"\\n#      matchOn:\\n#      - loadedKMod: [\\\"example_kmod3\\\"]\\n#    - name: \\\"more.features.by.nodename\\\"\\n#      value: customValue\\n#      matchOn:\\n#      - nodename: [\\\"special-.*-node-.*\\\"]\\n\"\n      },\n      \"operand\": {\n        \"imagePullPolicy\": \"IfNotPresent\",\n        \"servicePort\": 12000\n      },\n      \"workerConfig\": {\n        \"configData\": \"core:\\n#  labelWhiteList:\\n#  noPublish: false\\n  sleepInterval: 60s\\n#  sources: [all]\\n#  klog:\\n#    addDirHeader: false\\n#    alsologtostderr: false\\n#    logBacktraceAt:\\n#    logtostderr: true\\n#    skipHeaders: false\\n#    stderrthreshold: 2\\n#    v: 0\\n#    vmodule:\\n##   NOTE: the following options are not dynamically run-time \\n##          configurable and require a nfd-worker restart to take effect\\n##          after being changed\\n#    logDir:\\n#    logFile:\\n#    logFileMaxSize: 1800\\n#    skipLogHeaders: false\\nsources:\\n#  cpu:\\n#    cpuid:\\n##     NOTE: whitelist has priority over blacklist\\n#      attributeBlacklist:\\n#        - \\\"BMI1\\\"\\n#        - \\\"BMI2\\\"\\n#        - \\\"CLMUL\\\"\\n#        - \\\"CMOV\\\"\\n#        - \\\"CX16\\\"\\n#        - \\\"ERMS\\\"\\n#        - \\\"F16C\\\"\\n#        - \\\"HTT\\\"\\n#        - \\\"LZCNT\\\"\\n#        - \\\"MMX\\\"\\n#        - \\\"MMXEXT\\\"\\n#        - \\\"NX\\\"\\n#        - \\\"POPCNT\\\"\\n#        - \\\"RDRAND\\\"\\n#        - \\\"RDSEED\\\"\\n#        - \\\"RDTSCP\\\"\\n#        - \\\"SGX\\\"\\n#        - \\\"SSE\\\"\\n#        - \\\"SSE2\\\"\\n#        - \\\"SSE3\\\"\\n#        - \\\"SSE4.1\\\"\\n#        - \\\"SSE4.2\\\"\\n#        - \\\"SSSE3\\\"\\n#      attributeWhitelist:\\n#  kernel:\\n#    kconfigFile: \\\"/path/to/kconfig\\\"\\n#    configOpts:\\n#      - \\\"NO_HZ\\\"\\n#      - \\\"X86\\\"\\n#      - \\\"DMI\\\"\\n  pci:\\n    deviceClassWhitelist:\\n      - \\\"0200\\\"\\n      - \\\"03\\\"\\n      - \\\"12\\\"\\n    deviceLabelFields:\\n#      - \\\"class\\\"\\n      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#      - \\\"subsystem_vendor\\\"\\n#      - \\\"subsystem_device\\\"\\n#  usb:\\n#    deviceClassWhitelist:\\n#      - \\\"0e\\\"\\n#      - \\\"ef\\\"\\n#      - \\\"fe\\\"\\n#      - \\\"ff\\\"\\n#    deviceLabelFields:\\n#      - \\\"class\\\"\\n#      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#  custom:\\n#    - name: \\\"my.kernel.feature\\\"\\n#      matchOn:\\n#        - loadedKMod: [\\\"example_kmod1\\\", \\\"example_kmod2\\\"]\\n#    - name: \\\"my.pci.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            class: [\\\"0200\\\"]\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#        - pciId :\\n#            vendor: [\\\"8086\\\"]\\n#            device: [\\\"1000\\\", \\\"1100\\\"]\\n#    - name: \\\"my.usb.feature\\\"\\n#      matchOn:\\n#        - usbId:\\n#          class: [\\\"ff\\\"]\\n#          vendor: [\\\"03e7\\\"]\\n#          device: [\\\"2485\\\"]\\n#        - usbId:\\n#          class: [\\\"fe\\\"]\\n#          vendor: [\\\"1a6e\\\"]\\n#          device: [\\\"089a\\\"]\\n#    - name: \\\"my.combined.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#          loadedKMod : [\\\"vendor_kmod1\\\", \\\"vendor_kmod2\\\"]\\n\"\n      }\n    }\n  }\n]"
       capabilities: Deep Insights
       categories: Integration & Delivery,OpenShift Optional
-      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:7a7005736f92984bf8434392d0867f18b54ebfce84b01babefe615291f187ec2
+      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:65ebdc54f5aa49d9e779e56d975b631a47a3e86211f2a6e7125c98316ce0b018
       createdAt: '2025-04-20T11:31:43Z'
       description: 'The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.
 
@@ -1195,7 +1197,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.9.0 <4.19.0-202507290904'
+      olm.skipRange: '>=4.9.0 <4.19.0-202507291138'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-nfd
       operators.openshift.io/infrastructure-features: '["disconnected"]'
@@ -1288,10 +1290,10 @@ properties:
       name: Red Hat
       url: https://github.com/openshift/cluster-nfd-operator
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:3b7d78bc4ad612a5c8287d954175c99d08d674f12f0db270d39b3b140982bb9e
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:efd4e48ff3ebfaa448cafdd1a67930280f39244492dab3fafc147bbdcce38552
   name: ''
-- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:7a7005736f92984bf8434392d0867f18b54ebfce84b01babefe615291f187ec2
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:65ebdc54f5aa49d9e779e56d975b631a47a3e86211f2a6e7125c98316ce0b018
   name: ose-cluster-nfd-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:cbe4f44f70cb8352535f377e93b937d6d9abc23c0698c35849ac333aa21bb2ed
+- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:4b9e5efba5db3b95d8543eecd49018717ff10fa49ad7853d06a624e6f485b34d
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
