@@ -20,3 +20,12 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.14
+ENV __doozer_key=ose-gcp-filestore-csi-driver-operator
+ENV __doozer_version=4.14.0
+ENV __doozer_release=20250924152618
+ENV __doozer_bundle_nvrs=ose-gcp-filestore-csi-driver-operator-bundle-container-v4.14.0.202509241323.p2.g5028f0a.assembly.stream.el8-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/gcp-filestore-csi-driver-operator
+LABEL io.openshift.build.commit.id=5028f0a8c05b585e175c718de045bdf904189ab8
+LABEL com.redhat.art.name=ose-gcp-filestore-csi-driver-operator-fbc
+LABEL com.redhat.art.nvr=ose-gcp-filestore-csi-driver-operator-fbc-4.14.0-20250924152618
