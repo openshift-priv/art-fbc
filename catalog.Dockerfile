@@ -20,12 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=openshift-4.21
-ENV __doozer_key=dpu-operator
-ENV __doozer_version=4.21.0
-ENV __doozer_release=20251002033805
-ENV __doozer_bundle_nvrs=dpu-operator-bundle-container-v4.21.0.202510020033.p2.ged2f3dc.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/openshift/dpu-operator
-LABEL io.openshift.build.commit.id=ed2f3dc3aa9065cbd3451ad5400d780ba1cc2e1e
-LABEL com.redhat.art.name=dpu-operator-fbc
-LABEL com.redhat.art.nvr=dpu-operator-fbc-4.21.0-20251002033805
