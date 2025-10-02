@@ -40,6 +40,8 @@ entries:
   skipRange: '>=4.3.0 <4.18.0-202509100344'
 - name: clusterresourceoverride-operator.v4.18.0-202509240837
   skipRange: '>=4.3.0 <4.18.0-202509240837'
+- name: clusterresourceoverride-operator.v4.18.0-202510021956
+  skipRange: '>=4.3.0 <4.18.0-202510021956'
   skips:
   - clusterresourceoverride-operator.v4.18.0-202408260942
   - clusterresourceoverride-operator.v4.18.0-202409111838
@@ -68,6 +70,7 @@ entries:
   - clusterresourceoverride-operator.v4.18.0-202507211933
   - clusterresourceoverride-operator.v4.18.0-202508201347
   - clusterresourceoverride-operator.v4.18.0-202509100344
+  - clusterresourceoverride-operator.v4.18.0-202509240837
 name: stable
 package: clusterresourceoverride
 schema: olm.channel
@@ -1455,5 +1458,82 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:8ce91a76a081a99d4e60b5b9dd12a5b5959053a48dabcf60f269e83716a4e99d
   name: ose-clusterresourceoverride-rhel9-operator
 - image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9@sha256:2591c6d81dc988a75a1f6eb2add9d986613c1dc646fc87c56d4ac4bf5434a24e
+  name: ose-clusterresourceoverride-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:ff7cfe4865a0c06e8ea508a8b8a33b82e58e8b87f033ea8f4d0ca615e5188506
+name: clusterresourceoverride-operator.v4.18.0-202510021956
+package: clusterresourceoverride
+properties:
+- type: olm.gvk
+  value:
+    group: operator.autoscaling.openshift.io
+    kind: ClusterResourceOverride
+    version: v1
+- type: olm.package
+  value:
+    packageName: clusterresourceoverride
+    version: 4.18.0-202510021956
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"operator.autoscaling.openshift.io/v1\",\n    \"kind\": \"ClusterResourceOverride\",\n    \"metadata\": {\n      \"name\": \"cluster\"\n    },\n    \"spec\": {\n      \"podResourceOverride\": {\n        \"spec\": {\n          \"memoryRequestToLimitPercent\": 50,\n          \"cpuRequestToLimitPercent\": 25,\n          \"limitCPUToMemoryPercent\": 200\n        }\n      }\n    }\n  }\n]"
+      capabilities: Seamless Upgrades
+      categories: OpenShift Optional
+      certifiedLevel: Primed
+      containerImage: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:9249a9dcd63877fcaa0a7ef459e2043c69038ff39cb35aef672b2d4c63315a05
+      createdAt: 2019/11/15
+      description: An operator to manage the OpenShift ClusterResourceOverride Mutating Admission Webhook Server
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      healthIndex: B
+      olm.skipRange: '>=4.3.0 <4.18.0-202510021956'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/openshift/cluster-resource-override-admission-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents an instance of ClusterResourceOverride Admission Webhook
+        displayName: ClusterResourceOverride
+        kind: ClusterResourceOverride
+        name: clusterresourceoverrides.operator.autoscaling.openshift.io
+        version: v1
+    description: "ClusterResourceOverride\n==============\n\nContainers can specify compute resource requests and limits. Requests are used for scheduling your container and provide a minimum service guarantee. Limits constrain the amount of compute resource that may be consumed on your node.\n\nThe scheduler attempts to optimize the compute resource use across all nodes in your cluster. It places pods onto specific nodes, taking the pods' compute resource requests and nodes' available capacity into consideration.\n\nRequests and limits enable administrators to allow and manage the overcommitment of resources on a node, which may be desirable in development environments where a trade off of guaranteed performance for capacity is acceptable.\n\n### Requests and Limits\n\nFor each compute resource, a container may specify a resource request and limit. Scheduling decisions are made based on the request to ensure that a node has enough capacity available to meet the requested value. If a container specifies limits, but omits requests, the requests are defaulted to the limits. A container is not able to exceed the specified limit on the node.\n\nThe enforcement of limits is dependent upon the compute resource type. If a container makes no request or limit, the container is scheduled to a node with no resource guarantees. In practice, the container is able to consume as much of the specified resource as is available with the lowest local priority. In low resource situations, containers that specify no resource requests are given the lowest quality of service.\n\n### Compute Resources\n\nThe node-enforced behavior for compute resources is specific to the resource type.\n\n#### CPU\n\nA container is guaranteed the amount of CPU it requests and is additionally able to consume excess CPU available on the node, up to any limit specified by the container. If multiple containers are attempting to use excess CPU, CPU time is distributed based on the amount of CPU requested by each container.\n\nFor example, if one container requested 500m of CPU time and another container requested 250m of CPU time, then any extra CPU time available on the node is distributed among the containers in a 2:1 ratio. If a container specified a limit, it will be throttled not to use more CPU than the specified limit.\n\nCPU requests are enforced using the CFS shares support in the Linux kernel. By default, CPU limits are enforced using the CFS quota support in the Linux kernel over a 100ms measuring interval, though this can be disabled.\n\n#### Memory\n\nA container is guaranteed the amount of memory it requests. A container may use more memory than requested, but once it exceeds its requested amount, it could be killed in a low memory situation on the node.\n\nIf a container uses less memory than requested, it will not be killed unless system tasks or daemons need more memory than was accounted for in the node’s resource reservation. If a container specifies a limit on memory, it is immediately killed if it exceeds the limit amount.\n\n### Configuring the Cluster for Overcommitment\n\nScheduling is based on resources requested, while quota and hard limits refer to resource limits, which can be set higher than requested resources. The difference between request and limit determines the level of overcommit; for instance, if a container is given a memory request of 1Gi and a memory limit of 2Gi, it is scheduled based on the 1Gi request being available on the node, but could use up to 2Gi; so it is 200% overcommitted. If OpenShift Container Platform administrators would like to control the level of overcommit and manage container density on nodes, ClusterResourceOverride Admission Webhook can be configured to override the ratio between request and limit set on developer containers. In conjunction with a per-project LimitRange specifying limits and defaults, this adjusts the container limit and request to achieve the desired level of overcommit.\n\nThis requires creating a custom resource of `ClusterResourceOverride` type as in the following example:\n\n    \n    - apiVersion: operator.autoscaling.openshift.io/v1\n    - kind: ClusterResourceOverride\n    - metadata:\n    -   name: cluster\n    - spec:\n    -   podResourceOverride:\n    -     spec:\n    -       memoryRequestToLimitPercent: 25\n    -       cpuRequestToLimitPercent: 25\n    -       limitCPUToMemoryPercent: 200\n    \n **memoryRequestToLimitPercent**: (optional, 1-100) If a container memory limit has been specified or defaulted, the memory request is overridden to this percentage of the limit.\n\n **cpuRequestToLimitPercent**: (optional, 1-100) If a container CPU limit has been specified or defaulted, the CPU request is overridden to this percentage of the limit.\n\n **limitCPUToMemoryPercent**: (optional, positive integer) If a container memory limit has been specified or defaulted, the CPU limit is overridden to a percentage of the memory limit, with a 100 percentage scaling 1Gi of RAM to equal 1 CPU core. This is processed prior to overriding CPU request (if configured).\n\n Note that these overrides have no effect if no limits have been set on containers. [Create a LimitRange object] (https://docs.openshift.com/container-platform/3.3/admin_guide/limits.html#admin-guide-limits) with default limits (per individual project, or in the [project template](https://docs.openshift.com/container-platform/3.3/admin_guide/managing_projects.html#modifying-the-template-for-new-projects)) in order to ensure that the overrides apply.\n\nWhen configured, overrides can be enabled per-project by applying the following label.\n    ```\n    clusterresourceoverrides.admission.autoscaling.openshift.io/enabled: \"true\"\n    ```\n\n"
+    displayName: ClusterResourceOverride Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - deschedule
+    - scale
+    - binpack
+    - efficiency
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:ff7cfe4865a0c06e8ea508a8b8a33b82e58e8b87f033ea8f4d0ca615e5188506
+  name: ''
+- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:9249a9dcd63877fcaa0a7ef459e2043c69038ff39cb35aef672b2d4c63315a05
+  name: ose-clusterresourceoverride-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9@sha256:85012abb591bb202326d8fc65621740c6c2ca60d79a8383ac9ce6131370955b5
   name: ose-clusterresourceoverride-rhel9
 schema: olm.bundle
