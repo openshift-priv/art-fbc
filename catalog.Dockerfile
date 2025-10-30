@@ -1,12 +1,12 @@
 # The builder image is expected to contain
 # /bin/opm (with serve subcommand)
-FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.15 as builder
+FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.17 as builder
 
 # Copy FBC root into image at /configs and pre-populate serve cache
 ADD catalog /configs
 RUN ["/bin/opm", "serve", "/configs", "--cache-dir=/tmp/cache", "--cache-only"]
 
-FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.15
+FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.17
 # The base image is expected to contain
 # /bin/opm (with serve subcommand) and /bin/grpc_health_probe
 
@@ -20,12 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=mtc-1.8
-ENV __doozer_key=openshift-migration-operator
-ENV __doozer_version=1.8.11
-ENV __doozer_release=20251029235828
-ENV __doozer_bundle_nvrs=openshift-migration-operator-metadata-container-1.8.11.202510292325.p2.g87bb9e3.assembly.stream.el8-1
-LABEL io.openshift.build.source-location=https://github.com/migtools/mig-operator
-LABEL io.openshift.build.commit.id=87bb9e38dc7663caea84b1281440ebd3e8327c0e
-LABEL com.redhat.art.name=openshift-migration-operator-fbc
-LABEL com.redhat.art.nvr=openshift-migration-operator-fbc-1.8.11-20251029235828
