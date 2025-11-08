@@ -20,3 +20,12 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.21
+ENV __doozer_key=vertical-pod-autoscaler-operator
+ENV __doozer_version=4.21.0
+ENV __doozer_release=20251108050708
+ENV __doozer_bundle_nvrs=ose-vertical-pod-autoscaler-operator-metadata-container-v4.21.0.202511072352.p2.gb6d4a54.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/vertical-pod-autoscaler-operator
+LABEL io.openshift.build.commit.id=b6d4a543461ac2d86242701bf657d6382465ca85
+LABEL com.redhat.art.name=vertical-pod-autoscaler-operator-fbc
+LABEL com.redhat.art.nvr=vertical-pod-autoscaler-operator-fbc-4.21.0-20251108050708
