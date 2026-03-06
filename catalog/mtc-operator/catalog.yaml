@@ -84,11 +84,15 @@ entries:
 - name: mtc-operator.v1.8.12
   replaces: mtc-operator.v1.8.10
   skipRange: '>=0.0.0 <1.8.12'
+- name: mtc-operator.v1.8.13
+  replaces: mtc-operator.v1.8.3
+  skipRange: '>=0.0.0 <1.8.13'
   skips:
   - mtc-operator.v1.8.0
   - mtc-operator.v1.8.1
   - mtc-operator.v1.8.10
   - mtc-operator.v1.8.11
+  - mtc-operator.v1.8.12
   - mtc-operator.v1.8.2
   - mtc-operator.v1.8.3
   - mtc-operator.v1.8.4
@@ -5094,6 +5098,507 @@ relatedImages:
   name: openshift-migration-velero-plugin-for-mtc-rhel8
 schema: olm.bundle
 ---
+image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:b2317d065a625e938fff12ca9193033ee895bb76bceeb4665ddf4003638473c7
+name: mtc-operator.v1.8.12
+package: mtc-operator
+properties:
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectImageMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectImageStreamMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectVolumeMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectVolumeMigrationProgress
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigAnalytic
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigCluster
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigHook
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigPlan
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigStorage
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigrationController
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: mtc-operator
+    version: 1.8.12
+- type: olm.package.required
+  value:
+    packageName: redhat-oadp-operator
+    versionRange: '>=1.2.3 <1.6.0'
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigrationController\",\n      \"metadata\": {\n        \"name\": \"migration-controller\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {\n        \"azure_resource_group\": \"\",\n        \"cluster_name\": \"host\",\n        \"migration_velero\": true,\n        \"migration_controller\": true,\n        \"migration_ui\": true,\n        \"migration_log_reader\": true,\n        \"restic_timeout\": \"1h\",\n        \"mig_pv_limit\": \"100\",\n        \"mig_pod_limit\": \"100\",\n        \"mig_namespace_limit\": \"10\"\n      }\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectImageMigration\",\n      \"metadata\": {\n        \"name\": \"directimagemigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectImageStreamMigration\",\n      \"metadata\": {\n        \"name\": \"directimagestreammigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigAnalytic\",\n      \"metadata\": {\n        \"name\": \"host\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {\n        \"plan\": {\n          \"name\": \"foo\",\n          \"namespace\": \"openshift-migration\"\n        },\n        \"analyzeK8SResources\": true,\n        \"analyzeImageCount\": true,\n        \"analyzePVCapacity\": true\n      }\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigCluster\",\n      \"metadata\": {\n        \"name\": \"host\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectVolumeMigration\",\n      \"metadata\": {\n        \"name\": \"direct\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n          \"kind\": \"DirectVolumeMigrationProgress\",\n          \"metadata\": {\n            \"name\": \"direct-progress\",\n            \"namespace\": \"openshift-migration\"\n          },\n          \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigPlan\",\n      \"metadata\": {\n        \"name\": \"migplan\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigMigration\",\n      \"metadata\": {\n        \"name\": \"migmigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigStorage\",\n      \"metadata\": {\n        \"name\": \"migstorage\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  }\n]"
+      capabilities: Seamless Upgrades
+      categories: Modernization & Migration, OpenShift Optional
+      certified: 'false'
+      containerImage: registry.redhat.io/rhmtc/openshift-migration-rhel8-operator@sha256:f1ba2785f512346044710b6e0d80aa1f3f637fe73829b5c5c3e47c9576fd2c9e
+      createdAt: '2019-07-25T10:21:00+00:00'
+      description: Facilitates migration of container workloads from OpenShift 3.x to OpenShift 4.x
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=0.0.0 <1.8.12'
+      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/suggested-namespace: openshift-migration
+      operators.openshift.io/infrastructure-features: '["Disconnected"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/konveyor/mig-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: a request to migrate PVCs from a set of namespaces directly to a target
+        displayName: DirectVolumeMigration
+        kind: DirectVolumeMigration
+        name: directvolumemigrations.migration.openshift.io
+        version: v1alpha1
+      - description: a request to migrate watch the progress of rsync pod migrating a PVC to a target
+        displayName: DirectVolumeMigrationProgress
+        kind: DirectVolumeMigrationProgress
+        name: directvolumemigrationprogresses.migration.openshift.io
+        version: v1alpha1
+      - description: a request to migrate local images from a set of namespaces directly to a target
+        displayName: DirectImageMigration
+        kind: DirectImageMigration
+        name: directimagemigrations.migration.openshift.io
+        version: v1alpha1
+      - description: a request to migrate local images from a single imagestream directly to a target
+        displayName: DirectImageStreamMigration
+        kind: DirectImageStreamMigration
+        name: directimagestreammigrations.migration.openshift.io
+        version: v1alpha1
+      - description: A request to Analyze a MigPlan and its namespaces
+        displayName: MigAnalytic
+        kind: MigAnalytic
+        name: miganalytics.migration.openshift.io
+        version: v1alpha1
+      - description: A cluster defined for migration
+        displayName: MigCluster
+        kind: MigCluster
+        name: migclusters.migration.openshift.io
+        version: v1alpha1
+      - description: A migration process
+        displayName: MigMigration
+        kind: MigMigration
+        name: migmigrations.migration.openshift.io
+        version: v1alpha1
+      - description: A migration plan
+        displayName: MigPlan
+        kind: MigPlan
+        name: migplans.migration.openshift.io
+        version: v1alpha1
+      - description: A migration contoller deployment
+        displayName: MigrationController
+        kind: MigrationController
+        name: migrationcontrollers.migration.openshift.io
+        resources:
+        - kind: MigCluster
+          name: ''
+          version: migration.openshift.io/v1alpha1
+        - kind: Secret
+          name: ''
+          version: v1
+        - kind: Service
+          name: ''
+          version: v1
+        - kind: Deployment
+          name: ''
+          version: apps/v1
+        - kind: ConfigMap
+          name: ''
+          version: v1
+        - kind: OAuthClient
+          name: ''
+          version: oauth.openshift.io/v1
+        - kind: Route
+          name: ''
+          version: route.openshift.io/v1
+        - kind: Daemonset
+          name: ''
+          version: apps/v1
+        version: v1alpha1
+      - description: A migration hook
+        displayName: MigHook
+        kind: MigHook
+        name: mighooks.migration.openshift.io
+        version: v1alpha1
+      - description: A migration storage location
+        displayName: MigStorage
+        kind: MigStorage
+        name: migstorages.migration.openshift.io
+        version: v1alpha1
+    description: 'The Migration Toolkit for Containers Operator enables installation of the application migration tool components.
+
+
+      After you have installed the Operator, you can install components by creating a MigrationController CR.
+
+
+      By default, the Operator installs the following components on an OpenShift Container Platform 4 target cluster:
+
+
+      * velero and restic, to back up data on the source cluster and restore it on the target cluster
+
+      * mig-controller, to coordinate the backup and restore processes
+
+      * mig-ui, the web console for managing migrations
+
+
+      If you experience any issues or have feature requests, please file an [issue](https://github.com/konveyor/mig-operator/issues)
+
+
+      For more information, see the [OpenShift Container Platform Migration Guide](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.4/html-single/migration/index).
+
+      '
+    displayName: Migration Toolkit for Containers Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - migration
+    links:
+    - name: Migrations
+      url: https://github.com/konveyor/mig-controller
+    - name: Documentation
+      url: https://github.com/konveyor/mig-operator
+    - name: Migration Toolkit for Containers Operator
+      url: https://github.com/konveyor/mig-operator
+    maintainers:
+    - email: openshift-operators@redhat.com
+      name: Red Hat
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/rhmtc/openshift-migration-controller-rhel8@sha256:52076e57b9da9cade0d6fd8b14a8a04370ffc4bf61dd0cf5e451b3a51a472605
+  name: openshift-migration-controller-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-hook-runner-rhel8@sha256:34e6cca96e70302a0e1998e21ddacdc8f58b404a32515d39b8da961ca47fffbe
+  name: openshift-migration-hook-runner-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-log-reader-rhel8@sha256:3595be1dfc613605c01a2513493e9b8a20f74ca310cf2f32f1e8906ad12f9179
+  name: openshift-migration-log-reader-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-must-gather-rhel8@sha256:55706f5a2065810e59925063bad0458f80771d84d2b17b2167b501acbadd4d11
+  name: openshift-migration-must-gather-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-openvpn-rhel8@sha256:b2490975e44f835cb592e1479c3fc3d61965644cf0173da834d88203b95a0a86
+  name: openshift-migration-openvpn-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:b2317d065a625e938fff12ca9193033ee895bb76bceeb4665ddf4003638473c7
+  name: ''
+- image: registry.redhat.io/rhmtc/openshift-migration-registry-rhel8@sha256:35cd7d27a7560e112aa1973446f0cf9441abbe534e5f21a88e034b249d5fa9bf
+  name: openshift-migration-registry-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-rhel8-operator@sha256:f1ba2785f512346044710b6e0d80aa1f3f637fe73829b5c5c3e47c9576fd2c9e
+  name: openshift-migration-rhel8-operator
+- image: registry.redhat.io/rhmtc/openshift-migration-rsync-transfer-rhel8@sha256:dbe5dccbde414209e0e6b398b528dcc7d1dbb17f50ac14ab73c3b0a498e71960
+  name: openshift-migration-rsync-transfer-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-ui-rhel8@sha256:c38d401599d114b391195a73d4bb7e1f69b4fe9b39161aa006c73de50c33cf95
+  name: openshift-migration-ui-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-velero-plugin-for-mtc-rhel8@sha256:bcd52bb03015b137180bc39c8a76806384651dae8014eb68fe26b28b956a6574
+  name: openshift-migration-velero-plugin-for-mtc-rhel8
+schema: olm.bundle
+---
+image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:d3f701a965694182b41e0660899e63fa4c82c86fcb05c62c924aa0308f1187f5
+name: mtc-operator.v1.8.13
+package: mtc-operator
+properties:
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectImageMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectImageStreamMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectVolumeMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: DirectVolumeMigrationProgress
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigAnalytic
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigCluster
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigHook
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigMigration
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigPlan
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigStorage
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: migration.openshift.io
+    kind: MigrationController
+    version: v1alpha1
+- type: olm.maxOpenShiftVersion
+  value: '4.20'
+- type: olm.package
+  value:
+    packageName: mtc-operator
+    version: 1.8.13
+- type: olm.package.required
+  value:
+    packageName: redhat-oadp-operator
+    versionRange: '>=1.2.3 <1.6.0'
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigrationController\",\n      \"metadata\": {\n        \"name\": \"migration-controller\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {\n        \"azure_resource_group\": \"\",\n        \"cluster_name\": \"host\",\n        \"migration_velero\": true,\n        \"migration_controller\": true,\n        \"migration_ui\": true,\n        \"migration_log_reader\": true,\n        \"restic_timeout\": \"1h\",\n        \"mig_pv_limit\": \"100\",\n        \"mig_pod_limit\": \"100\",\n        \"mig_namespace_limit\": \"10\"\n      }\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectImageMigration\",\n      \"metadata\": {\n        \"name\": \"directimagemigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectImageStreamMigration\",\n      \"metadata\": {\n        \"name\": \"directimagestreammigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigAnalytic\",\n      \"metadata\": {\n        \"name\": \"host\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {\n        \"plan\": {\n          \"name\": \"foo\",\n          \"namespace\": \"openshift-migration\"\n        },\n        \"analyzeK8SResources\": true,\n        \"analyzeImageCount\": true,\n        \"analyzePVCapacity\": true\n      }\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigCluster\",\n      \"metadata\": {\n        \"name\": \"host\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectVolumeMigration\",\n      \"metadata\": {\n        \"name\": \"direct\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n          \"kind\": \"DirectVolumeMigrationProgress\",\n          \"metadata\": {\n            \"name\": \"direct-progress\",\n            \"namespace\": \"openshift-migration\"\n          },\n          \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigPlan\",\n      \"metadata\": {\n        \"name\": \"migplan\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigMigration\",\n      \"metadata\": {\n        \"name\": \"migmigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigStorage\",\n      \"metadata\": {\n        \"name\": \"migstorage\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  }\n]"
+      capabilities: Seamless Upgrades
+      categories: Modernization & Migration, OpenShift Optional
+      certified: 'false'
+      containerImage: registry.redhat.io/rhmtc/openshift-migration-rhel8-operator@sha256:c5da4370802988a7ede8d53d8bcb6d9a291af9e7cc253cbaf439571089920682
+      createdAt: '2019-07-25T10:21:00+00:00'
+      description: Facilitates migration of container workloads from OpenShift 3.x to OpenShift 4.x
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "4.20"}]'
+      olm.skipRange: '>=0.0.0 <1.8.13'
+      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/suggested-namespace: openshift-migration
+      operators.openshift.io/infrastructure-features: '["Disconnected"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/konveyor/mig-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: a request to migrate PVCs from a set of namespaces directly to a target
+        displayName: DirectVolumeMigration
+        kind: DirectVolumeMigration
+        name: directvolumemigrations.migration.openshift.io
+        version: v1alpha1
+      - description: a request to migrate watch the progress of rsync pod migrating a PVC to a target
+        displayName: DirectVolumeMigrationProgress
+        kind: DirectVolumeMigrationProgress
+        name: directvolumemigrationprogresses.migration.openshift.io
+        version: v1alpha1
+      - description: a request to migrate local images from a set of namespaces directly to a target
+        displayName: DirectImageMigration
+        kind: DirectImageMigration
+        name: directimagemigrations.migration.openshift.io
+        version: v1alpha1
+      - description: a request to migrate local images from a single imagestream directly to a target
+        displayName: DirectImageStreamMigration
+        kind: DirectImageStreamMigration
+        name: directimagestreammigrations.migration.openshift.io
+        version: v1alpha1
+      - description: A request to Analyze a MigPlan and its namespaces
+        displayName: MigAnalytic
+        kind: MigAnalytic
+        name: miganalytics.migration.openshift.io
+        version: v1alpha1
+      - description: A cluster defined for migration
+        displayName: MigCluster
+        kind: MigCluster
+        name: migclusters.migration.openshift.io
+        version: v1alpha1
+      - description: A migration process
+        displayName: MigMigration
+        kind: MigMigration
+        name: migmigrations.migration.openshift.io
+        version: v1alpha1
+      - description: A migration plan
+        displayName: MigPlan
+        kind: MigPlan
+        name: migplans.migration.openshift.io
+        version: v1alpha1
+      - description: A migration contoller deployment
+        displayName: MigrationController
+        kind: MigrationController
+        name: migrationcontrollers.migration.openshift.io
+        resources:
+        - kind: MigCluster
+          name: ''
+          version: migration.openshift.io/v1alpha1
+        - kind: Secret
+          name: ''
+          version: v1
+        - kind: Service
+          name: ''
+          version: v1
+        - kind: Deployment
+          name: ''
+          version: apps/v1
+        - kind: ConfigMap
+          name: ''
+          version: v1
+        - kind: OAuthClient
+          name: ''
+          version: oauth.openshift.io/v1
+        - kind: Route
+          name: ''
+          version: route.openshift.io/v1
+        - kind: Daemonset
+          name: ''
+          version: apps/v1
+        version: v1alpha1
+      - description: A migration hook
+        displayName: MigHook
+        kind: MigHook
+        name: mighooks.migration.openshift.io
+        version: v1alpha1
+      - description: A migration storage location
+        displayName: MigStorage
+        kind: MigStorage
+        name: migstorages.migration.openshift.io
+        version: v1alpha1
+    description: 'The Migration Toolkit for Containers Operator enables installation of the application migration tool components.
+
+
+      After you have installed the Operator, you can install components by creating a MigrationController CR.
+
+
+      By default, the Operator installs the following components on an OpenShift Container Platform 4 target cluster:
+
+
+      * velero and restic, to back up data on the source cluster and restore it on the target cluster
+
+      * mig-controller, to coordinate the backup and restore processes
+
+      * mig-ui, the web console for managing migrations
+
+
+      If you experience any issues or have feature requests, please file an [issue](https://github.com/konveyor/mig-operator/issues)
+
+
+      For more information, see the [OpenShift Container Platform Migration Guide](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.4/html-single/migration/index).
+
+      '
+    displayName: Migration Toolkit for Containers Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - migration
+    links:
+    - name: Migrations
+      url: https://github.com/konveyor/mig-controller
+    - name: Documentation
+      url: https://github.com/konveyor/mig-operator
+    - name: Migration Toolkit for Containers Operator
+      url: https://github.com/konveyor/mig-operator
+    maintainers:
+    - email: openshift-operators@redhat.com
+      name: Red Hat
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/rhmtc/openshift-migration-controller-rhel8@sha256:f08332a892de55e8e12a10516f60766cf19862e18781e4e07ae0002225c6f68d
+  name: openshift-migration-controller-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-hook-runner-rhel8@sha256:1e0fabc55fdba8c92e2d7245c80fb469ea9fa08b691bc7a46757add7cb2fecbe
+  name: openshift-migration-hook-runner-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-log-reader-rhel8@sha256:827122ae5ef1a715a1ba43366d6c35dfe23f02dc6b78be0f80ecd715161bb5ad
+  name: openshift-migration-log-reader-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-must-gather-rhel8@sha256:7bae20579e69fc3aa227b03cfa18a09e96973e372fd8f5c65f0d764fb5a60c1c
+  name: openshift-migration-must-gather-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-openvpn-rhel8@sha256:fece36b9aa91a854f0b130e489aba1510aa996bddbb9f09fa32d66af95aea6ff
+  name: openshift-migration-openvpn-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:d3f701a965694182b41e0660899e63fa4c82c86fcb05c62c924aa0308f1187f5
+  name: ''
+- image: registry.redhat.io/rhmtc/openshift-migration-registry-rhel8@sha256:b3e077e763b4628c81d82972afa2069bf1e5400da5ba3a6d22fda94b502286a9
+  name: openshift-migration-registry-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-rhel8-operator@sha256:c5da4370802988a7ede8d53d8bcb6d9a291af9e7cc253cbaf439571089920682
+  name: openshift-migration-rhel8-operator
+- image: registry.redhat.io/rhmtc/openshift-migration-rsync-transfer-rhel8@sha256:74b75aaf228329a9be4e97668c5c537a0a9feadca2741d9912d3ca9041d85662
+  name: openshift-migration-rsync-transfer-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-ui-rhel8@sha256:ede43259e364c1c282f90ec92fbf17c48cfd2c40dfda4fdbc5c1a17fe27d2163
+  name: openshift-migration-ui-rhel8
+- image: registry.redhat.io/rhmtc/openshift-migration-velero-plugin-for-mtc-rhel8@sha256:5b09cf1c61e70a15ce9be7cd449bb9f88a88b294a45783b83cd36d121b7fb8d7
+  name: openshift-migration-velero-plugin-for-mtc-rhel8
+schema: olm.bundle
+---
 image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:49b4655b2b31844f4732b8bff1e01b3ca038b6635665caf23cf747790c6074c6
 name: mtc-operator.v1.8.3
 package: mtc-operator
@@ -6362,253 +6867,4 @@ relatedImages:
   name: ui
 - image: registry.redhat.io/rhmtc/openshift-migration-velero-plugin-for-mtc-rhel8@sha256:3ced13843350d6043e656f67f76bedeffbf61ba5d01d98e4d55f4f192fbea706
   name: plugin_for_mtc
-schema: olm.bundle
----
-image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:3fced28d67e5ae9ac42e8f8ce5d2d5b68563469cac7e63a5edbbe229f0bbcd95
-name: mtc-operator.v1.8.12
-package: mtc-operator
-properties:
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: DirectImageMigration
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: DirectImageStreamMigration
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: DirectVolumeMigration
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: DirectVolumeMigrationProgress
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigAnalytic
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigCluster
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigHook
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigMigration
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigPlan
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigStorage
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: migration.openshift.io
-    kind: MigrationController
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: mtc-operator
-    version: 1.8.12
-- type: olm.package.required
-  value:
-    packageName: redhat-oadp-operator
-    versionRange: '>=1.2.3 <1.6.0'
-- type: olm.csv.metadata
-  value:
-    annotations:
-      alm-examples: "[\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigrationController\",\n      \"metadata\": {\n        \"name\": \"migration-controller\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {\n        \"azure_resource_group\": \"\",\n        \"cluster_name\": \"host\",\n        \"migration_velero\": true,\n        \"migration_controller\": true,\n        \"migration_ui\": true,\n        \"migration_log_reader\": true,\n        \"restic_timeout\": \"1h\",\n        \"mig_pv_limit\": \"100\",\n        \"mig_pod_limit\": \"100\",\n        \"mig_namespace_limit\": \"10\"\n      }\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectImageMigration\",\n      \"metadata\": {\n        \"name\": \"directimagemigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectImageStreamMigration\",\n      \"metadata\": {\n        \"name\": \"directimagestreammigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigAnalytic\",\n      \"metadata\": {\n        \"name\": \"host\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {\n        \"plan\": {\n          \"name\": \"foo\",\n          \"namespace\": \"openshift-migration\"\n        },\n        \"analyzeK8SResources\": true,\n        \"analyzeImageCount\": true,\n        \"analyzePVCapacity\": true\n      }\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigCluster\",\n      \"metadata\": {\n        \"name\": \"host\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"DirectVolumeMigration\",\n      \"metadata\": {\n        \"name\": \"direct\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n          \"kind\": \"DirectVolumeMigrationProgress\",\n          \"metadata\": {\n            \"name\": \"direct-progress\",\n            \"namespace\": \"openshift-migration\"\n          },\n          \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigPlan\",\n      \"metadata\": {\n        \"name\": \"migplan\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigMigration\",\n      \"metadata\": {\n        \"name\": \"migmigration\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  },\n  {\n      \"apiVersion\": \"migration.openshift.io/v1alpha1\",\n      \"kind\": \"MigStorage\",\n      \"metadata\": {\n        \"name\": \"migstorage\",\n        \"namespace\": \"openshift-migration\"\n      },\n      \"spec\": {}\n  }\n]"
-      capabilities: Seamless Upgrades
-      categories: Modernization & Migration, OpenShift Optional
-      certified: 'false'
-      containerImage: registry.redhat.io/rhmtc/openshift-migration-rhel8-operator@sha256:606254772d8a2c77212e1b4565c1dcf9ada2791390f7195ee9968cc1bf0c3d74
-      createdAt: 2019-07-25 10:21:00+00:00
-      description: Facilitates migration of container workloads from OpenShift 3.x to OpenShift 4.x
-      features.operators.openshift.io/cnf: 'false'
-      features.operators.openshift.io/cni: 'false'
-      features.operators.openshift.io/csi: 'false'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=0.0.0 <1.8.12'
-      operatorframework.io/cluster-monitoring: 'true'
-      operatorframework.io/suggested-namespace: openshift-migration
-      operators.openshift.io/infrastructure-features: '["Disconnected"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
-      repository: https://github.com/konveyor/mig-operator
-      support: Red Hat
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: a request to migrate PVCs from a set of namespaces directly to a target
-        displayName: DirectVolumeMigration
-        kind: DirectVolumeMigration
-        name: directvolumemigrations.migration.openshift.io
-        version: v1alpha1
-      - description: a request to migrate watch the progress of rsync pod migrating a PVC to a target
-        displayName: DirectVolumeMigrationProgress
-        kind: DirectVolumeMigrationProgress
-        name: directvolumemigrationprogresses.migration.openshift.io
-        version: v1alpha1
-      - description: a request to migrate local images from a set of namespaces directly to a target
-        displayName: DirectImageMigration
-        kind: DirectImageMigration
-        name: directimagemigrations.migration.openshift.io
-        version: v1alpha1
-      - description: a request to migrate local images from a single imagestream directly to a target
-        displayName: DirectImageStreamMigration
-        kind: DirectImageStreamMigration
-        name: directimagestreammigrations.migration.openshift.io
-        version: v1alpha1
-      - description: A request to Analyze a MigPlan and its namespaces
-        displayName: MigAnalytic
-        kind: MigAnalytic
-        name: miganalytics.migration.openshift.io
-        version: v1alpha1
-      - description: A cluster defined for migration
-        displayName: MigCluster
-        kind: MigCluster
-        name: migclusters.migration.openshift.io
-        version: v1alpha1
-      - description: A migration process
-        displayName: MigMigration
-        kind: MigMigration
-        name: migmigrations.migration.openshift.io
-        version: v1alpha1
-      - description: A migration plan
-        displayName: MigPlan
-        kind: MigPlan
-        name: migplans.migration.openshift.io
-        version: v1alpha1
-      - description: A migration contoller deployment
-        displayName: MigrationController
-        kind: MigrationController
-        name: migrationcontrollers.migration.openshift.io
-        resources:
-        - kind: MigCluster
-          name: ''
-          version: migration.openshift.io/v1alpha1
-        - kind: Secret
-          name: ''
-          version: v1
-        - kind: Service
-          name: ''
-          version: v1
-        - kind: Deployment
-          name: ''
-          version: apps/v1
-        - kind: ConfigMap
-          name: ''
-          version: v1
-        - kind: OAuthClient
-          name: ''
-          version: oauth.openshift.io/v1
-        - kind: Route
-          name: ''
-          version: route.openshift.io/v1
-        - kind: Daemonset
-          name: ''
-          version: apps/v1
-        version: v1alpha1
-      - description: A migration hook
-        displayName: MigHook
-        kind: MigHook
-        name: mighooks.migration.openshift.io
-        version: v1alpha1
-      - description: A migration storage location
-        displayName: MigStorage
-        kind: MigStorage
-        name: migstorages.migration.openshift.io
-        version: v1alpha1
-    description: 'The Migration Toolkit for Containers Operator enables installation of the application migration tool components.
-
-
-      After you have installed the Operator, you can install components by creating a MigrationController CR.
-
-
-      By default, the Operator installs the following components on an OpenShift Container Platform 4 target cluster:
-
-
-      * velero and restic, to back up data on the source cluster and restore it on the target cluster
-
-      * mig-controller, to coordinate the backup and restore processes
-
-      * mig-ui, the web console for managing migrations
-
-
-      If you experience any issues or have feature requests, please file an [issue](https://github.com/konveyor/mig-operator/issues)
-
-
-      For more information, see the [OpenShift Container Platform Migration Guide](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.4/html-single/migration/index).
-
-      '
-    displayName: Migration Toolkit for Containers Operator
-    installModes:
-    - supported: true
-      type: OwnNamespace
-    - supported: false
-      type: SingleNamespace
-    - supported: false
-      type: MultiNamespace
-    - supported: false
-      type: AllNamespaces
-    keywords:
-    - migration
-    links:
-    - name: Migrations
-      url: https://github.com/konveyor/mig-controller
-    - name: Documentation
-      url: https://github.com/konveyor/mig-operator
-    - name: Migration Toolkit for Containers Operator
-      url: https://github.com/konveyor/mig-operator
-    maintainers:
-    - email: openshift-operators@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/rhmtc/openshift-migration-operator-bundle@sha256:3fced28d67e5ae9ac42e8f8ce5d2d5b68563469cac7e63a5edbbe229f0bbcd95
-  name: ''
-- image: registry.redhat.io/rhmtc/openshift-migration-controller-rhel8@sha256:0ee3e89b07824ed7dd5064be4bbdff8852c6f951d52037fd2d7f4e12432a5da1
-  name: openshift-migration-controller-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-hook-runner-rhel8@sha256:894da5fd328b05bf684ed78749c30c577ec8b74189c929f51898b6e10f374be5
-  name: openshift-migration-hook-runner-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-log-reader-rhel8@sha256:84860a651e237eb19593d9f2657763ade665fa9579ba3732fb3ac1cb7574c6f2
-  name: openshift-migration-log-reader-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-must-gather-rhel8@sha256:91da90bb2944bc39bf57b698e2ad2c770a4acd3f32e700ccdfd40155cba13e83
-  name: openshift-migration-must-gather-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-openvpn-rhel8@sha256:c670e3185963dceba4afe35b7bfeee8d53ae36d156a1a54a6f725af4cf007269
-  name: openshift-migration-openvpn-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-registry-rhel8@sha256:6a47109912832a3a32e4b2289f35fe866bdd2defc85914a6eaeaa62cf9f63254
-  name: openshift-migration-registry-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-rhel8-operator@sha256:606254772d8a2c77212e1b4565c1dcf9ada2791390f7195ee9968cc1bf0c3d74
-  name: openshift-migration-rhel8-operator
-- image: registry.redhat.io/rhmtc/openshift-migration-rsync-transfer-rhel8@sha256:04d2758234820667160692c6cba0dfcfcec81e2d26de426da7813e20469f3e7e
-  name: openshift-migration-rsync-transfer-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-ui-rhel8@sha256:85efa6e2506ef8f25155f11a34d21b96577cdad1cade579eb13c4b5f7d3d982c
-  name: openshift-migration-ui-rhel8
-- image: registry.redhat.io/rhmtc/openshift-migration-velero-plugin-for-mtc-rhel8@sha256:e96ecc90793f59f461bb7aa98492791a0f5a6ea04113b4f0b73e236a98cb5429
-  name: openshift-migration-velero-plugin-for-mtc-rhel8
 schema: olm.bundle
