@@ -17,8 +17,8 @@ entries:
   skipRange: '>=4.9.0 <4.21.0-202602241919'
 - name: nfd.4.21.0-202602261853
   skipRange: '>=4.9.0 <4.21.0-202602261853'
-- name: nfd.4.21.0-202603152013
-  skipRange: '>=4.9.0 <4.21.0-202603152013'
+- name: nfd.4.21.0-202603092144
+  skipRange: '>=4.9.0 <4.21.0-202603092144'
   skips:
   - nfd.4.21.0-202601121715
   - nfd.4.21.0-202601292040
@@ -924,8 +924,8 @@ relatedImages:
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:f21071369b980d391478aa8c7931ae20d32cb75a12a2f6e1b0718901aea38609
-name: nfd.4.21.0-202603152013
+image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:69676a81f0f04ec952c3fb0a55382fdd75dade6bd0b7c999f6537085aa14a03b
+name: nfd.4.21.0-202603092144
 package: nfd
 properties:
 - type: olm.gvk
@@ -961,14 +961,14 @@ properties:
 - type: olm.package
   value:
     packageName: nfd
-    version: 4.21.0-202603152013
+    version: 4.21.0-202603092144
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"nfd.k8s-sigs.io/v1alpha1\",\n    \"kind\": \"NodeFeatureRule\",\n    \"metadata\": {\n      \"name\": \"my-sample-rule-object\"\n    },\n    \"spec\": {\n      \"rules\": [\n        {\n          \"labels\": {\n            \"my-sample-feature\": \"true\"\n          },\n          \"matchFeatures\": [\n            {\n              \"feature\": \"kernel.loadedmodule\",\n              \"matchExpressions\": {\n                \"dummy\": {\n                  \"op\": \"Exists\"\n                }\n              }\n            },\n            {\n              \"feature\": \"kernel.config\",\n              \"matchExpressions\": {\n                \"X86\": {\n                  \"op\": \"In\",\n                  \"value\": [\n                    \"y\"\n                  ]\n                }\n              }\n            }\n          ],\n          \"name\": \"my sample rule\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1\",\n    \"kind\": \"NodeFeatureDiscovery\",\n    \"metadata\": {\n      \"name\": \"nfd-instance\",\n      \"namespace\": \"openshift-nfd\"\n    },\n    \"spec\": {\n      \"customConfig\": {\n        \"configData\": \"#    - name: \\\"more.kernel.features\\\"\\n#      matchOn:\\n#      - loadedKMod: [\\\"example_kmod3\\\"]\\n#    - name: \\\"more.features.by.nodename\\\"\\n#      value: customValue\\n#      matchOn:\\n#      - nodename: [\\\"special-.*-node-.*\\\"]\\n\"\n      },\n      \"operand\": {\n        \"imagePullPolicy\": \"IfNotPresent\",\n        \"servicePort\": 12000\n      },\n      \"workerConfig\": {\n        \"configData\": \"core:\\n#  labelWhiteList:\\n#  noPublish: false\\n  sleepInterval: 60s\\n#  sources: [all]\\n#  klog:\\n#    addDirHeader: false\\n#    alsologtostderr: false\\n#    logBacktraceAt:\\n#    logtostderr: true\\n#    skipHeaders: false\\n#    stderrthreshold: 2\\n#    v: 0\\n#    vmodule:\\n##   NOTE: the following options are not dynamically run-time \\n##          configurable and require a nfd-worker restart to take effect\\n##          after being changed\\n#    logDir:\\n#    logFile:\\n#    logFileMaxSize: 1800\\n#    skipLogHeaders: false\\nsources:\\n#  cpu:\\n#    cpuid:\\n##     NOTE: whitelist has priority over blacklist\\n#      attributeBlacklist:\\n#        - \\\"BMI1\\\"\\n#        - \\\"BMI2\\\"\\n#        - \\\"CLMUL\\\"\\n#        - \\\"CMOV\\\"\\n#        - \\\"CX16\\\"\\n#        - \\\"ERMS\\\"\\n#        - \\\"F16C\\\"\\n#        - \\\"HTT\\\"\\n#        - \\\"LZCNT\\\"\\n#        - \\\"MMX\\\"\\n#        - \\\"MMXEXT\\\"\\n#        - \\\"NX\\\"\\n#        - \\\"POPCNT\\\"\\n#        - \\\"RDRAND\\\"\\n#        - \\\"RDSEED\\\"\\n#        - \\\"RDTSCP\\\"\\n#        - \\\"SGX\\\"\\n#        - \\\"SSE\\\"\\n#        - \\\"SSE2\\\"\\n#        - \\\"SSE3\\\"\\n#        - \\\"SSE4.1\\\"\\n#        - \\\"SSE4.2\\\"\\n#        - \\\"SSSE3\\\"\\n#      attributeWhitelist:\\n#  kernel:\\n#    kconfigFile: \\\"/path/to/kconfig\\\"\\n#    configOpts:\\n#      - \\\"NO_HZ\\\"\\n#      - \\\"X86\\\"\\n#      - \\\"DMI\\\"\\n  pci:\\n    deviceClassWhitelist:\\n      - \\\"0200\\\"\\n      - \\\"03\\\"\\n      - \\\"12\\\"\\n    deviceLabelFields:\\n#      - \\\"class\\\"\\n      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#      - \\\"subsystem_vendor\\\"\\n#      - \\\"subsystem_device\\\"\\n#  usb:\\n#    deviceClassWhitelist:\\n#      - \\\"0e\\\"\\n#      - \\\"ef\\\"\\n#      - \\\"fe\\\"\\n#      - \\\"ff\\\"\\n#    deviceLabelFields:\\n#      - \\\"class\\\"\\n#      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#  custom:\\n#    - name: \\\"my.kernel.feature\\\"\\n#      matchOn:\\n#        - loadedKMod: [\\\"example_kmod1\\\", \\\"example_kmod2\\\"]\\n#    - name: \\\"my.pci.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            class: [\\\"0200\\\"]\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#        - pciId :\\n#            vendor: [\\\"8086\\\"]\\n#            device: [\\\"1000\\\", \\\"1100\\\"]\\n#    - name: \\\"my.usb.feature\\\"\\n#      matchOn:\\n#        - usbId:\\n#          class: [\\\"ff\\\"]\\n#          vendor: [\\\"03e7\\\"]\\n#          device: [\\\"2485\\\"]\\n#        - usbId:\\n#          class: [\\\"fe\\\"]\\n#          vendor: [\\\"1a6e\\\"]\\n#          device: [\\\"089a\\\"]\\n#    - name: \\\"my.combined.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#          loadedKMod : [\\\"vendor_kmod1\\\", \\\"vendor_kmod2\\\"]\\n\"\n      }\n    }\n  }\n]"
       capabilities: Deep Insights
       categories: Integration & Delivery,OpenShift Optional
-      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:951f9443e8cd70c152cd6eec7da16974c6f8b2969d44ef894c898829ef72603b
+      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:22afa22d26c29dcd324942ff945596942264490a859c8dd78dc811f237e56234
       createdAt: '2025-11-26T07:28:32Z'
       description: 'The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.
 
@@ -1002,7 +1002,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.9.0 <4.21.0-202603152013'
+      olm.skipRange: '>=4.9.0 <4.21.0-202603092144'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-nfd
       operators.openshift.io/infrastructure-features: '["disconnected"]'
@@ -1095,10 +1095,10 @@ properties:
       name: Red Hat
       url: https://github.com/openshift/cluster-nfd-operator
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:f21071369b980d391478aa8c7931ae20d32cb75a12a2f6e1b0718901aea38609
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:69676a81f0f04ec952c3fb0a55382fdd75dade6bd0b7c999f6537085aa14a03b
   name: ''
-- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:951f9443e8cd70c152cd6eec7da16974c6f8b2969d44ef894c898829ef72603b
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:22afa22d26c29dcd324942ff945596942264490a859c8dd78dc811f237e56234
   name: ose-cluster-nfd-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:f04b712929cd0bf961da0daeac57ddc6de6d0dc500a5429721a251f691f70f52
+- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:bdb0384ac9edaa004ff18b3d0762e15ac338898238ef23c8bb22b00464ff3f90
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
