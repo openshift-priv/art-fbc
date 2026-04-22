@@ -70,9 +70,6 @@ entries:
 - name: cluster-logging.v6.2.9
   replaces: cluster-logging.v6.2.8
   skipRange: '>=6.0.0-0 <6.2.9'
-- name: cluster-logging.v6.2.10
-  replaces: cluster-logging.v6.2.9
-  skipRange: '>=6.0.0-0 <6.2.10'
 name: stable-6.2
 package: cluster-logging
 schema: olm.channel
@@ -108,6 +105,9 @@ entries:
 - name: cluster-logging.v6.4.3
   replaces: cluster-logging.v6.4.2
   skipRange: '>=6.2.0-0 <6.4.3'
+- name: cluster-logging.v6.4.4
+  replaces: cluster-logging.v6.4.3
+  skipRange: '>=6.2.0-0 <6.4.4'
 name: stable-6.4
 package: cluster-logging
 schema: olm.channel
@@ -46441,8 +46441,8 @@ relatedImages:
   name: vector
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:ccd9e9f28ce2b47fae7b51ca941fc31b62786c433001a583bdf4314f537382dd
-name: cluster-logging.v6.2.10
+image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:863a4049af46534550c2c4a620ada44ae2240ccfbcc388072b1def68f4f308b7
+name: cluster-logging.v6.4.4
 package: cluster-logging
 properties:
 - type: olm.gvk
@@ -46456,20 +46456,23 @@ properties:
     kind: ClusterLogForwarder
     version: v1
 - type: olm.maxOpenShiftVersion
-  value: 4.19
+  value: '4.21'
 - type: olm.package
   value:
     packageName: cluster-logging
-    version: 6.2.10
+    version: 6.4.4
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"logging.openshift.io/v1alpha1\",\n    \"kind\": \"LogFileMetricExporter\",\n    \"metadata\": {\n      \"name\": \"instance\",\n      \"namespace\": \"openshift-logging\"\n    },\n    \"spec\": {\n      \"resources\": {\n        \"limits\": {\n          \"cpu\": \"500m\"\n        },\n        \"requests\": {\n          \"cpu\": \"200m\",\n          \"memory\": \"128Mi\"\n        }\n      },\n      \"tolerations\": [\n        {\n          \"effect\": \"NoSchedule\",\n          \"key\": \"node-role.kubernetes.io/master\",\n          \"operator\": \"Exists\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"observability.openshift.io/v1\",\n    \"kind\": \"ClusterLogForwarder\",\n    \"metadata\": {\n      \"name\": \"logging\",\n      \"namespace\": \"openshift-logging\"\n    },\n    \"spec\": {\n      \"outputs\": [\n        {\n          \"lokiStack\": {\n            \"authentication\": {\n              \"token\": {\n                \"from\": \"serviceAccount\"\n              }\n            },\n            \"target\": {\n              \"name\": \"logging-loki\"\n            }\n          },\n          \"name\": \"logging-loki\",\n          \"tls\": {\n            \"ca\": {\n              \"configMapName\": \"openshift-service-ca.crt\",\n              \"key\": \"service-ca.crt\"\n            }\n          },\n          \"type\": \"lokiStack\"\n        }\n      ],\n      \"pipelines\": [\n        {\n          \"inputRefs\": [\n            \"application\",\n            \"infrastructure\"\n          ],\n          \"name\": \"logs-to-loki\",\n          \"outputRefs\": [\n            \"logging-loki\"\n          ]\n        }\n      ],\n      \"serviceAccount\": {\n        \"name\": \"log-collector\"\n      }\n    }\n  }\n]"
       capabilities: Seamless Upgrades
-      categories: OpenShift Optional, Logging & Tracing
+      categories: OpenShift Optional, Logging & Tracing, Observability
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:34cc2c004e21a9b99b4eff659dfa761dd698738e4ece9a5cb040946bbcb9eaa4
-      createdAt: '2026-02-03T00:15:38Z'
+      com.redhat.delivery.appregistry: 'false'
+      com.redhat.delivery.operator.bundle: 'true'
+      com.redhat.openshift.versions: v4.18-v4.21
+      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:d679ef690cad5aacd63ee46a2c7a8aab75bd9403717572bf206d132ea677ecb8
+      createdAt: '2026-01-07T00:29:49Z'
       description: The Red Hat OpenShift Logging Operator for OCP provides a means for configuring and managing log collection and forwarding.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
@@ -46481,13 +46484,19 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=6.0.0-0 <6.2.10'
+      olm.skipRange: '>=6.2.0-0 <6.4.4'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"observability.openshift.io/v1\",\n  \"kind\": \"ClusterLogForwarder\",\n  \"metadata\": {\n    \"name\": \"logging\"\n  }\n}\n"
       operatorframework.io/suggested-namespace: openshift-logging
       operators.openshift.io/infrastructure-features: '["disconnected","proxy-aware"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:34cc2c004e21a9b99b4eff659dfa761dd698738e4ece9a5cb040946bbcb9eaa4
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:d679ef690cad5aacd63ee46a2c7a8aab75bd9403717572bf206d132ea677ecb8
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io.bundle.channel.default.v1: stable-6.4
+      operators.operatorframework.io.bundle.channels.v1: stable-6.4
+      operators.operatorframework.io.bundle.manifests.v1: manifests/
+      operators.operatorframework.io.bundle.mediatype.v1: registry+v1
+      operators.operatorframework.io.bundle.metadata.v1: metadata/
+      operators.operatorframework.io.bundle.package.v1: cluster-logging
       operators.operatorframework.io/builder: operator-sdk-unknown
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
       support: AOS Logging (aos-logging@redhat.com)
@@ -46496,7 +46505,6 @@ properties:
     crdDescriptions:
       owned:
       - description: 'ClusterLogForwarder is an API to configure forwarding logs.
-
 
 
           You configure forwarding by specifying a list of `pipelines`,
@@ -46513,6 +46521,27 @@ properties:
           path: collector
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: Define scheduling rules that influence pod placement based on node or pod affinity/anti-affinity constraints.
+          displayName: Affinity
+          path: collector.affinity
+        - description: 'Define the maxUnavailable pod rollout strategy which defaults to 100% when not set
+
+
+            Value can be a number (e.g., 50) or a percentage string (e.g., "50%").'
+          displayName: Max Unavailable
+          path: collector.maxUnavailable
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Define the Network Policy for the Collector
+          displayName: Network Policy
+          path: collector.networkPolicy
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: NetworkPolicyRuleSetType is the type of network policy rule set to use
+          displayName: Network Policy Rule Set Type
+          path: collector.networkPolicy.ruleSet
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Define nodes for scheduling the pods.
           displayName: Node Selector
           path: collector.nodeSelector
@@ -46577,18 +46606,16 @@ properties:
         - description: The PruneFilterSpec consists of two arrays, namely in and notIn, which dictate the fields to be pruned.
           displayName: Prune Filters
           path: filters[0].prune
-        - description: "`In` is an array of dot-delimited field paths. Fields included here are removed from the log record.\n\n\nEach field path expression must start with a \".\"\n\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\n\nExamples:\n\n\n - `.kubernetes.namespace_name`\n\n\n - `.log_type`\n\n\n - '.kubernetes.labels.foobar'\n\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\n\nNOTE1: `In` CANNOT contain `.log_type` or `.message` as those fields are required and cannot be pruned.\n\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` CANNOT be added to this list as it is a required field."
+        - description: "`In` is an array of dot-delimited field paths. Fields included here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_id`\n\n - `.hostname`\n\n - '.kubernetes.labels.foobar'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `In` CANNOT contain `.log_type`, `.log_source` or `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` CANNOT be added to this list as it is a required field.\n\nNOTE3: If used in a pipeline with a Lokistack output type, see Lokistack output documentation for additional fields that cannot be pruned."
           displayName: Fields to be dropped
           path: filters[0].prune.in
-        - description: "`NotIn` is an array of dot-delimited field paths. All fields besides the ones listed here are removed from the log record.\n\n\nEach field path expression must start with a \".\"\n\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\n\nExamples:\n\n\n - `.kubernetes.namespace_name`\n\n\n - `.log_type`\n\n\n - '.kubernetes.labels.foobar'\n\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\n\nNOTE1: `NotIn` MUST contain `.log_type` and `.message` as those fields are required and cannot be pruned.\n\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` MUST be added to this list as it is a required field."
+        - description: "`NotIn` is an array of dot-delimited field paths. All fields besides the ones listed here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_name`\n\n - `.log_type`\n\n - '.log_source'\n\n - '.message'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `NotIn` MUST contain `.log_type`, `.log_source` and `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` MUST be added to this list as it is a required field.\n\nNOTE3: If used in a pipeline with a Lokistack output type, see Lokistack output documentation for additional fields that cannot be pruned."
           displayName: Fields to be kept
           path: filters[0].prune.notIn
         - description: 'Type of filter.
 
 
-
             Possible filter types are:
-
 
 
             1. detectMultilineException - Enables multi-line error detection of container logs. No additional configuration required.
@@ -46607,7 +46634,6 @@ properties:
         - description: 'Inputs are named filters for log messages to be forwarded.
 
 
-
             There are three built-in inputs named `application`, `infrastructure` and
 
             `audit`. You don''t need to define inputs here if those are sufficient for
@@ -46621,7 +46647,6 @@ properties:
           displayName: Application Logs Input
           path: inputs[0].application
         - description: 'Excludes is the set of namespaces and containers to ignore when collecting logs.
-
 
 
             Takes precedence over Includes option.'
@@ -46644,7 +46669,6 @@ properties:
         - description: 'Includes is the set of namespaces and containers to include when collecting logs.
 
 
-
             Note: infrastructure namespaces are still excluded for "*" values unless a qualifying glob pattern is specified.'
           displayName: Include
           path: inputs[0].application.includes
@@ -46665,9 +46689,7 @@ properties:
         - description: 'Selector for logs from pods with matching labels.
 
 
-
             Only messages from pods with these labels are collected.
-
 
 
             If absent or empty, logs are collected regardless of labels.'
@@ -46742,7 +46764,10 @@ properties:
           path: inputs[0].receiver
         - displayName: HTTP Receiver Configuration
           path: inputs[0].receiver.http
-        - description: Format is the format of incoming log data.
+        - description: 'Format is the format of incoming log data.
+
+
+            The only currently supported format is `kubeAPIAudit`.'
           displayName: Data Format
           path: inputs[0].receiver.http.format
         - description: Port the Receiver listens on. It must be a value between 1024 and 65535
@@ -46753,7 +46778,6 @@ properties:
         - description: 'TLS contains settings for controlling options of TLS connections.
 
 
-
             The operator will request certificates from the cluster''s cert signing service when TLS is not defined.
 
             The certificates are injected into a secret named "<clusterlogforwarder.name>-<input.name>" which is mounted into
@@ -46761,7 +46785,7 @@ properties:
             the collector. The collector is configured to use the public and private key provided by the service'
           displayName: TLS Options
           path: inputs[0].receiver.tls
-        - description: Type of Receiver plugin.
+        - description: "Type of Receiver plugin.\n\nSupported Receiver types are:\n\n1. http\n   - Currently only supports kubernetes audit logs (log_type = \"audit\")\n2. syslog\n   - Currently only supports node infrastucture logs (log_type = \"infrastructure\")"
           displayName: Receiver Type
           path: inputs[0].receiver.type
         - description: Type of output sink.
@@ -46839,10 +46863,51 @@ properties:
         - description: Cloudwatch configures forwarding log events to AWS Cloudwatch logs
           displayName: Amazon CloudWatch
           path: outputs[0].cloudwatch
-        - description: Authentication sets credentials for authenticating the requests.
+        - description: Authentication sets credentials for authenticating requests to cloudwatch services.
           displayName: Authentication Options
           path: outputs[0].cloudwatch.authentication
-        - description: AWSAccessKey points to the AWS access key id and secret to be used for authentication.
+        - description: 'AssumeRole specifies an additional AWS role to assume for forwarding logs.
+
+            This enables cross-account log forwarding by using the initial role to authenticate,
+
+            then assume a role in order to access cross-account services.'
+          displayName: Assume Role
+          path: outputs[0].cloudwatch.authentication.assumeRole
+        - description: 'ExternalID is the external ID to match when assuming the role.
+
+            This is optional and can be used as an additional security measure to ensure that only the intended
+
+            entity can assume the role.
+
+
+            The ExternalId must be a minimum of 2 characters and a maximum of 1,224 characters.
+
+            The value must be alphanumeric without whitespace and can also include the following symbols:
+
+            plus(+), equal(=), comma(,), period(.), at(@), colon(:), forward slash(/), and hyphen(-).'
+          displayName: External ID
+          path: outputs[0].cloudwatch.authentication.assumeRole.externalID
+        - description: RoleARN points to the secret containing the ARN of the role to assume for cross-account access.
+          displayName: Assume Role ARN Secret
+          path: outputs[0].cloudwatch.authentication.assumeRole.roleARN
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].cloudwatch.authentication.assumeRole.roleARN.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].cloudwatch.authentication.assumeRole.roleARN.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'SessionName is an optional identifier for the assumed role session.
+
+            If not provided, a default session name will be generated.'
+          displayName: Session Name
+          path: outputs[0].cloudwatch.authentication.assumeRole.sessionName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: AwsAccessKey points to the AWS access key id and secret to be used for authentication.
           displayName: Access Key
           path: outputs[0].cloudwatch.authentication.awsAccessKey
         - description: KeyId points to the AWS access key id to be used for authentication.
@@ -46871,16 +46936,16 @@ properties:
           path: outputs[0].cloudwatch.authentication.awsAccessKey.keySecret.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: 'IAMRole points to the secret containing the role ARN to be used for authentication.
+        - description: 'IamRole points to the secret containing the role ARN to be used for authentication.
 
             This can be used for authentication in STS-enabled clusters when additionally specifying
 
             a web identity token'
           displayName: Amazon IAM Role
           path: outputs[0].cloudwatch.authentication.iamRole
-        - description: 'RoleARN points to the secret containing the role ARN to be used for authentication.
+        - description: 'RoleARN specifies the secret containing the role ARN to be used for AWS authentication.
 
-            This is used for authentication in STS-enabled clusters.'
+            This role requires an OIDC provider to be configured in an STS-enabled cluster.'
           displayName: RoleARN Secret
           path: outputs[0].cloudwatch.authentication.iamRole.roleARN
         - description: Key contains the name of the key inside the referenced Secret.
@@ -46915,7 +46980,7 @@ properties:
         - description: Type is the type of cloudwatch authentication to configure
           displayName: Authentication Type
           path: outputs[0].cloudwatch.authentication.type
-        - description: "GroupName defines the strategy for grouping logstreams\n\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by \"\\|\\|\" followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets \"{}\" and MUST end with a static fallback value separated with \"\\|\\|\".\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}"
+        - description: "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by \"\\|\\|\" followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets \"{}\" and MUST end with a static fallback value separated with \"\\|\\|\".\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}"
           displayName: Group Name
           path: outputs[0].cloudwatch.groupName
           x-descriptors:
@@ -46944,7 +47009,6 @@ properties:
           displayName: Minimum Retry Duration
           path: outputs[0].cloudwatch.tuning.minRetryDuration
         - description: 'URL to send log records to.
-
 
 
             The ''username@password'' part of `url` is ignored.'
@@ -47003,7 +47067,10 @@ properties:
           path: outputs[0].elasticsearch.authentication.username.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app|infra|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: Headers specify optional headers to be sent with the request
+          displayName: Headers
+          path: outputs[0].elasticsearch.headers
+        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `\\|\\|` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `\\|\\|`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app\\|infra\\|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}"
           displayName: Log Index
           path: outputs[0].elasticsearch.index
           x-descriptors:
@@ -47071,7 +47138,7 @@ properties:
           path: outputs[0].googleCloudLogging.id.value
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "LogId is the log ID to which to publish logs. This identifies log stream.\n\n\nThe LogId can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: "LogId is the log ID to which to publish logs. This identifies log stream.\n\nThe LogId can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Log Stream ID
           path: outputs[0].googleCloudLogging.logId
           x-descriptors:
@@ -47221,7 +47288,6 @@ properties:
         - description: 'Brokers specifies the list of broker endpoints of a Kafka cluster.
 
 
-
             The list represents only the initial set used by the collector''s Kafka client for the
 
             first connection only. The collector''s Kafka client fetches constantly an updated list
@@ -47233,7 +47299,7 @@ properties:
             If none is provided, the target URL from the OutputSpec is used as fallback.'
           displayName: Kafka Brokers
           path: outputs[0].kafka.brokers
-        - description: "Topic specifies the target topic to send logs to. The value when not specified is 'topic'\n\n\nThe Topic can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: "Topic specifies the target topic to send logs to. The value when not specified is 'topic'\n\nThe Topic can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Kafka Topic
           path: outputs[0].kafka.topic
           x-descriptors:
@@ -47312,31 +47378,24 @@ properties:
         - description: 'LabelKeys can be used to customize which log record keys are mapped to Loki stream labels.
 
 
-
             If LabelKeys is not set, the default keys are:
-
 
 
             - log_type
 
 
-
             - kubernetes.container_name
-
 
 
             - kubernetes.namespace_name
 
 
-
             - kubernetes.pod_name
-
 
 
             One additional label "kubernetes_host" is not part of the label keys configuration. It contains the hostname
 
             where the collector is running and is always present.
-
 
 
             Note: Loki label names must match the regular expression "[a-zA-Z_:][a-zA-Z0-9_:]*"
@@ -47346,25 +47405,19 @@ properties:
             Log record keys are translated to Loki labels by replacing any illegal characters with ''_''.
 
 
-
             For example the default log record keys translate to these Loki labels:
-
 
 
             - log_type
 
 
-
             - kubernetes_container_name
-
 
 
             - kubernetes_namespace_name
 
 
-
             - kubernetes_pod_name
-
 
 
             Note: the set of labels should be small, Loki imposes limits on the size and number of labels allowed.
@@ -47374,7 +47427,7 @@ properties:
             Loki queries can also query based on any log record field (not just labels) using query filters.'
           displayName: Stream Label Configuration
           path: outputs[0].loki.labelKeys
-        - description: "TenantKey is the tenant for the logs. This supports vector's template syntax to allow dynamic per-event values.\n\n\nThe TenantKey can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: "TenantKey is the tenant for the logs. This supports vector's template syntax to allow dynamic per-event values.\n\nThe TenantKey can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Tenant Key
           path: outputs[0].loki.tenantKey
           x-descriptors:
@@ -47407,7 +47460,19 @@ properties:
           - urn:alm:descriptor:com.tectonic.ui:text
         - description: 'LokiStack configures forwarding log events to a Red Hat managed Loki deployment
 
-            using the Red Hat tenancy model'
+            using the Red Hat tenancy model
+
+
+            The listed labelKeys cannot be pruned as they are required as default stream labels for LokiStack.
+
+            1. .kubernetes.container_name
+
+            2. .kubernetes.namespace_name
+
+            3. .kubernetes.pod_name
+
+
+            If these fields are not present in the log record, they will be set to the empty string.'
           displayName: LokiStack
           path: outputs[0].lokiStack
         - description: Authentication sets credentials for authenticating the requests.
@@ -47432,11 +47497,10 @@ properties:
           path: outputs[0].lokiStack.authentication.token.secret.name
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "DataModel can be used to customize how log data is stored in LokiStack.\n\n\nThere are two different models to choose from:\n\n\n - Viaq\n - Otel\n\n\nWhen the data model is not set, it currently defaults to the \"Viaq\" data model."
+        - description: "DataModel can be used to customize how log data is stored in LokiStack.\n\nThere are two different models to choose from:\n\n - Viaq\n - Otel\n\nWhen the data model is not set, it currently defaults to the \"Viaq\" data model."
           displayName: Data Model
           path: outputs[0].lokiStack.dataModel
         - description: 'LabelKeys can be used to customize which log record keys are mapped to Loki stream labels.
-
 
 
             Note: Loki label names must match the regular expression "[a-zA-Z_:][a-zA-Z0-9_:]*"
@@ -47446,25 +47510,19 @@ properties:
             Log record keys are translated to Loki labels by replacing any illegal characters with ''_''.
 
 
-
             For example the default log record keys translate to these Loki labels:
-
 
 
             - log_type
 
 
-
             - kubernetes_container_name
-
 
 
             - kubernetes_namespace_name
 
 
-
             - kubernetes_pod_name
-
 
 
             Note: the set of labels should be small, Loki imposes limits on the size and number of labels allowed.
@@ -47487,7 +47545,6 @@ properties:
         - description: 'LabelKeys contains a list of log record keys that are mapped to Loki stream labels.
 
 
-
             By default, this list is combined with the labels specified in the Global configuration.
 
             This behavior can be changed by setting IgnoreGlobal to true.'
@@ -47506,13 +47563,12 @@ properties:
         - description: 'LabelKeys contains a list of log record keys that are mapped to Loki stream labels.
 
 
-
             By default, this list is combined with the labels specified in the Global configuration.
 
             This behavior can be changed by setting IgnoreGlobal to true.'
           displayName: Label Keys
           path: outputs[0].lokiStack.labelKeys.audit.labelKeys
-        - description: "Global contains a list of record keys which are used for all tenants.\n\n\nIf LabelKeys is not set, the default keys are:\n\n\n - log_type\n\n\n - kubernetes.container_name\n\n\n - kubernetes.namespace_name\n\n\n - kubernetes.pod_name\n\n\nOne additional label \"kubernetes_host\" is not part of the label keys configuration. It contains the hostname\nwhere the collector is running and is always present."
+        - description: "Global contains a list of record keys which are used for all tenants.\n\nIf LabelKeys is not set, the default keys are:\n\n - log_type\n\n - kubernetes.container_name\n\n - kubernetes.namespace_name\n\n - kubernetes.pod_name\n\nOne additional label \"kubernetes_host\" is not part of the label keys configuration. It contains the hostname\nwhere the collector is running and is always present."
           displayName: Global Configuration
           path: outputs[0].lokiStack.labelKeys.global
         - description: Infrastructure contains the label keys configuration for the "infrastructure" tenant.
@@ -47526,7 +47582,6 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
         - description: 'LabelKeys contains a list of log record keys that are mapped to Loki stream labels.
-
 
 
             By default, this list is combined with the labels specified in the Global configuration.
@@ -47644,11 +47699,9 @@ properties:
         - description: 'URL to send log records to.
 
 
-
             An absolute URL, with a valid http scheme. The OTLP spec recommends it terminate with `/v1/logs` but
 
             that ''Non-default URL paths for requests MAY be configured on the client and server sides.''
-
 
 
             Basic TLS is enabled if the URL scheme requires it (for example ''https'').
@@ -47674,6 +47727,171 @@ properties:
           path: outputs[0].rateLimit.maxRecordsPerSecond
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:number
+        - description: S3 configures forwarding log events to Amazon S3 buckets
+          displayName: Amazon S3
+          path: outputs[0].s3
+        - description: Authentication sets credentials for authenticating the requests.
+          displayName: Authentication Options
+          path: outputs[0].s3.authentication
+        - description: 'AssumeRole specifies an additional AWS role to assume for forwarding logs.
+
+            This enables cross-account log forwarding by using the initial role to authenticate,
+
+            then assume a role in order to access cross-account services.'
+          displayName: Assume Role
+          path: outputs[0].s3.authentication.assumeRole
+        - description: 'ExternalID is the external ID to match when assuming the role.
+
+            This is optional and can be used as an additional security measure to ensure that only the intended
+
+            entity can assume the role.
+
+
+            The ExternalId must be a minimum of 2 characters and a maximum of 1,224 characters.
+
+            The value must be alphanumeric without whitespace and can also include the following symbols:
+
+            plus(+), equal(=), comma(,), period(.), at(@), colon(:), forward slash(/), and hyphen(-).'
+          displayName: External ID
+          path: outputs[0].s3.authentication.assumeRole.externalID
+        - description: RoleARN points to the secret containing the ARN of the role to assume for cross-account access.
+          displayName: Assume Role ARN Secret
+          path: outputs[0].s3.authentication.assumeRole.roleARN
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.assumeRole.roleARN.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.assumeRole.roleARN.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'SessionName is an optional identifier for the assumed role session.
+
+            If not provided, a default session name will be generated.'
+          displayName: Session Name
+          path: outputs[0].s3.authentication.assumeRole.sessionName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: AwsAccessKey points to the AWS access key id and secret to be used for authentication.
+          displayName: Access Key
+          path: outputs[0].s3.authentication.awsAccessKey
+        - description: KeyId points to the AWS access key id to be used for authentication.
+          displayName: Secret with Access Key ID
+          path: outputs[0].s3.authentication.awsAccessKey.keyId
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.awsAccessKey.keyId.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.awsAccessKey.keyId.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: KeySecret points to the AWS access key secret to be used for authentication.
+          displayName: Secret with Access Key Secret
+          path: outputs[0].s3.authentication.awsAccessKey.keySecret
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.awsAccessKey.keySecret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.awsAccessKey.keySecret.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'IamRole points to the secret containing the role ARN to be used for authentication.
+
+            This can be used for authentication in STS-enabled clusters when additionally specifying
+
+            a web identity token'
+          displayName: Amazon IAM Role
+          path: outputs[0].s3.authentication.iamRole
+        - description: 'RoleARN specifies the secret containing the role ARN to be used for AWS authentication.
+
+            This role requires an OIDC provider to be configured in an STS-enabled cluster.'
+          displayName: RoleARN Secret
+          path: outputs[0].s3.authentication.iamRole.roleARN
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.iamRole.roleARN.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.iamRole.roleARN.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Token specifies a bearer token to be used for authenticating requests.
+          displayName: Token
+          path: outputs[0].s3.authentication.iamRole.token
+        - description: From is the source from where to find the token
+          displayName: Token Source
+          path: outputs[0].s3.authentication.iamRole.token.from
+        - description: Use Secret if the value should be sourced from a Secret in the same namespace.
+          displayName: Token Secret
+          path: outputs[0].s3.authentication.iamRole.token.secret
+        - description: Name of the key used to get the value from the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.iamRole.token.secret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of secret
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.iamRole.token.secret.name
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Type is the type of cloudwatch authentication to configure
+          displayName: Authentication Type
+          path: outputs[0].s3.authentication.type
+        - description: 'Bucket specifies the S3 bucket name where logs will be stored.
+
+
+            String name absent leading `s3://` or trailing `/` and truncated to 63 characters to meet length restrictions'
+          displayName: S3 Bucket Name
+          path: outputs[0].s3.bucket
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "KeyPrefix is a templated string that defines the S3 key prefix for log objects.  It is a combination of\nstatic or dynamic values consisting of field paths separated by `\\|\\|` and ending with a static\nfallback value (e.g. logs_{.kubernetes.namespace_name\\|\\|.hostname\\|\\|\"unknown\"}_my_workload_{.openshift.sequence_id\\|\\|\"none\"}).\n\nPrefixes are necessary for partitioning logs from other objects in the bucket.  If the prefix represents a\ndirectory, it must end in `/` to act as a directory path. A trailing `/` (forward slash) is not automatically added.\n\nDynamic values are encased in single curly brackets `{}` and MUST end with a static fallback value separated\nwith `\\|\\|`. Static values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExamples:\n\n 1. logs_{.kubernetes.namespace_name\\|\\|\"none\"}/\n\n 2. {.log_type\\|\\|.log_source\\|\\|\"missing\"}/\n\n 3. my_workload.{.hostname\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}/"
+          displayName: Key Prefix
+          path: outputs[0].s3.keyPrefix
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - displayName: Amazon Region
+          path: outputs[0].s3.region
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Tuning specs tuning for the output
+          displayName: Tuning Options
+          path: outputs[0].s3.tuning
+        - description: 'Compression causes data to be compressed before sending over the network.
+
+            It is an error if the compression type is not supported by the output.'
+          displayName: Compression
+          path: outputs[0].s3.tuning.compression
+        - displayName: Delivery Mode
+          path: outputs[0].s3.tuning.deliveryMode
+        - description: MaxRetryDuration is the maximum time to wait between retry attempts after a delivery failure.
+          displayName: Maximum Retry Duration
+          path: outputs[0].s3.tuning.maxRetryDuration
+        - description: MaxWrite limits the maximum payload in terms of bytes of a single "send" to the output.
+          displayName: Batch Size
+          path: outputs[0].s3.tuning.maxWrite
+        - description: MinRetryDuration is the minimum time to wait between attempts to retry after delivery a failure.
+          displayName: Minimum Retry Duration
+          path: outputs[0].s3.tuning.minRetryDuration
+        - description: 'URL is the custom S3-compatible endpoint URL.
+
+            If not specified, the default AWS S3 endpoint will be used.
+
+            This is useful for S3-compatible services like MinIO, Ceph Object Gateway, or Dell EMC ECS.'
+          displayName: Custom Endpoint URL
+          path: outputs[0].s3.url
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Splunk configures forwarding log events to Splunk's HTTP event collector
           displayName: Splunk
           path: outputs[0].splunk
@@ -47693,9 +47911,48 @@ properties:
           path: outputs[0].splunk.authentication.token.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Index
           path: outputs[0].splunk.index
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'IndexedFields are the list of fields to be indexed by Splunk, increase storage usage, they should be used sparingly and only for high-value fields that provide significant search benefits.
+
+            Nested fields are flattened into top-level fields.
+
+            Field paths are joined using dot notation, and unsupported characters are replaced with underscores (_).
+
+            Non-string values are automatically converted to strings (e.g., 3 → "3", true → "true").
+
+            Object values serialized as JSON strings (e.g., { status: 200 } → "{\"status\":200}").
+
+
+            Examples: [`.kubernetes`, `.log_type`, ''.kubernetes.labels.foobar'', `.kubernetes.labels."foo-bar/baz"`]'
+          displayName: Indexed Fields
+          path: outputs[0].splunk.indexedFields
+        - description: 'PayloadKey specifies record field to use as payload.
+
+            The PayloadKey must be a single field path.
+
+
+            Field paths must only contain alphanumeric and underscores. Any field with other characters must be quoted.
+
+
+            By default, payloadKey is not set, which means the complete log record is forwarded as the payload.
+
+            Use payloadKey carefully. Selecting a single field as the payload may cause other important information in the
+
+            log to be dropped, potentially leading to inconsistent or incomplete log events.
+
+
+            Examples: `.kubernetes`, `.log_type`, ''.kubernetes.labels.foobar'', `.kubernetes.labels."foo-bar/baz"`'
+          displayName: Payload Key
+          path: outputs[0].splunk.payloadKey
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "Source identifies the origin of a log event.\nThe Source can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\nIf not specified will be detected according to .log_source and .log_type value.\nDetails see in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+          displayName: Source
+          path: outputs[0].splunk.source
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
         - description: Tuning specs tuning for the output
@@ -47727,38 +47984,37 @@ properties:
         - description: Syslog configures forwarding log events to a receiver using the syslog protocol
           displayName: Syslog Output
           path: outputs[0].syslog
-        - description: "AppName is APP-NAME part of the syslog-msg header.\n\n\nAppName needs to be specified if using rfc5424. The maximum length of the final values is truncated to 48\nThis supports template syntax to allow dynamic per-event values.\n\n\nThe AppName can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n\n\nTODO: DETERMIN HOW to default the app name that isnt based on fluentd assumptions of \"tag\" when this is empty"
+        - description: "AppName is APP-NAME part of the syslog-msg header.\n\nAppName needs to be specified if using rfc5424. The maximum length of the final values is truncated to 48\nThis supports template syntax to allow dynamic per-event values.\n\nThe AppName can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n"
           displayName: App Name
           path: outputs[0].syslog.appName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Enrichment is an additional modification to the log message before forwarding it to the receiver.\n\n\nSupported values are:\n1. None\n   - Adds no additional enrichment to the record\n2. KubernetesMinimal\n   - Adds namespace_name, pod_name, and container_name to the beginning of the message body (e.g. namespace_name=myproject, container_name=server, pod_name=pod-123, message={\"foo\":\"bar\"}).\nThis may result in the message body being an invalid JSON structure."
+        - description: "Enrichment is an additional modification to the log message before forwarding it to the receiver.\n\nSupported values are:\n1. None\n   - Adds no additional enrichment to the record\n2. KubernetesMinimal\n   - Adds namespace_name, pod_name, and container_name to the beginning of the message body (e.g. namespace_name=myproject, container_name=server, pod_name=pod-123, message={\"foo\":\"bar\"}).\nThis may result in the message body being an invalid JSON structure."
           displayName: Enrichment Type
           path: outputs[0].syslog.enrichment
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Facility to set on outgoing syslog records.\n\n\nFacility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1.\n\n\nThe value can be a decimal integer. Facility keywords are not standardized,\nthis API recognizes at least the following case-insensitive keywords\n(defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels):\n\n\n    kernel user mail daemon auth syslog lpr news\n    uucp cron authpriv ftp ntp security console solaris-cron\n    local0 local1 local2 local3 local4 local5 local6 local7\n\n\nThe Facility can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. {.foo||\"user\"}"
+        - description: "Facility to set on outgoing syslog records.\n\nFacility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1.\n\nThe value can be a decimal integer. Facility keywords are not standardized,\nthis API recognizes at least the following case-insensitive keywords\n(defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels):\n\n    kernel user mail daemon auth syslog lpr news\n    uucp cron authpriv ftp ntp security console solaris-cron\n    local0 local1 local2 local3 local4 local5 local6 local7\n\nThe Facility can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. {.foo||\"user\"}"
           displayName: Facility
           path: outputs[0].syslog.facility
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "MsgId is MSGID part of the syslog-msg header. This supports template syntax to allow dynamic per-event values.\n\n\nThe MsgId can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n\n\nMsgId needs to be specified if using rfc5424.  The maximum length of the final values is truncated to 32"
+        - description: "MsgId is MSGID part of the syslog-msg header. This supports template syntax to allow dynamic per-event values.\n\nThe MsgId can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n\nMsgId needs to be specified if using rfc5424.  The maximum length of the final values is truncated to 32"
           displayName: MSGID
           path: outputs[0].syslog.msgId
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "PayloadKey specifies record field to use as payload. This supports template syntax to allow dynamic per-event values.\n\n\nThe PayloadKey must be a single field path encased in single curly brackets `{}`.\n\n\nField paths must only contain alphanumeric and underscores. Any field with other characters must be quoted.\n\n\nIf left empty, Syslog will use the whole message as the payload key\n\n\nExample:\n\n\n 1. {.bar}\n\n\n 2. {.foo.bar.baz}\n\n\n 3. {.foo.bar.\"baz/with/slashes\"}"
+        - description: "PayloadKey specifies record field to use as payload. This supports template syntax to allow dynamic per-event values.\n\nThe PayloadKey must be a single field path encased in single curly brackets `{}`.\n\nField paths must only contain alphanumeric and underscores. Any field with other characters must be quoted.\n\nIf left empty, Syslog will use the whole message as the payload key\n\nExample:\n\n 1. {.bar}\n\n 2. {.foo.bar.baz}\n\n 3. {.foo.bar.\"baz/with/slashes\"}"
           displayName: Payload Key
           path: outputs[0].syslog.payloadKey
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "ProcId is PROCID part of the syslog-msg header. This supports template syntax to allow dynamic per-event values.\n\n\nThe ProcId can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. foo-{.bar||\"none\"}\n\n\n 2. {.foo||.bar||\"missing\"}\n\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n\n\nProcId needs to be specified if using rfc5424. The maximum length of the final values is truncated to 128"
+        - description: "ProcId is PROCID part of the syslog-msg header. This supports template syntax to allow dynamic per-event values.\n\nThe ProcId can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n\nProcId needs to be specified if using rfc5424. The maximum length of the final values is truncated to 128"
           displayName: PROCID
           path: outputs[0].syslog.procId
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
         - description: 'The RFC to which the generated messages conform to.
-
 
 
             Supported values are:
@@ -47768,7 +48024,7 @@ properties:
             2. RFC5424'
           displayName: Syslog RFC
           path: outputs[0].syslog.rfc
-        - description: "Severity to set on outgoing syslog records.\n\n\nSeverity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1\n\n\nThe value can be a decimal integer or one of these case-insensitive keywords:\n\n\n    Emergency Alert Critical Error Warning Notice Informational Debug\n\n\nThe Severity can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\n\nExample:\n\n\n 1. {.foo||\"Error\"}"
+        - description: "Severity to set on outgoing syslog records.\n\nSeverity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1\n\nThe value can be a decimal integer or one of these case-insensitive keywords:\n\n    Emergency Alert Critical Error Warning Notice Informational Debug\n\nThe Severity can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. {.foo||\"Error\"}"
           displayName: Severity
           path: outputs[0].syslog.severity
           x-descriptors:
@@ -47825,7 +48081,6 @@ properties:
         - description: 'If InsecureSkipVerify is true, then the TLS client will be configured to skip validating server certificates.
 
 
-
             This option is *not* recommended for production configurations.'
           displayName: Skip Certificate Validation
           path: outputs[0].tls.insecureSkipVerify
@@ -47869,13 +48124,12 @@ properties:
         - description: 'Filters lists the names of filters to be applied to records going through this pipeline.
 
 
-
             Each filter is applied in order.
 
             If a filter drops a records, subsequent filters are not applied.'
           displayName: Filters
           path: pipelines[0].filterRefs
-        - description: "InputRefs lists the names (`input.name`) of inputs to this pipeline.\n\n\nThe following built-in input names are always available:\n\n\n - `application` selects all logs from application pods.\n\n\n - `infrastructure` selects logs from openshift and kubernetes pods and some node logs.\n\n\n - `audit` selects node logs related to security audits."
+        - description: "InputRefs lists the names (`input.name`) of inputs to this pipeline.\n\nThe following built-in input names are always available:\n\n - `application` selects all logs from application pods.\n\n - `infrastructure` selects logs from openshift and kubernetes pods and some node logs.\n\n - `audit` selects node logs related to security audits."
           displayName: Inputs
           path: pipelines[0].inputRefs
         - description: Name of the pipeline
@@ -47939,6 +48193,16 @@ properties:
           name: ''
           version: v1
         specDescriptors:
+        - description: Define the Network Policy for the LogFileMetricExporter
+          displayName: LogFileMetricExporter Network Policy
+          path: networkPolicy
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: NetworkPolicyRuleSetType is the type of network policy rule set to use
+          displayName: LogFileMetricExporter Network Policy Rule Set Type
+          path: networkPolicy.ruleSet
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Define which Nodes the Pods are scheduled on.
           displayName: LogFileMetricExporter Node Selector
           path: nodeSelector
@@ -47986,7 +48250,7 @@ properties:
       service discovery add namespace label `openshift.io/cluster-monitoring: "true"`.
 
 
-      For additional installation documentation see [Installing logging](https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html-single/logging/index#installing-logging-6-2)
+      For additional installation documentation see [Deploying cluster logging](https://docs.openshift.com/container-platform/latest/logging/cluster-logging-deploying.html)
 
       in the OpenShift product documentation.'
     displayName: Red Hat OpenShift Logging
@@ -48021,12 +48285,12 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:ccd9e9f28ce2b47fae7b51ca941fc31b62786c433001a583bdf4314f537382dd
+- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:863a4049af46534550c2c4a620ada44ae2240ccfbcc388072b1def68f4f308b7
   name: ''
-- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:34cc2c004e21a9b99b4eff659dfa761dd698738e4ece9a5cb040946bbcb9eaa4
-  name: cluster-logging-rhel9-operator
-- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:766480fc44f5663b9b6aba2c508a4a397ea7e0bbf44269c226ab4ffab0ab7a07
-  name: log-file-metric-exporter-rhel9
-- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:67042474b581acb479919a06589321f1672c1660df45cc1fe72a5c7043b2f3e5
-  name: vector-rhel9
+- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:d679ef690cad5aacd63ee46a2c7a8aab75bd9403717572bf206d132ea677ecb8
+  name: ''
+- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:33466f047c7d1d51afb449a505d97cef4c60aab7312738c7131ee184fbfe9d25
+  name: log-file-metric-exporter
+- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:0241d072b749fabc8c4877b785f87ad78e89c64e67b0ab6ae07bf1998e88c0e8
+  name: vector
 schema: olm.bundle
