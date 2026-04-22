@@ -89,9 +89,6 @@ entries:
 - name: cluster-logging.v6.3.4
   replaces: cluster-logging.v6.3.3
   skipRange: '>=6.1.0-0 <6.3.4'
-- name: cluster-logging.v6.3.5
-  replaces: cluster-logging.v6.3.4
-  skipRange: '>=6.1.0-0 <6.3.5'
 name: stable-6.3
 package: cluster-logging
 schema: olm.channel
@@ -108,6 +105,9 @@ entries:
 - name: cluster-logging.v6.4.3
   replaces: cluster-logging.v6.4.2
   skipRange: '>=6.2.0-0 <6.4.3'
+- name: cluster-logging.v6.4.4
+  replaces: cluster-logging.v6.4.3
+  skipRange: '>=6.2.0-0 <6.4.4'
 name: stable-6.4
 package: cluster-logging
 schema: olm.channel
@@ -46441,8 +46441,8 @@ relatedImages:
   name: vector
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:1edd2a697d89dcfc59954a4c4439e5e003e0aeddcda1c047cb11a0f80c14ba6b
-name: cluster-logging.v6.3.5
+image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:863a4049af46534550c2c4a620ada44ae2240ccfbcc388072b1def68f4f308b7
+name: cluster-logging.v6.4.4
 package: cluster-logging
 properties:
 - type: olm.gvk
@@ -46456,11 +46456,11 @@ properties:
     kind: ClusterLogForwarder
     version: v1
 - type: olm.maxOpenShiftVersion
-  value: '4.20'
+  value: '4.21'
 - type: olm.package
   value:
     packageName: cluster-logging
-    version: 6.3.5
+    version: 6.4.4
 - type: olm.csv.metadata
   value:
     annotations:
@@ -46468,8 +46468,11 @@ properties:
       capabilities: Seamless Upgrades
       categories: OpenShift Optional, Logging & Tracing, Observability
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:50442c0669049081087f858ba84bc24b1ef613b4fa87571e106c03e861c0852d
-      createdAt: '2025-12-12T18:19:58Z'
+      com.redhat.delivery.appregistry: 'false'
+      com.redhat.delivery.operator.bundle: 'true'
+      com.redhat.openshift.versions: v4.18-v4.21
+      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:d679ef690cad5aacd63ee46a2c7a8aab75bd9403717572bf206d132ea677ecb8
+      createdAt: '2026-01-07T00:29:49Z'
       description: The Red Hat OpenShift Logging Operator for OCP provides a means for configuring and managing log collection and forwarding.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
@@ -46481,13 +46484,19 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=6.1.0-0 <6.3.5'
+      olm.skipRange: '>=6.2.0-0 <6.4.4'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"observability.openshift.io/v1\",\n  \"kind\": \"ClusterLogForwarder\",\n  \"metadata\": {\n    \"name\": \"logging\"\n  }\n}\n"
       operatorframework.io/suggested-namespace: openshift-logging
       operators.openshift.io/infrastructure-features: '["disconnected","proxy-aware"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:50442c0669049081087f858ba84bc24b1ef613b4fa87571e106c03e861c0852d
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:d679ef690cad5aacd63ee46a2c7a8aab75bd9403717572bf206d132ea677ecb8
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io.bundle.channel.default.v1: stable-6.4
+      operators.operatorframework.io.bundle.channels.v1: stable-6.4
+      operators.operatorframework.io.bundle.manifests.v1: manifests/
+      operators.operatorframework.io.bundle.mediatype.v1: registry+v1
+      operators.operatorframework.io.bundle.metadata.v1: metadata/
+      operators.operatorframework.io.bundle.package.v1: cluster-logging
       operators.operatorframework.io/builder: operator-sdk-unknown
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
       support: AOS Logging (aos-logging@redhat.com)
@@ -46515,6 +46524,24 @@ properties:
         - description: Define scheduling rules that influence pod placement based on node or pod affinity/anti-affinity constraints.
           displayName: Affinity
           path: collector.affinity
+        - description: 'Define the maxUnavailable pod rollout strategy which defaults to 100% when not set
+
+
+            Value can be a number (e.g., 50) or a percentage string (e.g., "50%").'
+          displayName: Max Unavailable
+          path: collector.maxUnavailable
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Define the Network Policy for the Collector
+          displayName: Network Policy
+          path: collector.networkPolicy
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: NetworkPolicyRuleSetType is the type of network policy rule set to use
+          displayName: Network Policy Rule Set Type
+          path: collector.networkPolicy.ruleSet
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Define nodes for scheduling the pods.
           displayName: Node Selector
           path: collector.nodeSelector
@@ -46579,10 +46606,10 @@ properties:
         - description: The PruneFilterSpec consists of two arrays, namely in and notIn, which dictate the fields to be pruned.
           displayName: Prune Filters
           path: filters[0].prune
-        - description: "`In` is an array of dot-delimited field paths. Fields included here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_name`\n\n - `.log_type`\n\n - '.kubernetes.labels.foobar'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `In` CANNOT contain `.log_type` or `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` CANNOT be added to this list as it is a required field."
+        - description: "`In` is an array of dot-delimited field paths. Fields included here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_id`\n\n - `.hostname`\n\n - '.kubernetes.labels.foobar'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `In` CANNOT contain `.log_type`, `.log_source` or `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` CANNOT be added to this list as it is a required field.\n\nNOTE3: If used in a pipeline with a Lokistack output type, see Lokistack output documentation for additional fields that cannot be pruned."
           displayName: Fields to be dropped
           path: filters[0].prune.in
-        - description: "`NotIn` is an array of dot-delimited field paths. All fields besides the ones listed here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_name`\n\n - `.log_type`\n\n - '.kubernetes.labels.foobar'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `NotIn` MUST contain `.log_type` and `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` MUST be added to this list as it is a required field."
+        - description: "`NotIn` is an array of dot-delimited field paths. All fields besides the ones listed here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_name`\n\n - `.log_type`\n\n - '.log_source'\n\n - '.message'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `NotIn` MUST contain `.log_type`, `.log_source` and `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` MUST be added to this list as it is a required field.\n\nNOTE3: If used in a pipeline with a Lokistack output type, see Lokistack output documentation for additional fields that cannot be pruned."
           displayName: Fields to be kept
           path: filters[0].prune.notIn
         - description: 'Type of filter.
@@ -46836,10 +46863,51 @@ properties:
         - description: Cloudwatch configures forwarding log events to AWS Cloudwatch logs
           displayName: Amazon CloudWatch
           path: outputs[0].cloudwatch
-        - description: Authentication sets credentials for authenticating the requests.
+        - description: Authentication sets credentials for authenticating requests to cloudwatch services.
           displayName: Authentication Options
           path: outputs[0].cloudwatch.authentication
-        - description: AWSAccessKey points to the AWS access key id and secret to be used for authentication.
+        - description: 'AssumeRole specifies an additional AWS role to assume for forwarding logs.
+
+            This enables cross-account log forwarding by using the initial role to authenticate,
+
+            then assume a role in order to access cross-account services.'
+          displayName: Assume Role
+          path: outputs[0].cloudwatch.authentication.assumeRole
+        - description: 'ExternalID is the external ID to match when assuming the role.
+
+            This is optional and can be used as an additional security measure to ensure that only the intended
+
+            entity can assume the role.
+
+
+            The ExternalId must be a minimum of 2 characters and a maximum of 1,224 characters.
+
+            The value must be alphanumeric without whitespace and can also include the following symbols:
+
+            plus(+), equal(=), comma(,), period(.), at(@), colon(:), forward slash(/), and hyphen(-).'
+          displayName: External ID
+          path: outputs[0].cloudwatch.authentication.assumeRole.externalID
+        - description: RoleARN points to the secret containing the ARN of the role to assume for cross-account access.
+          displayName: Assume Role ARN Secret
+          path: outputs[0].cloudwatch.authentication.assumeRole.roleARN
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].cloudwatch.authentication.assumeRole.roleARN.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].cloudwatch.authentication.assumeRole.roleARN.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'SessionName is an optional identifier for the assumed role session.
+
+            If not provided, a default session name will be generated.'
+          displayName: Session Name
+          path: outputs[0].cloudwatch.authentication.assumeRole.sessionName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: AwsAccessKey points to the AWS access key id and secret to be used for authentication.
           displayName: Access Key
           path: outputs[0].cloudwatch.authentication.awsAccessKey
         - description: KeyId points to the AWS access key id to be used for authentication.
@@ -46868,16 +46936,16 @@ properties:
           path: outputs[0].cloudwatch.authentication.awsAccessKey.keySecret.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: 'IAMRole points to the secret containing the role ARN to be used for authentication.
+        - description: 'IamRole points to the secret containing the role ARN to be used for authentication.
 
             This can be used for authentication in STS-enabled clusters when additionally specifying
 
             a web identity token'
           displayName: Amazon IAM Role
           path: outputs[0].cloudwatch.authentication.iamRole
-        - description: 'RoleARN points to the secret containing the role ARN to be used for authentication.
+        - description: 'RoleARN specifies the secret containing the role ARN to be used for AWS authentication.
 
-            This is used for authentication in STS-enabled clusters.'
+            This role requires an OIDC provider to be configured in an STS-enabled cluster.'
           displayName: RoleARN Secret
           path: outputs[0].cloudwatch.authentication.iamRole.roleARN
         - description: Key contains the name of the key inside the referenced Secret.
@@ -46999,7 +47067,10 @@ properties:
           path: outputs[0].elasticsearch.authentication.username.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app|infra|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: Headers specify optional headers to be sent with the request
+          displayName: Headers
+          path: outputs[0].elasticsearch.headers
+        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `\\|\\|` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `\\|\\|`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app\\|infra\\|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}"
           displayName: Log Index
           path: outputs[0].elasticsearch.index
           x-descriptors:
@@ -47389,7 +47460,19 @@ properties:
           - urn:alm:descriptor:com.tectonic.ui:text
         - description: 'LokiStack configures forwarding log events to a Red Hat managed Loki deployment
 
-            using the Red Hat tenancy model'
+            using the Red Hat tenancy model
+
+
+            The listed labelKeys cannot be pruned as they are required as default stream labels for LokiStack.
+
+            1. .kubernetes.container_name
+
+            2. .kubernetes.namespace_name
+
+            3. .kubernetes.pod_name
+
+
+            If these fields are not present in the log record, they will be set to the empty string.'
           displayName: LokiStack
           path: outputs[0].lokiStack
         - description: Authentication sets credentials for authenticating the requests.
@@ -47616,7 +47699,9 @@ properties:
         - description: 'URL to send log records to.
 
 
-            An absolute URL, with a valid http scheme. Must terminate with `/v1/logs`
+            An absolute URL, with a valid http scheme. The OTLP spec recommends it terminate with `/v1/logs` but
+
+            that ''Non-default URL paths for requests MAY be configured on the client and server sides.''
 
 
             Basic TLS is enabled if the URL scheme requires it (for example ''https'').
@@ -47642,6 +47727,171 @@ properties:
           path: outputs[0].rateLimit.maxRecordsPerSecond
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:number
+        - description: S3 configures forwarding log events to Amazon S3 buckets
+          displayName: Amazon S3
+          path: outputs[0].s3
+        - description: Authentication sets credentials for authenticating the requests.
+          displayName: Authentication Options
+          path: outputs[0].s3.authentication
+        - description: 'AssumeRole specifies an additional AWS role to assume for forwarding logs.
+
+            This enables cross-account log forwarding by using the initial role to authenticate,
+
+            then assume a role in order to access cross-account services.'
+          displayName: Assume Role
+          path: outputs[0].s3.authentication.assumeRole
+        - description: 'ExternalID is the external ID to match when assuming the role.
+
+            This is optional and can be used as an additional security measure to ensure that only the intended
+
+            entity can assume the role.
+
+
+            The ExternalId must be a minimum of 2 characters and a maximum of 1,224 characters.
+
+            The value must be alphanumeric without whitespace and can also include the following symbols:
+
+            plus(+), equal(=), comma(,), period(.), at(@), colon(:), forward slash(/), and hyphen(-).'
+          displayName: External ID
+          path: outputs[0].s3.authentication.assumeRole.externalID
+        - description: RoleARN points to the secret containing the ARN of the role to assume for cross-account access.
+          displayName: Assume Role ARN Secret
+          path: outputs[0].s3.authentication.assumeRole.roleARN
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.assumeRole.roleARN.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.assumeRole.roleARN.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'SessionName is an optional identifier for the assumed role session.
+
+            If not provided, a default session name will be generated.'
+          displayName: Session Name
+          path: outputs[0].s3.authentication.assumeRole.sessionName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: AwsAccessKey points to the AWS access key id and secret to be used for authentication.
+          displayName: Access Key
+          path: outputs[0].s3.authentication.awsAccessKey
+        - description: KeyId points to the AWS access key id to be used for authentication.
+          displayName: Secret with Access Key ID
+          path: outputs[0].s3.authentication.awsAccessKey.keyId
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.awsAccessKey.keyId.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.awsAccessKey.keyId.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: KeySecret points to the AWS access key secret to be used for authentication.
+          displayName: Secret with Access Key Secret
+          path: outputs[0].s3.authentication.awsAccessKey.keySecret
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.awsAccessKey.keySecret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.awsAccessKey.keySecret.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'IamRole points to the secret containing the role ARN to be used for authentication.
+
+            This can be used for authentication in STS-enabled clusters when additionally specifying
+
+            a web identity token'
+          displayName: Amazon IAM Role
+          path: outputs[0].s3.authentication.iamRole
+        - description: 'RoleARN specifies the secret containing the role ARN to be used for AWS authentication.
+
+            This role requires an OIDC provider to be configured in an STS-enabled cluster.'
+          displayName: RoleARN Secret
+          path: outputs[0].s3.authentication.iamRole.roleARN
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.iamRole.roleARN.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.iamRole.roleARN.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Token specifies a bearer token to be used for authenticating requests.
+          displayName: Token
+          path: outputs[0].s3.authentication.iamRole.token
+        - description: From is the source from where to find the token
+          displayName: Token Source
+          path: outputs[0].s3.authentication.iamRole.token.from
+        - description: Use Secret if the value should be sourced from a Secret in the same namespace.
+          displayName: Token Secret
+          path: outputs[0].s3.authentication.iamRole.token.secret
+        - description: Name of the key used to get the value from the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].s3.authentication.iamRole.token.secret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of secret
+          displayName: Secret Name
+          path: outputs[0].s3.authentication.iamRole.token.secret.name
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Type is the type of cloudwatch authentication to configure
+          displayName: Authentication Type
+          path: outputs[0].s3.authentication.type
+        - description: 'Bucket specifies the S3 bucket name where logs will be stored.
+
+
+            String name absent leading `s3://` or trailing `/` and truncated to 63 characters to meet length restrictions'
+          displayName: S3 Bucket Name
+          path: outputs[0].s3.bucket
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "KeyPrefix is a templated string that defines the S3 key prefix for log objects.  It is a combination of\nstatic or dynamic values consisting of field paths separated by `\\|\\|` and ending with a static\nfallback value (e.g. logs_{.kubernetes.namespace_name\\|\\|.hostname\\|\\|\"unknown\"}_my_workload_{.openshift.sequence_id\\|\\|\"none\"}).\n\nPrefixes are necessary for partitioning logs from other objects in the bucket.  If the prefix represents a\ndirectory, it must end in `/` to act as a directory path. A trailing `/` (forward slash) is not automatically added.\n\nDynamic values are encased in single curly brackets `{}` and MUST end with a static fallback value separated\nwith `\\|\\|`. Static values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExamples:\n\n 1. logs_{.kubernetes.namespace_name\\|\\|\"none\"}/\n\n 2. {.log_type\\|\\|.log_source\\|\\|\"missing\"}/\n\n 3. my_workload.{.hostname\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}/"
+          displayName: Key Prefix
+          path: outputs[0].s3.keyPrefix
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - displayName: Amazon Region
+          path: outputs[0].s3.region
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Tuning specs tuning for the output
+          displayName: Tuning Options
+          path: outputs[0].s3.tuning
+        - description: 'Compression causes data to be compressed before sending over the network.
+
+            It is an error if the compression type is not supported by the output.'
+          displayName: Compression
+          path: outputs[0].s3.tuning.compression
+        - displayName: Delivery Mode
+          path: outputs[0].s3.tuning.deliveryMode
+        - description: MaxRetryDuration is the maximum time to wait between retry attempts after a delivery failure.
+          displayName: Maximum Retry Duration
+          path: outputs[0].s3.tuning.maxRetryDuration
+        - description: MaxWrite limits the maximum payload in terms of bytes of a single "send" to the output.
+          displayName: Batch Size
+          path: outputs[0].s3.tuning.maxWrite
+        - description: MinRetryDuration is the minimum time to wait between attempts to retry after delivery a failure.
+          displayName: Minimum Retry Duration
+          path: outputs[0].s3.tuning.minRetryDuration
+        - description: 'URL is the custom S3-compatible endpoint URL.
+
+            If not specified, the default AWS S3 endpoint will be used.
+
+            This is useful for S3-compatible services like MinIO, Ceph Object Gateway, or Dell EMC ECS.'
+          displayName: Custom Endpoint URL
+          path: outputs[0].s3.url
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Splunk configures forwarding log events to Splunk's HTTP event collector
           displayName: Splunk
           path: outputs[0].splunk
@@ -47943,6 +48193,16 @@ properties:
           name: ''
           version: v1
         specDescriptors:
+        - description: Define the Network Policy for the LogFileMetricExporter
+          displayName: LogFileMetricExporter Network Policy
+          path: networkPolicy
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: NetworkPolicyRuleSetType is the type of network policy rule set to use
+          displayName: LogFileMetricExporter Network Policy Rule Set Type
+          path: networkPolicy.ruleSet
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Define which Nodes the Pods are scheduled on.
           displayName: LogFileMetricExporter Node Selector
           path: nodeSelector
@@ -48025,12 +48285,12 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:1edd2a697d89dcfc59954a4c4439e5e003e0aeddcda1c047cb11a0f80c14ba6b
+- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:863a4049af46534550c2c4a620ada44ae2240ccfbcc388072b1def68f4f308b7
   name: ''
-- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:50442c0669049081087f858ba84bc24b1ef613b4fa87571e106c03e861c0852d
-  name: cluster-logging-rhel9-operator
-- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:efa1bcefbc74e85998247ef7c6e32bfdc911789e7322a56c7b10df789e0959b5
-  name: log-file-metric-exporter-rhel9
-- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:912aa3fceb776c0e427ea43d3d50b560a6fba1f9381d21bf1934ba799be03667
-  name: vector-rhel9
+- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:d679ef690cad5aacd63ee46a2c7a8aab75bd9403717572bf206d132ea677ecb8
+  name: ''
+- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:33466f047c7d1d51afb449a505d97cef4c60aab7312738c7131ee184fbfe9d25
+  name: log-file-metric-exporter
+- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:0241d072b749fabc8c4877b785f87ad78e89c64e67b0ab6ae07bf1998e88c0e8
+  name: vector
 schema: olm.bundle
