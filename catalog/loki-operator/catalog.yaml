@@ -80,9 +80,6 @@ entries:
 - name: loki-operator.v6.4.4
   replaces: loki-operator.v6.4.3
   skipRange: '>=6.2.0-0 <6.4.4'
-- name: loki-operator.v6.4.5
-  replaces: loki-operator.v6.4.4
-  skipRange: '>=6.2.0-0 <6.4.5'
 name: stable-6.4
 package: loki-operator
 schema: olm.channel
@@ -90,6 +87,9 @@ schema: olm.channel
 entries:
 - name: loki-operator.v6.5.0
   skipRange: '>=6.3.0-0 <6.5.0'
+- name: loki-operator.v6.5.1
+  replaces: loki-operator.v6.5.0
+  skipRange: '>=6.3.0-0 <6.5.1'
 name: stable-6.5
 package: loki-operator
 schema: olm.channel
@@ -34644,8 +34644,8 @@ relatedImages:
   name: opa-openshift-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:acec3e29d993476c47ced7704f424231e357267be039b2b5df2c3b91814267ec
-name: loki-operator.v6.4.5
+image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:34e7fcd27a0bf925942e197c37d5b7d95fd26ad5a793ab262525ecc3812cb52c
+name: loki-operator.v6.5.1
 package: loki-operator
 properties:
 - type: olm.gvk
@@ -34689,20 +34689,20 @@ properties:
     kind: RulerConfig
     version: v1beta1
 - type: olm.maxOpenShiftVersion
-  value: '4.21'
+  value: '4.22'
 - type: olm.package
   value:
     packageName: loki-operator
-    version: 6.4.5
+    version: 6.5.1
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"AlertingRule\",\n    \"metadata\": {\n      \"name\": \"alertingrule-sample\"\n    },\n    \"spec\": {\n      \"groups\": [\n        {\n          \"interval\": \"10m\",\n          \"name\": \"alerting-rules-group\",\n          \"rules\": [\n            {\n              \"alert\": \"HighPercentageError\",\n              \"annotations\": {\n                \"description\": \"Application {{ $labels.job }} in namespace example-namespace has an error rate above 5% for more than 10 minutes.\",\n                \"summary\": \"High error rate detected\"\n              },\n              \"expr\": \"sum(rate({app=\\\"foo\\\", env=\\\"production\\\", kubernetes_namespace_name=\\\"example-namespace\\\"} |= \\\"error\\\" [5m])) by (job)\\n  /\\nsum(rate({app=\\\"foo\\\", env=\\\"production\\\", kubernetes_namespace_name=\\\"example-namespace\\\"}[5m])) by (job)\\n  \\u003e 0.05\\n\",\n              \"for\": \"10m\",\n              \"labels\": {\n                \"severity\": \"warning\"\n              }\n            },\n            {\n              \"alert\": \"HttpCredentialsLeaked\",\n              \"annotations\": {\n                \"description\": \"Application {{ $labels.job }} in pod {{ $labels.pod }} is leaking HTTP basic auth credentials in logs.\",\n                \"summary\": \"HTTP credentials leaked in logs\"\n              },\n              \"expr\": \"sum by (cluster, job, pod) (count_over_time({kubernetes_namespace_name=\\\"example-namespace\\\"} |~ \\\"http(s?)://(\\\\\\\\w+):(\\\\\\\\w+)@\\\" [5m]) \\u003e 0)\",\n              \"for\": \"10m\",\n              \"labels\": {\n                \"severity\": \"critical\"\n              }\n            }\n          ]\n        }\n      ],\n      \"tenantID\": \"application\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"LokiStack\",\n    \"metadata\": {\n      \"name\": \"lokistack-sample\"\n    },\n    \"spec\": {\n      \"size\": \"1x.small\",\n      \"storage\": {\n        \"secret\": {\n          \"name\": \"test\"\n        }\n      },\n      \"storageClassName\": \"standard\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"RecordingRule\",\n    \"metadata\": {\n      \"name\": \"recordingrule-sample\"\n    },\n    \"spec\": {\n      \"groups\": [\n        {\n          \"interval\": \"10m\",\n          \"name\": \"recording-rules-group\",\n          \"rules\": [\n            {\n              \"expr\": \"sum(rate({container=\\\"myservice\\\"}[10m]))\\n\",\n              \"record\": \"myservice:requests:rate10m\"\n            },\n            {\n              \"expr\": \"sum(rate({container=\\\"otherservice\\\"}[1m]))\\n\",\n              \"record\": \"otherservice:requests:rate1m\"\n            }\n          ]\n        }\n      ],\n      \"tenantID\": \"test-tenant\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"RulerConfig\",\n    \"metadata\": {\n      \"name\": \"rulerconfig-sample\"\n    },\n    \"spec\": {\n      \"alertmanager\": {\n        \"discovery\": {\n          \"enableSRV\": true,\n          \"refreshInterval\": \"1m\"\n        },\n        \"enableV2\": true,\n        \"endpoints\": [\n          \"http://alertmanager-host1.mycompany.org\",\n          \"http://alertmanager-host2.mycompany.org\"\n        ],\n        \"externalLabels\": {\n          \"environment\": \"production\",\n          \"region\": \"us-east-2\"\n        },\n        \"externalUrl\": \"http://www.mycompany.org/alerts\",\n        \"notificationQueue\": {\n          \"capacity\": 1000,\n          \"forGracePeriod\": \"10m\",\n          \"forOutageTolerance\": \"1h\",\n          \"resendDelay\": \"1m\",\n          \"timeout\": \"30s\"\n        }\n      },\n      \"evaluationInterval\": \"1m\",\n      \"pollInterval\": \"1m\",\n      \"remoteWrite\": {\n        \"client\": {\n          \"authorization\": \"basic\",\n          \"authorizationSecretName\": \"my-secret-resource\",\n          \"name\": \"remote-write-log-metrics\",\n          \"proxyUrl\": \"http://proxy-host.mycompany.org\",\n          \"relabelConfigs\": [\n            {\n              \"action\": \"replace\",\n              \"regex\": \"ALERTS.*\",\n              \"replacement\": \"$1\",\n              \"separator\": \"\",\n              \"sourceLabels\": [\n                \"labelc\",\n                \"labeld\"\n              ],\n              \"targetLabel\": \"labelnew\"\n            }\n          ],\n          \"timeout\": \"30s\",\n          \"url\": \"http://remote-write-host.mycompany.org\"\n        },\n        \"enabled\": true,\n        \"refreshPeriod\": \"10s\"\n      }\n    }\n  }\n]"
       capabilities: Full Lifecycle
-      categories: OpenShift Optional, Logging & Tracing
+      categories: OpenShift Optional, Logging & Tracing, Observability
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:e1f85fc26b815d55f2aec9d14159c9e8912ec2aeb8af47ee96acc15974b587a1
-      createdAt: '2026-04-20T17:46:26Z'
+      containerImage: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:c13aff275e3c8e922a8d15edc6226ab912234f6de700b696f4234f8c9563d34a
+      createdAt: '2026-03-06T12:58:07Z'
       description: 'The Loki Operator for OCP provides a means for configuring and managing a Loki stack for cluster logging.
 
         ## Prerequisites and Requirements
@@ -34727,7 +34727,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'true'
       features.operators.openshift.io/token-auth-azure: 'true'
       features.operators.openshift.io/token-auth-gcp: 'true'
-      olm.skipRange: '>=6.2.0-0 <6.4.5'
+      olm.skipRange: '>=6.3.0-0 <6.5.1'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-operators-redhat
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -34838,7 +34838,6 @@ properties:
           displayName: Memberlist Config
           path: hashRing.memberlist
         - description: 'EnableIPv6 enables IPv6 support for the memberlist based hash ring.
-
 
 
             Currently this also forces the instanceAddrType to podIP to avoid local address lookup
@@ -35441,7 +35440,6 @@ properties:
             spikes, whether on the ingestion or query side.
 
 
-
             Note: This is currently a tech-preview feature.'
           displayName: Use resource requests as limits
           path: template.useRequestsAsLimits
@@ -35528,6 +35526,68 @@ properties:
         - description: Roles defines a set of permissions to interact with a tenant.
           displayName: Static Roles
           path: tenants.authorization.roles
+        - description: 'DisableIngress disables automatic creation of external access resources (Route / Ingress).
+
+            When true, no Route or Ingress will be created for the gateway.'
+          displayName: Disable Ingress
+          path: tenants.disableIngress
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - description: Gateway defines the configuration specific to Gateway server
+          displayName: Gateway
+          path: tenants.gateway
+        - description: TLS defines the TLS configuration for the Gateway server.
+          displayName: TLS
+          path: tenants.gateway.tls
+        - description: CA can be used to specify a custom list of trusted certificate authorities.
+          displayName: Certificate Authority Bundle
+          path: tenants.gateway.tls.ca
+        - description: ConfigMapName contains the name of the ConfigMap containing the referenced value.
+          displayName: ConfigMap Name
+          path: tenants.gateway.tls.ca.configMapName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of the key used to get the value in either the referenced ConfigMap or Secret.
+          displayName: Key Name
+          path: tenants.gateway.tls.ca.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: tenants.gateway.tls.ca.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Certificate points to the server certificate to use.
+          displayName: Certificate
+          path: tenants.gateway.tls.certificate
+        - description: ConfigMapName contains the name of the ConfigMap containing the referenced value.
+          displayName: ConfigMap Name
+          path: tenants.gateway.tls.certificate.configMapName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of the key used to get the value in either the referenced ConfigMap or Secret.
+          displayName: Key Name
+          path: tenants.gateway.tls.certificate.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: tenants.gateway.tls.certificate.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: PrivateKey points to the private key of the server certificate.
+          displayName: Private Key
+          path: tenants.gateway.tls.privateKey
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: tenants.gateway.tls.privateKey.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: tenants.gateway.tls.privateKey.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Mode defines the mode in which lokistack-gateway component will be configured.
           displayName: Mode
           path: tenants.mode
@@ -35539,15 +35599,15 @@ properties:
         - description: Openshift defines the configuration specific to Openshift modes.
           displayName: Openshift
           path: tenants.openshift
-        - description: "AdminGroups defines a list of groups, whose members are considered to have admin-privileges by the Loki Operator.\nSetting this to an empty array disables admin groups.\n\n\nBy default the following groups are considered admin-groups:\n - system:cluster-admins\n - cluster-admin\n - dedicated-admin"
+        - description: "AdminGroups defines a list of groups, whose members are considered to have admin-privileges by the Loki Operator.\nSetting this to an empty array disables admin groups.\n\nBy default the following groups are considered admin-groups:\n - system:cluster-admins\n - cluster-admin\n - dedicated-admin"
           displayName: Admin Groups
           path: tenants.openshift.adminGroups
         - description: OTLP contains settings for ingesting data using OTLP in the OpenShift tenancy mode.
           displayName: OpenTelemetry Protocol
           path: tenants.openshift.otlp
-        - description: "DisableRecommendedAttributes can be used to reduce the number of attributes used as stream labels.\n\n\nEnabling this setting removes the \"recommended attributes\" from the stream labels. This requires an update\nto queries that relied on these attributes as stream labels, as they will no longer be indexed as such.\n\n\nThe recommended attributes are:\n\n\n - k8s.container.name\n - k8s.cronjob.name\n - k8s.daemonset.name\n - k8s.deployment.name\n - k8s.job.name\n - k8s.node.name\n - k8s.pod.name\n - k8s.statefulset.name\n - kubernetes.container_name\n - kubernetes.host\n - kubernetes.pod_name\n - service.name\n\n\nThis option is supposed to be combined with a custom attribute configuration listing the stream labels that\nshould continue to exist.\n\n\nSee also: https://github.com/rhobs/observability-data-model/blob/main/cluster-logging.md#attributes"
-          displayName: Disable recommended OTLP attributes
-          path: tenants.openshift.otlp.disableRecommendedAttributes
+        - description: "EnableConsoleLabels can be used to add a set of additional stream labels to the OTLP input. These labels are\ncurrently used by the logs console in OpenShift.\n\nThis is not different from manually adding some or all of the attributes to the set of stream labels using the\nnormal OTLP configuration.\n\nThe additional attributes which are converted to stream labels are:\n\n - k8s.container.name\n - k8s.cronjob.name\n - k8s.daemonset.name\n - k8s.deployment.name\n - k8s.job.name\n - k8s.node.name\n - k8s.pod.name\n - k8s.statefulset.name\n - kubernetes.container_name\n - kubernetes.host\n - kubernetes.pod_name\n - service.name\n\nSee also: https://github.com/rhobs/observability-data-model/blob/main/cluster-logging.md#attributes"
+          displayName: Enable Console labels
+          path: tenants.openshift.otlp.enableConsoleLabels
         statusDescriptors:
         - description: Distributor is a map to the per pod status of the distributor deployment
           displayName: Distributor
@@ -36126,12 +36186,14 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:acec3e29d993476c47ced7704f424231e357267be039b2b5df2c3b91814267ec
+- image: registry.redhat.io/openshift-logging/logging-loki-rhel9@sha256:8a90c2864adbb4b937639d8742dd534bbecb1003e571a51761b0a37cf6c75a16
+  name: logging-loki-rhel9
+- image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:34e7fcd27a0bf925942e197c37d5b7d95fd26ad5a793ab262525ecc3812cb52c
   name: ''
-- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:e1f85fc26b815d55f2aec9d14159c9e8912ec2aeb8af47ee96acc15974b587a1
+- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:c13aff275e3c8e922a8d15edc6226ab912234f6de700b696f4234f8c9563d34a
   name: loki-rhel9-operator
-- image: registry.redhat.io/openshift-logging/lokistack-gateway-rhel9@sha256:ffc2648629583b417c9a1ebcf758ddbac49fa79abe95e401ec6e5a22e8f8caeb
+- image: registry.redhat.io/openshift-logging/lokistack-gateway-rhel9@sha256:568ebd29baa2b7bbf295a415a54312a7281e73199ab237cbdf2846a4b6e7cb3a
   name: lokistack-gateway-rhel9
-- image: registry.redhat.io/openshift-logging/opa-openshift-rhel9@sha256:d646e74a3635cd03b9ccdc3e3f0e55fb5483ffe1f340903313de3e075a48e1cb
+- image: registry.redhat.io/openshift-logging/opa-openshift-rhel9@sha256:80e4a360c4c2e2fc5ea58450493e6bc0f2a148f21320af774787d13c0b047b6f
   name: opa-openshift-rhel9
 schema: olm.bundle
