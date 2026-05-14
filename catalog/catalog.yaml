@@ -67,6 +67,8 @@ entries:
   skipRange: '>=4.9.0 <4.18.0-202604141055'
 - name: nfd.4.18.0-202604232011
   skipRange: '>=4.9.0 <4.18.0-202604232011'
+- name: nfd.4.18.0-202605111720
+  skipRange: '>=4.9.0 <4.18.0-202605111720'
   skips:
   - nfd.4.18.0-202408260942
   - nfd.4.18.0-202409111838
@@ -111,6 +113,7 @@ entries:
   - nfd.4.18.0-202603181756
   - nfd.4.18.0-202603262350
   - nfd.4.18.0-202604141055
+  - nfd.4.18.0-202604232011
 name: stable
 package: nfd
 schema: olm.channel
@@ -5135,6 +5138,169 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:8b1a0b042847441bccd03c41b92904f5a42c5ba139ba68d561c594c761ede4bc
   name: ose-cluster-nfd-rhel9-operator
 - image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:1bbe8530fecd542d90caf5e4bb6eb5bd67ad90ea1f3b80e67f59f92320ab6c58
+  name: ose-node-feature-discovery-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:e8cde3f75799094bd265cdf56697483c2bf4bcfb76eb3b008c9effe350d9ad78
+name: nfd.4.18.0-202605111720
+package: nfd
+properties:
+- type: olm.gvk
+  value:
+    group: nfd.openshift.io
+    kind: NodeFeature
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: nfd.openshift.io
+    kind: NodeFeatureDiscovery
+    version: v1
+- type: olm.gvk
+  value:
+    group: nfd.openshift.io
+    kind: NodeFeatureGroup
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: nfd.openshift.io
+    kind: NodeFeatureRule
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: nfd
+    version: 4.18.0-202605111720
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1\",\n    \"kind\": \"NodeFeatureDiscovery\",\n    \"metadata\": {\n      \"name\": \"nfd-instance\",\n      \"namespace\": \"openshift-nfd\"\n    },\n    \"spec\": {\n      \"customConfig\": {\n        \"configData\": \"#    - name: \\\"more.kernel.features\\\"\\n#      matchOn:\\n#      - loadedKMod: [\\\"example_kmod3\\\"]\\n#    - name: \\\"more.features.by.nodename\\\"\\n#      value: customValue\\n#      matchOn:\\n#      - nodename: [\\\"special-.*-node-.*\\\"]\\n\"\n      },\n      \"operand\": {\n        \"imagePullPolicy\": \"IfNotPresent\",\n        \"servicePort\": 12000\n      },\n      \"workerConfig\": {\n        \"configData\": \"core:\\n#  labelWhiteList:\\n#  noPublish: false\\n  sleepInterval: 60s\\n#  sources: [all]\\n#  klog:\\n#    addDirHeader: false\\n#    alsologtostderr: false\\n#    logBacktraceAt:\\n#    logtostderr: true\\n#    skipHeaders: false\\n#    stderrthreshold: 2\\n#    v: 0\\n#    vmodule:\\n##   NOTE: the following options are not dynamically run-time \\n##          configurable and require a nfd-worker restart to take effect\\n##          after being changed\\n#    logDir:\\n#    logFile:\\n#    logFileMaxSize: 1800\\n#    skipLogHeaders: false\\nsources:\\n#  cpu:\\n#    cpuid:\\n##     NOTE: whitelist has priority over blacklist\\n#      attributeBlacklist:\\n#        - \\\"BMI1\\\"\\n#        - \\\"BMI2\\\"\\n#        - \\\"CLMUL\\\"\\n#        - \\\"CMOV\\\"\\n#        - \\\"CX16\\\"\\n#        - \\\"ERMS\\\"\\n#        - \\\"F16C\\\"\\n#        - \\\"HTT\\\"\\n#        - \\\"LZCNT\\\"\\n#        - \\\"MMX\\\"\\n#        - \\\"MMXEXT\\\"\\n#        - \\\"NX\\\"\\n#        - \\\"POPCNT\\\"\\n#        - \\\"RDRAND\\\"\\n#        - \\\"RDSEED\\\"\\n#        - \\\"RDTSCP\\\"\\n#        - \\\"SGX\\\"\\n#        - \\\"SSE\\\"\\n#        - \\\"SSE2\\\"\\n#        - \\\"SSE3\\\"\\n#        - \\\"SSE4.1\\\"\\n#        - \\\"SSE4.2\\\"\\n#        - \\\"SSSE3\\\"\\n#      attributeWhitelist:\\n#  kernel:\\n#    kconfigFile: \\\"/path/to/kconfig\\\"\\n#    configOpts:\\n#      - \\\"NO_HZ\\\"\\n#      - \\\"X86\\\"\\n#      - \\\"DMI\\\"\\n  pci:\\n    deviceClassWhitelist:\\n      - \\\"0200\\\"\\n      - \\\"03\\\"\\n      - \\\"12\\\"\\n    deviceLabelFields:\\n#      - \\\"class\\\"\\n      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#      - \\\"subsystem_vendor\\\"\\n#      - \\\"subsystem_device\\\"\\n#  usb:\\n#    deviceClassWhitelist:\\n#      - \\\"0e\\\"\\n#      - \\\"ef\\\"\\n#      - \\\"fe\\\"\\n#      - \\\"ff\\\"\\n#    deviceLabelFields:\\n#      - \\\"class\\\"\\n#      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#  custom:\\n#    - name: \\\"my.kernel.feature\\\"\\n#      matchOn:\\n#        - loadedKMod: [\\\"example_kmod1\\\", \\\"example_kmod2\\\"]\\n#    - name: \\\"my.pci.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            class: [\\\"0200\\\"]\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#        - pciId :\\n#            vendor: [\\\"8086\\\"]\\n#            device: [\\\"1000\\\", \\\"1100\\\"]\\n#    - name: \\\"my.usb.feature\\\"\\n#      matchOn:\\n#        - usbId:\\n#          class: [\\\"ff\\\"]\\n#          vendor: [\\\"03e7\\\"]\\n#          device: [\\\"2485\\\"]\\n#        - usbId:\\n#          class: [\\\"fe\\\"]\\n#          vendor: [\\\"1a6e\\\"]\\n#          device: [\\\"089a\\\"]\\n#    - name: \\\"my.combined.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#          loadedKMod : [\\\"vendor_kmod1\\\", \\\"vendor_kmod2\\\"]\\n\"\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1alpha1\",\n    \"kind\": \"NodeFeatureRule\",\n    \"metadata\": {\n      \"name\": \"my-sample-rule-object\"\n    },\n    \"spec\": {\n      \"rules\": [\n        {\n          \"labels\": {\n            \"my-sample-feature\": \"true\"\n          },\n          \"matchFeatures\": [\n            {\n              \"feature\": \"kernel.loadedmodule\",\n              \"matchExpressions\": {\n                \"dummy\": {\n                  \"op\": \"Exists\"\n                }\n              }\n            },\n            {\n              \"feature\": \"kernel.config\",\n              \"matchExpressions\": {\n                \"X86\": {\n                  \"op\": \"In\",\n                  \"value\": [\n                    \"y\"\n                  ]\n                }\n              }\n            }\n          ],\n          \"name\": \"my sample rule\"\n        }\n      ]\n    }\n  }\n]"
+      capabilities: Deep Insights
+      categories: Integration & Delivery,OpenShift Optional
+      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:a5a40e03f94badef62e1798abf96da052e74610a3d9c6efaf7ffb6d35d7181c4
+      createdAt: '2025-04-23T07:03:43Z'
+      description: 'The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.
+
+
+        NFD consists  of the following software components:
+
+
+        The NFD Operator is based on the Operator Framework an open source toolkit to manage Kubernetes native applications, called Operators, in an effective, automated, and scalable way.
+
+
+        ##NFD-Master
+
+        NFD-Master is the daemon responsible for communication towards the Kubernetes API. That is, it receives labeling requests from the worker and modifies node objects accordingly.
+
+
+        ##NFD-Worker
+
+        NFD-Worker is a daemon responsible for feature detection. It then communicates the information to nfd-master which does the actual node labeling. One instance of nfd-worker is supposed to be running on each node of the cluster.
+
+
+        ##NFD-Topology-Updater
+
+        NFD-Topology-Updater is a daemon responsible for examining allocated resources on a worker node to account for resources available to be allocated to new pod on a per-zone basis (where a zone can be a NUMA node). It then communicates the information to nfd-master which does the NodeResourceTopology CR creation corresponding to all the nodes in the cluster. One instance of nfd-topology-updater is supposed to be running on each node of the cluster.'
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.9.0 <4.18.0-202605111720'
+      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/suggested-namespace: openshift-nfd
+      operators.openshift.io/infrastructure-features: '["disconnected"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.32.0
+      operators.operatorframework.io/internal-objects: '["noderesourcetopologies.topology.node.k8s.io"]'
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      provider: Red Hat
+      repository: https://github.com/openshift/cluster-nfd-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: 'The NodeFeatureDiscovery instance is the CustomResource being watched by the NFD-Operator, and holds all the needed information to setup the behaviour of the master and worker pods
+
+          '
+        kind: NodeFeatureDiscovery
+        name: nodefeaturediscoveries.nfd.openshift.io
+        version: v1
+      - kind: NodeFeatureGroup
+        name: nodefeaturegroups.nfd.openshift.io
+        version: v1alpha1
+      - description: 'NodeFeatureRule resource specifies a configuration for feature-based customization of node objects, such as node labeling.
+
+          '
+        kind: NodeFeatureRule
+        name: nodefeaturerules.nfd.openshift.io
+        version: v1alpha1
+      - kind: NodeFeature
+        name: nodefeatures.nfd.openshift.io
+        version: v1alpha1
+    description: 'The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.
+
+
+      NFD consists  of the following software components:
+
+
+      The NFD Operator is based on the Operator Framework an open source toolkit to manage Kubernetes native applications, called Operators, in an effective, automated, and scalable way.
+
+
+      ##NFD-Master
+
+      NFD-Master is the daemon responsible for communication towards the Kubernetes API. That is, it receives labeling requests from the worker and modifies node objects accordingly.
+
+
+      ##NFD-Worker
+
+      NFD-Worker is a daemon responsible for feature detection. It then communicates the information to nfd-master which does the actual node labeling. One instance of nfd-worker is supposed to be running on each node of the cluster.
+
+
+      ##NFD-Topology-Updater
+
+      NFD-Topology-Updater is a daemon responsible for examining allocated resources on a worker node to account for resources available to be allocated to new pod on a per-zone basis (where a zone can be a NUMA node). It then communicates the information to nfd-master which does the NodeResourceTopology CR creation corresponding to all the nodes in the cluster. One instance of nfd-topology-updater is supposed to be running on each node of the cluster.'
+    displayName: Node Feature Discovery Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - feature-discovery
+    - feature-detection
+    - node-labels
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+    links:
+    - name: Node Feature Discovery Operator
+      url: https://docs.openshift.com/container-platform/4.18/hardware_enablement/psap-node-feature-discovery-operator.html
+    - name: Node Feature Discovery Documentation
+      url: https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/index.html
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat Support
+    maturity: stable
+    minKubeVersion: 1.22.0
+    provider:
+      name: Red Hat
+      url: https://github.com/openshift/cluster-nfd-operator
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:e8cde3f75799094bd265cdf56697483c2bf4bcfb76eb3b008c9effe350d9ad78
+  name: ''
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:a5a40e03f94badef62e1798abf96da052e74610a3d9c6efaf7ffb6d35d7181c4
+  name: ose-cluster-nfd-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:83bf2ab8731dbe4445a26e2bb39eaac53b0420cdc9e818f4abc3f7fa1d731f06
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
 ---
@@ -19781,6 +19947,8 @@ entries:
   skipRange: '>=4.3.0 <4.18.0-202604151619'
 - name: kubernetes-nmstate-operator.4.18.0-202604291011
   skipRange: '>=4.3.0 <4.18.0-202604291011'
+- name: kubernetes-nmstate-operator.4.18.0-202605120831
+  skipRange: '>=4.3.0 <4.18.0-202605120831'
   skips:
   - kubernetes-nmstate-operator.4.18.0-202408260942
   - kubernetes-nmstate-operator.4.18.0-202409161210
@@ -19848,6 +20016,7 @@ entries:
   - kubernetes-nmstate-operator.4.18.0-202603181756
   - kubernetes-nmstate-operator.4.18.0-202604010844
   - kubernetes-nmstate-operator.4.18.0-202604151619
+  - kubernetes-nmstate-operator.4.18.0-202604291011
 name: stable
 package: kubernetes-nmstate-operator
 schema: olm.channel
@@ -23177,6 +23346,101 @@ relatedImages:
   name: ose-kubernetes-nmstate-handler-rhel9
 schema: olm.bundle
 ---
+image: registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:c75c3d6956c90a35a877f7c2d301ac3fc09d748b8c04cdb0de02558bcbf83e7a
+name: kubernetes-nmstate-operator.4.18.0-202605120831
+package: kubernetes-nmstate-operator
+properties:
+- type: olm.gvk
+  value:
+    group: nmstate.io
+    kind: NMState
+    version: v1
+- type: olm.gvk
+  value:
+    group: nmstate.io
+    kind: NMState
+    version: v1beta1
+- type: olm.package
+  value:
+    packageName: kubernetes-nmstate-operator
+    version: 4.18.0-202605120831
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"nmstate.io/v1\",\n    \"kind\": \"NMState\",\n    \"metadata\": {\n      \"name\": \"nmstate\"\n    },\n    \"spec\": {}\n  }\n]"
+      capabilities: Basic Install
+      categories: OpenShift Optional
+      certified: 'false'
+      containerImage: registry.redhat.io/openshift4/kubernetes-nmstate-rhel9-operator@sha256:64d921e17ac1fefe7c16f2846eb643abe38e1c5a6f058afedf3873b31f7db79d
+      createdAt: '2022-02-21 08:46:16'
+      description: 'Kubernetes NMState is a declaritive means of configuring NetworkManager.
+
+        '
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.3.0 <4.18.0-202605120831'
+      operatorframework.io/suggested-namespace: openshift-nmstate
+      operators.openshift.io/infrastructure-features: '["disconnected"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.22.2
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: https://github.com/openshift/kubernetes-nmstate
+      support: Red Hat, Inc.
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents an NMState deployment.
+        displayName: NMState
+        kind: NMState
+        name: nmstates.nmstate.io
+        version: v1
+    description: A Kubernetes Operator to install Kubernetes NMState
+    displayName: Kubernetes NMState Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - nmstate
+    - networking
+    - NetworkManager
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+    links:
+    - name: Kubernetes Nmstate Operator
+      url: https://github.com/nmstate/kubernetes-nmstate
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat
+    maturity: GA
+    provider:
+      name: Red Hat, Inc.
+relatedImages:
+- image: registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:c75c3d6956c90a35a877f7c2d301ac3fc09d748b8c04cdb0de02558bcbf83e7a
+  name: ''
+- image: registry.redhat.io/openshift4/kubernetes-nmstate-rhel9-operator@sha256:64d921e17ac1fefe7c16f2846eb643abe38e1c5a6f058afedf3873b31f7db79d
+  name: kubernetes-nmstate-rhel9-operator
+- image: registry.redhat.io/openshift4/nmstate-console-plugin-rhel9@sha256:48a07c5662e2b326db56177e6e7e009ab3b0a8ca47a71ee665728a697c774fe5
+  name: nmstate-console-plugin-rhel9
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:844813172da1d38e6002cbaf48529d071bb71063b1ea3941260591d9d02853ec
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-kubernetes-nmstate-handler-rhel9@sha256:84391a2b245e76012a5919cff966ed28cbeefb970648215930ca82fade5151d6
+  name: ose-kubernetes-nmstate-handler-rhel9
+schema: olm.bundle
+---
 defaultChannel: stable
 icon:
   base64data: PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTQ1Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2UwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJlZEhhdC1Mb2dvLUhhdC1Db2xvcjwvdGl0bGU+PHBhdGggZD0iTTE1Ny43Nyw2Mi42MWExNCwxNCwwLDAsMSwuMzEsMy40MmMwLDE0Ljg4LTE4LjEsMTcuNDYtMzAuNjEsMTcuNDZDNzguODMsODMuNDksNDIuNTMsNTMuMjYsNDIuNTMsNDRhNi40Myw2LjQzLDAsMCwxLC4yMi0xLjk0bC0zLjY2LDkuMDZhMTguNDUsMTguNDUsMCwwLDAtMS41MSw3LjMzYzAsMTguMTEsNDEsNDUuNDgsODcuNzQsNDUuNDgsMjAuNjksMCwzNi40My03Ljc2LDM2LjQzLTIxLjc3LDAtMS4wOCwwLTEuOTQtMS43My0xMC4xM1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMjcuNDcsODMuNDljMTIuNTEsMCwzMC42MS0yLjU4LDMwLjYxLTE3LjQ2YTE0LDE0LDAsMCwwLS4zMS0zLjQybC03LjQ1LTMyLjM2Yy0xLjcyLTcuMTItMy4yMy0xMC4zNS0xNS43My0xNi42QzEyNC44OSw4LjY5LDEwMy43Ni41LDk3LjUxLjUsOTEuNjkuNSw5MCw4LDgzLjA2LDhjLTYuNjgsMC0xMS42NC01LjYtMTcuODktNS42LTYsMC05LjkxLDQuMDktMTIuOTMsMTIuNSwwLDAtOC40MSwyMy43Mi05LjQ5LDI3LjE2QTYuNDMsNi40MywwLDAsMCw0Mi41Myw0NGMwLDkuMjIsMzYuMywzOS40NSw4NC45NCwzOS40NU0xNjAsNzIuMDdjMS43Myw4LjE5LDEuNzMsOS4wNSwxLjczLDEwLjEzLDAsMTQtMTUuNzQsMjEuNzctMzYuNDMsMjEuNzdDNzguNTQsMTA0LDM3LjU4LDc2LjYsMzcuNTgsNTguNDlhMTguNDUsMTguNDUsMCwwLDEsMS41MS03LjMzQzIyLjI3LDUyLC41LDU1LC41LDc0LjIyYzAsMzEuNDgsNzQuNTksNzAuMjgsMTMzLjY1LDcwLjI4LDQ1LjI4LDAsNTYuNy0yMC40OCw1Ni43LTM2LjY1LDAtMTIuNzItMTEtMjcuMTYtMzAuODMtMzUuNzgiLz48L3N2Zz4=
@@ -23253,6 +23517,8 @@ entries:
   skipRange: '>=4.9.0-0 <4.18.0-202604141055'
 - name: aws-efs-csi-driver-operator.v4.18.0-202604281142
   skipRange: '>=4.9.0-0 <4.18.0-202604281142'
+- name: aws-efs-csi-driver-operator.v4.18.0-202605112259
+  skipRange: '>=4.9.0-0 <4.18.0-202605112259'
   skips:
   - aws-efs-csi-driver-operator.v4.18.0-202408260942
   - aws-efs-csi-driver-operator.v4.18.0-202409130009
@@ -23328,6 +23594,7 @@ entries:
   - aws-efs-csi-driver-operator.v4.18.0-202603181756
   - aws-efs-csi-driver-operator.v4.18.0-202604010244
   - aws-efs-csi-driver-operator.v4.18.0-202604141055
+  - aws-efs-csi-driver-operator.v4.18.0-202604281142
 name: stable
 package: aws-efs-csi-driver-operator
 schema: olm.channel
@@ -26562,6 +26829,101 @@ relatedImages:
   name: ose-tools-rhel9
 schema: olm.bundle
 ---
+image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:ba5c91f7a8623c2d02f9fdb9ad0e33a945eebbf07e9c1e6ff13f602beffc503d
+name: aws-efs-csi-driver-operator.v4.18.0-202605112259
+package: aws-efs-csi-driver-operator
+properties:
+- type: olm.package
+  value:
+    packageName: aws-efs-csi-driver-operator
+    version: 4.18.0-202605112259
+- type: olm.csv.metadata
+  value:
+    annotations:
+      capabilities: Full Lifecycle
+      categories: Storage
+      containerImage: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-rhel9-operator@sha256:96929edac8c0a36e438b7eb88f8833e23376d7eb41546129f0c180f084e0f108
+      createdAt: '2021-07-14T00:00:00Z'
+      description: Install and configure AWS EFS CSI driver.
+      features.operators.openshift.io/csi: 'true'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'true'
+      features.operators.openshift.io/token-auth-aws: 'true'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.9.0-0 <4.18.0-202605112259'
+      operatorframework.io/suggested-namespace: openshift-cluster-csi-drivers
+      operators.openshift.io/infrastructure-features: '["csi"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/openshift/aws-efs-csi-driver-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions: {}
+    description: 'AWS EFS CSI Driver Operator provides AWS Elastic File Service (EFS) CSI Driver that enables you to create and mount AWS EFS PersistentVolumes.
+
+
+      Please follow [AWS EFS CSI Driver Operator documentation](https://docs.openshift.com/container-platform/4.18/storage/container_storage_interface/persistent-storage-csi-aws-efs.html) to:
+
+
+      1. [Install the operator](https://docs.openshift.com/container-platform/4.18/storage/container_storage_interface/persistent-storage-csi-aws-efs.html#persistent-storage-csi-olm-operator-install_persistent-storage-csi-aws-efs). This section also covers details about configuring an AWS role in OCP cluster that uses Secure Token Services (STS).
+
+
+      2. [Install the AWS EFS CSI driver using the operator](https://docs.openshift.com/container-platform/4.18/storage/container_storage_interface/persistent-storage-csi-aws-efs.html#persistent-storage-csi-efs-driver-install_persistent-storage-csi-aws-efs)
+
+
+      3. Finally, [create a StorageClass](https://docs.openshift.com/container-platform/4.18/storage/container_storage_interface/persistent-storage-csi-aws-efs.html#storage-create-storage-class_persistent-storage-csi-aws-efs) that enables dynamic provisioning of PersistentVolumes.
+
+      '
+    displayName: AWS EFS CSI Driver Operator
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - storage
+    - efs
+    labels:
+      operator-metering: 'true'
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+    links:
+    - name: Documentation
+      url: https://github.com/openshift/aws-efs-csi-driver-operator
+    - name: Source Repository
+      url: https://github.com/openshift/aws-efs-csi-driver-operator
+    maintainers:
+    - email: aos-storage-staff@redhat.com
+      name: Red Hat
+    maturity: stable
+    minKubeVersion: 1.21.0
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-container-rhel9@sha256:7ccd66b82c262faf14169695f14a5605825fef48de5c21fc761d7b53cdf8a9e2
+  name: ose-aws-efs-csi-driver-container-rhel9
+- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:ba5c91f7a8623c2d02f9fdb9ad0e33a945eebbf07e9c1e6ff13f602beffc503d
+  name: ''
+- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-rhel9-operator@sha256:96929edac8c0a36e438b7eb88f8833e23376d7eb41546129f0c180f084e0f108
+  name: ose-aws-efs-csi-driver-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:d7fbf36f873e4653e1368802efef162d7683e69b0f5cb38573cc1a92ee5e09ed
+  name: ose-csi-external-provisioner-rhel9
+- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:2eb7295b92041faba3c2c886e36ba08d2e726157a73f2d9a175576ee573f5790
+  name: ose-csi-livenessprobe-rhel9
+- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:eb109d029a927388cc0b546025b9e93d22ca7bc77ee8a8324e2617327482ca36
+  name: ose-csi-node-driver-registrar-rhel9
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:844813172da1d38e6002cbaf48529d071bb71063b1ea3941260591d9d02853ec
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-tools-rhel9@sha256:377f1f9aff9c38c30becdb66a7d9e9e4e7d3183744c8af7cebcfdd49c5ef8bd9
+  name: ose-tools-rhel9
+schema: olm.bundle
+---
 defaultChannel: stable
 icon:
   base64data: PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTQ1Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2UwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJlZEhhdC1Mb2dvLUhhdC1Db2xvcjwvdGl0bGU+PHBhdGggZD0iTTE1Ny43Nyw2Mi42MWExNCwxNCwwLDAsMSwuMzEsMy40MmMwLDE0Ljg4LTE4LjEsMTcuNDYtMzAuNjEsMTcuNDZDNzguODMsODMuNDksNDIuNTMsNTMuMjYsNDIuNTMsNDRhNi40Myw2LjQzLDAsMCwxLC4yMi0xLjk0bC0zLjY2LDkuMDZhMTguNDUsMTguNDUsMCwwLDAtMS41MSw3LjMzYzAsMTguMTEsNDEsNDUuNDgsODcuNzQsNDUuNDgsMjAuNjksMCwzNi40My03Ljc2LDM2LjQzLTIxLjc3LDAtMS4wOCwwLTEuOTQtMS43My0xMC4xM1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMjcuNDcsODMuNDljMTIuNTEsMCwzMC42MS0yLjU4LDMwLjYxLTE3LjQ2YTE0LDE0LDAsMCwwLS4zMS0zLjQybC03LjQ1LTMyLjM2Yy0xLjcyLTcuMTItMy4yMy0xMC4zNS0xNS43My0xNi42QzEyNC44OSw4LjY5LDEwMy43Ni41LDk3LjUxLjUsOTEuNjkuNSw5MCw4LDgzLjA2LDhjLTYuNjgsMC0xMS42NC01LjYtMTcuODktNS42LTYsMC05LjkxLDQuMDktMTIuOTMsMTIuNSwwLDAtOC40MSwyMy43Mi05LjQ5LDI3LjE2QTYuNDMsNi40MywwLDAsMCw0Mi41Myw0NGMwLDkuMjIsMzYuMywzOS40NSw4NC45NCwzOS40NU0xNjAsNzIuMDdjMS43Myw4LjE5LDEuNzMsOS4wNSwxLjczLDEwLjEzLDAsMTQtMTUuNzQsMjEuNzctMzYuNDMsMjEuNzdDNzguNTQsMTA0LDM3LjU4LDc2LjYsMzcuNTgsNTguNDlhMTguNDUsMTguNDUsMCwwLDEsMS41MS03LjMzQzIyLjI3LDUyLC41LDU1LC41LDc0LjIyYzAsMzEuNDgsNzQuNTksNzAuMjgsMTMzLjY1LDcwLjI4LDQ1LjI4LDAsNTYuNy0yMC40OCw1Ni43LTM2LjY1LDAtMTIuNzItMTEtMjcuMTYtMzAuODMtMzUuNzgiLz48L3N2Zz4=
@@ -29210,6 +29572,8 @@ entries:
   skipRange: '>=4.8.0 <4.18.0'
 - name: metallb-operator.v4.18.0-202604232011
   skipRange: '>=4.8.0 <4.18.0'
+- name: metallb-operator.v4.18.0-202605061103
+  skipRange: '>=4.8.0 <4.18.0'
   skips:
   - metallb-operator.v4.18.0-202408260942
   - metallb-operator.v4.18.0-202409121341
@@ -29262,6 +29626,7 @@ entries:
   - metallb-operator.v4.18.0-202603181756
   - metallb-operator.v4.18.0-202603262350
   - metallb-operator.v4.18.0-202604141055
+  - metallb-operator.v4.18.0-202604232011
 name: stable
 package: metallb-operator
 schema: olm.channel
@@ -34930,6 +35295,183 @@ relatedImages:
   name: ''
 schema: olm.bundle
 ---
+image: registry.redhat.io/openshift4/ose-metallb-operator-bundle@sha256:0d6cdeccc7adcc2de20f2a3aa1fea846dcfc79b801e71b7bd4798b2a9aed28ba
+name: metallb-operator.v4.18.0-202605061103
+package: metallb-operator
+properties:
+- type: olm.gvk
+  value:
+    group: frrk8s.metallb.io
+    kind: FRRConfiguration
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: frrk8s.metallb.io
+    kind: FRRNodeState
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: BFDProfile
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: BGPAdvertisement
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: BGPPeer
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: BGPPeer
+    version: v1beta2
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: Community
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: IPAddressPool
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: L2Advertisement
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: MetalLB
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: metallb.io
+    kind: ServiceL2Status
+    version: v1beta1
+- type: olm.package
+  value:
+    packageName: metallb-operator
+    version: 4.18.0-202605061103
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"frrk8s.metallb.io/v1beta1\",\n    \"kind\": \"FRRConfiguration\",\n    \"metadata\": {\n      \"name\": \"basic\",\n      \"namespace\": \"frr-k8s-system\"\n    },\n    \"spec\": {\n      \"bgp\": {\n        \"routers\": [\n          {\n            \"asn\": 64512,\n            \"neighbors\": [\n              {\n                \"address\": \"172.30.0.3\",\n                \"asn\": 64512,\n                \"port\": 180,\n                \"toAdvertise\": {\n                  \"allowed\": {\n                    \"mode\": \"all\"\n                  }\n                },\n                \"toReceive\": {\n                  \"allowed\": {\n                    \"mode\": \"all\"\n                  }\n                }\n              }\n            ]\n          }\n        ]\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"frrk8s.metallb.io/v1beta1\",\n    \"kind\": \"FRRConfiguration\",\n    \"metadata\": {\n      \"name\": \"two-neighs\",\n      \"namespace\": \"frr-k8s-system\"\n    },\n    \"spec\": {\n      \"bgp\": {\n        \"routers\": [\n          {\n            \"asn\": 64512,\n            \"neighbors\": [\n              {\n                \"address\": \"172.30.0.3\",\n                \"asn\": 4200000000,\n                \"ebgpMultiHop\": true,\n                \"port\": 180,\n                \"toAdvertise\": {\n                  \"allowed\": {\n                    \"mode\": \"all\"\n                  }\n                }\n              },\n              {\n                \"address\": \"172.18.0.6\",\n                \"asn\": 4200000000,\n                \"port\": 179,\n                \"toAdvertise\": {\n                  \"allowed\": {\n                    \"prefixes\": [\n                      \"192.168.2.0/24\"\n                    ]\n                  }\n                }\n              }\n            ],\n            \"prefixes\": [\n              \"192.168.2.0/24\",\n              \"192.169.2.0/24\"\n            ]\n          }\n        ]\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"frrk8s.metallb.io/v1beta1\",\n    \"kind\": \"FRRConfiguration\",\n    \"metadata\": {\n      \"name\": \"two-routers-vrf\",\n      \"namespace\": \"frr-k8s-system\"\n    },\n    \"spec\": {\n      \"bgp\": {\n        \"routers\": [\n          {\n            \"asn\": 64513,\n            \"neighbors\": [\n              {\n                \"address\": \"172.32.0.3\",\n                \"asn\": 4200000000,\n                \"ebgpMultiHop\": true,\n                \"port\": 180,\n                \"toAdvertise\": {\n                  \"allowed\": {\n                    \"mode\": \"all\"\n                  }\n                }\n              }\n            ],\n            \"prefixes\": [\n              \"192.168.2.0/24\",\n              \"192.169.2.0/24\"\n            ]\n          },\n          {\n            \"asn\": 64515,\n            \"neighbors\": [\n              {\n                \"address\": \"172.31.0.3\",\n                \"asn\": 4200000000,\n                \"port\": 179,\n                \"toAdvertise\": {\n                  \"allowed\": {\n                    \"mode\": \"all\"\n                  }\n                }\n              }\n            ],\n            \"prefixes\": [\n              \"192.168.2.0/24\",\n              \"192.169.2.0/24\"\n            ],\n            \"vrf\": \"red\"\n          }\n        ]\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"frrk8s.metallb.io/v1beta1\",\n    \"kind\": \"FRRNodeState\",\n    \"metadata\": {\n      \"name\": \"frr-k8s-worker\"\n    },\n    \"status\": {\n      \"lastConversionResult\": \"success\",\n      \"lastReloadResult\": \"success\",\n      \"runningConfig\": \"Building configuration...\\n\\nCurrent configuration:\\n!\\nfrr version 9.0.2_git\\nfrr defaults traditional\\nhostname frr-k8s-worker\\nlog file /etc/frr/frr.log informational\\nlog timestamp precision 3\\nno ipv6 forwarding\\nservice integrated-vtysh-config\\n!\\nip nht resolve-via-default\\n!\\nipv6 nht resolve-via-default\\n!\\nend\\n\"\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BFDProfile\",\n    \"metadata\": {\n      \"name\": \"bfd-profile-sample\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"receiveInterval\": 380,\n      \"transmitInterval\": 270\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BGPAdvertisement\",\n    \"metadata\": {\n      \"name\": \"bgp-adv-sample1\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"ipAddressPools\": [\n        \"ip-addresspool-sample1\"\n      ],\n      \"peers\": [\n        \"ebgp-single-hop0\"\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BGPAdvertisement\",\n    \"metadata\": {\n      \"name\": \"bgp-adv-sample2\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"ipAddressPoolSelectors\": [\n        {\n          \"matchLabels\": {\n            \"test\": \"ipv6\"\n          }\n        },\n        {\n          \"matchLabels\": {\n            \"test\": \"ipv4\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BGPAdvertisement\",\n    \"metadata\": {\n      \"name\": \"bgp-adv-sample3\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"aggregationLength\": 32,\n      \"aggregationLengthV6\": 128,\n      \"communities\": [\n        \"65535:65282\"\n      ],\n      \"ipAddressPools\": [\n        \"ip-addresspool-sample1\"\n      ],\n      \"localPref\": 50\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BGPAdvertisement\",\n    \"metadata\": {\n      \"name\": \"bgp-adv-sample4\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"aggregationLength\": 32,\n      \"aggregationLengthV6\": 128,\n      \"communities\": [\n        \"NO_ADVERTISE\"\n      ],\n      \"ipAddressPools\": [\n        \"ip-addresspool-sample1\"\n      ],\n      \"localPref\": 50\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BGPAdvertisement\",\n    \"metadata\": {\n      \"name\": \"bgp-adv-sample5\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"aggregationLength\": 32,\n      \"aggregationLengthV6\": 128,\n      \"ipAddressPools\": [\n        \"ip-addresspool-sample1\"\n      ],\n      \"nodeSelectors\": [\n        {\n          \"matchLabels\": {\n            \"kubernetes.io/hostname\": \"kind-control-plane\"\n          }\n        },\n        {\n          \"matchLabels\": {\n            \"kubernetes.io/hostname\": \"kind-worker\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"BGPPeer\",\n    \"metadata\": {\n      \"name\": \"bgp-peer-beta1\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"myASN\": 64512,\n      \"peerASN\": 64512,\n      \"peerAddress\": \"172.30.0.3\"\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"Community\",\n    \"metadata\": {\n      \"name\": \"community1\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"communities\": [\n        {\n          \"name\": \"NO_ADVERTISE\",\n          \"value\": \"65535:65282\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"IPAddressPool\",\n    \"metadata\": {\n      \"name\": \"ip-addresspool-sample1\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"addresses\": [\n        \"192.168.10.0/24\",\n        \"192.168.9.1-192.168.9.5\",\n        \"fc00:f853:0ccd:e799::/124\"\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"IPAddressPool\",\n    \"metadata\": {\n      \"labels\": {\n        \"test\": \"ipv4\"\n      },\n      \"name\": \"ip-addresspool-sample2\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"addresses\": [\n        \"172.20.0.100/24\"\n      ],\n      \"autoAssign\": false\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"IPAddressPool\",\n    \"metadata\": {\n      \"labels\": {\n        \"test\": \"ipv6\"\n      },\n      \"name\": \"ip-addresspool-sample3\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"addresses\": [\n        \"2002:2:2::1-2002:2:2::100\"\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"L2Advertisement\",\n    \"metadata\": {\n      \"name\": \"l2-adv-sample1\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"ipAddressPools\": [\n        \"ip-addresspool-sample1\"\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"L2Advertisement\",\n    \"metadata\": {\n      \"name\": \"l2-adv-sample2\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"nodeSelectors\": [\n        {\n          \"matchLabels\": {\n            \"kubernetes.io/hostname\": \"kind-control-plane\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta1\",\n    \"kind\": \"MetalLB\",\n    \"metadata\": {\n      \"name\": \"metallb\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta2\",\n    \"kind\": \"BGPPeer\",\n    \"metadata\": {\n      \"name\": \"bgp-peer-sample1\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"myASN\": 64512,\n      \"peerASN\": 64512,\n      \"peerAddress\": \"172.30.0.3\"\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta2\",\n    \"kind\": \"BGPPeer\",\n    \"metadata\": {\n      \"name\": \"bgp-peer-sample2\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"bfdProfile\": \"bfd-profile-sample\",\n      \"myASN\": 64512,\n      \"peerASN\": 64512,\n      \"peerAddress\": \"172.30.0.3\"\n    }\n  },\n  {\n    \"apiVersion\": \"metallb.io/v1beta2\",\n    \"kind\": \"BGPPeer\",\n    \"metadata\": {\n      \"name\": \"bgp-peer-sample3\",\n      \"namespace\": \"metallb-system\"\n    },\n    \"spec\": {\n      \"holdTime\": \"9m0s\",\n      \"keepaliveTime\": \"0s\",\n      \"myASN\": 64512,\n      \"passwordSecret\": {\n        \"name\": \"secretname\",\n        \"namespace\": \"metallb-system\"\n      },\n      \"peerASN\": 64512,\n      \"peerAddress\": \"172.30.0.3\",\n      \"peerPort\": 180\n    }\n  }\n]"
+      capabilities: Basic Install
+      categories: Networking
+      certified: 'false'
+      containerImage: registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:f7318ad27c0b64276ef58469ebfd5242e3e24a7d25404aaaf0f344ff55c0a5e3
+      createdAt: '2023-06-06T15:25:00Z'
+      description: An operator for deploying MetalLB on a kubernetes cluster.
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.8.0 <4.18.0'
+      operatorframework.io/suggested-namespace: metallb-system
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.34.1
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+      repository: https://github.com/openshift/metallb-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: BFDProfile is the Schema for the bfdprofiles API
+        kind: BFDProfile
+        name: bfdprofiles.metallb.io
+        version: v1beta1
+      - description: BGPAdvertisement is the Schema for the bgpadvertisements API
+        kind: BGPAdvertisement
+        name: bgpadvertisements.metallb.io
+        version: v1beta1
+      - description: BGPPeer is the Schema for the bgppeers API
+        kind: BGPPeer
+        name: bgppeers.metallb.io
+        version: v1beta1
+      - description: BGPPeer is the Schema for the bgppeers API
+        kind: BGPPeer
+        name: bgppeers.metallb.io
+        version: v1beta2
+      - description: Community is the Schema for the communities API
+        kind: Community
+        name: communities.metallb.io
+        version: v1beta1
+      - description: FRRConfiguration is the Schema for the frrconfigurations API
+        kind: FRRConfiguration
+        name: frrconfigurations.frrk8s.metallb.io
+        version: v1beta1
+      - description: FRRNodeState is the Schema for the frrnodestates API
+        kind: FRRNodeState
+        name: frrnodestates.frrk8s.metallb.io
+        version: v1beta1
+      - description: IPAddressPool is the Schema for the ipaddresspools API
+        kind: IPAddressPool
+        name: ipaddresspools.metallb.io
+        version: v1beta1
+      - description: L2Advertisement is the Schema for the l2advertisements API
+        kind: L2Advertisement
+        name: l2advertisements.metallb.io
+        version: v1beta1
+      - description: MetalLB is the Schema for the metallbs API
+        displayName: MetalLB
+        kind: MetalLB
+        name: metallbs.metallb.io
+        version: v1beta1
+      - description: L2ServiceStatus is the Schema for the l2servicestatus API
+        kind: ServiceL2Status
+        name: servicel2statuses.metallb.io
+        version: v1beta1
+    description: An operator for deploying MetalLB on a kubernetes cluster.
+    displayName: MetalLB Operator
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - metallb-operator
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+    links:
+    - name: MetalLB Operator
+      url: https://github.com/openshift/metallb-operator
+    maintainers:
+    - email: fpaoline@redhat.com
+      name: Federico Paolinelli
+    - email: obraunsh@redhat.com
+      name: Ori Braunshtein
+    maturity: alpha
+    minKubeVersion: 1.26.0
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/frr-rhel9@sha256:e800f60e2b75e65dee8ceaa8162a6ff5370e45902f0c3075db407e82e45946b7
+  name: frr-rhel9
+- image: registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:f7318ad27c0b64276ef58469ebfd5242e3e24a7d25404aaaf0f344ff55c0a5e3
+  name: metallb-rhel9-operator
+- image: registry.redhat.io/openshift4/metallb-rhel9@sha256:2f25081bac85588c3e82afa035d9d812f42dfadeb68ef4063f4286399bac7af8
+  name: metallb-rhel9
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:844813172da1d38e6002cbaf48529d071bb71063b1ea3941260591d9d02853ec
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-metallb-operator-bundle@sha256:0d6cdeccc7adcc2de20f2a3aa1fea846dcfc79b801e71b7bd4798b2a9aed28ba
+  name: ''
+schema: olm.bundle
+---
 defaultChannel: stable
 icon:
   base64data: PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTQ1Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2UwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJlZEhhdC1Mb2dvLUhhdC1Db2xvcjwvdGl0bGU+PHBhdGggZD0iTTE1Ny43Nyw2Mi42MWExNCwxNCwwLDAsMSwuMzEsMy40MmMwLDE0Ljg4LTE4LjEsMTcuNDYtMzAuNjEsMTcuNDZDNzguODMsODMuNDksNDIuNTMsNTMuMjYsNDIuNTMsNDRhNi40Myw2LjQzLDAsMCwxLC4yMi0xLjk0bC0zLjY2LDkuMDZhMTguNDUsMTguNDUsMCwwLDAtMS41MSw3LjMzYzAsMTguMTEsNDEsNDUuNDgsODcuNzQsNDUuNDgsMjAuNjksMCwzNi40My03Ljc2LDM2LjQzLTIxLjc3LDAtMS4wOCwwLTEuOTQtMS43My0xMC4xM1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMjcuNDcsODMuNDljMTIuNTEsMCwzMC42MS0yLjU4LDMwLjYxLTE3LjQ2YTE0LDE0LDAsMCwwLS4zMS0zLjQybC03LjQ1LTMyLjM2Yy0xLjcyLTcuMTItMy4yMy0xMC4zNS0xNS43My0xNi42QzEyNC44OSw4LjY5LDEwMy43Ni41LDk3LjUxLjUsOTEuNjkuNSw5MCw4LDgzLjA2LDhjLTYuNjgsMC0xMS42NC01LjYtMTcuODktNS42LTYsMC05LjkxLDQuMDktMTIuOTMsMTIuNSwwLDAtOC40MSwyMy43Mi05LjQ5LDI3LjE2QTYuNDMsNi40MywwLDAsMCw0Mi41Myw0NGMwLDkuMjIsMzYuMywzOS40NSw4NC45NCwzOS40NU0xNjAsNzIuMDdjMS43Myw4LjE5LDEuNzMsOS4wNSwxLjczLDEwLjEzLDAsMTQtMTUuNzQsMjEuNzctMzYuNDMsMjEuNzdDNzguNTQsMTA0LDM3LjU4LDc2LjYsMzcuNTgsNTguNDlhMTguNDUsMTguNDUsMCwwLDEsMS41MS03LjMzQzIyLjI3LDUyLC41LDU1LC41LDc0LjIyYzAsMzEuNDgsNzQuNTksNzAuMjgsMTMzLjY1LDcwLjI4LDQ1LjI4LDAsNTYuNy0yMC40OCw1Ni43LTM2LjY1LDAtMTIuNzItMTEtMjcuMTYtMzAuODMtMzUuNzgiLz48L3N2Zz4=
@@ -38540,6 +39082,8 @@ entries:
   skipRange: '>=4.15.0-0 <4.18.0'
 - name: smb-csi-driver-operator.v4.18.0-202604232011
   skipRange: '>=4.15.0-0 <4.18.0'
+- name: smb-csi-driver-operator.v4.18.0-202605071100
+  skipRange: '>=4.15.0-0 <4.18.0'
   skips:
   - smb-csi-driver-operator.v4.18.0-202408260942
   - smb-csi-driver-operator.v4.18.0-202409130009
@@ -38580,6 +39124,7 @@ entries:
   - smb-csi-driver-operator.v4.18.0-202602261953
   - smb-csi-driver-operator.v4.18.0-202603262350
   - smb-csi-driver-operator.v4.18.0-202604141055
+  - smb-csi-driver-operator.v4.18.0-202604232011
 name: stable
 package: smb-csi-driver-operator
 schema: olm.channel
@@ -40880,6 +41425,88 @@ relatedImages:
   name: ose-smb-csi-driver-rhel9
 schema: olm.bundle
 ---
+image: registry.redhat.io/openshift4/ose-smb-csi-driver-operator-bundle@sha256:0b17badec862d8b85400b8f4160fe6f0796c84630b0291ab7076584f99a449e9
+name: smb-csi-driver-operator.v4.18.0-202605071100
+package: smb-csi-driver-operator
+properties:
+- type: olm.package
+  value:
+    packageName: smb-csi-driver-operator
+    version: 4.18.0-202605071100
+- type: olm.csv.metadata
+  value:
+    annotations:
+      capabilities: Full Lifecycle
+      categories: Storage
+      containerImage: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9-operator@sha256:f2a582da3e910ef258af019dc36d5fdb90170840bd341a4b42e3d68d809cd703
+      createdAt: '2021-07-14T00:00:00Z'
+      description: Install and configure CIFS/SMB CSI driver.
+      features.operators.openshift.io/csi: 'true'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'false'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'true'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.15.0-0 <4.18.0'
+      operatorframework.io/suggested-namespace: openshift-cluster-csi-drivers
+      operators.openshift.io/infrastructure-features: '["csi"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/openshift/csi-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions: {}
+    description: 'CIFS/SMB CSI Driver Operator provides Server Message Block (SMB) CSI Driver that enables you to create and mount CIFS/SMB PersistentVolumes.
+
+      '
+    displayName: CIFS/SMB CSI Driver Operator
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - storage
+    - smb
+    - cifs
+    labels:
+      operator-metering: 'true'
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+    links:
+    - name: Documentation
+      url: https://github.com/openshift/csi-operator
+    - name: Source Repository
+      url: https://github.com/openshift/csi-operator
+    maintainers:
+    - email: aos-storage-staff@redhat.com
+      name: Red Hat
+    maturity: stable
+    minKubeVersion: 1.29.0
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:d8681a1e242f87aee8f7d6d388e4e20e566702edfb8e7eeb25f8103ca78432a4
+  name: ose-csi-external-provisioner-rhel9
+- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:c3d865ccd101b26cdfbc652133897c26e617635f6575a1eb7b8eb2fbcb263dce
+  name: ose-csi-livenessprobe-rhel9
+- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:a31704d06675c64087275144b5cb7f9d972bff1e67582f081cd1d54830450c70
+  name: ose-csi-node-driver-registrar-rhel9
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:844813172da1d38e6002cbaf48529d071bb71063b1ea3941260591d9d02853ec
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-smb-csi-driver-operator-bundle@sha256:0b17badec862d8b85400b8f4160fe6f0796c84630b0291ab7076584f99a449e9
+  name: ''
+- image: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9-operator@sha256:f2a582da3e910ef258af019dc36d5fdb90170840bd341a4b42e3d68d809cd703
+  name: ose-smb-csi-driver-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9@sha256:927735afad1263bb7b983e15d531f00a59a6fc431a18401234b9dfed0aeafd04
+  name: ose-smb-csi-driver-rhel9
+schema: olm.bundle
+---
 defaultChannel: stable
 icon:
   base64data: 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
@@ -42715,6 +43342,8 @@ entries:
   skipRange: '>=4.3.0-0 <4.18.0-202604141055'
 - name: ptp-operator.v4.18.0-202604232011
   skipRange: '>=4.3.0-0 <4.18.0-202604232011'
+- name: ptp-operator.v4.18.0-202605051544
+  skipRange: '>=4.3.0-0 <4.18.0-202605051544'
   skips:
   - ptp-operator.v4.18.0-202408261944
   - ptp-operator.v4.18.0-202409131540
@@ -42776,6 +43405,7 @@ entries:
   - ptp-operator.v4.18.0-202603171536
   - ptp-operator.v4.18.0-202603262350
   - ptp-operator.v4.18.0-202604141055
+  - ptp-operator.v4.18.0-202604232011
 name: stable
 package: ptp-operator
 schema: olm.channel
@@ -46590,6 +47220,129 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:59642807c959cd86290f116dd73ee1b21d2c76cdf3f31425128a76e8e2593d8c
   name: ose-ptp-rhel9-operator
 - image: registry.redhat.io/openshift4/ose-ptp-rhel9@sha256:688f2b0501ec179b0daa898a42adeb0581bb9780de0d217549d84d51218b4d5e
+  name: ose-ptp-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/openshift4/ose-ptp-operator-bundle@sha256:04478641ec6f062b164a7037aacc1515f0612fe35b91dada518c8f26df331bf8
+name: ptp-operator.v4.18.0-202605051544
+package: ptp-operator
+properties:
+- type: olm.gvk
+  value:
+    group: ptp.openshift.io
+    kind: NodePtpDevice
+    version: v1
+- type: olm.gvk
+  value:
+    group: ptp.openshift.io
+    kind: PtpConfig
+    version: v1
+- type: olm.gvk
+  value:
+    group: ptp.openshift.io
+    kind: PtpOperatorConfig
+    version: v1
+- type: olm.package
+  value:
+    packageName: ptp-operator
+    version: 4.18.0-202605051544
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"NodePtpDevice\",\n    \"metadata\": {\n      \"name\": \"node.example.com\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"PtpConfig\",\n    \"metadata\": {\n      \"name\": \"example-ptpconfig\"\n    },\n    \"spec\": {\n      \"profile\": [\n        {\n          \"interface\": \"ens787f1\",\n          \"name\": \"profile1\",\n          \"phc2sysOpts\": \"-a -r\",\n          \"ptp4lOpts\": \"-s -2\",\n          \"ptpClockThreshold\": {}\n        }\n      ],\n      \"recommend\": [\n        {\n          \"match\": [\n            {\n              \"nodeLabel\": \"node-role.kubernetes.io/worker=\",\n              \"nodeName\": \"node.example.com\"\n            }\n          ],\n          \"priority\": 4,\n          \"profile\": \"profile1\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"PtpOperatorConfig\",\n    \"metadata\": {\n      \"name\": \"default\"\n    },\n    \"spec\": {\n      \"daemonNodeSelector\": {\n        \"feature.node.kubernetes.io/ptp-capable\": \"yes\",\n        \"node-role.kubernetes.io/worker\": \"\"\n      },\n      \"ptpEventConfig\": {}\n    }\n  }\n]"
+      capabilities: Basic Install
+      categories: Networking
+      certified: 'false'
+      containerImage: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:104eddbd2eedc06fa2a6d027b8a9baf11963a71b2c70bf9d918e38e24768e4f8
+      createdAt: '2024-06-12'
+      description: This software enables configuration of Precision Time Protocol(PTP) on Kubernetes. It detects hardware capable PTP devices on each node, and configures linuxptp processes such as ptp4l, phc2sys and timemaster.
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.3.0-0 <4.18.0-202605051544'
+      operatorframework.io/suggested-namespace: openshift-ptp
+      operators.openshift.io/infrastructure-features: '["disconnected"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.22.0-ocp
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      provider: Red Hat
+      repository: https://github.com/openshift/ptp-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: NodePtpDevice is the Schema for the nodeptpdevices API
+        displayName: Node Ptp Device
+        kind: NodePtpDevice
+        name: nodeptpdevices.ptp.openshift.io
+        version: v1
+      - description: PtpConfig is the Schema for the ptpconfigs API
+        displayName: Ptp Config
+        kind: PtpConfig
+        name: ptpconfigs.ptp.openshift.io
+        version: v1
+      - description: PtpOperatorConfig is the Schema for the ptpoperatorconfigs API
+        displayName: Ptp Operator Config
+        kind: PtpOperatorConfig
+        name: ptpoperatorconfigs.ptp.openshift.io
+        specDescriptors:
+        - description: 'ApiVersion is used to determine which API is used for the event service 1.0: default version. event service is mapped to internal REST-API. 2.x: event service is mapped to O-RAN v3.0 Compliant O-Cloud Notification REST-API.'
+          displayName: ApiVersion
+          path: ptpEventConfig.apiVersion
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: StorageType is the type of storage to store subscription data
+          displayName: Storage Type
+          path: ptpEventConfig.storageType
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: 'TransportHost format is <protocol>://<transport-service>.<namespace>.svc.cluster.local:<transport-port> Example HTTP transport: "http://ptp-event-publisher-service-NODE_NAME.openshift-ptp.svc.cluster.local:9043"'
+          displayName: Transport Host
+          path: ptpEventConfig.transportHost
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        version: v1
+    description: "# Precision Time Protocol (PTP) Operator for Openshift\n\n## Introdution\nPTP Operator manages cluster wide PTP configuration.\nThis operator has to run in namespace 'openshift-ptp'. An Operator Group is also required to install this operator:\n```\n$ oc create -f - <<EOF\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: openshift-ptp\n  labels:\n    name: openshift-ptp\n    openshift.io/cluster-monitoring: \"true\"\nEOF\n\n$ oc create -f - <<EOF\napiVersion: operators.coreos.com/v1\nkind: OperatorGroup\nmetadata:\n  name: ptp-operators\n  namespace: openshift-ptp\nspec:\n  targetNamespaces:\n  - openshift-ptp\nEOF\n```\n"
+    displayName: PTP Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - ptp
+    links:
+    - name: Documentation operator
+      url: https://github.com/openshift/ptp-operator
+    - name: Documentation operand
+      url: https://github.com/openshift/linuxptp-daemon
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-cloud-event-proxy-rhel9@sha256:d7d5a51c655b688a8df8a09cc87c723a4116516480a099b7ecd4b64b7eed87ac
+  name: ose-cloud-event-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:844813172da1d38e6002cbaf48529d071bb71063b1ea3941260591d9d02853ec
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-ptp-operator-bundle@sha256:04478641ec6f062b164a7037aacc1515f0612fe35b91dada518c8f26df331bf8
+  name: ''
+- image: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:104eddbd2eedc06fa2a6d027b8a9baf11963a71b2c70bf9d918e38e24768e4f8
+  name: ose-ptp-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-ptp-rhel9@sha256:d084ec5006a8836dd68b04e1f09156b73a76ed4f06c858273ec0df9403f966df
   name: ose-ptp-rhel9
 schema: olm.bundle
 ---
