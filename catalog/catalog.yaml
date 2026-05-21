@@ -7,14 +7,14 @@ name: nfd
 schema: olm.package
 ---
 entries:
-- name: nfd.4.22.0-202604031855
-  skipRange: '>=4.9.0 <4.22.0-202604031855'
+- name: nfd.4.22.0-202605121442
+  skipRange: '>=4.9.0 <4.22.0-202605121442'
 name: stable
 package: nfd
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:e3fce88631d9856455972b7ae06aa8c0df978cf6fc0d25fc39f13ff60c1a3788
-name: nfd.4.22.0-202604031855
+image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:49d3c69718f23ea2758d14a5550fd1088e3633793279564a82327e9c110e7501
+name: nfd.4.22.0-202605121442
 package: nfd
 properties:
 - type: olm.gvk
@@ -50,14 +50,14 @@ properties:
 - type: olm.package
   value:
     packageName: nfd
-    version: 4.22.0-202604031855
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"nfd.k8s-sigs.io/v1alpha1\",\n    \"kind\": \"NodeFeatureRule\",\n    \"metadata\": {\n      \"name\": \"my-sample-rule-object\"\n    },\n    \"spec\": {\n      \"rules\": [\n        {\n          \"labels\": {\n            \"my-sample-feature\": \"true\"\n          },\n          \"matchFeatures\": [\n            {\n              \"feature\": \"kernel.loadedmodule\",\n              \"matchExpressions\": {\n                \"dummy\": {\n                  \"op\": \"Exists\"\n                }\n              }\n            },\n            {\n              \"feature\": \"kernel.config\",\n              \"matchExpressions\": {\n                \"X86\": {\n                  \"op\": \"In\",\n                  \"value\": [\n                    \"y\"\n                  ]\n                }\n              }\n            }\n          ],\n          \"name\": \"my sample rule\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1\",\n    \"kind\": \"NodeFeatureDiscovery\",\n    \"metadata\": {\n      \"name\": \"nfd-instance\",\n      \"namespace\": \"openshift-nfd\"\n    },\n    \"spec\": {\n      \"operand\": {\n        \"imagePullPolicy\": \"IfNotPresent\",\n        \"servicePort\": 12000\n      },\n      \"workerConfig\": {\n        \"configData\": \"core:\\n#  labelWhiteList:\\n#  noPublish: false\\n  sleepInterval: 60s\\n#  sources: [all]\\n#  klog:\\n#    addDirHeader: false\\n#    alsologtostderr: false\\n#    logBacktraceAt:\\n#    logtostderr: true\\n#    skipHeaders: false\\n#    stderrthreshold: 2\\n#    v: 0\\n#    vmodule:\\n##   NOTE: the following options are not dynamically run-time \\n##          configurable and require a nfd-worker restart to take effect\\n##          after being changed\\n#    logDir:\\n#    logFile:\\n#    logFileMaxSize: 1800\\n#    skipLogHeaders: false\\nsources:\\n#  cpu:\\n#    cpuid:\\n##     NOTE: whitelist has priority over blacklist\\n#      attributeBlacklist:\\n#        - \\\"BMI1\\\"\\n#        - \\\"BMI2\\\"\\n#        - \\\"CLMUL\\\"\\n#        - \\\"CMOV\\\"\\n#        - \\\"CX16\\\"\\n#        - \\\"ERMS\\\"\\n#        - \\\"F16C\\\"\\n#        - \\\"HTT\\\"\\n#        - \\\"LZCNT\\\"\\n#        - \\\"MMX\\\"\\n#        - \\\"MMXEXT\\\"\\n#        - \\\"NX\\\"\\n#        - \\\"POPCNT\\\"\\n#        - \\\"RDRAND\\\"\\n#        - \\\"RDSEED\\\"\\n#        - \\\"RDTSCP\\\"\\n#        - \\\"SGX\\\"\\n#        - \\\"SSE\\\"\\n#        - \\\"SSE2\\\"\\n#        - \\\"SSE3\\\"\\n#        - \\\"SSE4.1\\\"\\n#        - \\\"SSE4.2\\\"\\n#        - \\\"SSSE3\\\"\\n#      attributeWhitelist:\\n#  kernel:\\n#    kconfigFile: \\\"/path/to/kconfig\\\"\\n#    configOpts:\\n#      - \\\"NO_HZ\\\"\\n#      - \\\"X86\\\"\\n#      - \\\"DMI\\\"\\n  pci:\\n    deviceClassWhitelist:\\n      - \\\"0200\\\"\\n      - \\\"03\\\"\\n      - \\\"12\\\"\\n    deviceLabelFields:\\n#      - \\\"class\\\"\\n      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#      - \\\"subsystem_vendor\\\"\\n#      - \\\"subsystem_device\\\"\\n#  usb:\\n#    deviceClassWhitelist:\\n#      - \\\"0e\\\"\\n#      - \\\"ef\\\"\\n#      - \\\"fe\\\"\\n#      - \\\"ff\\\"\\n#    deviceLabelFields:\\n#      - \\\"class\\\"\\n#      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#  custom:\\n#    - name: \\\"my.kernel.feature\\\"\\n#      matchOn:\\n#        - loadedKMod: [\\\"example_kmod1\\\", \\\"example_kmod2\\\"]\\n#    - name: \\\"my.pci.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            class: [\\\"0200\\\"]\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#        - pciId :\\n#            vendor: [\\\"8086\\\"]\\n#            device: [\\\"1000\\\", \\\"1100\\\"]\\n#    - name: \\\"my.usb.feature\\\"\\n#      matchOn:\\n#        - usbId:\\n#          class: [\\\"ff\\\"]\\n#          vendor: [\\\"03e7\\\"]\\n#          device: [\\\"2485\\\"]\\n#        - usbId:\\n#          class: [\\\"fe\\\"]\\n#          vendor: [\\\"1a6e\\\"]\\n#          device: [\\\"089a\\\"]\\n#    - name: \\\"my.combined.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#          loadedKMod : [\\\"vendor_kmod1\\\", \\\"vendor_kmod2\\\"]\\n\"\n      }\n    }\n  }\n]"
       capabilities: Deep Insights
       categories: Integration & Delivery,OpenShift Optional
-      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:51e7ef9aba8823f4ba9b3c3e59280834e257d7008e5070b7ae1f71934e7cfe23
+      containerImage: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:047af13108ac49314114cc674563a28465fbb005f5362ca2714437b6a90d7166
       createdAt: '2026-03-15T14:13:57Z'
       description: 'The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.
 
@@ -91,7 +91,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.9.0 <4.22.0-202604031855'
+      olm.skipRange: '>=4.9.0 <4.22.0-202605121442'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-nfd
       operators.openshift.io/infrastructure-features: '["disconnected"]'
@@ -184,11 +184,11 @@ properties:
       name: Red Hat
       url: https://github.com/openshift/cluster-nfd-operator
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:e3fce88631d9856455972b7ae06aa8c0df978cf6fc0d25fc39f13ff60c1a3788
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:49d3c69718f23ea2758d14a5550fd1088e3633793279564a82327e9c110e7501
   name: ''
-- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:51e7ef9aba8823f4ba9b3c3e59280834e257d7008e5070b7ae1f71934e7cfe23
+- image: registry.redhat.io/openshift4/ose-cluster-nfd-rhel9-operator@sha256:047af13108ac49314114cc674563a28465fbb005f5362ca2714437b6a90d7166
   name: ose-cluster-nfd-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:4866b7cfd50a05d6b7943cf1618d44401ae8fb67976638d59f4f7f1c1d968419
+- image: registry.redhat.io/openshift4/ose-node-feature-discovery-rhel9@sha256:822996ed49e10e9dd476aa63abdda25a3987e672e87d9c38d840084e4123c942
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
 ---
@@ -200,14 +200,14 @@ name: clusterresourceoverride
 schema: olm.package
 ---
 entries:
-- name: clusterresourceoverride-operator.v4.22.0-202604031855
-  skipRange: '>=4.3.0 <4.22.0-202604031855'
+- name: clusterresourceoverride-operator.v4.22.0-202605121442
+  skipRange: '>=4.3.0 <4.22.0-202605121442'
 name: stable
 package: clusterresourceoverride
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:68fada20d520aa140719fb60ec7e024b8c94cdbfc0c35ccc01d2f00a16179eab
-name: clusterresourceoverride-operator.v4.22.0-202604031855
+image: registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:f06320957d1ee49ec2d6e823e70e15ab663241dcfc7a17c5139e21f3f723eba6
+name: clusterresourceoverride-operator.v4.22.0-202605121442
 package: clusterresourceoverride
 properties:
 - type: olm.gvk
@@ -218,7 +218,7 @@ properties:
 - type: olm.package
   value:
     packageName: clusterresourceoverride
-    version: 4.22.0-202604031855
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
@@ -226,7 +226,7 @@ properties:
       capabilities: Seamless Upgrades
       categories: OpenShift Optional
       certifiedLevel: Primed
-      containerImage: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:99333df4612641e7466b353a06d774bc83fc24d393142175eeefbc6397cdb19e
+      containerImage: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:3b0b65ba5b14f4d079ab7e262f5db2f819047ec8934f774594db9a7af8f09bcd
       createdAt: 2019/11/15
       description: An operator to manage the OpenShift ClusterResourceOverride Mutating Admission Webhook Server
       features.operators.openshift.io/disconnected: 'true'
@@ -237,7 +237,7 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       healthIndex: B
-      olm.skipRange: '>=4.3.0 <4.22.0-202604031855'
+      olm.skipRange: '>=4.3.0 <4.22.0-202605121442'
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       repository: https://github.com/openshift/cluster-resource-override-admission-operator
       support: Red Hat
@@ -275,11 +275,11 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:68fada20d520aa140719fb60ec7e024b8c94cdbfc0c35ccc01d2f00a16179eab
+- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:f06320957d1ee49ec2d6e823e70e15ab663241dcfc7a17c5139e21f3f723eba6
   name: ''
-- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:99333df4612641e7466b353a06d774bc83fc24d393142175eeefbc6397cdb19e
+- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9-operator@sha256:3b0b65ba5b14f4d079ab7e262f5db2f819047ec8934f774594db9a7af8f09bcd
   name: ose-clusterresourceoverride-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9@sha256:7fa8b61ef679268a74426e3f456c012a5e357833dcadc938201d1fc7e262b23a
+- image: registry.redhat.io/openshift4/ose-clusterresourceoverride-rhel9@sha256:3c92c2c8152a3f8498fa203ed76d67018f913f2fbd48ec5a11df070ad751be3d
   name: ose-clusterresourceoverride-rhel9
 schema: olm.bundle
 ---
@@ -297,7 +297,7 @@ name: stable
 package: ingress-node-firewall
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ingress-node-firewall-operator-bundle@sha256:3966d0623cc7c75dc03b4bf41a50db9d565878a8bd5ed7e1431da7ad603834cb
+image: registry.redhat.io/openshift4/ingress-node-firewall-operator-bundle@sha256:6f2e48ad870eb12c4f4d63676077050fe148f3eeea6a5397ea9a022acab75d4a
 name: ingress-node-firewall.v4.21.0
 package: ingress-node-firewall
 properties:
@@ -327,7 +327,7 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift4/ingress-node-firewall-rhel9-operator@sha256:0a7769e0ef9a232502e1a2f70f7edc38dc9eb50951a71f73476bc58eee17a496
+      containerImage: registry.redhat.io/openshift4/ingress-node-firewall-rhel9-operator@sha256:67dae0e9ea10b4b4f67922ca16a635021a403f7ff4e17e9b8eeaee960aee1606
       createdAt: '2024-12-04T21:37:24Z'
       features.operators.openshift.io/disconnected: 'true'
       features.operators.openshift.io/fips-compliant: 'true'
@@ -383,13 +383,13 @@ properties:
     provider:
       name: Red Hat, Inc
 relatedImages:
-- image: registry.redhat.io/openshift4/ingress-node-firewall-operator-bundle@sha256:3966d0623cc7c75dc03b4bf41a50db9d565878a8bd5ed7e1431da7ad603834cb
+- image: registry.redhat.io/openshift4/ingress-node-firewall-operator-bundle@sha256:6f2e48ad870eb12c4f4d63676077050fe148f3eeea6a5397ea9a022acab75d4a
   name: ''
-- image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9-operator@sha256:0a7769e0ef9a232502e1a2f70f7edc38dc9eb50951a71f73476bc58eee17a496
+- image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9-operator@sha256:67dae0e9ea10b4b4f67922ca16a635021a403f7ff4e17e9b8eeaee960aee1606
   name: ingress-node-firewall-rhel9-operator
-- image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9@sha256:c6d95ffa055bb6917f8623bdfc8b0e1be1adcfff970055c8b84a1f8b62612e4d
+- image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9@sha256:124840d88246f8cb254d9de7a7aa4d3bb588ca3c2dc21c406d7488070ecd47d9
   name: ingress-node-firewall-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
 schema: olm.bundle
 ---
@@ -401,14 +401,14 @@ name: local-storage-operator
 schema: olm.package
 ---
 entries:
-- name: local-storage-operator.v4.22.0-202604031356
-  skipRange: '>=4.3.0 <4.22.0-202604031356'
+- name: local-storage-operator.v4.22.0-202605122048
+  skipRange: '>=4.3.0 <4.22.0-202605122048'
 name: stable
 package: local-storage-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:60cdb56934d9c39fbc4b0c44d9a9e90a1872fc91ef6905de65b609bb8c74141c
-name: local-storage-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:282810fc564a2e826f42b369602d2e064d99024b6c956725e5c40a54108797de
+name: local-storage-operator.v4.22.0-202605122048
 package: local-storage-operator
 properties:
 - type: olm.gvk
@@ -441,14 +441,14 @@ properties:
 - type: olm.package
   value:
     packageName: local-storage-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605122048
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolumeDeviceLink\",\n    \"metadata\": {\n      \"name\": \"local-pv-abcd\"\n    },\n    \"spec\": {\n      \"persistentVolumeName\": \"local-pv-abcd\",\n      \"policy\": \"CurrentLinkTarget\"\n    }\n  }\n]"
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:cb2721d62ee599d09c54ff19115f2ef28b85de50292ee0be9718df01f9b3d298
+      containerImage: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:0362885143a81f1bc2a51143d5bf7b1f6b23a79c96e50330465a40910ae2a80e
       createdAt: '2019-08-14T00:00:00Z'
       description: Configure and use local storage volumes.
       features.operators.openshift.io/csi: 'false'
@@ -460,11 +460,11 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"4.23"}]'
-      olm.skipRange: '>=4.3.0 <4.22.0-202604031356'
+      olm.skipRange: '>=4.3.0 <4.22.0-202605122048'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9:v4.22.0
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:aa13bfbd230f042df1f5278a682915f41dddbae6394675745d49ae4b30da9f98
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
@@ -654,15 +654,15 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-local-storage-diskmaker-rhel9@sha256:b5be127be0d8eb05c21e427b9910e24698e9745652db6832c56f5e8fa6c5af3a
+- image: registry.redhat.io/openshift4/ose-local-storage-diskmaker-rhel9@sha256:71b361ae0cd84651b30bbe06448c1741a3e01c963ad1ae8b60c89db4cf89e291
   name: ose-local-storage-diskmaker-rhel9
-- image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:f14bb2154e9cc6d4c61c7555c23829a8b2834a4ddfda05f8f268548b6fdc180a
+- image: registry.redhat.io/openshift4/ose-local-storage-mustgather-rhel9@sha256:aa13bfbd230f042df1f5278a682915f41dddbae6394675745d49ae4b30da9f98
   name: ose-local-storage-mustgather-rhel9
-- image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:60cdb56934d9c39fbc4b0c44d9a9e90a1872fc91ef6905de65b609bb8c74141c
+- image: registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:282810fc564a2e826f42b369602d2e064d99024b6c956725e5c40a54108797de
   name: ''
-- image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:cb2721d62ee599d09c54ff19115f2ef28b85de50292ee0be9718df01f9b3d298
+- image: registry.redhat.io/openshift4/ose-local-storage-rhel9-operator@sha256:0362885143a81f1bc2a51143d5bf7b1f6b23a79c96e50330465a40910ae2a80e
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
 ---
@@ -674,14 +674,14 @@ name: kubernetes-nmstate-operator
 schema: olm.package
 ---
 entries:
-- name: kubernetes-nmstate-operator.4.22.0-202604052147
-  skipRange: '>=4.3.0 <4.22.0-202604052147'
+- name: kubernetes-nmstate-operator.4.22.0-202605131247
+  skipRange: '>=4.3.0 <4.22.0-202605131247'
 name: stable
 package: kubernetes-nmstate-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:4802ca6bc4648c8b0f7e9fcde39048ace046ea805adb29195e6601b57b691f1d
-name: kubernetes-nmstate-operator.4.22.0-202604052147
+image: registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:0a0d48f7f13f8d3896e20d17a597cddecf5b1755470d710e35ae9bb8ca1e724d
+name: kubernetes-nmstate-operator.4.22.0-202605131247
 package: kubernetes-nmstate-operator
 properties:
 - type: olm.gvk
@@ -697,7 +697,7 @@ properties:
 - type: olm.package
   value:
     packageName: kubernetes-nmstate-operator
-    version: 4.22.0-202604052147
+    version: 4.22.0-202605131247
 - type: olm.csv.metadata
   value:
     annotations:
@@ -705,8 +705,8 @@ properties:
       capabilities: Basic Install
       categories: OpenShift Optional
       certified: 'false'
-      containerImage: registry.redhat.io/openshift4/kubernetes-nmstate-rhel9-operator@sha256:a46b3fb1fac21161ffe631897027dbe8f1fbad59106f8ce05cdae58dfea468de
-      createdAt: '2026-03-20T05:35:50Z'
+      containerImage: registry.redhat.io/openshift4/kubernetes-nmstate-rhel9-operator@sha256:7fccfab95e5ca0a110d47aa184099b40eb477dbf2eee70060ac8c58bb14c274d
+      createdAt: '2026-03-30T05:35:10Z'
       description: 'Kubernetes NMState is a declaritive means of configuring NetworkManager.
 
         '
@@ -720,7 +720,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0 <4.22.0-202604052147'
+      olm.skipRange: '>=4.3.0 <4.22.0-202605131247'
       operatorframework.io/suggested-namespace: openshift-nmstate
       operators.openshift.io/infrastructure-features: '["disconnected"]'
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -745,7 +745,7 @@ properties:
       type: SingleNamespace
     - supported: false
       type: MultiNamespace
-    - supported: false
+    - supported: true
       type: AllNamespaces
     keywords:
     - nmstate
@@ -766,15 +766,15 @@ properties:
     provider:
       name: Red Hat, Inc.
 relatedImages:
-- image: registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:4802ca6bc4648c8b0f7e9fcde39048ace046ea805adb29195e6601b57b691f1d
+- image: registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:0a0d48f7f13f8d3896e20d17a597cddecf5b1755470d710e35ae9bb8ca1e724d
   name: ''
-- image: registry.redhat.io/openshift4/kubernetes-nmstate-rhel9-operator@sha256:a46b3fb1fac21161ffe631897027dbe8f1fbad59106f8ce05cdae58dfea468de
+- image: registry.redhat.io/openshift4/kubernetes-nmstate-rhel9-operator@sha256:7fccfab95e5ca0a110d47aa184099b40eb477dbf2eee70060ac8c58bb14c274d
   name: kubernetes-nmstate-rhel9-operator
-- image: registry.redhat.io/openshift4/nmstate-console-plugin-rhel9@sha256:76a54ff1e0811ab56634bc4690c134137669ab77731b578feff03ff685f9fb6d
+- image: registry.redhat.io/openshift4/nmstate-console-plugin-rhel9@sha256:5d18a4515a948ee0fb20fbcf9193f8f3caeba245a6f61d2a62fbcd09e4a3b1fb
   name: nmstate-console-plugin-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-kubernetes-nmstate-handler-rhel9@sha256:b39c8769862b98702e51a0f9447e7d5ad57f80fefca073534e77598aff353c6c
+- image: registry.redhat.io/openshift4/ose-kubernetes-nmstate-handler-rhel9@sha256:31e5accc3668bc269ffbf310fa90b919ef12b9cfa693a03eec69b6a3396f68bc
   name: ose-kubernetes-nmstate-handler-rhel9
 schema: olm.bundle
 ---
@@ -786,14 +786,14 @@ name: aws-efs-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: aws-efs-csi-driver-operator.v4.22.0-202604031356
-  skipRange: '>=4.9.0-0 <4.22.0-202604031356'
+- name: aws-efs-csi-driver-operator.v4.22.0-202605122048
+  skipRange: '>=4.9.0-0 <4.22.0-202605122048'
 name: stable
 package: aws-efs-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:e0959ee1bdcdbecf0db3ffe4b2ffa322ac7ef90c160c40b5213acf291b8c1501
-name: aws-efs-csi-driver-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:e83185789b7a3225d1fe73648a8b58bff979700887b9bbbe42ae34b126237e5f
+name: aws-efs-csi-driver-operator.v4.22.0-202605122048
 package: aws-efs-csi-driver-operator
 properties:
 - type: olm.maxOpenShiftVersion
@@ -801,13 +801,13 @@ properties:
 - type: olm.package
   value:
     packageName: aws-efs-csi-driver-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605122048
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-rhel9-operator@sha256:0087b3e8da3f9d7ee02c7eb3d2588ee777030c3f6d3a117354f1de40702ab3b3
+      containerImage: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-rhel9-operator@sha256:af45228339eb734dbe8a4740584a8cf23ba28f50319cc56a1a9ad3429399daf9
       createdAt: '2021-07-14T00:00:00Z'
       description: Install and configure AWS EFS CSI driver.
       features.operators.openshift.io/csi: 'true'
@@ -819,7 +819,7 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"4.23"}]'
-      olm.skipRange: '>=4.9.0-0 <4.22.0-202604031356'
+      olm.skipRange: '>=4.9.0-0 <4.22.0-202605122048'
       operatorframework.io/suggested-namespace: openshift-cluster-csi-drivers
       operators.openshift.io/infrastructure-features: '["csi"]'
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -872,21 +872,21 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-container-rhel9@sha256:a0e578420d34503ed0e256044ec80cfc6da4ed1226c274969ec8435b1e432231
+- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-container-rhel9@sha256:a361593382493c3f77c16e507b5214f6ca1b322173a8eb0ae9c9c2442e836dbd
   name: ose-aws-efs-csi-driver-container-rhel9
-- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:e0959ee1bdcdbecf0db3ffe4b2ffa322ac7ef90c160c40b5213acf291b8c1501
+- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:e83185789b7a3225d1fe73648a8b58bff979700887b9bbbe42ae34b126237e5f
   name: ''
-- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-rhel9-operator@sha256:0087b3e8da3f9d7ee02c7eb3d2588ee777030c3f6d3a117354f1de40702ab3b3
+- image: registry.redhat.io/openshift4/ose-aws-efs-csi-driver-rhel9-operator@sha256:af45228339eb734dbe8a4740584a8cf23ba28f50319cc56a1a9ad3429399daf9
   name: ose-aws-efs-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:cef79f4dfcbf840f2795e6c91a4e1e2362a4bae1b2e74d73a590bc84321d9b2a
+- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:5aca419ebff7f6ec60196bcaec439ec896e8506a606512abbefb4c7c939ed22a
   name: ose-csi-external-provisioner-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:1701317e31b336f6b5be1edfc88a8cbdd39de025a5ca2a0d2ed8e9f3adbf20ce
+- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:094ef3d7c70f472246b58886af755a4af4bbbae810c0caef5e13661fc874d809
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:e69af7801f1b5250e1baa951b6bc0792e20e1a6314468635fcdf6e0b936f8052
+- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:42d8d9fbce16bcd5a7e7c1ec0885012c449eaf93575e4da4dbb7954b73ffc2aa
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-tools-rhel9@sha256:2d9e50ebf1049ad197f9382a8220feaf624c19ed1827cc3ffc5c0963f2accdbe
+- image: registry.redhat.io/openshift4/ose-tools-rhel9@sha256:ff451121e28d00a9a699f911f8e2bdadfabb77e658caa044f986b5f30533b489
   name: ose-tools-rhel9
 schema: olm.bundle
 ---
@@ -898,14 +898,14 @@ name: gcp-filestore-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: gcp-filestore-csi-driver-operator.v4.22.0-202604031356
+- name: gcp-filestore-csi-driver-operator.v4.22.0-202605121442
   skipRange: '>=4.11.0-0 <4.22.0'
 name: stable
 package: gcp-filestore-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-operator-bundle@sha256:5e6cc4304bb93915e1addb6df407cb3050128d89610ddaf6a47e249350cf69b1
-name: gcp-filestore-csi-driver-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-operator-bundle@sha256:e590ca866511b820da2c33b2d22510fd847d41d540fada3dc2ad048f5346000e
+name: gcp-filestore-csi-driver-operator.v4.22.0-202605121442
 package: gcp-filestore-csi-driver-operator
 properties:
 - type: olm.maxOpenShiftVersion
@@ -913,13 +913,13 @@ properties:
 - type: olm.package
   value:
     packageName: gcp-filestore-csi-driver-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:13a0a058a3e0ad7feda611f6dd724d0c63f4301a06d842fed1ddd959c6c9c056
+      containerImage: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:dd7031bff2db0f8d0e9572bfb91bc2d8206cac78de45ac96fc791cf655952ef2
       createdAt: '2021-07-14T00:00:00Z'
       description: Install and configure GCP Filestore CSI driver.
       features.operators.openshift.io/csi: 'true'
@@ -972,23 +972,23 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:cef79f4dfcbf840f2795e6c91a4e1e2362a4bae1b2e74d73a590bc84321d9b2a
+- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:5aca419ebff7f6ec60196bcaec439ec896e8506a606512abbefb4c7c939ed22a
   name: ose-csi-external-provisioner-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-external-resizer-rhel9@sha256:fc2891c2072c6f57919ae4a1a4b6c541c0d697093dc7e0f4ce335d7e5ce2b59d
+- image: registry.redhat.io/openshift4/ose-csi-external-resizer-rhel9@sha256:f1348630437afdb815a089ea56612a45df145da390dca5edb0026df6445cd549
   name: ose-csi-external-resizer-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-external-snapshotter-rhel9@sha256:3b6da831a7ac9a0947c776a3c880137a4490f6470dbaedb73d912ac830eddb3c
+- image: registry.redhat.io/openshift4/ose-csi-external-snapshotter-rhel9@sha256:fc54d2fee9f3f390de9bf35bcf9f7265fb78ee7e3e682933c459ce18325ae30f
   name: ose-csi-external-snapshotter-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:1701317e31b336f6b5be1edfc88a8cbdd39de025a5ca2a0d2ed8e9f3adbf20ce
+- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:094ef3d7c70f472246b58886af755a4af4bbbae810c0caef5e13661fc874d809
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:e69af7801f1b5250e1baa951b6bc0792e20e1a6314468635fcdf6e0b936f8052
+- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:42d8d9fbce16bcd5a7e7c1ec0885012c449eaf93575e4da4dbb7954b73ffc2aa
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-operator-bundle@sha256:5e6cc4304bb93915e1addb6df407cb3050128d89610ddaf6a47e249350cf69b1
+- image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-operator-bundle@sha256:e590ca866511b820da2c33b2d22510fd847d41d540fada3dc2ad048f5346000e
   name: ''
-- image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:13a0a058a3e0ad7feda611f6dd724d0c63f4301a06d842fed1ddd959c6c9c056
+- image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:dd7031bff2db0f8d0e9572bfb91bc2d8206cac78de45ac96fc791cf655952ef2
   name: ose-gcp-filestore-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-rhel9@sha256:3783d58078f63936fd4904b8353697d07b4680ad857a1ede9e080debc41a0266
+- image: registry.redhat.io/openshift4/ose-gcp-filestore-csi-driver-rhel9@sha256:5f34038df789570e7d5e5f6c30a149b62393cb5273f39f63df0b76fc92da5e6e
   name: ose-gcp-filestore-csi-driver-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
 schema: olm.bundle
 ---
@@ -1000,14 +1000,14 @@ name: metallb-operator
 schema: olm.package
 ---
 entries:
-- name: metallb-operator.v4.22.0-202604052346
+- name: metallb-operator.v4.22.0-202605131247
   skipRange: '>=4.8.0 <4.22.0'
 name: stable
 package: metallb-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-metallb-operator-bundle@sha256:39a7bc05e309904be3213efc7167b0d4ab858d9037a1a402a26fc126384cecce
-name: metallb-operator.v4.22.0-202604052346
+image: registry.redhat.io/openshift4/ose-metallb-operator-bundle@sha256:11fcbf54986262e2aacc6e9767f030028af630725b943ec2e7e7023614aa9814
+name: metallb-operator.v4.22.0-202605131247
 package: metallb-operator
 properties:
 - type: olm.gvk
@@ -1078,7 +1078,7 @@ properties:
 - type: olm.package
   value:
     packageName: metallb-operator
-    version: 4.22.0-202604052346
+    version: 4.22.0-202605131247
 - type: olm.csv.metadata
   value:
     annotations:
@@ -1086,7 +1086,7 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:4edc62795f54893e655d8e5e4dc3fda1f2dd42a1d996a1d119fd6ac32d70958a
+      containerImage: registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:8ac446ab6f199017a4e05ff0339be25ebf5fdd713ddd427d400ebbfd425c1956
       createdAt: '2023-06-06T15:25:00Z'
       description: An operator for deploying MetalLB on a kubernetes cluster.
       features.operators.openshift.io/disconnected: 'true'
@@ -1188,15 +1188,15 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/frr-rhel9@sha256:a6ecd1c03912fb0c4bb23bfbde64b38bdde442eecdd9e23f2161485c28596662
+- image: registry.redhat.io/openshift4/frr-rhel9@sha256:55c7fd78b198860ea0fe96be1c693de9b17e0b8c2fa7353cf334f09975f005c4
   name: frr-rhel9
-- image: registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:4edc62795f54893e655d8e5e4dc3fda1f2dd42a1d996a1d119fd6ac32d70958a
+- image: registry.redhat.io/openshift4/metallb-rhel9-operator@sha256:8ac446ab6f199017a4e05ff0339be25ebf5fdd713ddd427d400ebbfd425c1956
   name: metallb-rhel9-operator
-- image: registry.redhat.io/openshift4/metallb-rhel9@sha256:d7ffb7752f5a94df0e4b4eaeb3f6d5891b3ce43b2fc744c9e851fee730495129
+- image: registry.redhat.io/openshift4/metallb-rhel9@sha256:97b1b4a3db214b492a3d01df752d7f67a64260403034c8f31903b5a2cbf5e84f
   name: metallb-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-metallb-operator-bundle@sha256:39a7bc05e309904be3213efc7167b0d4ab858d9037a1a402a26fc126384cecce
+- image: registry.redhat.io/openshift4/ose-metallb-operator-bundle@sha256:11fcbf54986262e2aacc6e9767f030028af630725b943ec2e7e7023614aa9814
   name: ''
 schema: olm.bundle
 ---
@@ -1208,14 +1208,14 @@ name: secrets-store-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: secrets-store-csi-driver-operator.v4.22.0-202604031855
+- name: secrets-store-csi-driver-operator.v4.22.0-202605121442
   skipRange: '>=4.13.0-0 <4.22.0'
 name: stable
 package: secrets-store-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-operator-bundle@sha256:f4d402ed90347c27df5007513891e1f3e781493bf17a2cd18dcec2dbb391a109
-name: secrets-store-csi-driver-operator.v4.22.0-202604031855
+image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-operator-bundle@sha256:aa9042451557e334efd16ec5dfeb2324d9a18c51e2334f993d52bcb8c4e3a831
+name: secrets-store-csi-driver-operator.v4.22.0-202605121442
 package: secrets-store-csi-driver-operator
 properties:
 - type: olm.gvk
@@ -1243,13 +1243,13 @@ properties:
 - type: olm.package
   value:
     packageName: secrets-store-csi-driver-operator
-    version: 4.22.0-202604031855
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-rhel9-operator@sha256:82adff754dc61c76f3aeba356e5a4b500b4badc7e743ecc35096e99d27fe401d
+      containerImage: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-rhel9-operator@sha256:7c6de214ea06e1240d0f73fa0e67446a4fdc37727b99bbc77daea62b1d96c203
       createdAt: '2023-06-12T00:00:00Z'
       description: Install and configure Secrets Store CSI driver.
       features.operators.openshift.io/cnf: 'false'
@@ -1301,6 +1301,7 @@ properties:
       operator-metering: 'true'
       operatorframework.io/arch.amd64: supported
       operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.s390x: supported
     links:
     - name: Documentation
       url: https://github.com/openshift/secrets-store-csi-driver-operator
@@ -1314,15 +1315,15 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:1701317e31b336f6b5be1edfc88a8cbdd39de025a5ca2a0d2ed8e9f3adbf20ce
+- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:094ef3d7c70f472246b58886af755a4af4bbbae810c0caef5e13661fc874d809
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:e69af7801f1b5250e1baa951b6bc0792e20e1a6314468635fcdf6e0b936f8052
+- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:42d8d9fbce16bcd5a7e7c1ec0885012c449eaf93575e4da4dbb7954b73ffc2aa
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-operator-bundle@sha256:f4d402ed90347c27df5007513891e1f3e781493bf17a2cd18dcec2dbb391a109
+- image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-operator-bundle@sha256:aa9042451557e334efd16ec5dfeb2324d9a18c51e2334f993d52bcb8c4e3a831
   name: ''
-- image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-rhel9-operator@sha256:82adff754dc61c76f3aeba356e5a4b500b4badc7e743ecc35096e99d27fe401d
+- image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-rhel9-operator@sha256:7c6de214ea06e1240d0f73fa0e67446a4fdc37727b99bbc77daea62b1d96c203
   name: ose-secrets-store-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-rhel9@sha256:07b3d168bcb4befbd527f3db73fa74b9fbe114d080415ddfc45393fb1771bd4b
+- image: registry.redhat.io/openshift4/ose-secrets-store-csi-driver-rhel9@sha256:e1820af3649cb6668eae52b516b1bdc9b3d2a8785e6d0a9eb9f1887f5b768e3e
   name: ose-secrets-store-csi-driver-rhel9
 schema: olm.bundle
 ---
@@ -1334,14 +1335,14 @@ name: smb-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: smb-csi-driver-operator.v4.22.0-202604031356
+- name: smb-csi-driver-operator.v4.22.0-202605121442
   skipRange: '>=4.15.0-0 <4.22.0'
 name: stable
 package: smb-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-smb-csi-driver-operator-bundle@sha256:5cf444abb6474e48cc0cad5fec4fc19a8dba649609d32cdc1b778bb70a6fdf7d
-name: smb-csi-driver-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-smb-csi-driver-operator-bundle@sha256:05d873a7092222b1f2ead86b6a06972e2e0514d572323b70fb0dd4ac21e07b75
+name: smb-csi-driver-operator.v4.22.0-202605121442
 package: smb-csi-driver-operator
 properties:
 - type: olm.maxOpenShiftVersion
@@ -1349,13 +1350,13 @@ properties:
 - type: olm.package
   value:
     packageName: smb-csi-driver-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9-operator@sha256:ffb743d76714928a9965f306293bd820168c1e9fa6d4614504f5ee25ecea88a3
+      containerImage: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9-operator@sha256:3df927c8f633e0aa22bf0e7cf7b1bd7769be8782deb9edf3c06224b8ccc55b7a
       createdAt: '2021-07-14T00:00:00Z'
       description: Install and configure CIFS/SMB CSI driver.
       features.operators.openshift.io/csi: 'true'
@@ -1410,21 +1411,21 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:cef79f4dfcbf840f2795e6c91a4e1e2362a4bae1b2e74d73a590bc84321d9b2a
+- image: registry.redhat.io/openshift4/ose-csi-external-provisioner-rhel9@sha256:5aca419ebff7f6ec60196bcaec439ec896e8506a606512abbefb4c7c939ed22a
   name: ose-csi-external-provisioner-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-external-resizer-rhel9@sha256:fc2891c2072c6f57919ae4a1a4b6c541c0d697093dc7e0f4ce335d7e5ce2b59d
+- image: registry.redhat.io/openshift4/ose-csi-external-resizer-rhel9@sha256:f1348630437afdb815a089ea56612a45df145da390dca5edb0026df6445cd549
   name: ose-csi-external-resizer-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:1701317e31b336f6b5be1edfc88a8cbdd39de025a5ca2a0d2ed8e9f3adbf20ce
+- image: registry.redhat.io/openshift4/ose-csi-livenessprobe-rhel9@sha256:094ef3d7c70f472246b58886af755a4af4bbbae810c0caef5e13661fc874d809
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:e69af7801f1b5250e1baa951b6bc0792e20e1a6314468635fcdf6e0b936f8052
+- image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:42d8d9fbce16bcd5a7e7c1ec0885012c449eaf93575e4da4dbb7954b73ffc2aa
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-smb-csi-driver-operator-bundle@sha256:5cf444abb6474e48cc0cad5fec4fc19a8dba649609d32cdc1b778bb70a6fdf7d
+- image: registry.redhat.io/openshift4/ose-smb-csi-driver-operator-bundle@sha256:05d873a7092222b1f2ead86b6a06972e2e0514d572323b70fb0dd4ac21e07b75
   name: ''
-- image: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9-operator@sha256:ffb743d76714928a9965f306293bd820168c1e9fa6d4614504f5ee25ecea88a3
+- image: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9-operator@sha256:3df927c8f633e0aa22bf0e7cf7b1bd7769be8782deb9edf3c06224b8ccc55b7a
   name: ose-smb-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9@sha256:0bc6f1413f5a4dc998ec6f7a55690677389aea0fc584cca0140f0970938ce177
+- image: registry.redhat.io/openshift4/ose-smb-csi-driver-rhel9@sha256:185c2a285b289fbf76cfa71fceb1d5a8743f3da8480732b403c1ca340e79db42
   name: ose-smb-csi-driver-rhel9
 schema: olm.bundle
 ---
@@ -1436,14 +1437,14 @@ name: support-log-gather-operator
 schema: olm.package
 ---
 entries:
-- name: support-log-gather-operator.v4.22.0-202604031356
-  skipRange: '>=4.20.0-0 <4.22.0-202604031356'
+- name: support-log-gather-operator.v4.22.0-202605121442
+  skipRange: '>=4.20.0-0 <4.22.0-202605121442'
 name: tech-preview
 package: support-log-gather-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-support-log-gather-operator-bundle@sha256:81cccf7c4fd98c96eed99faa027ab2e7f35931a9f19f66e99efb29e8c6669bed
-name: support-log-gather-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-support-log-gather-operator-bundle@sha256:77aaf53ff22650591077004ed4382748d64424478e2bc749f77806f1ec859351
+name: support-log-gather-operator.v4.22.0-202605121442
 package: support-log-gather-operator
 properties:
 - type: olm.gvk
@@ -1456,13 +1457,13 @@ properties:
 - type: olm.package
   value:
     packageName: support-log-gather-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Monitoring, Application Runtime
-      containerImage: registry.redhat.io/openshift4/ose-support-log-gather-rhel9-operator@sha256:13ca1ba2453bd0dd18ec7940e32f3678dd9c46b7a54d8421b8689036d14db645
+      containerImage: registry.redhat.io/openshift4/ose-support-log-gather-rhel9-operator@sha256:f4823ddbdfe761bcf1f3d1b2cf4332aea7423eb851fc235fc4f43b69eb8a7fa7
       createdAt: '2020-07-31T16:12:36Z'
       description: Operator to enable CEE to collect must-gathers from OSDv4 clusters
       features.operators.openshift.io/cnf: 'false'
@@ -1476,7 +1477,7 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"4.23"}]'
-      olm.skipRange: '>=4.20.0-0 <4.22.0-202604031356'
+      olm.skipRange: '>=4.20.0-0 <4.22.0-202605121442'
       operatorframework.io/suggested-namespace: must-gather-operator
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       repository: https://github.com/openshift/must-gather-operator
@@ -1537,11 +1538,11 @@ properties:
     provider:
       name: Red Hat, Inc
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-must-gather-rhel9@sha256:d1e9cee0a2aad90d8576c5e0c875724d727ad1b4180b16e76cb9fa8cf20586b5
+- image: registry.redhat.io/openshift4/ose-must-gather-rhel9@sha256:6f7557026507365bd9ecc747932b8c63973a34cd08684b848588f34185ec5063
   name: ose-must-gather-rhel9
-- image: registry.redhat.io/openshift4/ose-support-log-gather-operator-bundle@sha256:81cccf7c4fd98c96eed99faa027ab2e7f35931a9f19f66e99efb29e8c6669bed
+- image: registry.redhat.io/openshift4/ose-support-log-gather-operator-bundle@sha256:77aaf53ff22650591077004ed4382748d64424478e2bc749f77806f1ec859351
   name: ''
-- image: registry.redhat.io/openshift4/ose-support-log-gather-rhel9-operator@sha256:13ca1ba2453bd0dd18ec7940e32f3678dd9c46b7a54d8421b8689036d14db645
+- image: registry.redhat.io/openshift4/ose-support-log-gather-rhel9-operator@sha256:f4823ddbdfe761bcf1f3d1b2cf4332aea7423eb851fc235fc4f43b69eb8a7fa7
   name: ose-support-log-gather-rhel9-operator
 schema: olm.bundle
 ---
@@ -1559,7 +1560,7 @@ name: stable
 package: pf-status-relay-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/pf-status-relay-operator-bundle@sha256:a4913e793e0d2b8cbe214bd0cb9fec7ba4fc7e1cd858eccab8106883c90e3c54
+image: registry.redhat.io/openshift4/pf-status-relay-operator-bundle@sha256:38b9a8fc857ced60b9d9f670df978f347efac2b576d3f6aa1972155677c99573
 name: pf-status-relay-operator.v4.21.0
 package: pf-status-relay-operator
 properties:
@@ -1622,13 +1623,13 @@ properties:
     provider:
       name: openshift
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/pf-status-relay-operator-bundle@sha256:a4913e793e0d2b8cbe214bd0cb9fec7ba4fc7e1cd858eccab8106883c90e3c54
+- image: registry.redhat.io/openshift4/pf-status-relay-operator-bundle@sha256:38b9a8fc857ced60b9d9f670df978f347efac2b576d3f6aa1972155677c99573
   name: ''
-- image: registry.redhat.io/openshift4/pf-status-relay-rhel9-operator@sha256:2085a5e40ce81315c2db27f525f8d48e5d66ba1a4dc79988000cb181f6dcba10
+- image: registry.redhat.io/openshift4/pf-status-relay-rhel9-operator@sha256:f5a32a1740a06b026546de722508f5790e31ccbc75a72063ce87615b05b24a2a
   name: pf-status-relay-rhel9-operator
-- image: registry.redhat.io/openshift4/pf-status-relay-rhel9@sha256:19713bb388a932e0ae54665bf4022187f6e65470b71894058a60de79cb262c4e
+- image: registry.redhat.io/openshift4/pf-status-relay-rhel9@sha256:3434ce41fea7b3dc3c944386afbb3c74dd5acc28201ed52238356e75166bd089
   name: pf-status-relay-rhel9
 schema: olm.bundle
 ---
@@ -1640,14 +1641,14 @@ name: ptp-operator
 schema: olm.package
 ---
 entries:
-- name: ptp-operator.v4.22.0-202604031356
-  skipRange: '>=4.3.0-0 <4.22.0-202604031356'
+- name: ptp-operator.v4.22.0-202605131247
+  skipRange: '>=4.3.0-0 <4.22.0-202605131247'
 name: stable
 package: ptp-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-ptp-operator-bundle@sha256:414a9270586457fac3baf94943842a0065fed3b24816c74f7cd6aa73c33c24fc
-name: ptp-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-ptp-operator-bundle@sha256:caee9cff52c0f95172c267e8e170b7ad151febbcf9779be0fcbda39b3017a3b3
+name: ptp-operator.v4.22.0-202605131247
 package: ptp-operator
 properties:
 - type: olm.gvk
@@ -1673,7 +1674,7 @@ properties:
 - type: olm.package
   value:
     packageName: ptp-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605131247
 - type: olm.csv.metadata
   value:
     annotations:
@@ -1681,8 +1682,8 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:fb01bc2f3cec4916a7e98127644c8cbc6ad44e70f169b182e089cde04c7455b3
-      createdAt: '2026-03-05T21:22:01Z'
+      containerImage: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:c90f86084696291673fd2739d944e5671867d7b2138ea79e8a4f3d264b78031f
+      createdAt: '2026-04-28T19:58:20Z'
       description: This software enables configuration of Precision Time Protocol(PTP) on Kubernetes. It detects hardware capable PTP devices on each node, and configures linuxptp processes such as ptp4l, phc2sys and timemaster.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
@@ -1690,14 +1691,14 @@ properties:
       features.operators.openshift.io/disconnected: 'true'
       features.operators.openshift.io/fips-compliant: 'true'
       features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/tls-profiles: 'true'
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0-0 <4.22.0-202604031356'
+      olm.skipRange: '>=4.3.0-0 <4.22.0-202605131247'
       operatorframework.io/suggested-namespace: openshift-ptp
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/must-gather-image: quay.io/openshift/origin-ptp-operator-must-gather:4.21
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift4/ptp-must-gather-rhel9@sha256:d301b15fddd2ed190fe9facd22449bb60eb84b6664e0b3eaa63e2177957a9e6f
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-v1.36.1-ocp
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
@@ -1772,16 +1773,18 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-cloud-event-proxy-rhel9@sha256:fa377b3ef5740c40a1c04f6d6bf6967b8fe114b3335a16c261c980c6f77824a9
+- image: registry.redhat.io/openshift4/ose-cloud-event-proxy-rhel9@sha256:978208dd66c9e5f7ca98d7a0dd7aed5081ff1935fc3bad3b93c3df8b191defca
   name: ose-cloud-event-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-ptp-operator-bundle@sha256:414a9270586457fac3baf94943842a0065fed3b24816c74f7cd6aa73c33c24fc
+- image: registry.redhat.io/openshift4/ose-ptp-operator-bundle@sha256:caee9cff52c0f95172c267e8e170b7ad151febbcf9779be0fcbda39b3017a3b3
   name: ''
-- image: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:fb01bc2f3cec4916a7e98127644c8cbc6ad44e70f169b182e089cde04c7455b3
+- image: registry.redhat.io/openshift4/ose-ptp-rhel9-operator@sha256:c90f86084696291673fd2739d944e5671867d7b2138ea79e8a4f3d264b78031f
   name: ose-ptp-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-ptp-rhel9@sha256:d7d97e7f126de478fa52f4302438253b92a62c94b5332a96ac7ba852581fdfb0
+- image: registry.redhat.io/openshift4/ose-ptp-rhel9@sha256:f91594d554a8d54c5a428157ae14e1f45821260665948e544b80386dab5057a7
   name: ose-ptp-rhel9
+- image: registry.redhat.io/openshift4/ptp-must-gather-rhel9@sha256:d301b15fddd2ed190fe9facd22449bb60eb84b6664e0b3eaa63e2177957a9e6f
+  name: ptp-must-gather-rhel9
 schema: olm.bundle
 ---
 defaultChannel: stable
@@ -1792,14 +1795,14 @@ name: sriov-network-operator
 schema: olm.package
 ---
 entries:
-- name: sriov-network-operator.v4.22.0-202604031356
-  skipRange: '>=4.3.0-0 <4.22.0-202604031356'
+- name: sriov-network-operator.v4.22.0-202605131247
+  skipRange: '>=4.3.0-0 <4.22.0-202605131247'
 name: stable
 package: sriov-network-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle@sha256:9759a2fc0a1a47baff7dc6cb010b255cbb020a0a16d7115054813f432b03501f
-name: sriov-network-operator.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle@sha256:f467f32475ba3589a08df87a50c62a95badcb69a978cb32d80255a7b5c3107eb
+name: sriov-network-operator.v4.22.0-202605131247
 package: sriov-network-operator
 properties:
 - type: olm.gvk
@@ -1840,7 +1843,7 @@ properties:
 - type: olm.package
   value:
     packageName: sriov-network-operator
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605131247
 - type: olm.csv.metadata
   value:
     annotations:
@@ -1848,8 +1851,8 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:4b699063542fae4eb1bbe46432a0c61c234eba536c31686b89a1075b1ca544d7
-      createdAt: '2026-03-17T23:49:23Z'
+      containerImage: registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:ad507e28d3a477dd82963c10521c6fbbb5b3ce2ceb3b8204b6390690c75f720a
+      createdAt: '2026-04-01T23:49:47Z'
       description: An operator for configuring SR-IOV components and initializing SRIOV network devices in Openshift cluster.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'true'
@@ -1861,7 +1864,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0-0 <4.22.0-202604031356'
+      olm.skipRange: '>=4.3.0-0 <4.22.0-202605131247'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n  \"kind\": \"SriovOperatorConfig\",\n  \"metadata\": {\n    \"name\": \"default\"\n  },\n  \"spec\": {\n    \"configurationMode\": \"daemon\",\n    \"disableDrain\": false,\n    \"enableInjector\": true,\n    \"enableOperatorWebhook\": true,\n    \"logLevel\": 2,\n    \"featureGates\": {\n        \"resourceInjectorMatchCondition\": true\n    }\n  }\n}"
       operatorframework.io/suggested-namespace: openshift-sriov-network-operator
@@ -1937,27 +1940,27 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:3f235f607f4f207ff1583bd84469e70d411d5cc3df8251c1765a7553ec806aa8
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:be4cab3cf9d50b77f5f108910cc63558bddad169c03a51b9e1d8b8c9b16e030b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-dp-admission-controller-rhel9@sha256:698cba9d16c249e68f83ef04c495a81ab44deb3c87313042a35cdc6aa34c9253
+- image: registry.redhat.io/openshift4/ose-sriov-dp-admission-controller-rhel9@sha256:b25b7321d68d4bb2885a4dd334bbcf6328f4b17d041966fa106ae692aa760388
   name: ose-sriov-dp-admission-controller-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-infiniband-cni-rhel9@sha256:6a0e3c79ad0e05a4b17c061193af703916b0ef83c64fc322610512ba0747d715
+- image: registry.redhat.io/openshift4/ose-sriov-infiniband-cni-rhel9@sha256:8fcfd59ffec1200f6088955c219b51969624b2d50c88779b35bde7eadf44ab98
   name: ose-sriov-infiniband-cni-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-network-config-daemon-rhel9@sha256:b95a0e846a6d75afa2057d490570aede47673199cd30e4eeb84b6a864af450c0
+- image: registry.redhat.io/openshift4/ose-sriov-network-config-daemon-rhel9@sha256:1e6710fe2d4da341d63b0bf764e28c3d4475a7d62db6454ad5e2cfd7227edb53
   name: ose-sriov-network-config-daemon-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-network-device-plugin-rhel9@sha256:87558d7aa72f2f440b0bb7253a5a9711c18c4f372fd2866c18febd27bdebf00e
+- image: registry.redhat.io/openshift4/ose-sriov-network-device-plugin-rhel9@sha256:9dee7517507af8e511bdd70e155628373e7e0ddad24b3a3516dd4b4efc28fc20
   name: ose-sriov-network-device-plugin-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-network-metrics-exporter-rhel9@sha256:a37d36ce179585239db11f698459d89902b906a7de3a797435774edaedd29a76
+- image: registry.redhat.io/openshift4/ose-sriov-network-metrics-exporter-rhel9@sha256:212619663bb58cd59c9ea65068ad6a29a482cc9901ac0235788f245be19dc36a
   name: ose-sriov-network-metrics-exporter-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle@sha256:9759a2fc0a1a47baff7dc6cb010b255cbb020a0a16d7115054813f432b03501f
+- image: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle@sha256:f467f32475ba3589a08df87a50c62a95badcb69a978cb32d80255a7b5c3107eb
   name: ''
-- image: registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:4b699063542fae4eb1bbe46432a0c61c234eba536c31686b89a1075b1ca544d7
+- image: registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:ad507e28d3a477dd82963c10521c6fbbb5b3ce2ceb3b8204b6390690c75f720a
   name: ose-sriov-network-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-sriov-network-webhook-rhel9@sha256:1a6a64d040c86a52eba38dbc67f6e8c45bbab95b6e7a3ddd40ad1ea046b7c546
+- image: registry.redhat.io/openshift4/ose-sriov-network-webhook-rhel9@sha256:43bb41929cb06f36d953d19d376fbc5344f90ec15642c5f345b4a9de009419b5
   name: ose-sriov-network-webhook-rhel9
-- image: registry.redhat.io/openshift4/ose-sriov-rdma-cni-rhel9@sha256:8c706251244ce32978b683af585a2daaedbca37346829e9bddfe31f8cca138ed
+- image: registry.redhat.io/openshift4/ose-sriov-rdma-cni-rhel9@sha256:2a144bb93d5de691b52f34ee6a6af7d73d1bccc71186ea2be81a7de2e839d805
   name: ose-sriov-rdma-cni-rhel9
-- image: registry.redhat.io/openshift4/sriov-cni-rhel9@sha256:4f32cd8c7c2f515857fa7fae6cb36d6cd040788afc69d794aff84c4b2f3b5292
+- image: registry.redhat.io/openshift4/sriov-cni-rhel9@sha256:6d240ddb188cb4dbd246520205e6e200a044d65a099f11d0cd351bf288ac3244
   name: sriov-cni-rhel9
 schema: olm.bundle
 ---
@@ -1969,14 +1972,14 @@ name: vertical-pod-autoscaler
 schema: olm.package
 ---
 entries:
-- name: vertical-pod-autoscaler.v4.22.0-202604031356
+- name: vertical-pod-autoscaler.v4.22.0-202605121442
   skipRange: '>=4.5.0 <4.22.0'
 name: stable
 package: vertical-pod-autoscaler
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-operator-bundle@sha256:779213ecb09fca2db67a2cc1bd790f6895d38b8f4598d8a7557e1747c1275e4c
-name: vertical-pod-autoscaler.v4.22.0-202604031356
+image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-operator-bundle@sha256:a8827951dba0f757456880f020c7af2c054682c3fd73be9ece0d273427ddff00
+name: vertical-pod-autoscaler.v4.22.0-202605121442
 package: vertical-pod-autoscaler
 properties:
 - type: olm.gvk
@@ -2007,7 +2010,7 @@ properties:
 - type: olm.package
   value:
     packageName: vertical-pod-autoscaler
-    version: 4.22.0-202604031356
+    version: 4.22.0-202605121442
 - type: olm.csv.metadata
   value:
     annotations:
@@ -2015,7 +2018,7 @@ properties:
       capabilities: Full Lifecycle
       categories: OpenShift Optional
       certifiedLevel: Primed
-      containerImage: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:dafd3ee1d9a5d4f2168f91ac0e5bd4f36a308a04003edab6101327195eea05b2
+      containerImage: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:c1abbbe2af5fbbdc28001cc77eda96b6761da9d08c2345466de35bbfc8db43cb
       createdAt: '2025-11-10T00:38:01Z'
       description: An operator to run the OpenShift Vertical Pod Autoscaler. Vertical Pod Autoscaler (VPA) can be configured to monitor a workload's resource utilization, and then adjust its CPU and memory limits by updating the pod (future) or restarting the pod with updated limits.
       features.operators.openshift.io/cnf: 'false'
@@ -2192,10 +2195,10 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-operator-bundle@sha256:779213ecb09fca2db67a2cc1bd790f6895d38b8f4598d8a7557e1747c1275e4c
+- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-operator-bundle@sha256:a8827951dba0f757456880f020c7af2c054682c3fd73be9ece0d273427ddff00
   name: ''
-- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:dafd3ee1d9a5d4f2168f91ac0e5bd4f36a308a04003edab6101327195eea05b2
+- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:c1abbbe2af5fbbdc28001cc77eda96b6761da9d08c2345466de35bbfc8db43cb
   name: ose-vertical-pod-autoscaler-rhel9-operator
-- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9@sha256:24fd7a3063bffef92120b9e00cdd3af94e3e54b92ae1b3b0a8d130f9084eb0d4
+- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9@sha256:daa21432e8946998f7f209d9668eb7f0db8daf1e5434c6bbf2441900a73cee93
   name: ose-vertical-pod-autoscaler-rhel9
 schema: olm.bundle
