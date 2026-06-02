@@ -131,9 +131,13 @@ entries:
 - name: mta-operator.v8.1.2
   replaces: mta-operator.v8.1.1
   skipRange: '>=8.0.0 <8.1.2'
+- name: mta-operator.v8.1.3
+  replaces: mta-operator.v8.1.2
+  skipRange: '>=8.0.0 <8.1.3'
   skips:
   - mta-operator.v8.1.0
   - mta-operator.v8.1.1
+  - mta-operator.v8.1.2
 name: stable-v8.1
 package: mta-operator
 schema: olm.channel
@@ -5197,5 +5201,216 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-oauth-proxy@sha256:ef10b2ecbfa0c4ac8568af9ee64ee4a554e3fdc9089ee5683b6c2c3a74caafbe
   name: ose-oauth-proxy
 - image: registry.redhat.io/rhel9/postgresql-15@sha256:f6aa937d2e982d3e311602e88985e4f4060db72ff75e2d263b2d963dd31728bc
+  name: postgresql-15
+schema: olm.bundle
+---
+image: registry.redhat.io/mta/mta-operator-bundle@sha256:473decf10eee10a21ab2c7411551fb2f8949ec90ddcdf5f7728ca3c5392d5c7f
+name: mta-operator.v8.1.3
+package: mta-operator
+properties:
+- type: olm.gvk
+  value:
+    group: tackle.konveyor.io
+    kind: Addon
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: tackle.konveyor.io
+    kind: Extension
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: tackle.konveyor.io
+    kind: Schema
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: tackle.konveyor.io
+    kind: Tackle
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: tackle.konveyor.io
+    kind: Task
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: mta-operator
+    version: 8.1.3
+- type: olm.package.required
+  value:
+    packageName: rhbk-operator
+    versionRange: '>=26.0.1 <27.0.0'
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Addon\",\n    \"metadata\": {\n      \"name\": \"myaddon\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"container\": {\n        \"image\": \"quay.io/myorg/myaddon:latest\",\n        \"imagePullPolicy\": \"Always\",\n        \"name\": \"myaddon\",\n        \"resources\": {\n          \"limits\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          },\n          \"requests\": {\n            \"cpu\": 1,\n            \"memory\": \"512Mi\"\n          }\n        }\n      },\n      \"task\": \"mytask\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Extension\",\n    \"metadata\": {\n      \"name\": \"myextension\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"addon\": \"myaddon\",\n      \"container\": {\n        \"args\": [\n          \"--port\",\n          \"$(PORT)\"\n        ],\n        \"env\": [\n          {\n            \"name\": \"PORT\",\n            \"value\": \"${seq:8000}\"\n          }\n        ],\n        \"image\": \"quay.io/myorg/myaddon-image:latest\",\n        \"imagePullPolicy\": \"Always\",\n        \"name\": \"myextension\",\n        \"resources\": {\n          \"limits\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          },\n          \"requests\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          }\n        }\n      },\n      \"metadata\": {\n        \"provider\": {\n          \"address\": \"localhost:$(PORT)\",\n          \"name\": \"myextension\"\n        }\n      },\n      \"selector\": \"tag:Language=MyLang\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Schema\",\n    \"metadata\": {\n      \"name\": \"myschema\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"domain\": \"mydomain\",\n      \"subject\": \"mysubject\",\n      \"variant\": \"myvariant\",\n      \"versions\": [\n        {\n          \"definition\": {\n            \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n            \"properties\": {\n              \"names\": {\n                \"description\": \"Application names. Each may be a glob expression.\",\n                \"items\": {\n                  \"minLength\": 1,\n                  \"type\": \"string\"\n                },\n                \"minItems\": 0,\n                \"type\": \"array\"\n              },\n              \"spaces\": {\n                \"description\": \"Space names.\",\n                \"items\": {\n                  \"minLength\": 1,\n                  \"type\": \"string\"\n                },\n                \"minItems\": 1,\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"spaces\"\n            ],\n            \"title\": \"Coordinates\",\n            \"type\": \"object\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Tackle\",\n    \"metadata\": {\n      \"name\": \"tackle\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"feature_auth_required\": \"false\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Task\",\n    \"metadata\": {\n      \"name\": \"mytask\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"dependencies\": [\n        \"myaddon\"\n      ],\n      \"priority\": 10\n    }\n  }\n]"
+      capabilities: Seamless Upgrades
+      categories: OpenShift Optional, Modernization & Migration
+      certified: 'false'
+      containerImage: registry.redhat.io/mta/mta-rhel9-operator@sha256:1936345ac259f3f1bf04e191f0b83d4edf5d58a22ab193c9b6ee8d4fc2b24865
+      createdAt: '2026-02-27T19:34:08Z'
+      description: Migration Toolkit for Applications is an application modernization platform that helps organizations safely and predictably modernize applications to OpenShift at scale.
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=8.0.0 <8.1.3'
+      operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n  \"kind\": \"Tackle\",\n  \"metadata\": {\n    \"name\": \"tackle\",\n    \"namespace\": \"openshift-mta\"\n  },\n  \"spec\": {\n    \"feature_auth_required\": \"false\"\n  }\n}"
+      operatorframework.io/suggested-namespace: openshift-mta
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.39.1
+      operators.operatorframework.io/project_layout: ansible.sdk.operatorframework.io/v1
+      repository: https://github.com/konveyor/operator
+      support: https://github.com/konveyor/operator/issues
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Tackle Addon
+        displayName: Addon
+        kind: Addon
+        name: addons.tackle.konveyor.io
+        version: v1alpha1
+      - description: Tackle Extension
+        displayName: Extension
+        kind: Extension
+        name: extensions.tackle.konveyor.io
+        version: v1alpha1
+      - kind: Schema
+        name: schemas.tackle.konveyor.io
+        version: v1alpha1
+      - description: Tackle
+        displayName: Tackle
+        kind: Tackle
+        name: tackles.tackle.konveyor.io
+        version: v1alpha1
+      - description: Tackle Task
+        displayName: Task
+        kind: Task
+        name: tasks.tackle.konveyor.io
+        version: v1alpha1
+    description: 'Migration Toolkit for Applications is an application modernization platform that helps organizations safely and predictably modernize applications to new technologies, with an initial focus on accelerating the adoption of legacy applications to OpenShift.
+
+
+      See the [Konveyor Unified Experience](https://github.com/konveyor/enhancements/tree/master/enhancements/unified_experience) to understand the vision of the project and the [Konveyor Charter](https://github.com/konveyor/community/blob/main/Charter.md) for more information on the community.
+
+
+      ### Install
+
+
+      Once you have successfully installed the Operator, proceed to deploy components by creating the required Tackle CR.
+
+
+      By default, the Operator installs the following components on a target cluster:
+
+
+      * Hub, to manage the application inventory and coordinate the migration process.
+
+      * UI, the web console to manage the application inventory and drive the migration waves.
+
+
+      Authentication capabilities may be enabled via the `feature_auth_required` parameter in the Tackle CR. When enabled, the Operator installs the following components:
+
+      * Keycloak, to manage authentication, including with 3rd-party providers.
+
+
+      ### Examples
+
+      If you are just getting started using Konveyor, take a look at an [example application analysis here](https://github.com/konveyor/example-applications/tree/main/example-1)
+
+
+      ### Documentation
+
+      Documentation can be found on our [website](https://konveyor.github.io).
+
+
+      ### Getting help
+
+      If you encounter any issues while using Konveyor operator, you can create an issue on our [Github repo](https://github.com/konveyor/operator/issues), for bugs, enhancements or other requests.
+
+      Or reach out to us in [#konveyor](https://kubernetes.slack.com/archives/CR85S82A2) on kubernetes.slack.com
+
+
+      ### Contributing
+
+      You can contribute by:
+
+
+      * Raising any issues you find using Konveyor Operator
+
+      * Fixing issues by opening [Pull Requests](https://github.com/konveyor/operator/pulls)
+
+      * Improving [documentation](https://github.com/konveyor/tackle-documentation)
+
+      '
+    displayName: Migration Toolkit for Applications Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: true
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - modernization
+    - migration
+    - konveyor
+    - tackle
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: unsupported
+      operatorframework.io/arch.s390x: unsupported
+    links:
+    - name: Documentation
+      url: https://konveyor.github.io
+    - name: Developers
+      url: https://github.com/konveyor/operator
+    maintainers:
+    - email: openshift-operators@redhat.com
+      name: Red Hat
+    maturity: alpha
+    minKubeVersion: 1.22.0
+    provider:
+      name: Red Hat
+      url: https://www.redhat.com
+relatedImages:
+- image: registry.redhat.io/mta/mta-operator-bundle@sha256:473decf10eee10a21ab2c7411551fb2f8949ec90ddcdf5f7728ca3c5392d5c7f
+  name: ''
+- image: registry.redhat.io/lightspeed-core/lightspeed-stack-rhel9@sha256:99223794d95ba342fb6c6c6f5df8eb2745325692a97641b068b7e53fcf692f26
+  name: lightspeed-stack-rhel9
+- image: registry.redhat.io/mta/mta-analyzer-addon-rhel9@sha256:3ae249f510beb100c2a63bd0a87af9383a74423fadb0207086b7d31e8228bbf1
+  name: mta-analyzer-addon-rhel9
+- image: registry.redhat.io/mta/mta-cli-rhel9@sha256:8f1c0522e75dd04048a071547e737b6588176cfb440c15a1b2c45d00cde05600
+  name: mta-cli-rhel9
+- image: registry.redhat.io/mta/mta-discovery-addon-rhel9@sha256:26d1f2eaa3a40303dd6481036bd1a24fb637533d59c0e41f4625ad49f34be12a
+  name: mta-discovery-addon-rhel9
+- image: registry.redhat.io/mta/mta-dotnet-external-provider-rhel9@sha256:eb1c4edb60bd6b117765beb4876e9d5f058edab08f42026eeb9eb8d7a40d2e0b
+  name: mta-dotnet-external-provider-rhel9
+- image: registry.redhat.io/mta/mta-generic-external-provider-rhel9@sha256:367e717331ea97bd30a24fb70a3cf20f571aaf34bff806ee8ab9f84f69901a8c
+  name: mta-generic-external-provider-rhel9
+- image: registry.redhat.io/mta/mta-hub-rhel9@sha256:6ba54cba45da3c5d46c88a59fa6292f6104085af67a7f79bee16b429c52cafb5
+  name: mta-hub-rhel9
+- image: registry.redhat.io/mta/mta-java-external-provider-rhel9@sha256:e872fe406381c65e01cc91cca2a1c21f76f042e2fe326d989cf8b808f2559df5
+  name: mta-java-external-provider-rhel9
+- image: registry.redhat.io/mta/mta-platform-addon-rhel9@sha256:1845bcd296c2a42e1be70d7f1dbbad668c6105fb87dcf15ac53d3a26b8b76336
+  name: mta-platform-addon-rhel9
+- image: registry.redhat.io/mta/mta-rhel9-operator@sha256:1936345ac259f3f1bf04e191f0b83d4edf5d58a22ab193c9b6ee8d4fc2b24865
+  name: mta-rhel9-operator
+- image: registry.redhat.io/mta/mta-solution-server-rhel9@sha256:8229d0e76c6224fcf0d711aaaddec65eac5e5aacfaed42981c780a169bec7278
+  name: mta-solution-server-rhel9
+- image: registry.redhat.io/mta/mta-ui-rhel9@sha256:bbed2327a7d5f6f9063100330b6d0f429337edeefe3f60f6ebaa12556a40a978
+  name: mta-ui-rhel9
+- image: registry.redhat.io/openshift4/ose-oauth-proxy@sha256:ef10b2ecbfa0c4ac8568af9ee64ee4a554e3fdc9089ee5683b6c2c3a74caafbe
+  name: ose-oauth-proxy
+- image: registry.redhat.io/rhel9/postgresql-15@sha256:327d89e4b62d990dbf55d3c78f271373747816c2e0ab3c943fb016cdcf12f9b5
   name: postgresql-15
 schema: olm.bundle
