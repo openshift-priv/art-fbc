@@ -83,6 +83,8 @@ entries:
   skipRange: '>=4.5.0 <4.17.0-202603231351'
 - name: verticalpodautoscaler.v4.17.0-202605131811
   skipRange: '>=4.5.0 <4.17.0-202605131811'
+- name: verticalpodautoscaler.v4.17.0-202606081731
+  skipRange: '>=4.5.0 <4.17.0-202606081731'
   skips:
   - verticalpodautoscaler.v4.17.0-202406041342
   - verticalpodautoscaler.v4.17.0-202406212042
@@ -135,6 +137,7 @@ entries:
   - verticalpodautoscaler.v4.17.0-202602250141
   - verticalpodautoscaler.v4.17.0-202602261920
   - verticalpodautoscaler.v4.17.0-202603231351
+  - verticalpodautoscaler.v4.17.0-202605131811
 name: stable
 package: vertical-pod-autoscaler
 schema: olm.channel
@@ -4278,5 +4281,114 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:18130388568b22ae0cacd4adef9d4015dee62707db0b4b7b91e97785d8297eca
   name: ose-vertical-pod-autoscaler-rhel9-operator
 - image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9@sha256:9efc35263b51e2a256448a94440feddc377d4dc23ca55999261ef4ab379a7ba0
+  name: ose-vertical-pod-autoscaler-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-operator-bundle@sha256:9e21b74e458d78b5487e1d69a81c5e060bdfd3db60c0be33e5b9c4049d4650f5
+name: verticalpodautoscaler.v4.17.0-202606081731
+package: vertical-pod-autoscaler
+properties:
+- type: olm.gvk
+  value:
+    group: autoscaling.k8s.io
+    kind: VerticalPodAutoscaler
+    version: v1
+- type: olm.gvk
+  value:
+    group: autoscaling.k8s.io
+    kind: VerticalPodAutoscaler
+    version: v1beta2
+- type: olm.gvk
+  value:
+    group: autoscaling.k8s.io
+    kind: VerticalPodAutoscalerCheckpoint
+    version: v1
+- type: olm.gvk
+  value:
+    group: autoscaling.k8s.io
+    kind: VerticalPodAutoscalerCheckpoint
+    version: v1beta2
+- type: olm.gvk
+  value:
+    group: autoscaling.openshift.io
+    kind: VerticalPodAutoscalerController
+    version: v1
+- type: olm.package
+  value:
+    packageName: vertical-pod-autoscaler
+    version: 4.17.0-202606081731
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"autoscaling.openshift.io/v1\",\n    \"kind\": \"VerticalPodAutoscalerController\",\n    \"metadata\": {\n      \"name\": \"default\",\n      \"namespace\": \"openshift-vertical-pod-autoscaler\"\n    },\n    \"spec\": {\n      \"podMinCPUMillicores\": 25,\n      \"podMinMemoryMb\": 250,\n      \"recommendationOnly\": false,\n      \"safetyMarginFraction\": 0.15,\n      \"minReplicas\": 2\n    }\n  },\n  {\n     \"apiVersion\": \"autoscaling.k8s.io/v1\",\n     \"kind\": \"VerticalPodAutoscaler\",\n     \"metadata\": {\n        \"name\": \"myapp-vpa\"\n     },\n     \"spec\": {\n        \"targetRef\": {\n           \"apiVersion\": \"apps/v1\",\n           \"kind\": \"Deployment\",\n           \"name\": \"myapp-deployment\"\n        },\n        \"resourcePolicy\": {\n           \"containerPolicies\": [\n              {\n                 \"containerName\": \"*\",\n                 \"minAllowed\": {\n                    \"cpu\": \"100m\",\n                    \"memory\": \"50Mi\"\n                 },\n                 \"maxAllowed\": {\n                    \"cpu\": 1,\n                    \"memory\": \"500Mi\"\n                 },\n                 \"controlledResources\": [\n                    \"cpu\",\n                    \"memory\"\n                 ]\n              }\n           ]\n        }\n     }\n  }\n]\n"
+      capabilities: Full Lifecycle
+      categories: OpenShift Optional
+      certifiedLevel: Primed
+      containerImage: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:e325f1c6552713d3cbbb2cd5a80f940e2757c46e738eb6fa67d1479666cf7452
+      createdAt: 2019-10-14 12:17:13+00:00
+      description: An operator to run the OpenShift Vertical Pod Autoscaler. Vertical Pod Autoscaler (VPA) can be configured to monitor a workload's resource utilization, and then adjust its CPU and memory limits by updating the pod (future) or restarting the pod with updated limits.
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      healthIndex: B
+      olm.skipRange: '>=4.5.0 <4.17.0-202606081731'
+      operatorframework.io/suggested-namespace: openshift-vertical-pod-autoscaler
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/openshift/vertical-pod-autoscaler-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents an instance of the set of VPA controllers
+        displayName: VPA Controller
+        kind: VerticalPodAutoscalerController
+        name: verticalpodautoscalercontrollers.autoscaling.openshift.io
+        version: v1
+      - description: An application whose resources are managed by the VPA
+        displayName: VerticalPodAutoscaler
+        kind: VerticalPodAutoscaler
+        name: verticalpodautoscalers.autoscaling.k8s.io
+        version: v1
+      - description: Represents VPA checkpoints used by the VPA controllers to manage workloads
+        displayName: VPA Checkpoint
+        kind: VerticalPodAutoscalerCheckpoint
+        name: verticalpodautoscalercheckpoints.autoscaling.k8s.io
+        version: v1
+    description: An operator to run the OpenShift Vertical Pod Autoscaler. Vertical Pod Autoscaler (VPA) can be configured to monitor a workload's resource utilization, and then adjust its CPU and memory limits by updating the pod (future) or restarting the pod with updated limits.
+    displayName: VerticalPodAutoscaler
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+    links:
+    - name: Vertical Pod Autoscaler Documentation
+      url: https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-vertical-autoscaler.html
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat
+    maturity: alpha
+    minKubeVersion: 1.11.0
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-operator-bundle@sha256:9e21b74e458d78b5487e1d69a81c5e060bdfd3db60c0be33e5b9c4049d4650f5
+  name: ''
+- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9-operator@sha256:e325f1c6552713d3cbbb2cd5a80f940e2757c46e738eb6fa67d1479666cf7452
+  name: ose-vertical-pod-autoscaler-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-vertical-pod-autoscaler-rhel9@sha256:633d22ec9191d904adacc54cad99c203883ca455cc45e082a7961d9c35273427
   name: ose-vertical-pod-autoscaler-rhel9
 schema: olm.bundle
