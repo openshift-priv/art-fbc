@@ -101,6 +101,9 @@ entries:
 - name: oadp-operator.v1.4.9
   replaces: oadp-operator.v1.4.8
   skipRange: '>=0.0.0 <1.4.9'
+- name: oadp-operator.v1.4.10
+  replaces: oadp-operator.v1.4.9
+  skipRange: '>=0.0.0 <1.4.10'
 name: stable-1.4
 package: redhat-oadp-operator
 schema: olm.channel
@@ -6156,5 +6159,539 @@ relatedImages:
 - image: registry.redhat.io/oadp/oadp-velero-restic-restore-helper-rhel9@sha256:a75b01dee4d86c9b3bdb39826bd637ede580359d3991b50fdb9939c08df312c2
   name: oadp-velero-restic-restore-helper-rhel9
 - image: registry.redhat.io/oadp/oadp-velero-rhel9@sha256:c1fce30641dec0001ffa3fbc50bf641e61141c1e787cdb8e0cbe78cd4c845d29
+  name: oadp-velero-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/oadp/oadp-operator-bundle@sha256:82266cad7d57b476426b8704d0c8a3af555ed9f6eb8718ea4d5ee2c5c3a4a4c4
+name: oadp-operator.v1.4.10
+package: redhat-oadp-operator
+properties:
+- type: olm.gvk
+  value:
+    group: oadp.openshift.io
+    kind: CloudStorage
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: oadp.openshift.io
+    kind: DataProtectionApplication
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: Backup
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: BackupRepository
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: BackupStorageLocation
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: DataDownload
+    version: v2alpha1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: DataUpload
+    version: v2alpha1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: DeleteBackupRequest
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: DownloadRequest
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: PodVolumeBackup
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: PodVolumeRestore
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: Restore
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: Schedule
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: ServerStatusRequest
+    version: v1
+- type: olm.gvk
+  value:
+    group: velero.io
+    kind: VolumeSnapshotLocation
+    version: v1
+- type: olm.package
+  value:
+    packageName: redhat-oadp-operator
+    version: 1.4.10
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"oadp.openshift.io/v1alpha1\",\n    \"kind\": \"DataProtectionApplication\",\n    \"metadata\": {\n      \"name\": \"velero-sample\"\n    },\n    \"spec\": {\n      \"backupLocations\": [\n        {\n          \"velero\": {\n            \"config\": {\n              \"profile\": \"default\",\n              \"region\": \"us-east-1\"\n            },\n            \"credential\": {\n              \"key\": \"cloud\",\n              \"name\": \"cloud-credentials\"\n            },\n            \"default\": true,\n            \"objectStorage\": {\n              \"bucket\": \"my-bucket-name\",\n              \"prefix\": \"velero\"\n            },\n            \"provider\": \"aws\"\n          }\n        }\n      ],\n      \"configuration\": {\n        \"nodeAgent\": {\n          \"enable\": true,\n          \"uploaderType\": \"restic\"\n        },\n        \"velero\": {\n          \"defaultPlugins\": [\n            \"openshift\",\n            \"aws\",\n            \"kubevirt\"\n          ]\n        }\n      },\n      \"snapshotLocations\": [\n        {\n          \"velero\": {\n            \"config\": {\n              \"profile\": \"default\",\n              \"region\": \"us-west-2\"\n            },\n            \"provider\": \"aws\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"Backup\",\n    \"metadata\": {\n      \"name\": \"backup\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"BackupStorageLocation\",\n    \"metadata\": {\n      \"name\": \"backupstoragelocation\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"DeleteBackupRequest\",\n    \"metadata\": {\n      \"name\": \"deletebackuprequest\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"DownloadRequest\",\n    \"metadata\": {\n      \"name\": \"downloadrequest\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"PodVolumeBackup\",\n    \"metadata\": {\n      \"name\": \"podvolumebackup\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"PodVolumeRestore\",\n    \"metadata\": {\n      \"name\": \"podvolumerestore\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"Restore\",\n    \"metadata\": {\n      \"name\": \"restore\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"Schedule\",\n    \"metadata\": {\n      \"name\": \"schedule\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"ServerStatusRequest\",\n    \"metadata\": {\n      \"name\": \"serverstatusrequest\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"velero.io/v1\",\n    \"kind\": \"VolumeSnapshotLocation\",\n    \"metadata\": {\n      \"name\": \"volumesnapshotlocation\",\n      \"namespace\": \"openshift-adp\"\n    },\n    \"spec\": {}\n  }\n]"
+      capabilities: Seamless Upgrades
+      categories: 'Cloud Provider,Developer Tools,Modernization & Migration,OpenShift Optional,Storage
+
+        '
+      certified: 'false'
+      containerImage: registry.redhat.io/oadp/oadp-rhel9-operator@sha256:abf4cee11de2f626874d8f5bffd86ccbf79a174b3159408903269a29c8d5e956
+      createdAt: '2025-09-16T12:21:00Z'
+      description: OADP (OpenShift API for Data Protection) operator sets up and installs Data Protection Applications on the OpenShift platform.
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'true'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=0.0.0 <1.4.10'
+      operatorframework.io/suggested-namespace: openshift-adp
+      operators.openshift.io/infrastructure-features: '["Disconnected"]'
+      operators.openshift.io/must-gather-image: registry.redhat.io/oadp/oadp-mustgather-rhel9@sha256:0ddc24b369d82910a2ab3bc746e1dbfac05d3443ea13ac6507080e7154434d4d
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.34.2
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: https://github.com/openshift/oadp-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: A backup repository is an indicator of a connection from the restic/kopia server to the backupstoragelocation.
+        displayName: BackupRepository
+        kind: BackupRepository
+        name: backuprepositories.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the BackupRepository.
+          displayName: Phase
+          path: phase
+        - description: Message is a message about the current status of the BackupRepository.
+          displayName: Message
+          path: message
+        - description: LastMaintenanceTime is the last time maintenance was run.
+          displayName: LastMaintenanceTime
+          path: lastMaintenanceTime
+        version: v1
+      - description: Backup is a Velero resource that represents the capture of Kubernetes cluster state at a point in time (API objects and associated volume state).
+        displayName: Backup
+        kind: Backup
+        name: backups.velero.io
+        statusDescriptors:
+        - description: CompletionTimestamp records the time a backup was completed. Completion time is recorded even on failed backups. Completion time is recorded before uploading the backup object. The server's time is used for CompletionTimestamps.
+          displayName: CompletionTimestamp
+          path: completionTimestamp
+        - description: Expiration is when this Backup is eligible for garbage collection.
+          displayName: Expiration
+          path: expiration
+        - description: Format Version is the backup format version, including major, minor, and patch version.
+          displayName: FormatVersion
+          path: formatVersion
+        - description: Phase is the current state of the Backup
+          displayName: Phase
+          path: phase
+        - description: Progress contains information about the backup's execution progress. Note that this information is best-effort only -- if Velero fails to update it during a backup for any reason, it may be inaccurate/stale.
+          displayName: Progress
+          path: progress
+        - description: Start Timestamp records the time a backup was started. Separate from CreationTimestamp, since that value changes on restores. The server's time is used for StartTimestamps.
+          displayName: StartTimestamp
+          path: startTimestamp
+        - description: ValidationErrors are a slice of all validation errors (if applicable).
+          displayName: Validation Errors
+          path: validationErrors
+        - description: VolumeSnapshotsAttempted is the total number of attempted volume snapshots for this backup.
+          displayName: VolumeSnapshotsAttempted
+          path: volumeSnapshotsAttempted
+        - description: VolumeSnapshotsCompleted is the total number of successfully completed volume snapshots for this backup.
+          displayName: VolumeSnapshotsCompleted
+          path: volumeSnapshotsCompleted
+        - description: Warnings is a count of all warning messages that were generated during execution of the backup. The actual warnings are in the backup's log file in object storage.
+          displayName: Warnings
+          path: warnings
+        - description: Errors is a count of all error messages that were generated during execution of the backup.  The actual errors are in the backup's log file in object storage.
+          displayName: Errors
+          path: errors
+        version: v1
+      - description: BackupStorageLocation represents an object storage location (such as Amazon S3 Bucket) where Velero stores backup objects.
+        displayName: BackupStorageLocation
+        kind: BackupStorageLocation
+        name: backupstoragelocations.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the BackupStorageLocation
+          displayName: Phase
+          path: phase
+        - description: LastSyncedTime is the last time the contents of the location were synced into
+          displayName: LastSyncedTime
+          path: lastSyncedTime
+        - description: LastValidationTime is the last time the backup store location was validated
+          displayName: LastValidationTime
+          path: lastValidationTime
+        version: v1
+      - description: The CloudStorage API automates the creation of a bucket for object storage.
+        displayName: CloudStorage
+        kind: CloudStorage
+        name: cloudstorages.oadp.openshift.io
+        statusDescriptors:
+        - description: LastSyncTimestamp is the last time the contents of the CloudStorage was synced
+          displayName: LastSyncTimestamp
+          path: lastSyncTimestamp
+        - description: Name is the name requested for the bucket (aws, gcp) or container (azure)
+          displayName: Name
+          path: name
+        version: v1alpha1
+      - description: DataDownload represents a data download of a volume snapshot. There is one DataDownload created per volume to be restored.
+        displayName: DataDownload
+        kind: DataDownload
+        name: datadownloads.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the DataDownload.
+          displayName: Phase
+          path: phase
+        - description: CompletionTimestamp records the time a restore was completed. Completion time is recorded even on failed restores. The server's time is used for CompletionTimestamps
+          displayName: CompletionTimestamp
+          path: completionTimestamp
+        - description: Message is a message about the current status of the BackupRepository.
+          displayName: Message
+          path: message
+        - description: Node is the name of the node where the DataDownload is processed.
+          displayName: Node
+          path: node
+        - description: Progress holds the total number of bytes of the snapshot and the current number of restored bytes. This can be used to display progress information about the restore operation.
+          displayName: Progress
+          path: progress
+        - description: StartTimestamp records the time a restore was started. The server's time is used for StartTimestamps
+          displayName: StartTimestamp
+          path: startTimestamp
+        version: v2alpha1
+      - description: DataProtectionApplication represents configuration to install a data protection application to safely backup and restore, perform disaster recovery and migrate Kubernetes cluster resources and persistent volumes.
+        displayName: DataProtectionApplication
+        kind: DataProtectionApplication
+        name: dataprotectionapplications.oadp.openshift.io
+        statusDescriptors:
+        - description: Conditions defines the observed state of DataProtectionApplication
+          displayName: Conditions
+          path: conditions
+        version: v1alpha1
+      - description: DataUpload acts as the protocol between data mover plugins and data mover controller for the datamover backup operation
+        displayName: DataUpload
+        kind: DataUpload
+        name: datauploads.velero.io
+        statusDescriptors:
+        - description: CompletionTimestamp records the time a backup was completed. Completion time is recorded even on failed backups. Completion time is recorded before uploading the backup object. The server's time is used for CompletionTimestamps
+          displayName: CompletionTimestamp
+          path: completionTimestamp
+        - description: DataMoverResult stores data-mover-specific information as a result of the DataUpload.
+          displayName: DataMoverResult
+          path: dataMoverResult
+        - description: Message is a message about the DataUpload's status.
+          displayName: Message
+          path: message
+        - description: Node is the name of the node where the DataUpload is processed.
+          displayName: Node
+          path: node
+        - description: Path is the full path of the snapshot volume being backed up.
+          displayName: Path
+          path: path
+        - description: Phase is the current state of the DataUpload.
+          displayName: Phase
+          path: phase
+        - description: Progress holds the total number of bytes of the volume and the current number of backed up bytes. This can be used to display progress information about the backup operation.
+          displayName: Progress
+          path: progress
+        - description: SnapshotID is the identifier for the snapshot in the backup repository.
+          displayName: SnapshotID
+          path: snapshotID
+        - description: StartTimestamp records the time a backup was started. Separate from CreationTimestamp, since that value changes on restores. The server's time is used for StartTimestamps
+          displayName: StartTimestamp
+          path: startTimestamp
+        version: v2alpha1
+      - description: DeleteBackupRequest is a request to delete one or more backups.
+        displayName: DeleteBackupRequest
+        kind: DeleteBackupRequest
+        name: deletebackuprequests.velero.io
+        statusDescriptors:
+        - description: Phase is the current status of a DeleteBackupRequest
+          displayName: Phase
+          path: phase
+        - description: Errors contains any errors that were encountered during the deletion process.
+          displayName: Errors
+          path: errors
+        version: v1
+      - description: DownloadRequest is a request to download an artifact from object storage such as a backup log file.
+        displayName: DownloadRequest
+        kind: DownloadRequest
+        name: downloadrequests.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the DownloadRequest.
+          displayName: Phase
+          path: phase
+        - description: DownloadURL contains the pre-signed URL for the target file.
+          displayName: DownloadURL
+          path: downloadURL
+        - description: Expiration is when this DownloadRequest expires and can be deleted by the system.
+          displayName: Expiration
+          path: expiration
+        version: v1
+      - description: A velero pod volume backup is a restic backup of persistent volumes attached to a running pod.
+        displayName: PodVolumeBackup
+        kind: PodVolumeBackup
+        name: podvolumebackups.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the PodVolumeBackup.
+          displayName: Phase
+          path: phase
+        - description: Path is the full path within the controller pod being backed up.
+          displayName: Path
+          path: path
+        - description: SnapshotID is the identifier for the snapshot of the pod volume.
+          displayName: SnapshotID
+          path: snapshotID
+        - description: Message is a message about the pod volume backup's status.
+          displayName: Message
+          path: message
+        - description: StartTimestamp records the time a backup was started. Separate from CreationTimestamp, since that value changes on restores. The server's time is used for StartTimestamps
+          displayName: StartTimestamp
+          path: startTimestamp
+        - description: CompletionTimestamp records the time a backup was completed. Completion time is recorded even on failed backups. Completion time is recorded before uploading the backup object. The server's time is used for CompletionTimestamps
+          displayName: CompletionTimestamp
+          path: completionTimestamp
+        - description: Progress holds the total number of bytes of the volume and the current number of backed up bytes. This can be used to display progress information about the backup operation.
+          displayName: Progress
+          path: progress
+        version: v1
+      - description: A velero pod volume restore is a restic restore of persistent volumes attached to a running pod.
+        displayName: PodVolumeRestore
+        kind: PodVolumeRestore
+        name: podvolumerestores.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the PodVolumeRestore.
+          displayName: Phase
+          path: phase
+        - description: Message is a message about the pod volume restore's status.
+          displayName: Message
+          path: message
+        - description: StartTimestamp records the time a restore was started. The server's time is used for StartTimestamps
+          displayName: StartTimestamp
+          path: startTimestamp
+        - description: CompletionTimestamp records the time a restore was completed. Completion time is recorded even on failed restores. The server's time is used for CompletionTimestamps
+          displayName: CompletionTimestamp
+          path: completionTimestamp
+        - description: Progress holds the total number of bytes of the snapshot and the current number of restored bytes. This can be used to display progress information about the restore operation.
+          displayName: Progress
+          path: progress
+        version: v1
+      - description: Restore is a Velero resource that represents the application of resources from a Velero backup to a target Kubernetes cluster.
+        displayName: Restore
+        kind: Restore
+        name: restores.velero.io
+        statusDescriptors:
+        - description: Phase is the current state of the Restore
+          displayName: Phase
+          path: phase
+        - description: ValidationErrors is a slice of all validation errors (if applicable)
+          displayName: ValidationErrors
+          path: validationErrors
+        - description: Warnings is a count of all warning messages that were generated during execution of the restore. The actual warnings are stored in object storage.
+          displayName: Warnings
+          path: warnings
+        - description: Errors is a count of all error messages that were generated during execution of the restore. The actual errors are stored in object storage.
+          displayName: Errors
+          path: errors
+        - description: FailureReason is an error that caused the entire restore to fail.
+          displayName: FailureReason
+          path: failureReason
+        - description: StartTimestamp records the time the restore operation was started. The server's time is used for StartTimestamps
+          displayName: StartTimestamp
+          path: startTimestamp
+        - description: CompletionTimestamp records the time the restore operation was completed. Completion time is recorded even on failed restore. The server's time is used for StartTimestamps
+          displayName: CompletionTimestamp
+          path: completionTimestamp
+        - description: Progress contains information about the restore's execution progress. Note that this information is best-effort only -- if Velero fails to update it during a restore for any reason, it may be inaccurate/stale.
+          displayName: Progress
+          path: progress
+        version: v1
+      - description: Schedule is a Velero resource that represents a pre-scheduled or periodic Backup that should be run.
+        displayName: Schedule
+        kind: Schedule
+        name: schedules.velero.io
+        statusDescriptors:
+        - description: Phase is the current phase of the Schedule
+          displayName: Phase
+          path: phase
+        - description: LastBackup is the last time a Backup was run for this Schedule schedule
+          displayName: LastBackup
+          path: lastBackup
+        - description: ValidationErrors is a slice of all validation errors (if applicable)
+          displayName: ValidationErrors
+          path: validationErrors
+        version: v1
+      - description: ServerStatusRequest is a request to access current status information about the Velero server.
+        displayName: ServerStatusRequest
+        kind: ServerStatusRequest
+        name: serverstatusrequests.velero.io
+        statusDescriptors:
+        - description: Phase is the current lifecycle phase of the ServerStatusRequest.
+          displayName: Phase
+          path: phase
+        - description: ProcessedTimestamp is when the ServerStatusRequest was processed by the ServerStatusRequestController.
+          displayName: ProcessedTimestamp
+          path: processedTimestamp
+        - description: ServerVersion is the Velero server version.
+          displayName: ServerVersion
+          path: serverVersion
+        - description: Plugins list information about the plugins running on the Velero server
+          displayName: Plugins
+          path: plugins
+        version: v1
+      - description: VolumeSnapshotLocation is a location where Velero stores volume snapshots.
+        displayName: VolumeSnapshotLocation
+        kind: VolumeSnapshotLocation
+        name: volumesnapshotlocations.velero.io
+        statusDescriptors:
+        - description: Phase is the current lifecycle phase of the VolumeSnapshotLocation
+          displayName: Phase
+          path: phase
+        version: v1
+    description: '**OpenShift API for Data Protection (OADP)** operator sets up and installs
+
+      Velero on the OpenShift platform, allowing users to backup and restore
+
+      applications.
+
+
+      Backup and restore Kubernetes resources and internal images, at the
+
+      granularity of a namespace, using a version of Velero appropriate for
+
+      the installed version of OADP.
+
+
+      OADP backs up Kubernetes objects and internal images by saving them as
+
+      an archive file on object storage. OADP backs up persistent volumes
+
+      (PVs) by creating snapshots with the native cloud snapshot API or with
+
+      the Container Storage Interface (CSI). For cloud providers that do not
+
+      support snapshots, OADP backs up resources and PV data with Restic or Kopia.
+
+
+      * [Installing OADP for application backup and restore][install-doc]
+
+
+      * [Installing OADP on a ROSA cluster and using STS, please follow the Getting Started Steps 1-3 in order to obtain the role ARN needed for using the standardized STS configuration flow via OLM][rosa-sts-doc]
+
+
+      * [Frequently Asked Questions][faq-doc]
+
+
+      [install-doc]: https://docs.openshift.com/container-platform/latest/backup_and_restore/application_backup_and_restore/installing/about-installing-oadp.html
+
+      [rosa-sts-doc]: https://mobb.ninja/docs/misc/oadp/rosa-sts/
+
+      [faq-doc]: https://access.redhat.com/articles/5456281
+
+      '
+    displayName: OADP Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - disaster backup
+    - disaster recovery
+    - disaster restore
+    - disaster
+    - backup
+    - restore
+    - backup automation
+    - recovery
+    - data protection
+    - data management
+    - data
+    - protection
+    - management
+    - application resilience
+    - resilience
+    - velero
+    - openshift
+    - oadp
+    - cloud-native
+    - replication
+    - kopia
+    - restic
+    - network file system
+    - nfs
+    - simple cloud storage
+    - s3
+    - minio
+    - cloud storage
+    - data foundation
+    - ceph
+    - csi
+    - container storage interface
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+    links:
+    - name: OADP Operator
+      url: https://github.com/openshift/oadp-operator
+    maintainers:
+    - email: oadp-maintainers@redhat.com
+      name: OADP Operator maintainers
+    maturity: stable
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/oadp/oadp-operator-bundle@sha256:82266cad7d57b476426b8704d0c8a3af555ed9f6eb8718ea4d5ee2c5c3a4a4c4
+  name: ''
+- image: registry.redhat.io/oadp/oadp-kubevirt-velero-plugin-rhel9@sha256:be556946f514e441757167cc776c901b27e2f7a5583701e4c86c3a85da79496f
+  name: oadp-kubevirt-velero-plugin-rhel9
+- image: registry.redhat.io/oadp/oadp-mustgather-rhel9@sha256:0ddc24b369d82910a2ab3bc746e1dbfac05d3443ea13ac6507080e7154434d4d
+  name: oadp-mustgather-rhel9
+- image: registry.redhat.io/oadp/oadp-rhel9-operator@sha256:abf4cee11de2f626874d8f5bffd86ccbf79a174b3159408903269a29c8d5e956
+  name: oadp-rhel9-operator
+- image: registry.redhat.io/oadp/oadp-velero-plugin-for-aws-rhel9@sha256:ff35c53d530dc8a89eb8186f09c264da7e1f7e860f68594d805a44f122316869
+  name: oadp-velero-plugin-for-aws-rhel9
+- image: registry.redhat.io/oadp/oadp-velero-plugin-for-gcp-rhel9@sha256:e2cb21780bbf80015488d6c6aa647bcc1a997896db5a80b37d4bc227d3f33a56
+  name: oadp-velero-plugin-for-gcp-rhel9
+- image: registry.redhat.io/oadp/oadp-velero-plugin-for-legacy-aws-rhel9@sha256:83fa52e215f02478da83920ae58b194ca6bc2df2500b3cdce53d57ff7267627f
+  name: oadp-velero-plugin-for-legacy-aws-rhel9
+- image: registry.redhat.io/oadp/oadp-velero-plugin-for-microsoft-azure-rhel9@sha256:6d7a5688b9e62e7d696524c6b2037438df86a7b475bcf85edad7dc27699b6977
+  name: oadp-velero-plugin-for-microsoft-azure-rhel9
+- image: registry.redhat.io/oadp/oadp-velero-plugin-rhel9@sha256:02abc2ed222f3bec6b1e4f7fe9b46e7e4cb5830f6980888154810ee13aa072e3
+  name: oadp-velero-plugin-rhel9
+- image: registry.redhat.io/oadp/oadp-velero-restic-restore-helper-rhel9@sha256:58a07c3dbe66862b43bb3d894610bc85f3a21f829d70e8b0b8c17ca91e5b5618
+  name: oadp-velero-restic-restore-helper-rhel9
+- image: registry.redhat.io/oadp/oadp-velero-rhel9@sha256:0fd4589efa7187c81d336a575af37a8093b50bd9fcb3d4a03712db9e11eef2d0
   name: oadp-velero-rhel9
 schema: olm.bundle
