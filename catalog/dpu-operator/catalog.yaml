@@ -43,6 +43,7 @@ entries:
 - name: dpu-operator.v4.17.0-202602261920
 - name: dpu-operator.v4.17.0-202603231351
 - name: dpu-operator.v4.17.0-202605131811
+- name: dpu-operator.v4.17.0-202607010855
   skips:
   - dpu-operator.v4.17.0-202406010842
   - dpu-operator.v4.17.0-202406242142
@@ -143,6 +144,7 @@ entries:
   - dpu-operator.v4.17.0-202602250141
   - dpu-operator.v4.17.0-202602261920
   - dpu-operator.v4.17.0-202603231351
+  - dpu-operator.v4.17.0-202605131811
 name: stable
 package: dpu-operator
 schema: olm.channel
@@ -3348,5 +3350,94 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-dpu-rhel9-operator@sha256:6f27056835ad5aaa96e071e1d2b97e75a813b8fbe265e5c3a07a1e28780e4546
   name: ose-dpu-rhel9-operator
 - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:c9a8306c8de7881c673412a618732b1107aad2d21bcebb9bf2ea82ae3861b4f5
+  name: ose-kube-rbac-proxy-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/openshift4/ose-dpu-operator-bundle@sha256:44a2bb84f69437ac0609eac7938438302b7db3049ad02a017a9f71eb2b9853d7
+name: dpu-operator.v4.17.0-202607010855
+package: dpu-operator
+properties:
+- type: olm.gvk
+  value:
+    group: config.openshift.io
+    kind: DpuOperatorConfig
+    version: v1
+- type: olm.gvk
+  value:
+    group: config.openshift.io
+    kind: ServiceFunctionChain
+    version: v1
+- type: olm.package
+  value:
+    packageName: dpu-operator
+    version: 4.17.0-202607010855
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"config.openshift.io/v1\",\n    \"kind\": \"DpuOperatorConfig\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"dpu-operator\",\n        \"app.kubernetes.io/instance\": \"dpuoperatorconfig-sample\",\n        \"app.kubernetes.io/managed-by\": \"kustomize\",\n        \"app.kubernetes.io/name\": \"dpuoperatorconfig\",\n        \"app.kubernetes.io/part-of\": \"dpu-operator\"\n      },\n      \"name\": \"dpuoperatorconfig-sample\"\n    },\n    \"spec\": {\n      \"mode\": \"host\"\n    }\n  },\n  {\n    \"apiVersion\": \"config.openshift.io/v1\",\n    \"kind\": \"ServiceFunctionChain\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"dpu-operator\",\n        \"app.kubernetes.io/instance\": \"servicefunctionchain-sample\",\n        \"app.kubernetes.io/managed-by\": \"kustomize\",\n        \"app.kubernetes.io/name\": \"servicefunctionchain\",\n        \"app.kubernetes.io/part-of\": \"dpu-operator\"\n      },\n      \"name\": \"servicefunctionchain-sample\"\n    },\n    \"spec\": null\n  }\n]"
+      capabilities: Basic Install
+      createdAt: '2024-07-08T20:52:39Z'
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'true'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      operatorframework.io/suggested-namespace: openshift-dpu-operator
+      operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.34.2
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: DpuOperatorConfig is the Schema for the dpuoperatorconfigs API
+        displayName: Dpu Operator Config
+        kind: DpuOperatorConfig
+        name: dpuoperatorconfigs.config.openshift.io
+        version: v1
+      - description: ServiceFunctionChain is the Schema for the servicefunctionchains API
+        displayName: Service Function Chain
+        kind: ServiceFunctionChain
+        name: servicefunctionchains.config.openshift.io
+        version: v1
+    description: This operator will manage and configure data processing unit (DPUs) to be used in accelerating/offloading k8s networking functions
+    displayName: DPU Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - dpu
+    - dpu-operator
+    - ipu
+    links:
+    - name: Dpu Operator
+      url: https://github.com/openshift/dpu-operator
+    maintainers:
+    - email: wizhao@redhat.com
+      name: William Zhao
+    - email: bnemeth@redhat.com
+      name: Balazs Nemeth
+    maturity: alpha
+    provider:
+      name: Red Hat
+      url: www.redhat.com
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-dpu-operator-bundle@sha256:44a2bb84f69437ac0609eac7938438302b7db3049ad02a017a9f71eb2b9853d7
+  name: ''
+- image: registry.redhat.io/openshift4/ose-dpu-daemon-rhel9@sha256:c7eb07777e4bd3463b30075a9b15345267b8efdd641628b259a2a9664ecc5938
+  name: ose-dpu-daemon-rhel9
+- image: registry.redhat.io/openshift4/ose-dpu-rhel9-operator@sha256:d3e373047d73689c5674f6d04c67761e267cde48eae0c08ce8e02aec5dad766f
+  name: ose-dpu-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:dbf1c9546430925d524f1272c389f7a083a3b27d512f74c4fff80915172bb1d8
   name: ose-kube-rbac-proxy-rhel9
 schema: olm.bundle
