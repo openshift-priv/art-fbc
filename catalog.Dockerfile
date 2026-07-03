@@ -20,3 +20,12 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.19
+ENV __doozer_key=ptp-operator
+ENV __doozer_version=4.19.0
+ENV __doozer_release=20260703185232
+ENV __doozer_bundle_nvrs=ose-ptp-operator-metadata-container-v4.19.0.202607031147.p2.g1432a8f.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/ptp-operator
+LABEL io.openshift.build.commit.id=1432a8fd275ccb98b3753623fbe6501e8232d46b
+LABEL com.redhat.art.name=ptp-operator-fbc
+LABEL com.redhat.art.nvr=ptp-operator-fbc-4.19.0-20260703185232
