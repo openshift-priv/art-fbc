@@ -20,3 +20,12 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=logging-6.2
+ENV __doozer_key=loki-operator
+ENV __doozer_version=6.2.13
+ENV __doozer_release=20260831064946.ocp4.19
+ENV __doozer_bundle_nvrs=loki-rhel9-operator-metadata-container-6.2.13.202608310433.p2.gcd5eefc.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/loki
+LABEL io.openshift.build.commit.id=cd5eefc1d5853920fdaddde76e462020a1fe637f
+LABEL com.redhat.art.name=loki-operator-fbc
+LABEL com.redhat.art.nvr=loki-operator-fbc-6.2.13-20260831064946.ocp4.19
