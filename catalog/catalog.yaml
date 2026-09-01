@@ -7,14 +7,14 @@ name: nfd
 schema: olm.package
 ---
 entries:
-- name: nfd.v4.22.0
-  skipRange: '>=4.9.0 <4.22.0'
+- name: nfd.5.0.0-202608271925
+  skipRange: '>=4.9.0 <5.0.0-202608271925'
 name: stable
 package: nfd
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:7bb3e9c01b4252d17bc39aada4d485b0ad618e245186c06efe20f3f01e9bf5c7
-name: nfd.v4.22.0
+image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:778e3fbf96abe8fa8196d1a5955e578e729ffc2ed9a5f802cbbb0a68e0736b54
+name: nfd.5.0.0-202608271925
 package: nfd
 properties:
 - type: olm.gvk
@@ -50,14 +50,14 @@ properties:
 - type: olm.package
   value:
     packageName: nfd
-    version: 4.22.0
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"nfd.k8s-sigs.io/v1alpha1\",\n    \"kind\": \"NodeFeatureRule\",\n    \"metadata\": {\n      \"name\": \"my-sample-rule-object\"\n    },\n    \"spec\": {\n      \"rules\": [\n        {\n          \"labels\": {\n            \"my-sample-feature\": \"true\"\n          },\n          \"matchFeatures\": [\n            {\n              \"feature\": \"kernel.loadedmodule\",\n              \"matchExpressions\": {\n                \"dummy\": {\n                  \"op\": \"Exists\"\n                }\n              }\n            },\n            {\n              \"feature\": \"kernel.config\",\n              \"matchExpressions\": {\n                \"X86\": {\n                  \"op\": \"In\",\n                  \"value\": [\n                    \"y\"\n                  ]\n                }\n              }\n            }\n          ],\n          \"name\": \"my sample rule\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1\",\n    \"kind\": \"NodeFeatureDiscovery\",\n    \"metadata\": {\n      \"name\": \"nfd-instance\",\n      \"namespace\": \"openshift-nfd\"\n    },\n    \"spec\": {\n      \"operand\": {\n        \"imagePullPolicy\": \"IfNotPresent\",\n        \"servicePort\": 12000\n      },\n      \"workerConfig\": {\n        \"configData\": \"core:\\n#  labelWhiteList:\\n#  noPublish: false\\n  sleepInterval: 60s\\n#  sources: [all]\\n#  klog:\\n#    addDirHeader: false\\n#    alsologtostderr: false\\n#    logBacktraceAt:\\n#    logtostderr: true\\n#    skipHeaders: false\\n#    stderrthreshold: 2\\n#    v: 0\\n#    vmodule:\\n##   NOTE: the following options are not dynamically run-time \\n##          configurable and require a nfd-worker restart to take effect\\n##          after being changed\\n#    logDir:\\n#    logFile:\\n#    logFileMaxSize: 1800\\n#    skipLogHeaders: false\\nsources:\\n#  cpu:\\n#    cpuid:\\n##     NOTE: whitelist has priority over blacklist\\n#      attributeBlacklist:\\n#        - \\\"BMI1\\\"\\n#        - \\\"BMI2\\\"\\n#        - \\\"CLMUL\\\"\\n#        - \\\"CMOV\\\"\\n#        - \\\"CX16\\\"\\n#        - \\\"ERMS\\\"\\n#        - \\\"F16C\\\"\\n#        - \\\"HTT\\\"\\n#        - \\\"LZCNT\\\"\\n#        - \\\"MMX\\\"\\n#        - \\\"MMXEXT\\\"\\n#        - \\\"NX\\\"\\n#        - \\\"POPCNT\\\"\\n#        - \\\"RDRAND\\\"\\n#        - \\\"RDSEED\\\"\\n#        - \\\"RDTSCP\\\"\\n#        - \\\"SGX\\\"\\n#        - \\\"SSE\\\"\\n#        - \\\"SSE2\\\"\\n#        - \\\"SSE3\\\"\\n#        - \\\"SSE4.1\\\"\\n#        - \\\"SSE4.2\\\"\\n#        - \\\"SSSE3\\\"\\n#      attributeWhitelist:\\n#  kernel:\\n#    kconfigFile: \\\"/path/to/kconfig\\\"\\n#    configOpts:\\n#      - \\\"NO_HZ\\\"\\n#      - \\\"X86\\\"\\n#      - \\\"DMI\\\"\\n  pci:\\n    deviceClassWhitelist:\\n      - \\\"0200\\\"\\n      - \\\"03\\\"\\n      - \\\"12\\\"\\n    deviceLabelFields:\\n#      - \\\"class\\\"\\n      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#      - \\\"subsystem_vendor\\\"\\n#      - \\\"subsystem_device\\\"\\n#  usb:\\n#    deviceClassWhitelist:\\n#      - \\\"0e\\\"\\n#      - \\\"ef\\\"\\n#      - \\\"fe\\\"\\n#      - \\\"ff\\\"\\n#    deviceLabelFields:\\n#      - \\\"class\\\"\\n#      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#  custom:\\n#    - name: \\\"my.kernel.feature\\\"\\n#      matchOn:\\n#        - loadedKMod: [\\\"example_kmod1\\\", \\\"example_kmod2\\\"]\\n#    - name: \\\"my.pci.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            class: [\\\"0200\\\"]\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#        - pciId :\\n#            vendor: [\\\"8086\\\"]\\n#            device: [\\\"1000\\\", \\\"1100\\\"]\\n#    - name: \\\"my.usb.feature\\\"\\n#      matchOn:\\n#        - usbId:\\n#          class: [\\\"ff\\\"]\\n#          vendor: [\\\"03e7\\\"]\\n#          device: [\\\"2485\\\"]\\n#        - usbId:\\n#          class: [\\\"fe\\\"]\\n#          vendor: [\\\"1a6e\\\"]\\n#          device: [\\\"089a\\\"]\\n#    - name: \\\"my.combined.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#          loadedKMod : [\\\"vendor_kmod1\\\", \\\"vendor_kmod2\\\"]\\n\"\n      }\n    }\n  }\n]"
       capabilities: Deep Insights
       categories: Integration & Delivery,OpenShift Optional
-      containerImage: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:34f95d4662cebc4ec69fff6513901523976c97a513ac8f6fab33c2bd38c51284
+      containerImage: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:47c48561385d28a990a1f897fe38f9735e808616b58e9afb3d2f5bfce2a216c8
       createdAt: '2026-03-15T14:13:57Z'
       description: "The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.\n\nNFD consists  of the following software components:\n\nThe NFD Operator is based on the Operator Framework an open source toolkit to manage Kubernetes native applications, called Operators, in an effective, automated, and scalable way.\n\n##NFD-Master\nNFD-Master is the daemon responsible for communication towards the Kubernetes API. That is, it receives labeling requests from the worker and modifies node objects accordingly.\n\n##NFD-Worker\nNFD-Worker is a daemon responsible for feature detection. It then communicates the information to nfd-master which does the actual node labeling. One instance of nfd-worker is supposed to be running on each node of the cluster.\n\n##NFD-Topology-Updater\nNFD-Topology-Updater is a daemon responsible for examining allocated resources on a worker node to account for resources available to be allocated to new pod on a per-zone basis (where a zone can be a NUMA node). It then communicates the information to nfd-master which does the NodeResourceTopology CR creation corresponding to all the nodes in the cluster. One instance of nfd-topology-updater is supposed to be running on each node of the cluster."
       features.operators.openshift.io/cnf: 'false'
@@ -70,7 +70,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.9.0 <4.22.0'
+      olm.skipRange: '>=4.9.0 <5.0.0-202608271925'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-nfd
       operators.openshift.io/infrastructure-features: '["disconnected"]'
@@ -126,7 +126,7 @@ properties:
       operatorframework.io/arch.s390x: supported
     links:
     - name: Node Feature Discovery Operator
-      url: https://docs.openshift.com/container-platform/4.22/hardware_enablement/psap-node-feature-discovery-operator.html
+      url: https://docs.openshift.com/container-platform/5.0/hardware_enablement/psap-node-feature-discovery-operator.html
     - name: Node Feature Discovery Documentation
       url: https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/index.html
     maintainers:
@@ -138,11 +138,11 @@ properties:
       name: Red Hat
       url: https://github.com/openshift/cluster-nfd-operator
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:7bb3e9c01b4252d17bc39aada4d485b0ad618e245186c06efe20f3f01e9bf5c7
+- image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:778e3fbf96abe8fa8196d1a5955e578e729ffc2ed9a5f802cbbb0a68e0736b54
   name: ''
-- image: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:34f95d4662cebc4ec69fff6513901523976c97a513ac8f6fab33c2bd38c51284
+- image: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:47c48561385d28a990a1f897fe38f9735e808616b58e9afb3d2f5bfce2a216c8
   name: ose-cluster-nfd-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-node-feature-discovery-rhel9@sha256:e8736701bcead9f678c5ad32601db9169ed786f2ebf460137e92863647b31764
+- image: registry.redhat.io/openshift5/ose-node-feature-discovery-rhel9@sha256:c53807dc63471f4240f5dec7572b8c63f134b270bffd216a6f61771817354525
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
 ---
@@ -187,6 +187,9 @@ versions:
   - endDate: '2026-01-17'
     name: Extended update support Term 2
     startDate: '2025-01-18'
+  - endDate: '2027-01-17'
+    name: Extended update support Term 3
+    startDate: '2026-01-18'
   platformCompatibility:
   - name: openshift
     versions:
@@ -314,6 +317,36 @@ versions:
   - name: openshift
     versions:
     - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-10'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -323,14 +356,14 @@ name: clusterresourceoverride
 schema: olm.package
 ---
 entries:
-- name: clusterresourceoverride-operator.v5.0.0-202607251421
-  skipRange: '>=4.3.0 <5.0.0-202607251421'
+- name: clusterresourceoverride-operator.v5.0.0-202608271925
+  skipRange: '>=4.3.0 <5.0.0-202608271925'
 name: stable
 package: clusterresourceoverride
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-clusterresourceoverride-operator-bundle@sha256:38dfac789cc8712cdc905d92050fd0f708b1db7f714955e7fad9cdffe9576ba5
-name: clusterresourceoverride-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-clusterresourceoverride-operator-bundle@sha256:1ffeaa5e499b4d2c3f532e5855845d81c5beb2a203ec1bb1c2134ac8c389a877
+name: clusterresourceoverride-operator.v5.0.0-202608271925
 package: clusterresourceoverride
 properties:
 - type: olm.gvk
@@ -346,7 +379,7 @@ properties:
 - type: olm.package
   value:
     packageName: clusterresourceoverride
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -354,7 +387,7 @@ properties:
       capabilities: Seamless Upgrades
       categories: OpenShift Optional
       certifiedLevel: Primed
-      containerImage: registry.redhat.io/openshift5/ose-clusterresourceoverride-rhel9-operator@sha256:a27be68e8971cb0e42112c0a43ba133f5883e61aa262e1ab2434c1aabf321d21
+      containerImage: registry.redhat.io/openshift5/ose-clusterresourceoverride-rhel9-operator@sha256:904ac8fe0aed8026476039c6cdf0438c77b86d046d0d696d0c96c29725fb427f
       createdAt: 2019/11/15
       description: An operator to manage the OpenShift ClusterResourceOverride Mutating Admission Webhook Server
       features.operators.openshift.io/disconnected: 'true'
@@ -365,7 +398,7 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       healthIndex: B
-      olm.skipRange: '>=4.3.0 <5.0.0-202607251421'
+      olm.skipRange: '>=4.3.0 <5.0.0-202608271925'
       operatorframework.io/suggested-namespace: openshift-cluster-resource-override
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       repository: https://github.com/openshift/cluster-resource-override-admission-operator
@@ -409,11 +442,11 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-clusterresourceoverride-operator-bundle@sha256:38dfac789cc8712cdc905d92050fd0f708b1db7f714955e7fad9cdffe9576ba5
+- image: registry.redhat.io/openshift5/ose-clusterresourceoverride-operator-bundle@sha256:1ffeaa5e499b4d2c3f532e5855845d81c5beb2a203ec1bb1c2134ac8c389a877
   name: ''
-- image: registry.redhat.io/openshift5/ose-clusterresourceoverride-rhel9-operator@sha256:a27be68e8971cb0e42112c0a43ba133f5883e61aa262e1ab2434c1aabf321d21
+- image: registry.redhat.io/openshift5/ose-clusterresourceoverride-rhel9-operator@sha256:904ac8fe0aed8026476039c6cdf0438c77b86d046d0d696d0c96c29725fb427f
   name: ose-clusterresourceoverride-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-clusterresourceoverride-rhel9@sha256:71fd5e01ace3c5b7a49631986e4eec8b16ab930d0e6d478b0b5d699f343e9b7e
+- image: registry.redhat.io/openshift5/ose-clusterresourceoverride-rhel9@sha256:c8353c76388138e2d8cef747f5df4d8d25dcda8071af66d954f15f6a4e45e60f
   name: ose-clusterresourceoverride-rhel9
 schema: olm.bundle
 ---
@@ -588,6 +621,36 @@ versions:
   - name: openshift
     versions:
     - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-03'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -998,14 +1061,14 @@ name: local-storage-operator
 schema: olm.package
 ---
 entries:
-- name: local-storage-operator.v5.0.0-202607251421
-  skipRange: '>=4.3.0 <5.0.0-202607251421'
+- name: local-storage-operator.v5.0.0-202608271925
+  skipRange: '>=4.3.0 <5.0.0-202608271925'
 name: stable
 package: local-storage-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-local-storage-operator-bundle@sha256:58074619d748f33b634689c09ed45f6f31ee1d853c1e60b417740cd298bcddbc
-name: local-storage-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-local-storage-operator-bundle@sha256:cd73ed9d9dfbe95e49063114387308cbc965eee274014eb0fca54cca399cae4c
+name: local-storage-operator.v5.0.0-202608271925
 package: local-storage-operator
 properties:
 - type: olm.gvk
@@ -1038,14 +1101,14 @@ properties:
 - type: olm.package
   value:
     packageName: local-storage-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolume\",\n    \"metadata\": {\n      \"name\": \"example\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassDevices\": [\n        {\n          \"devicePaths\": [\n            \"/dev/disk/by-id/ata-crucial\"\n          ],\n          \"fsType\": \"ext4\",\n          \"storageClassName\": \"foobar\",\n          \"volumeMode\": \"Filesystem\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeSet\",\n    \"metadata\": {\n      \"name\": \"example-localvolumeset\"\n    },\n    \"spec\": {\n      \"deviceInclusionSpec\": {\n        \"deviceMechanicalProperties\": [\n          \"Rotational\",\n          \"NonRotational\"\n        ],\n        \"deviceTypes\": [\n          \"disk\"\n        ],\n        \"maxSize\": \"100G\",\n        \"minSize\": \"10G\"\n      },\n      \"maxDeviceCount\": 10,\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"storageClassName\": \"example-storageclass\",\n      \"volumeMode\": \"Block\"\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1alpha1\",\n    \"kind\": \"LocalVolumeDiscovery\",\n    \"metadata\": {\n      \"name\": \"auto-discover-devices\"\n    },\n    \"spec\": {\n      \"nodeSelector\": {\n        \"nodeSelectorTerms\": [\n          {\n            \"matchExpressions\": [\n              {\n                \"key\": \"kubernetes.io/hostname\",\n                \"operator\": \"In\",\n                \"values\": [\n                  \"worker-0\",\n                  \"worker-1\"\n                ]\n              }\n            ]\n          }\n        ]\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"local.storage.openshift.io/v1\",\n    \"kind\": \"LocalVolumeDeviceLink\",\n    \"metadata\": {\n      \"name\": \"local-pv-abcd\"\n    },\n    \"spec\": {\n      \"persistentVolumeName\": \"local-pv-abcd\",\n      \"policy\": \"CurrentLinkTarget\"\n    }\n  }\n]"
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift5/ose-local-storage-rhel9-operator@sha256:4f47999336bb96283481188ccfa6d432f05698e8400eb59c13cb305ff2c687a4
+      containerImage: registry.redhat.io/openshift5/ose-local-storage-rhel9-operator@sha256:69f640bdbcbf55d122bed54db716931061d0f511f6cfbfe8eb1df0c3636d260e
       createdAt: '2019-08-14T00:00:00Z'
       description: Configure and use local storage volumes.
       features.operators.openshift.io/csi: 'false'
@@ -1057,11 +1120,11 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"5.1"}]'
-      olm.skipRange: '>=4.3.0 <5.0.0-202607251421'
+      olm.skipRange: '>=4.3.0 <5.0.0-202608271925'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-local-storage
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift5/ose-local-storage-mustgather-rhel9@sha256:85998ff2512c7d89699c09bc35fef1b48f1ab14eeac0b1208934d339bd28ce5c
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift5/ose-local-storage-mustgather-rhel9@sha256:8e8a9426f7cba867235334d112dab74aaa0903211e5125de462b057ae1a07187
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/internal-objects: '["localvolumediscoveryresults.local.storage.openshift.io"]'
       repository: https://github.com/openshift/local-storage-operator
@@ -1249,17 +1312,219 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:eeda3f9d9f5335816fa84eb57e11493d4c89ce7c0c8c8646ab61e0680cebbcf8
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:2409ad6d3ace788dd2626a9396ee605d1e8f509a9cec54fb50e1fc271d4d4494
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-local-storage-diskmaker-rhel9@sha256:c581ebe1076cfd9dfc160eda729905cabb41563d7f54b841601094793708b569
+- image: registry.redhat.io/openshift5/ose-local-storage-diskmaker-rhel9@sha256:4af52e0013a34b8796e8f5e2ab3edf6929dfb1292d4098ef322b850b79295d74
   name: ose-local-storage-diskmaker-rhel9
-- image: registry.redhat.io/openshift5/ose-local-storage-mustgather-rhel9@sha256:85998ff2512c7d89699c09bc35fef1b48f1ab14eeac0b1208934d339bd28ce5c
+- image: registry.redhat.io/openshift5/ose-local-storage-mustgather-rhel9@sha256:8e8a9426f7cba867235334d112dab74aaa0903211e5125de462b057ae1a07187
   name: ose-local-storage-mustgather-rhel9
-- image: registry.redhat.io/openshift5/ose-local-storage-operator-bundle@sha256:58074619d748f33b634689c09ed45f6f31ee1d853c1e60b417740cd298bcddbc
+- image: registry.redhat.io/openshift5/ose-local-storage-operator-bundle@sha256:cd73ed9d9dfbe95e49063114387308cbc965eee274014eb0fca54cca399cae4c
   name: ''
-- image: registry.redhat.io/openshift5/ose-local-storage-rhel9-operator@sha256:4f47999336bb96283481188ccfa6d432f05698e8400eb59c13cb305ff2c687a4
+- image: registry.redhat.io/openshift5/ose-local-storage-rhel9-operator@sha256:69f640bdbcbf55d122bed54db716931061d0f511f6cfbfe8eb1df0c3636d260e
   name: ose-local-storage-rhel9-operator
 schema: olm.bundle
+---
+package: local-storage-operator
+schema: io.openshift.operators.lifecycles.v1alpha1
+versions:
+- name: '4.10'
+  phases:
+  - endDate: '2022-11-10'
+    name: Full support
+    startDate: '2022-03-10'
+  - endDate: '2023-09-10'
+    name: Maintenance support
+    startDate: '2022-11-11'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.10'
+- name: '4.11'
+  phases:
+  - endDate: '2023-04-17'
+    name: Full support
+    startDate: '2022-08-10'
+  - endDate: '2024-02-10'
+    name: Maintenance support
+    startDate: '2023-04-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.11'
+- name: '4.12'
+  phases:
+  - endDate: '2023-08-17'
+    name: Full support
+    startDate: '2023-01-17'
+  - endDate: '2024-07-17'
+    name: Maintenance support
+    startDate: '2023-08-18'
+  - endDate: '2025-01-17'
+    name: Extended update support
+    startDate: '2024-07-18'
+  - endDate: '2026-01-17'
+    name: Extended update support Term 2
+    startDate: '2025-01-18'
+  - endDate: '2027-01-17'
+    name: Extended update support Term 3
+    startDate: '2026-01-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.12'
+- name: '4.13'
+  phases:
+  - endDate: '2024-01-31'
+    name: Full support
+    startDate: '2023-05-17'
+  - endDate: '2024-11-17'
+    name: Maintenance support
+    startDate: '2024-02-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.13'
+- name: '4.14'
+  phases:
+  - endDate: '2024-05-27'
+    name: Full support
+    startDate: '2023-10-31'
+  - endDate: '2025-05-01'
+    name: Maintenance support
+    startDate: '2024-05-28'
+  - endDate: '2025-10-31'
+    name: Extended update support
+    startDate: '2025-05-02'
+  - endDate: '2026-10-31'
+    name: Extended update support Term 2
+    startDate: '2025-11-01'
+  - endDate: '2027-10-31'
+    name: Extended update support Term 3
+    startDate: '2026-11-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.14'
+- name: '4.15'
+  phases:
+  - endDate: '2024-09-27'
+    name: Full support
+    startDate: '2024-02-27'
+  - endDate: '2025-08-27'
+    name: Maintenance support
+    startDate: '2024-09-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.15'
+- name: '4.16'
+  phases:
+  - endDate: '2025-01-01'
+    name: Full support
+    startDate: '2024-06-27'
+  - endDate: '2025-12-27'
+    name: Maintenance support
+    startDate: '2025-01-02'
+  - endDate: '2026-06-27'
+    name: Extended update support
+    startDate: '2025-12-28'
+  - endDate: '2027-06-27'
+    name: Extended update support Term 2
+    startDate: '2026-06-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.16'
+- name: '4.17'
+  phases:
+  - endDate: '2025-05-25'
+    name: Full support
+    startDate: '2024-10-01'
+  - endDate: '2026-04-01'
+    name: Maintenance support
+    startDate: '2025-05-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.17'
+- name: '4.18'
+  phases:
+  - endDate: '2025-09-17'
+    name: Full support
+    startDate: '2025-02-25'
+  - endDate: '2026-08-25'
+    name: Maintenance support
+    startDate: '2025-09-18'
+  - endDate: '2027-02-25'
+    name: Extended update support
+    startDate: '2026-08-26'
+  - endDate: '2028-02-25'
+    name: Extended update support Term 2
+    startDate: '2027-02-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.18'
+- name: '4.19'
+  phases:
+  - endDate: '2026-01-21'
+    name: Full support
+    startDate: '2025-06-17'
+  - endDate: '2026-12-17'
+    name: Maintenance support
+    startDate: '2026-01-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.19'
+- name: '4.20'
+  phases:
+  - endDate: '2026-05-03'
+    name: Full support
+    startDate: '2025-10-21'
+  - endDate: '2027-04-21'
+    name: Maintenance support
+    startDate: '2026-05-04'
+  - endDate: '2027-10-21'
+    name: Extended update support
+    startDate: '2027-04-22'
+  - endDate: '2028-10-21'
+    name: Extended update support Term 2
+    startDate: '2027-10-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-10'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -1269,14 +1534,14 @@ name: kubernetes-nmstate-operator
 schema: olm.package
 ---
 entries:
-- name: kubernetes-nmstate-operator.5.0.0-202607251421
-  skipRange: '>=4.3.0 <5.0.0-202607251421'
+- name: kubernetes-nmstate-operator.5.0.0-202608271925
+  skipRange: '>=4.3.0 <5.0.0-202608271925'
 name: stable
 package: kubernetes-nmstate-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/kubernetes-nmstate-operator-bundle@sha256:86aa2da0780ac42de6e63d4f63683cba6183ffeb920063047c948ac0893c8079
-name: kubernetes-nmstate-operator.5.0.0-202607251421
+image: registry.redhat.io/openshift5/kubernetes-nmstate-operator-bundle@sha256:0c9f3d3112ac2f5bd100f9ef5a62f0c9394dade31eb606b79247faf1b3d09f63
+name: kubernetes-nmstate-operator.5.0.0-202608271925
 package: kubernetes-nmstate-operator
 properties:
 - type: olm.gvk
@@ -1292,7 +1557,7 @@ properties:
 - type: olm.package
   value:
     packageName: kubernetes-nmstate-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -1300,7 +1565,7 @@ properties:
       capabilities: Basic Install
       categories: OpenShift Optional
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/kubernetes-nmstate-rhel9-operator@sha256:34bed6f0d801806e16357051260dc68468717158861056c544bb3b55608c304c
+      containerImage: registry.redhat.io/openshift5/kubernetes-nmstate-rhel9-operator@sha256:419cca3fc95fcd56d6b99db07267d8a2fa752e369ebf3eb364943e841d26bf4e
       createdAt: '2026-07-22T05:32:25Z'
       description: "Kubernetes NMState is a declaritive means of configuring NetworkManager.\n"
       features.operators.openshift.io/cnf: 'false'
@@ -1313,7 +1578,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0 <5.0.0-202607251421'
+      olm.skipRange: '>=4.3.0 <5.0.0-202608271925'
       operatorframework.io/suggested-namespace: openshift-nmstate
       operators.openshift.io/infrastructure-features: '["disconnected"]'
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -1359,13 +1624,13 @@ properties:
     provider:
       name: Red Hat, Inc.
 relatedImages:
-- image: registry.redhat.io/openshift5/kubernetes-nmstate-operator-bundle@sha256:86aa2da0780ac42de6e63d4f63683cba6183ffeb920063047c948ac0893c8079
+- image: registry.redhat.io/openshift5/kubernetes-nmstate-operator-bundle@sha256:0c9f3d3112ac2f5bd100f9ef5a62f0c9394dade31eb606b79247faf1b3d09f63
   name: ''
-- image: registry.redhat.io/openshift5/kubernetes-nmstate-rhel9-operator@sha256:34bed6f0d801806e16357051260dc68468717158861056c544bb3b55608c304c
+- image: registry.redhat.io/openshift5/kubernetes-nmstate-rhel9-operator@sha256:419cca3fc95fcd56d6b99db07267d8a2fa752e369ebf3eb364943e841d26bf4e
   name: kubernetes-nmstate-rhel9-operator
-- image: registry.redhat.io/openshift5/nmstate-console-plugin-rhel9@sha256:23f125a2de50992889a812354dc2c43085cd33f54759f9a3fd8c0c4bfa427408
+- image: registry.redhat.io/openshift5/nmstate-console-plugin-rhel9@sha256:974b64b9aa28a8930437ddaf0232a72453daf37ea17d8a750f722fa7f587d79c
   name: nmstate-console-plugin-rhel9
-- image: registry.redhat.io/openshift5/ose-kubernetes-nmstate-handler-rhel9@sha256:c2cbd7dbe67108781e08c57cd0f9f935bdb00ffd0a25d4bbcfb5083760592408
+- image: registry.redhat.io/openshift5/ose-kubernetes-nmstate-handler-rhel9@sha256:722e0d5ef26f6f1b67ac63b661cc2ca22ebad217be72f90e1f00608a2bbd79ae
   name: ose-kubernetes-nmstate-handler-rhel9
 schema: olm.bundle
 ---
@@ -1386,6 +1651,10 @@ versions:
   - endDate: '2026-01-17'
     name: Extended update support Term 2
     startDate: '2025-01-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.12'
 - name: '4.13'
   phases:
   - endDate: '2024-01-31'
@@ -1394,6 +1663,10 @@ versions:
   - endDate: '2024-11-17'
     name: Maintenance support
     startDate: '2024-02-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.13'
 - name: '4.14'
   phases:
   - endDate: '2024-05-27'
@@ -1544,14 +1817,14 @@ name: aws-efs-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: aws-efs-csi-driver-operator.v5.0.0-202607262236
-  skipRange: '>=4.9.0-0 <5.0.0-202607262236'
+- name: aws-efs-csi-driver-operator.v5.0.0-202608271925
+  skipRange: '>=4.9.0-0 <5.0.0-202608271925'
 name: stable
 package: aws-efs-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-operator-bundle@sha256:bd5013e0c67ff88a8a554eb4b98277505833e010b0d5d0794a0748d83d2d6c32
-name: aws-efs-csi-driver-operator.v5.0.0-202607262236
+image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-operator-bundle@sha256:6c33db786e26ad7dc0536e51472c8cc9a82167b30feb350950aaf63eb1a22528
+name: aws-efs-csi-driver-operator.v5.0.0-202608271925
 package: aws-efs-csi-driver-operator
 properties:
 - type: olm.maxOpenShiftVersion
@@ -1559,13 +1832,13 @@ properties:
 - type: olm.package
   value:
     packageName: aws-efs-csi-driver-operator
-    version: 5.0.0-202607262236
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-rhel9-operator@sha256:843cdeedf512559389b340f47b525e5d63b966a5551ea82351bd935457f9c690
+      containerImage: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-rhel9-operator@sha256:2492e8b4cdbfc1d45ed0b5987a0c355878aeba101f82b7fe935930b5d8ddd38c
       createdAt: '2021-07-14T00:00:00Z'
       description: Install and configure AWS EFS CSI driver.
       features.operators.openshift.io/csi: 'true'
@@ -1577,7 +1850,7 @@ properties:
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
       olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"5.1"}]'
-      olm.skipRange: '>=4.9.0-0 <5.0.0-202607262236'
+      olm.skipRange: '>=4.9.0-0 <5.0.0-202608271925'
       operatorframework.io/suggested-namespace: openshift-cluster-csi-drivers
       operators.openshift.io/infrastructure-features: '["csi"]'
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -1616,21 +1889,21 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-container-rhel9@sha256:7ebfb1237d2f672664839789f5f404710e72917173dc29936388ebba0b4d7a5b
+- image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-container-rhel9@sha256:7ffa359461f243b0d3244ac101c92129490a90b1ee0cbf93fbeb6aa7711627ce
   name: ose-aws-efs-csi-driver-container-rhel9
-- image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-operator-bundle@sha256:bd5013e0c67ff88a8a554eb4b98277505833e010b0d5d0794a0748d83d2d6c32
+- image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-operator-bundle@sha256:6c33db786e26ad7dc0536e51472c8cc9a82167b30feb350950aaf63eb1a22528
   name: ''
-- image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-rhel9-operator@sha256:843cdeedf512559389b340f47b525e5d63b966a5551ea82351bd935457f9c690
+- image: registry.redhat.io/openshift5/ose-aws-efs-csi-driver-rhel9-operator@sha256:2492e8b4cdbfc1d45ed0b5987a0c355878aeba101f82b7fe935930b5d8ddd38c
   name: ose-aws-efs-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-csi-external-provisioner-rhel9@sha256:6f3ff79727a6f3ba688a498c921a7971bd7a237f8d06b338bc35e6fd7964fd74
+- image: registry.redhat.io/openshift5/ose-csi-external-provisioner-rhel9@sha256:0239ddb6a85aecc62ad03564a3454b2fd31eab891f4463a3edfa469f3ed92ca1
   name: ose-csi-external-provisioner-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:35d50913d76b1fdde4707f3e9d4ab6c8dfeb8f52ad561a916957cc75b6c4253b
+- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:dbb9a909e7dfc2f1ace34827be43b7f3b06e25c428b976e0853e409e2d2d9162
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:fefbd745800afa91e71a1cf91c1899b4f3788a9a0686fd64e3447c17a5bc2272
+- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:7af743e2b9a4f4a677bf221ccb40a838364c8f2ce7b01e205ec7668be6438782
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:eeda3f9d9f5335816fa84eb57e11493d4c89ce7c0c8c8646ab61e0680cebbcf8
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:2409ad6d3ace788dd2626a9396ee605d1e8f509a9cec54fb50e1fc271d4d4494
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-tools-rhel9@sha256:5273c46564355f1b81b3059175dffbf58266e4440bbd04a7a8968249e32168ce
+- image: registry.redhat.io/openshift5/ose-tools-rhel9@sha256:20730894b39d5aabecede43f6aa6c4bf2ab2ce431c6205a0622d91ce7d2ba97f
   name: ose-tools-rhel9
 schema: olm.bundle
 ---
@@ -1805,6 +2078,36 @@ versions:
   - name: openshift
     versions:
     - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-03'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -1814,14 +2117,14 @@ name: gcp-filestore-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: gcp-filestore-csi-driver-operator.v5.0.0-202607251421
+- name: gcp-filestore-csi-driver-operator.v5.0.0-202608271925
   skipRange: '>=4.11.0-0 <5.0.0'
 name: stable
 package: gcp-filestore-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-operator-bundle@sha256:c7fef5a075846224508127be7728b3f8dab3735b23dcfbaf9a85faeb93d44512
-name: gcp-filestore-csi-driver-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-operator-bundle@sha256:aec8b380fc0bbe42968536864e2b66e649863eb27f88cda2104d93a17c89f4fb
+name: gcp-filestore-csi-driver-operator.v5.0.0-202608271925
 package: gcp-filestore-csi-driver-operator
 properties:
 - type: olm.maxOpenShiftVersion
@@ -1829,13 +2132,13 @@ properties:
 - type: olm.package
   value:
     packageName: gcp-filestore-csi-driver-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:1b8614b262d1885a33866767f3b406e892c86f49f6dd4bf2044af5a052ae8faf
+      containerImage: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:b864c84d539e381ba03bb6bb24e4e9824bca2c033056582524fcc1b1105f0b02
       createdAt: '2021-07-14T00:00:00Z'
       description: Install and configure GCP Filestore CSI driver.
       features.operators.openshift.io/csi: 'true'
@@ -1886,23 +2189,23 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-csi-external-provisioner-rhel9@sha256:6f3ff79727a6f3ba688a498c921a7971bd7a237f8d06b338bc35e6fd7964fd74
+- image: registry.redhat.io/openshift5/ose-csi-external-provisioner-rhel9@sha256:0239ddb6a85aecc62ad03564a3454b2fd31eab891f4463a3edfa469f3ed92ca1
   name: ose-csi-external-provisioner-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-external-resizer-rhel9@sha256:42d5ac49a007fb431805fb9b93c07795f7f4888c51e761afa44c51692fa58142
+- image: registry.redhat.io/openshift5/ose-csi-external-resizer-rhel9@sha256:925bd322321f482909da22e12f69827f8e2a15d2ed03a96ec5f20634c2eda712
   name: ose-csi-external-resizer-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-external-snapshotter-rhel9@sha256:7527703676f5f4f26ee7c3fab9548dce36da0c68ce4bc149cfbfe96351450679
+- image: registry.redhat.io/openshift5/ose-csi-external-snapshotter-rhel9@sha256:57a225fbf0bd2a5b3a8c6719e05809c44488d6338404a320d1b749ab87404dd6
   name: ose-csi-external-snapshotter-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:35d50913d76b1fdde4707f3e9d4ab6c8dfeb8f52ad561a916957cc75b6c4253b
+- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:dbb9a909e7dfc2f1ace34827be43b7f3b06e25c428b976e0853e409e2d2d9162
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:fefbd745800afa91e71a1cf91c1899b4f3788a9a0686fd64e3447c17a5bc2272
+- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:7af743e2b9a4f4a677bf221ccb40a838364c8f2ce7b01e205ec7668be6438782
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-operator-bundle@sha256:c7fef5a075846224508127be7728b3f8dab3735b23dcfbaf9a85faeb93d44512
+- image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-operator-bundle@sha256:aec8b380fc0bbe42968536864e2b66e649863eb27f88cda2104d93a17c89f4fb
   name: ''
-- image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:1b8614b262d1885a33866767f3b406e892c86f49f6dd4bf2044af5a052ae8faf
+- image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-rhel9-operator@sha256:b864c84d539e381ba03bb6bb24e4e9824bca2c033056582524fcc1b1105f0b02
   name: ose-gcp-filestore-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-rhel9@sha256:d9dadba579f97034190a8a3a86f6f7a5829de3c1413ee521dc258a0c138c9264
+- image: registry.redhat.io/openshift5/ose-gcp-filestore-csi-driver-rhel9@sha256:eb5ea20e2bd5321fa9edc7c16cef60dfb25b5d8622bde6e4fbbc7ce669178a6b
   name: ose-gcp-filestore-csi-driver-rhel9
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:eeda3f9d9f5335816fa84eb57e11493d4c89ce7c0c8c8646ab61e0680cebbcf8
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:2409ad6d3ace788dd2626a9396ee605d1e8f509a9cec54fb50e1fc271d4d4494
   name: ose-kube-rbac-proxy-rhel9
 schema: olm.bundle
 ---
@@ -2053,6 +2356,36 @@ versions:
   - name: openshift
     versions:
     - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-10'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -2062,14 +2395,14 @@ name: metallb-operator
 schema: olm.package
 ---
 entries:
-- name: metallb-operator.v5.0.0-202607251421
+- name: metallb-operator.v5.0.0-202608271925
   skipRange: '>=4.8.0 <5.0.0'
 name: stable
 package: metallb-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:f66669db0f2d072cf6ff24b99b67ab2ee7e797c755cb9499b109ea3f75cfb381
-name: metallb-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:ba3fc230c3948317dca0e99419f43e5a4053a876343ba8c117d8680b4ffc22d6
+name: metallb-operator.v5.0.0-202608271925
 package: metallb-operator
 properties:
 - type: olm.gvk
@@ -2150,7 +2483,7 @@ properties:
 - type: olm.package
   value:
     packageName: metallb-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -2158,7 +2491,7 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:5dbdd08d8bde99afa68b86f7106c0583b26b884ee979f260119f8362565704d0
+      containerImage: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:35aec79f4227d6ee3b8cdeaa16f70f7dcee2b4d8c41048579b9affbc00d9e066
       createdAt: '2023-06-06T15:25:00Z'
       description: An operator for deploying MetalLB on a kubernetes cluster.
       features.operators.openshift.io/disconnected: 'true'
@@ -2268,13 +2601,13 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/frr-rhel9@sha256:f933da9f8a082899da6e8e92113c553b1f1037c78d1eed32c977255f9f6d6d14
+- image: registry.redhat.io/openshift5/frr-rhel9@sha256:ed254a41d20a8bd40fbca6eb2b7e66641721edb60b81b7efc6567e26845b14b6
   name: frr-rhel9
-- image: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:5dbdd08d8bde99afa68b86f7106c0583b26b884ee979f260119f8362565704d0
+- image: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:35aec79f4227d6ee3b8cdeaa16f70f7dcee2b4d8c41048579b9affbc00d9e066
   name: metallb-rhel9-operator
-- image: registry.redhat.io/openshift5/metallb-rhel9@sha256:cb048dc142637126123d24b3e995c336141e53c6231b3dc3918dd914e13fe3df
+- image: registry.redhat.io/openshift5/metallb-rhel9@sha256:75b9055105f61ea7626a1df7f99c5bd4421616700a56be965c12750f2fd8b25a
   name: metallb-rhel9
-- image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:f66669db0f2d072cf6ff24b99b67ab2ee7e797c755cb9499b109ea3f75cfb381
+- image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:ba3fc230c3948317dca0e99419f43e5a4053a876343ba8c117d8680b4ffc22d6
   name: ''
 schema: olm.bundle
 ---
@@ -2295,6 +2628,10 @@ versions:
   - endDate: '2026-01-17'
     name: Extended update support Term 2
     startDate: '2025-01-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.12'
 - name: '4.13'
   phases:
   - endDate: '2024-01-31'
@@ -2457,14 +2794,14 @@ name: secrets-store-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: secrets-store-csi-driver-operator.v5.0.0-202607251421
+- name: secrets-store-csi-driver-operator.v5.0.0-202608271925
   skipRange: '>=4.13.0-0 <5.0.0'
 name: stable
 package: secrets-store-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-operator-bundle@sha256:6f93287d964f31abd35dd960bb25d2884f7d704e17b7fc24e6f57687a5a0dfbf
-name: secrets-store-csi-driver-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-operator-bundle@sha256:a0e04cb3588d226b4efbefa111d1f2f7b9cee6650a57fb7f50986333d9cc3893
+name: secrets-store-csi-driver-operator.v5.0.0-202608271925
 package: secrets-store-csi-driver-operator
 properties:
 - type: olm.gvk
@@ -2492,13 +2829,13 @@ properties:
 - type: olm.package
   value:
     packageName: secrets-store-csi-driver-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-rhel9-operator@sha256:3278149f5c7b85fdfcb1450105a1b9ebe84cce77537444117d6d95100d9022cb
+      containerImage: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-rhel9-operator@sha256:d5146587dc637efbfaa92457f2d6cd447b504684e2c352e6980d2e6d92918fc1
       createdAt: '2023-06-12T00:00:00Z'
       description: Install and configure Secrets Store CSI driver.
       features.operators.openshift.io/cnf: 'false'
@@ -2507,7 +2844,7 @@ properties:
       features.operators.openshift.io/disconnected: 'true'
       features.operators.openshift.io/fips-compliant: 'true'
       features.operators.openshift.io/proxy-aware: 'true'
-      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/tls-profiles: 'true'
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
@@ -2562,17 +2899,162 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:35d50913d76b1fdde4707f3e9d4ab6c8dfeb8f52ad561a916957cc75b6c4253b
+- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:dbb9a909e7dfc2f1ace34827be43b7f3b06e25c428b976e0853e409e2d2d9162
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:fefbd745800afa91e71a1cf91c1899b4f3788a9a0686fd64e3447c17a5bc2272
+- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:7af743e2b9a4f4a677bf221ccb40a838364c8f2ce7b01e205ec7668be6438782
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-operator-bundle@sha256:6f93287d964f31abd35dd960bb25d2884f7d704e17b7fc24e6f57687a5a0dfbf
+- image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-operator-bundle@sha256:a0e04cb3588d226b4efbefa111d1f2f7b9cee6650a57fb7f50986333d9cc3893
   name: ''
-- image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-rhel9-operator@sha256:3278149f5c7b85fdfcb1450105a1b9ebe84cce77537444117d6d95100d9022cb
+- image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-rhel9-operator@sha256:d5146587dc637efbfaa92457f2d6cd447b504684e2c352e6980d2e6d92918fc1
   name: ose-secrets-store-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-rhel9@sha256:1fca776fccf572ddad1592feef715980e0b59c1049f3d43d020a5138dac31f4a
+- image: registry.redhat.io/openshift5/ose-secrets-store-csi-driver-rhel9@sha256:d8cee5ea51d2ba124e221935988a5dd5b0cf6329ea601896db48ed5d8d10e2ad
   name: ose-secrets-store-csi-driver-rhel9
 schema: olm.bundle
+---
+package: secrets-store-csi-driver-operator
+schema: io.openshift.operators.lifecycles.v1alpha1
+versions:
+- name: '4.14'
+  phases:
+  - endDate: '2024-05-27'
+    name: Full support
+    startDate: '2023-10-31'
+  - endDate: '2025-05-01'
+    name: Maintenance support
+    startDate: '2024-05-28'
+  - endDate: '2025-10-31'
+    name: Extended update support
+    startDate: '2025-05-02'
+  - endDate: '2026-10-31'
+    name: Extended update support Term 2
+    startDate: '2025-11-01'
+  - endDate: '2027-10-31'
+    name: Extended update support Term 3
+    startDate: '2026-11-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.14'
+- name: '4.15'
+  phases:
+  - endDate: '2024-09-27'
+    name: Full support
+    startDate: '2024-02-27'
+  - endDate: '2025-08-27'
+    name: Maintenance support
+    startDate: '2024-09-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.15'
+- name: '4.16'
+  phases:
+  - endDate: '2025-01-01'
+    name: Full support
+    startDate: '2024-06-27'
+  - endDate: '2025-12-27'
+    name: Maintenance support
+    startDate: '2025-01-02'
+  - endDate: '2026-06-27'
+    name: Extended update support
+    startDate: '2025-12-28'
+  - endDate: '2027-06-27'
+    name: Extended update support Term 2
+    startDate: '2026-06-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.16'
+- name: '4.17'
+  phases:
+  - endDate: '2025-05-25'
+    name: Full support
+    startDate: '2024-10-01'
+  - endDate: '2026-04-01'
+    name: Maintenance support
+    startDate: '2025-05-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.17'
+- name: '4.18'
+  phases:
+  - endDate: '2025-09-17'
+    name: Full support
+    startDate: '2025-02-25'
+  - endDate: '2026-08-25'
+    name: Maintenance support
+    startDate: '2025-09-18'
+  - endDate: '2027-02-25'
+    name: Extended update support
+    startDate: '2026-08-26'
+  - endDate: '2028-02-25'
+    name: Extended update support Term 2
+    startDate: '2027-02-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.18'
+- name: '4.19'
+  phases:
+  - endDate: '2026-01-21'
+    name: Full support
+    startDate: '2025-06-17'
+  - endDate: '2026-12-17'
+    name: Maintenance support
+    startDate: '2026-01-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.19'
+- name: '4.20'
+  phases:
+  - endDate: '2026-05-03'
+    name: Full support
+    startDate: '2025-10-21'
+  - endDate: '2027-04-21'
+    name: Maintenance support
+    startDate: '2026-05-04'
+  - endDate: '2027-10-21'
+    name: Extended update support
+    startDate: '2027-04-22'
+  - endDate: '2028-10-21'
+    name: Extended update support Term 2
+    startDate: '2027-10-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-10'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -2582,14 +3064,14 @@ name: smb-csi-driver-operator
 schema: olm.package
 ---
 entries:
-- name: smb-csi-driver-operator.v5.0.0-202607262236
+- name: smb-csi-driver-operator.v5.0.0-202608271925
   skipRange: '>=4.15.0-0 <5.0.0'
 name: stable
 package: smb-csi-driver-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-smb-csi-driver-operator-bundle@sha256:9598d7771d376a2b1705600b795d75ca91e65bd0908c92329a362908e351db74
-name: smb-csi-driver-operator.v5.0.0-202607262236
+image: registry.redhat.io/openshift5/ose-smb-csi-driver-operator-bundle@sha256:2f2dd3aa630cbc8439c559da3a1d08c5580cc611dc6d00ecf4ef6bd5a34caf3d
+name: smb-csi-driver-operator.v5.0.0-202608271925
 package: smb-csi-driver-operator
 properties:
 - type: olm.maxOpenShiftVersion
@@ -2597,13 +3079,13 @@ properties:
 - type: olm.package
   value:
     packageName: smb-csi-driver-operator
-    version: 5.0.0-202607262236
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Storage
-      containerImage: registry.redhat.io/openshift5/ose-smb-csi-driver-rhel9-operator@sha256:8e8046fb424aad58626526ab281666f0d4e567849f5c1c29cc009941e94cf1e9
+      containerImage: registry.redhat.io/openshift5/ose-smb-csi-driver-rhel9-operator@sha256:33ef144ca397802142879ec2e14b427f70bacf7e6d446c3b5c410eb8a18a7cd9
       createdAt: '2021-07-14T00:00:00Z'
       description: Install and configure CIFS/SMB CSI driver.
       features.operators.openshift.io/csi: 'true'
@@ -2656,25 +3138,113 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-csi-external-provisioner-rhel9@sha256:6f3ff79727a6f3ba688a498c921a7971bd7a237f8d06b338bc35e6fd7964fd74
+- image: registry.redhat.io/openshift5/ose-csi-external-provisioner-rhel9@sha256:0239ddb6a85aecc62ad03564a3454b2fd31eab891f4463a3edfa469f3ed92ca1
   name: ose-csi-external-provisioner-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-external-resizer-rhel9@sha256:42d5ac49a007fb431805fb9b93c07795f7f4888c51e761afa44c51692fa58142
+- image: registry.redhat.io/openshift5/ose-csi-external-resizer-rhel9@sha256:925bd322321f482909da22e12f69827f8e2a15d2ed03a96ec5f20634c2eda712
   name: ose-csi-external-resizer-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:35d50913d76b1fdde4707f3e9d4ab6c8dfeb8f52ad561a916957cc75b6c4253b
+- image: registry.redhat.io/openshift5/ose-csi-livenessprobe-rhel9@sha256:dbb9a909e7dfc2f1ace34827be43b7f3b06e25c428b976e0853e409e2d2d9162
   name: ose-csi-livenessprobe-rhel9
-- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:fefbd745800afa91e71a1cf91c1899b4f3788a9a0686fd64e3447c17a5bc2272
+- image: registry.redhat.io/openshift5/ose-csi-node-driver-registrar-rhel9@sha256:7af743e2b9a4f4a677bf221ccb40a838364c8f2ce7b01e205ec7668be6438782
   name: ose-csi-node-driver-registrar-rhel9
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:eeda3f9d9f5335816fa84eb57e11493d4c89ce7c0c8c8646ab61e0680cebbcf8
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:2409ad6d3ace788dd2626a9396ee605d1e8f509a9cec54fb50e1fc271d4d4494
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-smb-csi-driver-operator-bundle@sha256:9598d7771d376a2b1705600b795d75ca91e65bd0908c92329a362908e351db74
+- image: registry.redhat.io/openshift5/ose-smb-csi-driver-operator-bundle@sha256:2f2dd3aa630cbc8439c559da3a1d08c5580cc611dc6d00ecf4ef6bd5a34caf3d
   name: ''
-- image: registry.redhat.io/openshift5/ose-smb-csi-driver-rhel9-operator@sha256:8e8046fb424aad58626526ab281666f0d4e567849f5c1c29cc009941e94cf1e9
+- image: registry.redhat.io/openshift5/ose-smb-csi-driver-rhel9-operator@sha256:33ef144ca397802142879ec2e14b427f70bacf7e6d446c3b5c410eb8a18a7cd9
   name: ose-smb-csi-driver-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-smb-csi-driver-rhel9@sha256:04c1c04c32344cd11ab4515ebcaf4f91dc7b37cfcee0fea13e4aebc82a45e652
+- image: registry.redhat.io/openshift5/ose-smb-csi-driver-rhel9@sha256:7f03ff5022def715321502930b0d0d25394e06da1e7d4143eaecc2fc3880c6e4
   name: ose-smb-csi-driver-rhel9
 schema: olm.bundle
 ---
-defaultChannel: tech-preview
+package: smb-csi-driver-operator
+schema: io.openshift.operators.lifecycles.v1alpha1
+versions:
+- name: '4.16'
+  phases:
+  - endDate: '2025-01-01'
+    name: Full support
+    startDate: '2024-06-27'
+  - endDate: '2025-12-27'
+    name: Maintenance support
+    startDate: '2025-01-02'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.16'
+- name: '4.17'
+  phases:
+  - endDate: '2025-05-25'
+    name: Full support
+    startDate: '2024-10-01'
+  - endDate: '2026-04-01'
+    name: Maintenance support
+    startDate: '2025-05-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.16'
+- name: '4.18'
+  phases:
+  - endDate: '2025-09-17'
+    name: Full support
+    startDate: '2025-02-25'
+  - endDate: '2026-08-25'
+    name: Maintenance support
+    startDate: '2025-09-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.18'
+- name: '4.19'
+  phases:
+  - endDate: '2026-01-21'
+    name: Full support
+    startDate: '2025-06-17'
+  - endDate: '2026-12-17'
+    name: Maintenance support
+    startDate: '2026-01-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.19'
+- name: '4.20'
+  phases:
+  - endDate: '2026-05-03'
+    name: Full support
+    startDate: '2025-10-21'
+  - endDate: '2027-04-21'
+    name: Maintenance support
+    startDate: '2026-05-04'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-10'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
+---
+defaultChannel: stable
 icon:
   base64data: PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTQ1Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2UwMDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJlZEhhdC1Mb2dvLUhhdC1Db2xvcjwvdGl0bGU+PHBhdGggZD0iTTE1Ny43Nyw2Mi42MWExNCwxNCwwLDAsMSwuMzEsMy40MmMwLDE0Ljg4LTE4LjEsMTcuNDYtMzAuNjEsMTcuNDZDNzguODMsODMuNDksNDIuNTMsNTMuMjYsNDIuNTMsNDRhNi40Myw2LjQzLDAsMCwxLC4yMi0xLjk0bC0zLjY2LDkuMDZhMTguNDUsMTguNDUsMCwwLDAtMS41MSw3LjMzYzAsMTguMTEsNDEsNDUuNDgsODcuNzQsNDUuNDgsMjAuNjksMCwzNi40My03Ljc2LDM2LjQzLTIxLjc3LDAtMS4wOCwwLTEuOTQtMS43My0xMC4xM1oiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xMjcuNDcsODMuNDljMTIuNTEsMCwzMC42MS0yLjU4LDMwLjYxLTE3LjQ2YTE0LDE0LDAsMCwwLS4zMS0zLjQybC03LjQ1LTMyLjM2Yy0xLjcyLTcuMTItMy4yMy0xMC4zNS0xNS43My0xNi42QzEyNC44OSw4LjY5LDEwMy43Ni41LDk3LjUxLjUsOTEuNjkuNSw5MCw4LDgzLjA2LDhjLTYuNjgsMC0xMS42NC01LjYtMTcuODktNS42LTYsMC05LjkxLDQuMDktMTIuOTMsMTIuNSwwLDAtOC40MSwyMy43Mi05LjQ5LDI3LjE2QTYuNDMsNi40MywwLDAsMCw0Mi41Myw0NGMwLDkuMjIsMzYuMywzOS40NSw4NC45NCwzOS40NU0xNjAsNzIuMDdjMS43Myw4LjE5LDEuNzMsOS4wNSwxLjczLDEwLjEzLDAsMTQtMTUuNzQsMjEuNzctMzYuNDMsMjEuNzdDNzguNTQsMTA0LDM3LjU4LDc2LjYsMzcuNTgsNTguNDlhMTguNDUsMTguNDUsMCwwLDEsMS41MS03LjMzQzIyLjI3LDUyLC41LDU1LC41LDc0LjIyYzAsMzEuNDgsNzQuNTksNzAuMjgsMTMzLjY1LDcwLjI4LDQ1LjI4LDAsNTYuNy0yMC40OCw1Ni43LTM2LjY1LDAtMTIuNzItMTEtMjcuMTYtMzAuODMtMzUuNzgiLz48L3N2Zz4=
   mediatype: image/svg+xml
@@ -2682,33 +3252,38 @@ name: support-log-gather-operator
 schema: olm.package
 ---
 entries:
-- name: support-log-gather-operator.v4.22.0
-  skipRange: '>=4.20.0-0 <4.22.0'
-name: tech-preview
+- name: support-log-gather-operator.v5.0.0-202608271925
+  skipRange: '>=4.22.0 <5.0.0'
+name: stable
 package: support-log-gather-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:5fcfa6dfa0f876060708c8e4333f0d2f0caca8e1a907387acf734060a0f23f00
-name: support-log-gather-operator.v4.22.0
+image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:ce0c70c9c6505e3b098a83de7ff3215665ffa3362d74232a58039a6e2a5bf5e4
+name: support-log-gather-operator.v5.0.0-202608271925
 package: support-log-gather-operator
 properties:
 - type: olm.gvk
   value:
     group: operator.openshift.io
     kind: MustGather
+    version: v1
+- type: olm.gvk
+  value:
+    group: operator.openshift.io
+    kind: MustGather
     version: v1alpha1
 - type: olm.maxOpenShiftVersion
-  value: '4.23'
+  value: '5.1'
 - type: olm.package
   value:
     packageName: support-log-gather-operator
-    version: 4.22.0
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
       capabilities: Full Lifecycle
       categories: Monitoring, Application Runtime
-      containerImage: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:807b4525f12cf12a85a02a5ddb4ea7ab59789d6e5b39fdfeb98fb1d7c0a2f340
+      containerImage: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:4c3fba42cd19f339f460ae102e590d8bb45a2d1103f2c1e508bce6d4eab15fa3
       createdAt: '2020-07-31T16:12:36Z'
       description: Operator to enable CEE to collect must-gathers from OSDv4 clusters
       features.operators.openshift.io/cnf: 'false'
@@ -2721,8 +3296,8 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"4.23"}]'
-      olm.skipRange: '>=4.20.0-0 <4.22.0'
+      olm.properties: '[{"type":"olm.maxOpenShiftVersion","value":"5.1"}]'
+      olm.skipRange: '>=4.22.0 <5.0.0'
       operatorframework.io/suggested-namespace: must-gather-operator
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       repository: https://github.com/openshift/must-gather-operator
@@ -2732,6 +3307,11 @@ properties:
       owned:
       - description: Represents a must-gather diagnostic collection job
         displayName: Must Gather
+        kind: MustGather
+        name: mustgathers.operator.openshift.io
+        version: v1
+      - description: Deprecated v1alpha1 version; use operator.openshift.io/v1 instead
+        displayName: Must Gather (deprecated)
         kind: MustGather
         name: mustgathers.operator.openshift.io
         version: v1alpha1
@@ -2768,16 +3348,16 @@ properties:
     maintainers:
     - email: aos-staff@redhat.com
       name: Red Hat
-    maturity: tech-preview
+    maturity: stable
     minKubeVersion: 1.26.0
     provider:
       name: Red Hat, Inc
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-must-gather-rhel9@sha256:69791acaf85b8f5588a683008cc1402cf79c87df58ad70bc60e7e8bd32bb4393
+- image: registry.redhat.io/openshift5/ose-must-gather-rhel9@sha256:432304e6f32b59ba32fdb813d54e5d84359d81aedd8b31b352bdfa2a8bafba78
   name: ose-must-gather-rhel9
-- image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:5fcfa6dfa0f876060708c8e4333f0d2f0caca8e1a907387acf734060a0f23f00
+- image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:ce0c70c9c6505e3b098a83de7ff3215665ffa3362d74232a58039a6e2a5bf5e4
   name: ''
-- image: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:807b4525f12cf12a85a02a5ddb4ea7ab59789d6e5b39fdfeb98fb1d7c0a2f340
+- image: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:4c3fba42cd19f339f460ae102e590d8bb45a2d1103f2c1e508bce6d4eab15fa3
   name: ose-support-log-gather-rhel9-operator
 schema: olm.bundle
 ---
@@ -2789,14 +3369,14 @@ name: pf-status-relay-operator
 schema: olm.package
 ---
 entries:
-- name: pf-status-relay-operator.v4.23.0
-  skipRange: '>=4.3.0-0 <4.23.0'
+- name: pf-status-relay-operator.v5.0.0-202608271925
+  skipRange: '>=4.3.0-0 <5.0.0-202608271925'
 name: stable
 package: pf-status-relay-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/pf-status-relay-operator-bundle@sha256:a2734930c46359f4b68b60672249ff1febb5e37fd8fc3e64baaea820ae41b1c2
-name: pf-status-relay-operator.v4.23.0
+image: registry.redhat.io/openshift5/pf-status-relay-operator-bundle@sha256:cf2654893233c2d9f47a2d04cb9d77fee2d505dc58a5aedfee58f1770575f190
+name: pf-status-relay-operator.v5.0.0-202608271925
 package: pf-status-relay-operator
 properties:
 - type: olm.gvk
@@ -2807,7 +3387,7 @@ properties:
 - type: olm.package
   value:
     packageName: pf-status-relay-operator
-    version: 4.23.0
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -2820,7 +3400,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0-0 <4.23.0'
+      olm.skipRange: '>=4.3.0-0 <5.0.0-202608271925'
       operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-v1.40.0
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
@@ -2858,11 +3438,11 @@ properties:
     provider:
       name: openshift
 relatedImages:
-- image: registry.redhat.io/openshift5/pf-status-relay-operator-bundle@sha256:a2734930c46359f4b68b60672249ff1febb5e37fd8fc3e64baaea820ae41b1c2
+- image: registry.redhat.io/openshift5/pf-status-relay-operator-bundle@sha256:cf2654893233c2d9f47a2d04cb9d77fee2d505dc58a5aedfee58f1770575f190
   name: ''
-- image: registry.redhat.io/openshift5/pf-status-relay-rhel9-operator@sha256:115001f99af58832298a897517a64ab4c4ed82ab37f2e05edc92638526637511
+- image: registry.redhat.io/openshift5/pf-status-relay-rhel9-operator@sha256:d80c56fd715d74af9e5743188d999a0cda704a5f7478d8cc62dfbdb1be2b4653
   name: pf-status-relay-rhel9-operator
-- image: registry.redhat.io/openshift5/pf-status-relay-rhel9@sha256:819e09a08d41032aa523784ce4608a0f6c39fff1e6cc66b95e89314917a9b9d0
+- image: registry.redhat.io/openshift5/pf-status-relay-rhel9@sha256:30911958657a14b31bf204a573f011c231b263b84fbf67baae37b9b61720791b
   name: pf-status-relay-rhel9
 schema: olm.bundle
 ---
@@ -2874,14 +3454,14 @@ name: ptp-operator
 schema: olm.package
 ---
 entries:
-- name: ptp-operator.v5.0.0-202607251421
-  skipRange: '>=4.3.0-0 <5.0.0-202607251421'
+- name: ptp-operator.v5.0.0-202608271925
+  skipRange: '>=4.3.0-0 <5.0.0-202608271925'
 name: stable
 package: ptp-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:4e544c453876130946b52c6aea71065675920d2e251e8363ae130a863c520b61
-name: ptp-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:01a378ebab117caa85c075baf5ddd00478e8f566b1321a5c7ce73652515a64a3
+name: ptp-operator.v5.0.0-202608271925
 package: ptp-operator
 properties:
 - type: olm.gvk
@@ -2907,7 +3487,7 @@ properties:
 - type: olm.package
   value:
     packageName: ptp-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -2915,7 +3495,7 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:470667dc5325fda2a7941b5b208c661899f94dfeac14e7c5ad50f980c480ab65
+      containerImage: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:63d17f14e1fa8c56536d25225b981d64a583e1f6d3bf1f512252e334bba9dd76
       createdAt: '2026-07-02T18:03:02Z'
       description: This software enables configuration of Precision Time Protocol(PTP) on Kubernetes. It detects hardware capable PTP devices on each node, and configures linuxptp processes such as ptp4l, phc2sys and timemaster.
       features.operators.openshift.io/cnf: 'false'
@@ -2928,10 +3508,10 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0-0 <5.0.0-202607251421'
+      olm.skipRange: '>=4.3.0-0 <5.0.0-202608271925'
       operatorframework.io/suggested-namespace: openshift-ptp
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:cadf1cdcbd3c3a0731a412939fcf5c91de3228536e14bc97684655e7d77d3c10
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:b824ec92745f847524b2120d683aec1fa793421740da9fe08d1044f27579aa46
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-v1.36.1-ocp
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
@@ -3001,17 +3581,17 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-cloud-event-proxy-rhel9@sha256:2fef187d6aa058e878b655de75b8236ef4ce511f7fbbe927fd157558779a4d29
+- image: registry.redhat.io/openshift5/ose-cloud-event-proxy-rhel9@sha256:2a78829438db000d4f599a974958afd380b8cb750ec59d23f1b46d9eab938941
   name: ose-cloud-event-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:eeda3f9d9f5335816fa84eb57e11493d4c89ce7c0c8c8646ab61e0680cebbcf8
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:2409ad6d3ace788dd2626a9396ee605d1e8f509a9cec54fb50e1fc271d4d4494
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:4e544c453876130946b52c6aea71065675920d2e251e8363ae130a863c520b61
+- image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:01a378ebab117caa85c075baf5ddd00478e8f566b1321a5c7ce73652515a64a3
   name: ''
-- image: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:470667dc5325fda2a7941b5b208c661899f94dfeac14e7c5ad50f980c480ab65
+- image: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:63d17f14e1fa8c56536d25225b981d64a583e1f6d3bf1f512252e334bba9dd76
   name: ose-ptp-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-ptp-rhel9@sha256:25179dbd81cb036eb5121f5ce78c7810e4dbef26ebcf1da463ce56e61b63f4de
+- image: registry.redhat.io/openshift5/ose-ptp-rhel9@sha256:ca0e6965f060629b578304c17a6d5e7fd0ed54fd6452b2ac19aafac5838fb121
   name: ose-ptp-rhel9
-- image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:cadf1cdcbd3c3a0731a412939fcf5c91de3228536e14bc97684655e7d77d3c10
+- image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:b824ec92745f847524b2120d683aec1fa793421740da9fe08d1044f27579aa46
   name: ptp-must-gather-rhel9
 schema: olm.bundle
 ---
@@ -3059,6 +3639,10 @@ versions:
   - endDate: '2024-11-17'
     name: Maintenance support
     startDate: '2024-02-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.13'
 - name: '4.14'
   phases:
   - endDate: '2024-05-27'
@@ -3209,14 +3793,14 @@ name: sriov-network-operator
 schema: olm.package
 ---
 entries:
-- name: sriov-network-operator.v5.0.0-202607251421
-  skipRange: '>=4.3.0-0 <5.0.0-202607251421'
+- name: sriov-network-operator.v5.0.0-202608271925
+  skipRange: '>=4.3.0-0 <5.0.0-202608271925'
 name: stable
 package: sriov-network-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-sriov-network-operator-bundle@sha256:8a4b84f7d9a54398b97209c6a4b8d5e5c6dd6161727026f3e00d2f0c94c6761a
-name: sriov-network-operator.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-sriov-network-operator-bundle@sha256:cd786748570fec654704aa87d6e7863d074873b121bc78bdf5e0555a00a80116
+name: sriov-network-operator.v5.0.0-202608271925
 package: sriov-network-operator
 properties:
 - type: olm.gvk
@@ -3257,7 +3841,7 @@ properties:
 - type: olm.package
   value:
     packageName: sriov-network-operator
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -3265,8 +3849,8 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/ose-sriov-network-rhel9-operator@sha256:65dc5e2577556888de0a50691204bfe7afa8cf112a334c17809e522f0b5c2139
-      createdAt: '2026-07-08T23:49:25Z'
+      containerImage: registry.redhat.io/openshift5/ose-sriov-network-rhel9-operator@sha256:719448cc5f2e5860e4e599710b820f139a9babe694c59eb43aaec966ac2bd185
+      createdAt: '2026-07-29T23:48:55Z'
       description: An operator for configuring SR-IOV components and initializing SRIOV network devices in Openshift cluster.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'true'
@@ -3278,7 +3862,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.3.0-0 <5.0.0-202607251421'
+      olm.skipRange: '>=4.3.0-0 <5.0.0-202608271925'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n  \"kind\": \"SriovOperatorConfig\",\n  \"metadata\": {\n    \"name\": \"default\"\n  },\n  \"spec\": {\n    \"configurationMode\": \"daemon\",\n    \"disableDrain\": false,\n    \"enableInjector\": true,\n    \"enableOperatorWebhook\": true,\n    \"logLevel\": 2,\n    \"featureGates\": {\n        \"resourceInjectorMatchCondition\": true\n    }\n  }\n}"
       operatorframework.io/suggested-namespace: openshift-sriov-network-operator
@@ -3355,29 +3939,204 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:eeda3f9d9f5335816fa84eb57e11493d4c89ce7c0c8c8646ab61e0680cebbcf8
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:2409ad6d3ace788dd2626a9396ee605d1e8f509a9cec54fb50e1fc271d4d4494
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-dp-admission-controller-rhel9@sha256:781bb6b67983b03b16a4ffb8991d6ec6c02245e403db4132d43c57f63b891525
+- image: registry.redhat.io/openshift5/ose-sriov-dp-admission-controller-rhel9@sha256:a29a0b692a61ed10902986039a02b1979c90d593e8444b22c1c96e0fe9189331
   name: ose-sriov-dp-admission-controller-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-infiniband-cni-rhel9@sha256:f631cdc98f3f3e5f7a2f878227cdc9a7e4d2026db0cf374eeaed77cc96246fb4
+- image: registry.redhat.io/openshift5/ose-sriov-infiniband-cni-rhel9@sha256:0dc77e259ee49565daa89901ad372190ad297394fe47c4b3ae7c7342a6671d10
   name: ose-sriov-infiniband-cni-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-network-config-daemon-rhel9@sha256:247a975a88bb4f32adaed6347f0339599989269c7ae449ccdc6acabf929c2757
+- image: registry.redhat.io/openshift5/ose-sriov-network-config-daemon-rhel9@sha256:81a0d85f488ac4a0ec7ee7ece0d3ea742944d550d9f5a53e5dd053ccf61e1e23
   name: ose-sriov-network-config-daemon-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-network-device-plugin-rhel9@sha256:c3620084133fceacd6123734b3b9fa3aa285953b71a7bb545624e5eb2c376e26
+- image: registry.redhat.io/openshift5/ose-sriov-network-device-plugin-rhel9@sha256:c9d5f436fa8546fc60fa516eff4facc9e1234a4b0a6f09e06964274c18be9012
   name: ose-sriov-network-device-plugin-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-network-metrics-exporter-rhel9@sha256:1c738f1a00cd940f58817127154c8efd3691679e492d6b6a97a4cccb55b74067
+- image: registry.redhat.io/openshift5/ose-sriov-network-metrics-exporter-rhel9@sha256:414330b1ac0b04f8674ca0e5053393040e7cb99d60f2e09ebe6facde5d76aea2
   name: ose-sriov-network-metrics-exporter-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-network-operator-bundle@sha256:8a4b84f7d9a54398b97209c6a4b8d5e5c6dd6161727026f3e00d2f0c94c6761a
+- image: registry.redhat.io/openshift5/ose-sriov-network-operator-bundle@sha256:cd786748570fec654704aa87d6e7863d074873b121bc78bdf5e0555a00a80116
   name: ''
-- image: registry.redhat.io/openshift5/ose-sriov-network-rhel9-operator@sha256:65dc5e2577556888de0a50691204bfe7afa8cf112a334c17809e522f0b5c2139
+- image: registry.redhat.io/openshift5/ose-sriov-network-rhel9-operator@sha256:719448cc5f2e5860e4e599710b820f139a9babe694c59eb43aaec966ac2bd185
   name: ose-sriov-network-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-sriov-network-webhook-rhel9@sha256:70e52b7cca7c74c3d0e7cec439ff0b10b89fb47265139b1602f7f159410da7c1
+- image: registry.redhat.io/openshift5/ose-sriov-network-webhook-rhel9@sha256:225db43d664d85d50c22f3ee28b029a336e40076f69a312a5032692ff0ed2e7f
   name: ose-sriov-network-webhook-rhel9
-- image: registry.redhat.io/openshift5/ose-sriov-rdma-cni-rhel9@sha256:d86b60c1302669a067e49ef7d45d9ed85ca8b168f692ade9b338255f187f0d83
+- image: registry.redhat.io/openshift5/ose-sriov-rdma-cni-rhel9@sha256:650a2a18f962ca1b6dfa538f02c996e8dacf7d5e5fb1839999b7c6b329245bc3
   name: ose-sriov-rdma-cni-rhel9
-- image: registry.redhat.io/openshift5/sriov-cni-rhel9@sha256:83635d002f0bae6042a680618563e3eaf840bef3c70d3647cd2ea81d8fc169b7
+- image: registry.redhat.io/openshift5/sriov-cni-rhel9@sha256:b1ee2a0dbd1e97003d8f9e0df155d8f8edb3a94186a2468628e55c1801a92498
   name: sriov-cni-rhel9
 schema: olm.bundle
+---
+package: sriov-network-operator
+schema: io.openshift.operators.lifecycles.v1alpha1
+versions:
+- name: '4.12'
+  phases:
+  - endDate: '2023-08-17'
+    name: Full support
+    startDate: '2023-01-17'
+  - endDate: '2024-07-17'
+    name: Maintenance support
+    startDate: '2023-08-18'
+  - endDate: '2025-01-17'
+    name: Extended update support
+    startDate: '2024-07-18'
+  - endDate: '2026-01-17'
+    name: Extended update support Term 2
+    startDate: '2025-01-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.12'
+- name: '4.13'
+  phases:
+  - endDate: '2024-01-31'
+    name: Full support
+    startDate: '2023-05-17'
+  - endDate: '2024-11-17'
+    name: Maintenance support
+    startDate: '2024-02-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.13'
+- name: '4.14'
+  phases:
+  - endDate: '2024-05-27'
+    name: Full support
+    startDate: '2023-10-31'
+  - endDate: '2025-05-01'
+    name: Maintenance support
+    startDate: '2024-05-28'
+  - endDate: '2025-10-31'
+    name: Extended update support
+    startDate: '2025-05-02'
+  - endDate: '2026-10-31'
+    name: Extended update support Term 2
+    startDate: '2025-11-01'
+  - endDate: '2027-10-31'
+    name: Extended update support Term 3
+    startDate: '2026-11-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.14'
+- name: '4.15'
+  phases:
+  - endDate: '2024-09-27'
+    name: Full support
+    startDate: '2024-02-27'
+  - endDate: '2025-08-27'
+    name: Maintenance support
+    startDate: '2024-09-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.15'
+- name: '4.16'
+  phases:
+  - endDate: '2025-01-01'
+    name: Full support
+    startDate: '2024-06-27'
+  - endDate: '2025-12-27'
+    name: Maintenance support
+    startDate: '2025-01-02'
+  - endDate: '2026-06-27'
+    name: Extended update support
+    startDate: '2025-12-28'
+  - endDate: '2027-06-27'
+    name: Extended update support Term 2
+    startDate: '2026-06-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.16'
+- name: '4.17'
+  phases:
+  - endDate: '2025-05-25'
+    name: Full support
+    startDate: '2024-10-01'
+  - endDate: '2026-04-01'
+    name: Maintenance support
+    startDate: '2025-05-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.17'
+- name: '4.18'
+  phases:
+  - endDate: '2025-09-17'
+    name: Full support
+    startDate: '2025-02-25'
+  - endDate: '2026-08-25'
+    name: Maintenance support
+    startDate: '2025-09-18'
+  - endDate: '2027-02-25'
+    name: Extended update support
+    startDate: '2026-08-26'
+  - endDate: '2028-02-25'
+    name: Extended update support Term 2
+    startDate: '2027-02-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.18'
+- name: '4.19'
+  phases:
+  - endDate: '2026-01-21'
+    name: Full support
+    startDate: '2025-06-17'
+  - endDate: '2026-12-17'
+    name: Maintenance support
+    startDate: '2026-01-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.19'
+- name: '4.20'
+  phases:
+  - endDate: '2026-05-03'
+    name: Full support
+    startDate: '2025-10-21'
+  - endDate: '2027-04-21'
+    name: Maintenance support
+    startDate: '2026-05-04'
+  - endDate: '2027-10-21'
+    name: Extended update support
+    startDate: '2027-04-22'
+  - endDate: '2028-10-21'
+    name: Extended update support Term 2
+    startDate: '2027-10-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-03'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
 ---
 defaultChannel: stable
 icon:
@@ -3387,14 +4146,14 @@ name: vertical-pod-autoscaler
 schema: olm.package
 ---
 entries:
-- name: vertical-pod-autoscaler.v5.0.0-202607251421
+- name: vertical-pod-autoscaler.v5.0.0-202608271925
   skipRange: '>=4.5.0 <5.0.0'
 name: stable
 package: vertical-pod-autoscaler
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-operator-bundle@sha256:d8419e3762e650cd717d2bf008f8ae2b708e20b49d2d22f4803dc34b3f4b01e4
-name: vertical-pod-autoscaler.v5.0.0-202607251421
+image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-operator-bundle@sha256:ab23b6aca929d99840aa04fcaef2840cddb9bdd18b34aefcf0ae09afb20ebc5b
+name: vertical-pod-autoscaler.v5.0.0-202608271925
 package: vertical-pod-autoscaler
 properties:
 - type: olm.gvk
@@ -3425,7 +4184,7 @@ properties:
 - type: olm.package
   value:
     packageName: vertical-pod-autoscaler
-    version: 5.0.0-202607251421
+    version: 5.0.0-202608271925
 - type: olm.csv.metadata
   value:
     annotations:
@@ -3433,7 +4192,7 @@ properties:
       capabilities: Full Lifecycle
       categories: OpenShift Optional
       certifiedLevel: Primed
-      containerImage: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-rhel9-operator@sha256:1d1f18043affc34b7fa0b5409c5a9c883eab349fb463647e807c2bfac1aff807
+      containerImage: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-rhel9-operator@sha256:191d8d24ca883f12ffa29bb5546ff461412d1450ff9dc199f72c6d00fc374abd
       createdAt: '2026-06-17T19:14:37Z'
       description: An operator to run the OpenShift Vertical Pod Autoscaler. Vertical Pod Autoscaler (VPA) can be configured to monitor a workload's resource utilization, and then adjust its CPU and memory limits by updating the pod (future) or restarting the pod with updated limits.
       features.operators.openshift.io/cnf: 'false'
@@ -3610,10 +4369,212 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-operator-bundle@sha256:d8419e3762e650cd717d2bf008f8ae2b708e20b49d2d22f4803dc34b3f4b01e4
+- image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-operator-bundle@sha256:ab23b6aca929d99840aa04fcaef2840cddb9bdd18b34aefcf0ae09afb20ebc5b
   name: ''
-- image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-rhel9-operator@sha256:1d1f18043affc34b7fa0b5409c5a9c883eab349fb463647e807c2bfac1aff807
+- image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-rhel9-operator@sha256:191d8d24ca883f12ffa29bb5546ff461412d1450ff9dc199f72c6d00fc374abd
   name: ose-vertical-pod-autoscaler-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-rhel9@sha256:ebec4329293bb49606e53eed66d4916e8c1c6f137f8de232c0a749579d5a8292
+- image: registry.redhat.io/openshift5/ose-vertical-pod-autoscaler-rhel9@sha256:63709489b99b20b0347dac4e424e6d92c252d718be5cbb0533e0ce1da3aaf42b
   name: ose-vertical-pod-autoscaler-rhel9
 schema: olm.bundle
+---
+package: vertical-pod-autoscaler
+schema: io.openshift.operators.lifecycles.v1alpha1
+versions:
+- name: '4.10'
+  phases:
+  - endDate: '2022-11-10'
+    name: Full support
+    startDate: '2022-03-10'
+  - endDate: '2023-09-10'
+    name: Maintenance support
+    startDate: '2022-11-11'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.10'
+- name: '4.11'
+  phases:
+  - endDate: '2023-04-17'
+    name: Full support
+    startDate: '2022-03-10'
+  - endDate: '2024-02-10'
+    name: Maintenance support
+    startDate: '2023-04-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.11'
+- name: '4.12'
+  phases:
+  - endDate: '2023-08-17'
+    name: Full support
+    startDate: '2023-01-17'
+  - endDate: '2024-07-17'
+    name: Maintenance support
+    startDate: '2023-08-18'
+  - endDate: '2025-01-17'
+    name: Extended update support
+    startDate: '2024-07-18'
+  - endDate: '2026-01-17'
+    name: Extended update support Term 2
+    startDate: '2025-01-18'
+  - endDate: '2027-01-17'
+    name: Extended update support Term 3
+    startDate: '2026-01-18'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.12'
+- name: '4.13'
+  phases:
+  - endDate: '2024-01-31'
+    name: Full support
+    startDate: '2023-05-17'
+  - endDate: '2024-11-17'
+    name: Maintenance support
+    startDate: '2024-02-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.13'
+- name: '4.14'
+  phases:
+  - endDate: '2024-05-27'
+    name: Full support
+    startDate: '2023-10-31'
+  - endDate: '2025-05-01'
+    name: Maintenance support
+    startDate: '2024-05-28'
+  - endDate: '2025-10-31'
+    name: Extended update support
+    startDate: '2025-05-02'
+  - endDate: '2026-10-31'
+    name: Extended update support Term 2
+    startDate: '2025-11-01'
+  - endDate: '2027-10-31'
+    name: Extended update support Term 3
+    startDate: '2026-11-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.14'
+- name: '4.15'
+  phases:
+  - endDate: '2024-09-27'
+    name: Full support
+    startDate: '2024-03-27'
+  - endDate: '2025-08-27'
+    name: Maintenance support
+    startDate: '2024-09-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.15'
+- name: '4.16'
+  phases:
+  - endDate: '2025-01-01'
+    name: Full support
+    startDate: '2024-06-27'
+  - endDate: '2025-12-27'
+    name: Maintenance support
+    startDate: '2025-01-02'
+  - endDate: '2026-06-27'
+    name: Extended update support
+    startDate: '2025-12-28'
+  - endDate: '2027-06-27'
+    name: Extended update support Term 2
+    startDate: '2026-06-28'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.16'
+- name: '4.17'
+  phases:
+  - endDate: '2025-05-25'
+    name: Full support
+    startDate: '2024-10-01'
+  - endDate: '2026-04-01'
+    name: Maintenance support
+    startDate: '2025-05-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.17'
+- name: '4.18'
+  phases:
+  - endDate: '2025-09-17'
+    name: Full support
+    startDate: '2025-02-25'
+  - endDate: '2026-08-25'
+    name: Maintenance support
+    startDate: '2025-09-18'
+  - endDate: '2027-02-25'
+    name: Extended update support
+    startDate: '2026-08-26'
+  - endDate: '2028-02-25'
+    name: Extended update support Term 2
+    startDate: '2027-02-26'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.18'
+- name: '4.19'
+  phases:
+  - endDate: '2026-01-21'
+    name: Full support
+    startDate: '2025-06-17'
+  - endDate: '2026-12-17'
+    name: Maintenance support
+    startDate: '2026-01-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.19'
+- name: '4.20'
+  phases:
+  - endDate: '2026-05-03'
+    name: Full support
+    startDate: '2025-10-21'
+  - endDate: '2027-04-21'
+    name: Maintenance support
+    startDate: '2026-05-04'
+  - endDate: '2027-10-21'
+    name: Extended update support
+    startDate: '2027-04-22'
+  - endDate: '2028-10-21'
+    name: Extended update support Term 2
+    startDate: '2027-10-22'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.20'
+- name: '4.21'
+  phases:
+  - endDate: '2026-09-09'
+    name: Full support
+    startDate: '2026-02-10'
+  - endDate: '2027-08-03'
+    name: Maintenance support
+    startDate: '2026-09-10'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.21'
+- name: '4.22'
+  phases:
+  - endDate: '2026-12-31'
+    name: Full support
+    startDate: '2026-06-09'
+  - endDate: '2027-12-31'
+    name: Maintenance support
+    startDate: '2027-01-01'
+  - endDate: '2028-06-30'
+    name: Extended update support
+    startDate: '2028-01-01'
+  - endDate: '2029-06-30'
+    name: Extended update support Term 2
+    startDate: '2028-07-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '4.22'
