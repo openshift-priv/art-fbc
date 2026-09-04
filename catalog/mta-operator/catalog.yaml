@@ -147,6 +147,8 @@ entries:
 - name: mta-operator.v8.2.1
   replaces: mta-operator.v8.2.0
   skipRange: '>=8.0.0 <8.2.1'
+  skips:
+  - mta-operator.v8.2.0
 name: stable-v8.2
 package: mta-operator
 schema: olm.channel
@@ -4492,7 +4494,7 @@ relatedImages:
   name: postgresql-15
 schema: olm.bundle
 ---
-image: registry.redhat.io/mta/mta-operator-bundle@sha256:ef7f73cb0925328b11b7d28fb5ff58f597cd447c4d6fac3c8d1d104212e77ed2
+image: registry.redhat.io/mta/mta-operator-bundle@sha256:46e80cea9ed559ba86ffc80d164d1d2ec80f316e315ffecc2c3e2cc00bd3b0ed
 name: mta-operator.v8.2.1
 package: mta-operator
 properties:
@@ -4543,11 +4545,11 @@ properties:
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Addon\",\n    \"metadata\": {\n      \"name\": \"myaddon\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"container\": {\n        \"image\": \"registry.redhat.io/mta/mta-analyzer-addon-rhel9@sha256:0db7b6d22da7f93f2dd0257d80a331829da105906f500a5345ad028806320116\",\n        \"imagePullPolicy\": \"Always\",\n        \"name\": \"myaddon\",\n        \"resources\": {\n          \"limits\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          },\n          \"requests\": {\n            \"cpu\": 1,\n            \"memory\": \"512Mi\"\n          }\n        }\n      },\n      \"task\": \"mytask\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Extension\",\n    \"metadata\": {\n      \"name\": \"myextension\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"addon\": \"myaddon\",\n      \"container\": {\n        \"args\": [\n          \"--port\",\n          \"$(PORT)\"\n        ],\n        \"env\": [\n          {\n            \"name\": \"PORT\",\n            \"value\": \"${seq:8000}\"\n          }\n        ],\n        \"image\": \"registry.redhat.io/mta/mta-go-external-provider-rhel9@sha256:6a303a231db1f0e13d1eb30f0f1ecd396f6c29e78666b08a728e1f75a2f51ae1\",\n        \"imagePullPolicy\": \"Always\",\n        \"name\": \"myextension\",\n        \"resources\": {\n          \"limits\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          },\n          \"requests\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          }\n        }\n      },\n      \"metadata\": {\n        \"provider\": {\n          \"address\": \"localhost:$(PORT)\",\n          \"name\": \"myextension\"\n        }\n      },\n      \"selector\": \"tag:Language=MyLang\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Schema\",\n    \"metadata\": {\n      \"name\": \"myschema\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"domain\": \"mydomain\",\n      \"subject\": \"mysubject\",\n      \"variant\": \"myvariant\",\n      \"versions\": [\n        {\n          \"definition\": {\n            \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n            \"properties\": {\n              \"names\": {\n                \"description\": \"Application names. Each may be a glob expression.\",\n                \"items\": {\n                  \"minLength\": 1,\n                  \"type\": \"string\"\n                },\n                \"minItems\": 0,\n                \"type\": \"array\"\n              },\n              \"spaces\": {\n                \"description\": \"Space names.\",\n                \"items\": {\n                  \"minLength\": 1,\n                  \"type\": \"string\"\n                },\n                \"minItems\": 1,\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"spaces\"\n            ],\n            \"title\": \"Coordinates\",\n            \"type\": \"object\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Tackle\",\n    \"metadata\": {\n      \"name\": \"tackle\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"feature_auth_required\": \"false\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Task\",\n    \"metadata\": {\n      \"name\": \"mytask\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"dependencies\": [\n        \"myaddon\"\n      ],\n      \"priority\": 10\n    }\n  }\n]"
+      alm-examples: "[\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Addon\",\n    \"metadata\": {\n      \"name\": \"myaddon\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"container\": {\n        \"image\": \"registry.redhat.io/mta/mta-analyzer-addon-rhel9@sha256:f93dabfad1b27b871e3f8dc4490b7cdeda59ace17dc73840b9c3edb30ce78411\",\n        \"imagePullPolicy\": \"Always\",\n        \"name\": \"myaddon\",\n        \"resources\": {\n          \"limits\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          },\n          \"requests\": {\n            \"cpu\": 1,\n            \"memory\": \"512Mi\"\n          }\n        }\n      },\n      \"task\": \"mytask\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Extension\",\n    \"metadata\": {\n      \"name\": \"myextension\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"addon\": \"myaddon\",\n      \"container\": {\n        \"args\": [\n          \"--port\",\n          \"$(PORT)\"\n        ],\n        \"env\": [\n          {\n            \"name\": \"PORT\",\n            \"value\": \"${seq:8000}\"\n          }\n        ],\n        \"image\": \"registry.redhat.io/mta/mta-go-external-provider-rhel9@sha256:b807629cc79f7f3bb96afa4a93bf3b240c0bfcca74c49893d86a7f3fddd454f2\",\n        \"imagePullPolicy\": \"Always\",\n        \"name\": \"myextension\",\n        \"resources\": {\n          \"limits\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          },\n          \"requests\": {\n            \"cpu\": 1,\n            \"memory\": \"1Gi\"\n          }\n        }\n      },\n      \"metadata\": {\n        \"provider\": {\n          \"address\": \"localhost:$(PORT)\",\n          \"name\": \"myextension\"\n        }\n      },\n      \"selector\": \"tag:Language=MyLang\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Schema\",\n    \"metadata\": {\n      \"name\": \"myschema\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"domain\": \"mydomain\",\n      \"subject\": \"mysubject\",\n      \"variant\": \"myvariant\",\n      \"versions\": [\n        {\n          \"definition\": {\n            \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n            \"properties\": {\n              \"names\": {\n                \"description\": \"Application names. Each may be a glob expression.\",\n                \"items\": {\n                  \"minLength\": 1,\n                  \"type\": \"string\"\n                },\n                \"minItems\": 0,\n                \"type\": \"array\"\n              },\n              \"spaces\": {\n                \"description\": \"Space names.\",\n                \"items\": {\n                  \"minLength\": 1,\n                  \"type\": \"string\"\n                },\n                \"minItems\": 1,\n                \"type\": \"array\"\n              }\n            },\n            \"required\": [\n              \"spaces\"\n            ],\n            \"title\": \"Coordinates\",\n            \"type\": \"object\"\n          }\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Tackle\",\n    \"metadata\": {\n      \"name\": \"tackle\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"feature_auth_required\": \"false\"\n    }\n  },\n  {\n    \"apiVersion\": \"tackle.konveyor.io/v1alpha1\",\n    \"kind\": \"Task\",\n    \"metadata\": {\n      \"name\": \"mytask\",\n      \"namespace\": \"openshift-mta\"\n    },\n    \"spec\": {\n      \"dependencies\": [\n        \"myaddon\"\n      ],\n      \"priority\": 10\n    }\n  }\n]"
       capabilities: Seamless Upgrades
       categories: OpenShift Optional, Modernization & Migration
       certified: 'false'
-      containerImage: registry.redhat.io/mta/mta-rhel9-operator@sha256:747260a6a19a578b0e9405f87e3b3d4fa5d48423a66a29ce9f2598e5faf88573
+      containerImage: registry.redhat.io/mta/mta-rhel9-operator@sha256:714d0bda577d555a22fe2f7f4708d7e7c52e59e261c10b7c4f80f9820d8d6a9b
       createdAt: '2026-06-03T16:15:05Z'
       description: Migration Toolkit for Applications is an application modernization platform that helps organizations safely and predictably modernize applications to OpenShift at scale.
       features.operators.openshift.io/cnf: 'false'
@@ -4646,35 +4648,35 @@ properties:
       name: Red Hat
       url: https://www.redhat.com
 relatedImages:
-- image: registry.redhat.io/mta/mta-operator-bundle@sha256:ef7f73cb0925328b11b7d28fb5ff58f597cd447c4d6fac3c8d1d104212e77ed2
-  name: ''
 - image: registry.redhat.io/lightspeed-core/lightspeed-stack-rhel9@sha256:1b662b49e4b0e6f7a1dca6643601f6f6f35706482049a3c37d025ec75d3a1dca
   name: lightspeed-stack-rhel9
-- image: registry.redhat.io/mta/mta-analyzer-addon-rhel9@sha256:0db7b6d22da7f93f2dd0257d80a331829da105906f500a5345ad028806320116
+- image: registry.redhat.io/mta/mta-analyzer-addon-rhel9@sha256:f93dabfad1b27b871e3f8dc4490b7cdeda59ace17dc73840b9c3edb30ce78411
   name: mta-analyzer-addon-rhel9
-- image: registry.redhat.io/mta/mta-cli-rhel9@sha256:23439a51c05b2df2aa05a1c5cd7ce309378caab903c3c0fef0990990bf94f02d
+- image: registry.redhat.io/mta/mta-cli-rhel9@sha256:024fe449456ad49992c9bca54cb7e67a3e486764158cf32177041090f21f35fe
   name: mta-cli-rhel9
-- image: registry.redhat.io/mta/mta-discovery-addon-rhel9@sha256:a25d1a364837e63cf7cee11484c8e23248331ac9685b6fb5ab97363058edfd94
+- image: registry.redhat.io/mta/mta-discovery-addon-rhel9@sha256:fcdd4c144a37c21f9a60d5daffc10e84f89041a78e9e1bc61aee21ce8562a60c
   name: mta-discovery-addon-rhel9
-- image: registry.redhat.io/mta/mta-dotnet-external-provider-rhel9@sha256:9df1a10355c5903da5ced83506e72657927a836af883374a7bfb3ab4415d7d12
+- image: registry.redhat.io/mta/mta-dotnet-external-provider-rhel9@sha256:43887ca5c2822eec17ff2e882663315d9cb939aa32100e49495089827718cb19
   name: mta-dotnet-external-provider-rhel9
-- image: registry.redhat.io/mta/mta-go-external-provider-rhel9@sha256:6a303a231db1f0e13d1eb30f0f1ecd396f6c29e78666b08a728e1f75a2f51ae1
+- image: registry.redhat.io/mta/mta-go-external-provider-rhel9@sha256:b807629cc79f7f3bb96afa4a93bf3b240c0bfcca74c49893d86a7f3fddd454f2
   name: mta-go-external-provider-rhel9
-- image: registry.redhat.io/mta/mta-hub-rhel9@sha256:157c6b6f57d73d65110e72a583fbabdce72c9c87df58573811f3448143efdbfb
+- image: registry.redhat.io/mta/mta-hub-rhel9@sha256:149550c281f19841785876c7ab64df76a4fd167080d9a81f634f46d590b24bde
   name: mta-hub-rhel9
-- image: registry.redhat.io/mta/mta-java-external-provider-rhel9@sha256:ab2ee6c7bcca89a5fe822265698f154f00201f2165a581d48733d284d4883eb9
+- image: registry.redhat.io/mta/mta-java-external-provider-rhel9@sha256:2af7c13d96338be9188b06bebcd5383df09491e03eca1badcf8bb5053911c340
   name: mta-java-external-provider-rhel9
-- image: registry.redhat.io/mta/mta-nodejs-external-provider-rhel9@sha256:8ccf85d66038180ce8fae684fc9804613dbcfe64e5a289577ce2685d3a0b7173
+- image: registry.redhat.io/mta/mta-nodejs-external-provider-rhel9@sha256:5d81e65eb05c5afd762fc96a29a9f573e0eb40e561db27d96085f69d94d31108
   name: mta-nodejs-external-provider-rhel9
-- image: registry.redhat.io/mta/mta-platform-addon-rhel9@sha256:c7987fd593ccbd9083e8c4514320e21315ee326351f455cce4aa26b3d933812d
+- image: registry.redhat.io/mta/mta-operator-bundle@sha256:46e80cea9ed559ba86ffc80d164d1d2ec80f316e315ffecc2c3e2cc00bd3b0ed
+  name: ''
+- image: registry.redhat.io/mta/mta-platform-addon-rhel9@sha256:35a993de8b1e1152ae534a026f16367c9a53a4ae72d1363443fb62477657a01b
   name: mta-platform-addon-rhel9
-- image: registry.redhat.io/mta/mta-python-external-provider-rhel9@sha256:0bf691b06bacd32c904a7874621420029c6172197154007d4be763567dd5ec5e
+- image: registry.redhat.io/mta/mta-python-external-provider-rhel9@sha256:ae236ca2e00c53e1f9e7625592160159693dd181cc754c6f5b84ea440c494739
   name: mta-python-external-provider-rhel9
-- image: registry.redhat.io/mta/mta-rhel9-operator@sha256:747260a6a19a578b0e9405f87e3b3d4fa5d48423a66a29ce9f2598e5faf88573
+- image: registry.redhat.io/mta/mta-rhel9-operator@sha256:714d0bda577d555a22fe2f7f4708d7e7c52e59e261c10b7c4f80f9820d8d6a9b
   name: mta-rhel9-operator
-- image: registry.redhat.io/mta/mta-solution-server-rhel9@sha256:1493d32345e6cc833d0e87205bca5922f206844cab72edb612fc070dc0e647dd
+- image: registry.redhat.io/mta/mta-solution-server-rhel9@sha256:424be67a6edbda2f66d939aa46c9e186b7a8301d15e7c92640d549fb94444752
   name: mta-solution-server-rhel9
-- image: registry.redhat.io/mta/mta-ui-rhel9@sha256:b4796b7b35fc0033d6e84331dcaece0d3f88d9a7d8cf8e7554d61314f2aad2b2
+- image: registry.redhat.io/mta/mta-ui-rhel9@sha256:19c983a18bf982bcce60a91c113538e28bee47db94b143257f2e8fb48b29bc1e
   name: mta-ui-rhel9
 - image: registry.redhat.io/openshift4/ose-oauth-proxy@sha256:ef10b2ecbfa0c4ac8568af9ee64ee4a554e3fdc9089ee5683b6c2c3a74caafbe
   name: ose-oauth-proxy
