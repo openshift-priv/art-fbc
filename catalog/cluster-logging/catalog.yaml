@@ -40,9 +40,6 @@ entries:
 - name: cluster-logging.v6.5.2
   replaces: cluster-logging.v6.5.1
   skipRange: '>=6.3.0-0 <6.5.2'
-- name: cluster-logging.v6.5.3
-  replaces: cluster-logging.v6.5.2
-  skipRange: '>=6.3.0-0 <6.5.3'
 name: stable-6.5
 package: cluster-logging
 schema: olm.channel
@@ -50,6 +47,9 @@ schema: olm.channel
 entries:
 - name: cluster-logging.v6.6.0
   skipRange: '>=6.2.0-0 <6.6.0'
+- name: cluster-logging.v6.6.1
+  replaces: cluster-logging.v6.6.0
+  skipRange: '>=6.2.0-0 <6.6.1'
 name: stable-6.6
 package: cluster-logging
 schema: olm.channel
@@ -16006,8 +16006,8 @@ relatedImages:
   name: vector-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:2c2ffb7398e8dad989c54e2f476bb8f16f1c74c97ca5000d36c5c7f931ea0138
-name: cluster-logging.v6.5.3
+image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:b70b971f9692763a3941e2bd6b14f0c42da9ea1463611c580ab97dd35a2d05d6
+name: cluster-logging.v6.6.1
 package: cluster-logging
 properties:
 - type: olm.gvk
@@ -16021,11 +16021,11 @@ properties:
     kind: ClusterLogForwarder
     version: v1
 - type: olm.maxOpenShiftVersion
-  value: '4.22'
+  value: '4.23'
 - type: olm.package
   value:
     packageName: cluster-logging
-    version: 6.5.3
+    version: 6.6.1
 - type: olm.csv.metadata
   value:
     annotations:
@@ -16033,8 +16033,8 @@ properties:
       capabilities: Seamless Upgrades
       categories: OpenShift Optional, Logging & Tracing, Observability
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:4b339e0082f2d3705f72fb617da9894f807c3f27127c85b4c7c43ef32f67e3a8
-      createdAt: '2026-02-19T21:00:21Z'
+      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:fc00b142087d15065ec8cdca58a59acf30733772b86272fe952646501cb7fe88
+      createdAt: '2026-07-07T19:26:30Z'
       description: The Red Hat OpenShift Logging Operator for OCP provides a means for configuring and managing log collection and forwarding.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
@@ -16046,12 +16046,12 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=6.3.0-0 <6.5.3'
+      olm.skipRange: '>=6.2.0-0 <6.6.1'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"observability.openshift.io/v1\",\n  \"kind\": \"ClusterLogForwarder\",\n  \"metadata\": {\n    \"name\": \"logging\"\n  }\n}\n"
       operatorframework.io/suggested-namespace: openshift-logging
       operators.openshift.io/infrastructure-features: '["disconnected","proxy-aware"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:4b339e0082f2d3705f72fb617da9894f807c3f27127c85b4c7c43ef32f67e3a8
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:fc00b142087d15065ec8cdca58a59acf30733772b86272fe952646501cb7fe88
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-unknown
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
@@ -16113,7 +16113,7 @@ properties:
         - description: DropConditions is an array of DropCondition which are conditions that are ANDed together
           displayName: Drop Filter Conditions
           path: filters[0].drop[0].test
-        - description: "A dot delimited path to a field in the log record. It must start with a `.`.\nThe path can contain alpha-numeric characters and underscores (a-zA-Z0-9_).\nIf segments contain characters outside of this range, the segment must be quoted.\nExamples: `.kubernetes.namespace_name`, `.log_type`, '.kubernetes.labels.foobar', `.kubernetes.labels.\"foo-bar/baz\"`"
+        - description: "A dot delimited path to a field in the log record. It must start with a `.`.\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\nIf segments contain characters outside of this range, the segment must be quoted.\nExamples: `.kubernetes.namespace_name`, `.log_type`, '.kubernetes.labels.foobar', `.kubernetes.labels.\"foo-bar/baz\"`"
           displayName: Field Path
           path: filters[0].drop[0].test[0].field
         - description: "A regular expression that the field will match.\nIf the value of the field defined in the DropTest matches the regular expression, the log record will be dropped.\nMust define only one of matches OR notMatches"
@@ -16185,10 +16185,10 @@ properties:
         - description: "MaxMessageSize  The maximum message length in bytes that a single log event can be when all\npartial log lines are merged.  Messages exceeding this limit are dropped."
           displayName: Max Message Size
           path: inputs[0].application.tuning.maxMessageSize
-        - description: "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment."
+        - description: "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.\nLog records exceeding the rate limit are dropped."
           displayName: Per-Container Rate Limit
           path: inputs[0].application.tuning.rateLimitPerContainer
-        - description: "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline"
+        - description: "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline.\nLog records exceeding this limit are dropped."
           displayName: Max Records Per Second
           path: inputs[0].application.tuning.rateLimitPerContainer.maxRecordsPerSecond
           x-descriptors:
@@ -16199,6 +16199,12 @@ properties:
         - description: "Sources defines the list of audit sources to collect.\nThis field is optional and its exclusion results in the collection of all audit sources."
           displayName: Log Sources
           path: inputs[0].audit.sources
+        - description: Tuning is the audit input tuning spec
+          displayName: Audit Input Tuning
+          path: inputs[0].audit.tuning
+        - description: "IgnoreOlder specifies the maximum duration since the last modification\nof an audit log file before the collector ignores it. When the collector restarts, files\nthat have not been modified within this time window may not be collected.\nIncrease this value for audit sources with infrequent writes to prevent data loss.\nThe default value is 3600 (1 hour)."
+          displayName: Ignore Older
+          path: inputs[0].audit.tuning.ignoreOlder
         - description: Infrastructure, Enables `infrastructure` logs.
           displayName: Infrastructure Logs Input
           path: inputs[0].infrastructure
@@ -16214,10 +16220,10 @@ properties:
         - description: "MaxMessageSize  The maximum message length in bytes that a single log event can be when all\npartial log lines are merged.  Messages exceeding this limit are dropped."
           displayName: Max Message Size
           path: inputs[0].infrastructure.tuning.container.maxMessageSize
-        - description: "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment."
+        - description: "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.\nLog records exceeding the rate limit are dropped."
           displayName: Per-Container Rate Limit
           path: inputs[0].infrastructure.tuning.container.rateLimitPerContainer
-        - description: "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline"
+        - description: "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline.\nLog records exceeding this limit are dropped."
           displayName: Max Records Per Second
           path: inputs[0].infrastructure.tuning.container.rateLimitPerContainer.maxRecordsPerSecond
           x-descriptors:
@@ -16241,7 +16247,7 @@ properties:
         - description: "TLS contains settings for controlling options of TLS connections.\n\nThe operator will request certificates from the cluster's cert signing service when TLS is not defined.\nThe certificates are injected into a secret named \"<clusterlogforwarder.name>-<input.name>\" which is mounted into\nthe collector. The collector is configured to use the public and private key provided by the service"
           displayName: TLS Options
           path: inputs[0].receiver.tls
-        - description: "Type of Receiver plugin.\n\nSupported Receiver types are:\n\n1. http\n   - Currently only supports kubernetes audit logs (log_type = \"audit\")\n2. syslog\n   - Currently only supports node infrastucture logs (log_type = \"infrastructure\")"
+        - description: "Type of Receiver plugin.\n\nSupported Receiver types are:\n\n1. http\n   - Currently only supports kubernetes audit logs (log_type = \"audit\")\n2. syslog\n   - Currently only supports node infrastructure logs (log_type = \"infrastructure\")"
           displayName: Receiver Type
           path: inputs[0].receiver.type
         - description: Type of output sink.
@@ -16253,7 +16259,115 @@ properties:
         - description: Outputs are named destinations for log messages.
           displayName: Log Forwarder Outputs
           path: outputs
-        - description: AzureMonitor configures forwarding log events to the Azure Monitor Logs service
+        - description: AzureLogsIngestion configures forwarding log events to the Azure Monitor Logs Ingestion API
+          displayName: Azure Log Ingestion
+          path: outputs[0].azureLogsIngestion
+        - description: Authentication sets credentials for authenticating the requests to the Azure Logs Ingestion API.
+          displayName: Authentication Options
+          path: outputs[0].azureLogsIngestion.authentication
+        - description: ClientSecret contains the Azure AD service principal credentials.
+          displayName: Client Secret Credentials
+          path: outputs[0].azureLogsIngestion.authentication.clientSecret
+        - description: ClientId is the Azure Active Directory application (client) ID.
+          displayName: Azure Client ID
+          path: outputs[0].azureLogsIngestion.authentication.clientSecret.clientId
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Secret points to the secret containing the Azure Active Directory client secret.
+          displayName: Secret
+          path: outputs[0].azureLogsIngestion.authentication.clientSecret.secret
+        - description: Key contains the name of the key inside the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].azureLogsIngestion.authentication.clientSecret.secret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: outputs[0].azureLogsIngestion.authentication.clientSecret.secret.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: TenantId is the Azure Active Directory tenant ID.
+          displayName: Azure Tenant ID
+          path: outputs[0].azureLogsIngestion.authentication.clientSecret.tenantId
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "Type is the type of Azure authentication to configure.\n\nValid values are: clientSecret, workloadIdentity."
+          displayName: Authentication Type
+          path: outputs[0].azureLogsIngestion.authentication.type
+        - description: WorkloadIdentity contains the Azure AD Workload Identity credentials.
+          displayName: Workload Identity Credentials
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity
+        - description: ClientId is the Azure Active Directory application (client) ID.
+          displayName: Azure Client ID
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.clientId
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: TenantId is the Azure Active Directory tenant ID.
+          displayName: Azure Tenant ID
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.tenantId
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Token is the bearer token to be used for authenticating the requests.
+          displayName: Token
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.token
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
+          displayName: Token Source
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.token.from
+        - description: Use Secret if the value should be sourced from a Secret in the same namespace.
+          displayName: Token Secret
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.token.secret
+        - description: Name of the key used to get the value from the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.token.secret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of secret
+          displayName: Secret Name
+          path: outputs[0].azureLogsIngestion.authentication.workloadIdentity.token.secret.name
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: DcrImmutableId is the immutable ID of the Data Collection Rule (DCR).
+          displayName: DCR Immutable ID
+          path: outputs[0].azureLogsIngestion.dcrImmutableId
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: StreamName is the name of the custom log stream in the DCR that the data should be sent to.
+          displayName: Stream Name
+          path: outputs[0].azureLogsIngestion.streamName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "TimestampField is the destination field (column) for the timestamp.\nMost schemas use \"TimeGenerated\" (default), but some use \"Timestamp\" (legacy) or \"EventStartTime\" (ASIM).\nhttps://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-standard-columns#timegenerated"
+          displayName: Timestamp Field
+          path: outputs[0].azureLogsIngestion.timestampField
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "TokenScope is the token scope for dedicated Azure regions.\nDefaults to \"https://monitor.azure.com/.default\".\nhttps://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview"
+          displayName: Token Scope
+          path: outputs[0].azureLogsIngestion.tokenScope
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Tuning specs tuning for the output
+          displayName: Tuning Options
+          path: outputs[0].azureLogsIngestion.tuning
+        - displayName: Delivery Mode
+          path: outputs[0].azureLogsIngestion.tuning.deliveryMode
+        - description: MaxRetryDuration is the maximum time to wait between retry attempts after a delivery failure.
+          displayName: Maximum Retry Duration
+          path: outputs[0].azureLogsIngestion.tuning.maxRetryDuration
+        - description: MaxWrite limits the maximum payload in terms of bytes of a single "send" to the output.
+          displayName: Batch Size
+          path: outputs[0].azureLogsIngestion.tuning.maxWrite
+        - description: MinRetryDuration is the minimum time to wait between attempts to retry after delivery a failure.
+          displayName: Minimum Retry Duration
+          path: outputs[0].azureLogsIngestion.tuning.minRetryDuration
+        - description: "URL to send log records to.\nBasic TLS is enabled if the URL scheme requires it (for example 'https' or 'tls').\nThe 'username@password' part of `url` is ignored."
+          displayName: Destination URL
+          path: outputs[0].azureLogsIngestion.url
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "DEPRECATED: Use AzureLogsIngestion instead. This output will be removed in a future release.\nAzureMonitor configures forwarding log events to the Azure Monitor Logs service"
           displayName: Azure Monitor
           path: outputs[0].azureMonitor
         - description: Authentication sets credentials for authenticating the requests.
@@ -16384,7 +16498,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Token
           path: outputs[0].cloudwatch.authentication.iamRole.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].cloudwatch.authentication.iamRole.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -16400,10 +16514,10 @@ properties:
           path: outputs[0].cloudwatch.authentication.iamRole.token.secret.name
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Type is the type of cloudwatch authentication to configure
+        - description: "Type is the type of authentication to configure for an AWS service.\n\nValid values are: awsAccessKey, iamRole."
           displayName: Authentication Type
           path: outputs[0].cloudwatch.authentication.type
-        - description: "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by \"\\|\\|\" followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets \"{}\" and MUST end with a static fallback value separated with \"\\|\\|\".\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}"
+        - description: "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Group Name
           path: outputs[0].cloudwatch.groupName
           x-descriptors:
@@ -16415,7 +16529,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].cloudwatch.tuning
-        - description: "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output."
+        - description: "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.\n\nValid values are: gzip, none, snappy, zlib, zstd."
           displayName: Compression
           path: outputs[0].cloudwatch.tuning.compression
         - displayName: Delivery Mode
@@ -16456,7 +16570,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Bearer Token
           path: outputs[0].elasticsearch.authentication.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].elasticsearch.authentication.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -16488,7 +16602,7 @@ properties:
         - description: Headers specify optional headers to be sent with the request
           displayName: Headers
           path: outputs[0].elasticsearch.headers
-        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `\\|\\|` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `\\|\\|`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app\\|infra\\|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}"
+        - description: "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern `^(app|infra|audit)-write$`\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Log Index
           path: outputs[0].elasticsearch.index
           x-descriptors:
@@ -16496,7 +16610,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].elasticsearch.tuning
-        - description: Compression causes data to be compressed before sending over the network.
+        - description: "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, zlib."
           displayName: Compression
           path: outputs[0].elasticsearch.tuning.compression
         - displayName: Delivery Mode
@@ -16515,7 +16629,7 @@ properties:
           path: outputs[0].elasticsearch.url
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Version specifies the version of Elasticsearch to be used.\nMust be one of: 6-8"
+        - description: "Version specifies the API version of Elasticsearch to be used. Must be one of: 6-8\nThe value of '8' should be used when forwarding to Elasticsearch version v8 or greater."
           displayName: ElasticSearch Version
           path: outputs[0].elasticsearch.version
           x-descriptors:
@@ -16526,7 +16640,7 @@ properties:
         - description: Authentication sets credentials for authenticating the requests.
           displayName: Authentication Options
           path: outputs[0].googleCloudLogging.authentication
-        - description: Credentials points to the secret containing the `google-application-credentials.json`.
+        - description: "Credentials points to the secret containing the GCP credentials JSON file.\nFor service account auth, this is a service_account key file.\nFor Workload Identity Federation (WIF), this is an external_account configuration file."
           displayName: Secret with Credentials File
           path: outputs[0].googleCloudLogging.authentication.credentials
         - description: Key contains the name of the key inside the referenced Secret.
@@ -16537,6 +16651,25 @@ properties:
         - description: SecretName contains the name of the Secret containing the referenced value.
           displayName: Secret Name
           path: outputs[0].googleCloudLogging.authentication.credentials.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "Token specifies the source of the bearer token used as the subject token for\nGCP Workload Identity Federation token exchange. Only needed when the credentials\nfile is an external_account type."
+          displayName: Token
+          path: outputs[0].googleCloudLogging.authentication.token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
+          displayName: Token Source
+          path: outputs[0].googleCloudLogging.authentication.token.from
+        - description: Use Secret if the value should be sourced from a Secret in the same namespace.
+          displayName: Token Secret
+          path: outputs[0].googleCloudLogging.authentication.token.secret
+        - description: Name of the key used to get the value from the referenced Secret.
+          displayName: Key Name
+          path: outputs[0].googleCloudLogging.authentication.token.secret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of secret
+          displayName: Secret Name
+          path: outputs[0].googleCloudLogging.authentication.token.secret.name
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
         - description: ID must be one of the required ID fields for the output
@@ -16591,7 +16724,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Bearer Token
           path: outputs[0].http.authentication.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].http.authentication.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -16637,7 +16770,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].http.tuning
-        - description: Compression causes data to be compressed before sending over the network.
+        - description: "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, snappy, zlib."
           displayName: Compression
           path: outputs[0].http.tuning.compression
         - displayName: Delivery Mode
@@ -16707,7 +16840,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].kafka.tuning
-        - description: Compression causes data to be compressed before sending over the network.
+        - description: "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, snappy, zstd, lz4."
           displayName: Compression
           path: outputs[0].kafka.tuning.compression
         - displayName: Delivery Mode
@@ -16742,7 +16875,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Bearer Token
           path: outputs[0].loki.authentication.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].loki.authentication.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -16782,7 +16915,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].loki.tuning
-        - description: Compression causes data to be compressed before sending over the network.
+        - description: "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, snappy."
           displayName: Compression
           path: outputs[0].loki.tuning.compression
         - displayName: Delivery Mode
@@ -16810,7 +16943,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Bearer Token
           path: outputs[0].lokiStack.authentication.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].lokiStack.authentication.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -16884,7 +17017,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].lokiStack.tuning
-        - description: Compression causes data to be compressed before sending over the network.
+        - description: "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, snappy."
           displayName: Compression
           path: outputs[0].lokiStack.tuning.compression
         - displayName: Delivery Mode
@@ -16923,7 +17056,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Bearer Token
           path: outputs[0].otlp.authentication.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].otlp.authentication.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -16955,7 +17088,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].otlp.tuning
-        - description: "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output."
+        - description: "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.\n\nValid values are: gzip, snappy, zlib, zstd, none."
           displayName: Compression
           path: outputs[0].otlp.tuning.compression
           x-descriptors:
@@ -16979,7 +17112,7 @@ properties:
         - description: "Limit imposes a limit in records-per-second on the total aggregate rate of logs forwarded\nto this output from any given collector container. The total log flow from an individual collector\ncontainer to this output cannot exceed the limit.  Generally, one collector is deployed per cluster node\nLogs may be dropped to enforce the limit. Missing or 0 means no rate limit."
           displayName: Rate Limiting
           path: outputs[0].rateLimit
-        - description: "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline"
+        - description: "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline.\nLog records exceeding this limit are dropped."
           displayName: Max Records Per Second
           path: outputs[0].rateLimit.maxRecordsPerSecond
           x-descriptors:
@@ -17062,7 +17195,7 @@ properties:
         - description: Token specifies a bearer token to be used for authenticating requests.
           displayName: Token
           path: outputs[0].s3.authentication.iamRole.token
-        - description: From is the source from where to find the token
+        - description: "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount."
           displayName: Token Source
           path: outputs[0].s3.authentication.iamRole.token.from
         - description: Use Secret if the value should be sourced from a Secret in the same namespace.
@@ -17078,7 +17211,7 @@ properties:
           path: outputs[0].s3.authentication.iamRole.token.secret.name
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Type is the type of cloudwatch authentication to configure
+        - description: "Type is the type of authentication to configure for an AWS service.\n\nValid values are: awsAccessKey, iamRole."
           displayName: Authentication Type
           path: outputs[0].s3.authentication.type
         - description: "Bucket specifies the S3 bucket name where logs will be stored.\n\nString name absent leading `s3://` or trailing `/` and truncated to 63 characters to meet length restrictions"
@@ -17086,7 +17219,7 @@ properties:
           path: outputs[0].s3.bucket
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "KeyPrefix is a templated string that defines the S3 key prefix for log objects.  It is a combination of\nstatic or dynamic values consisting of field paths separated by `\\|\\|` and ending with a static\nfallback value (e.g. logs_{.kubernetes.namespace_name\\|\\|.hostname\\|\\|\"unknown\"}_my_workload_{.openshift.sequence_id\\|\\|\"none\"}).\n\nPrefixes are necessary for partitioning logs from other objects in the bucket.  If the prefix represents a\ndirectory, it must end in `/` to act as a directory path. A trailing `/` (forward slash) is not automatically added.\n\nDynamic values are encased in single curly brackets `{}` and MUST end with a static fallback value separated\nwith `\\|\\|`. Static values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExamples:\n\n 1. logs_{.kubernetes.namespace_name\\|\\|\"none\"}/\n\n 2. {.log_type\\|\\|.log_source\\|\\|\"missing\"}/\n\n 3. my_workload.{.hostname\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}/"
+        - description: "KeyPrefix is a templated string that defines the S3 key prefix for log objects.  It is a combination of\nstatic or dynamic values consisting of field paths separated by `||` and ending with a static\nfallback value (e.g. logs_{.kubernetes.namespace_name||.hostname||\"unknown\"}_my_workload_{.openshift.sequence_id||\"none\"}).\n\nPrefixes are necessary for partitioning logs from other objects in the bucket.  If the prefix represents a\ndirectory, it must end in `/` to act as a directory path. A trailing `/` (forward slash) is not automatically added.\n\nDynamic values are encased in single curly brackets `{}` and MUST end with a static fallback value separated\nwith `||`. Static values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExamples:\n\n 1. logs_{.kubernetes.namespace_name||\"none\"}/\n\n 2. {.log_type||.log_source||\"missing\"}/\n\n 3. my_workload.{.hostname||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}/"
           displayName: Key Prefix
           path: outputs[0].s3.keyPrefix
           x-descriptors:
@@ -17098,7 +17231,7 @@ properties:
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].s3.tuning
-        - description: "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output."
+        - description: "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.\n\nValid values are: gzip, none, snappy, zlib, zstd."
           displayName: Compression
           path: outputs[0].s3.tuning.compression
         - displayName: Delivery Mode
@@ -17149,15 +17282,20 @@ properties:
           path: outputs[0].splunk.payloadKey
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Source identifies the origin of a log event.\nThe Source can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\nIf not specified will be detected according to .log_source and .log_type value.\nDetails see in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+        - description: "Source identifies the origin of a log event.\nThe Source can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots, colons and forward slashes.\nIf not specified will be detected according to .log_source and .log_type value.\nDetails see in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
           displayName: Source
           path: outputs[0].splunk.source
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "SourceType can be used to specify a pretrained or custom source type in Splunk, but can only be set when PayloadKey is defined.\n\nWARNING: The administrator is responsible for configuring the pipeline so the source type matches the log entry. The collector makes no effort or validation to ensure they match.\n\nIf SourceType is not specified, the source type used is `_json`. If using PayloadKey without SourceType, the source type used will be either `_json` or `generic_single_line`, depending on the structure of the final event payload.\nDetails in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nThe SourceType can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots, colons and forward slashes.\n\nExamples:\n\n 1. {.kubernetes.labels.\"splunk/sourcetype\"||\"generic_single_line\"}\n\n 2. log4j\n\n 3. foo-{.bar||\"none\"}\n\n 4. {.foo||.bar||\"missing\"}\n\n 5. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
+          displayName: SourceType
+          path: outputs[0].splunk.sourceType
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
         - description: Tuning specs tuning for the output
           displayName: Tuning Options
           path: outputs[0].splunk.tuning
-        - description: Compression causes data to be compressed before sending over the network.
+        - description: "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip."
           displayName: Compression
           path: outputs[0].splunk.tuning.compression
         - displayName: Delivery Mode
@@ -17405,7 +17543,7 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:logFileMetricsExporterConditions
         version: v1alpha1
-    description: "# Red Hat OpenShift Logging\nThe Red Hat OpenShift Logging Operator orchestrates log collection and forwarding to Red Had managed log stores and\nother third-party receivers.\n\n##Features\n* **Create/Destroy**: Deploy log collectors and forwarders to support observability of OCP cluster.\n* **Simplified Configuration**: Spec collectors using a simplified API to configure log collection from opinionated sources to one or more third-party receivers.\n\n## Prerequisites and Requirements\n### Red Hat OpenShift Logging Namespace\nIt is recommended to deploy the Red Hat OpenShift Logging Operator to the **openshift-logging** namespace. This namespace\nmust be explicitly created by a cluster administrator (e.g. `oc create ns openshift-logging`). To enable metrics\nservice discovery add namespace label `openshift.io/cluster-monitoring: \"true\"`.\n\nFor additional installation documentation see [Deploying cluster logging](https://docs.openshift.com/container-platform/latest/logging/cluster-logging-deploying.html)\nin the OpenShift product documentation."
+    description: "# Red Hat OpenShift Logging\nThe Red Hat OpenShift Logging Operator orchestrates log collection and forwarding to Red Hat managed log stores and\nother third-party receivers.\n\n##Features\n* **Create/Destroy**: Deploy log collectors and forwarders to support observability of OCP cluster.\n* **Simplified Configuration**: Spec collectors using a simplified API to configure log collection from opinionated sources to one or more third-party receivers.\n\n## Prerequisites and Requirements\n### Red Hat OpenShift Logging Namespace\nIt is recommended to deploy the Red Hat OpenShift Logging Operator to the **openshift-logging** namespace. This namespace\nmust be explicitly created by a cluster administrator (e.g. `oc create ns openshift-logging`). To enable metrics\nservice discovery add namespace label `openshift.io/cluster-monitoring: \"true\"`.\n\nFor additional installation documentation see [Deploying cluster logging](https://docs.openshift.com/container-platform/latest/logging/cluster-logging-deploying.html)\nin the OpenShift product documentation."
     displayName: Red Hat OpenShift Logging
     installModes:
     - supported: true
@@ -17438,12 +17576,12 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:2c2ffb7398e8dad989c54e2f476bb8f16f1c74c97ca5000d36c5c7f931ea0138
+- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:b70b971f9692763a3941e2bd6b14f0c42da9ea1463611c580ab97dd35a2d05d6
   name: ''
-- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:4b339e0082f2d3705f72fb617da9894f807c3f27127c85b4c7c43ef32f67e3a8
+- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:fc00b142087d15065ec8cdca58a59acf30733772b86272fe952646501cb7fe88
   name: cluster-logging-rhel9-operator
-- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:ff37ec7e72d5f8b2f8458b2c5eddf90327a48d520b55f41b26cc18dbf702eb48
+- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:66825aaf4b9aaca6ca2ee73593019392590c5c2e947af1f8b22bc8e9e4071c79
   name: log-file-metric-exporter-rhel9
-- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:2472fc450f9b36333f345c2c61794cebf4fb8aa397dd919d19ab4e64dbfa6e77
+- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:5fe87d1d26c62c813a2dbb06a6ee63ab962a2ffbeef899ed62743a158288b759
   name: vector-rhel9
 schema: olm.bundle
