@@ -40,9 +40,6 @@ entries:
 - name: loki-operator.v6.5.2
   replaces: loki-operator.v6.5.1
   skipRange: '>=6.3.0-0 <6.5.2'
-- name: loki-operator.v6.5.3
-  replaces: loki-operator.v6.5.2
-  skipRange: '>=6.3.0-0 <6.5.3'
 name: stable-6.5
 package: loki-operator
 schema: olm.channel
@@ -50,6 +47,9 @@ schema: olm.channel
 entries:
 - name: loki-operator.v6.6.0
   skipRange: '>=6.2.0-0 <6.6.0'
+- name: loki-operator.v6.6.1
+  replaces: loki-operator.v6.6.0
+  skipRange: '>=6.2.0-0 <6.6.1'
 name: stable-6.6
 package: loki-operator
 schema: olm.channel
@@ -14753,8 +14753,8 @@ relatedImages:
   name: opa-openshift-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:af3f55db9970139d22a682a5912c524ecac38cb2c7ebc1c9a5070d8588f886ba
-name: loki-operator.v6.5.3
+image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:04bcd8f7bc94a504e7b0f60d4f68a047c1ede64c5cb45a78971bdb0b33ceb53d
+name: loki-operator.v6.6.1
 package: loki-operator
 properties:
 - type: olm.gvk
@@ -14798,11 +14798,11 @@ properties:
     kind: RulerConfig
     version: v1beta1
 - type: olm.maxOpenShiftVersion
-  value: '4.22'
+  value: '4.23'
 - type: olm.package
   value:
     packageName: loki-operator
-    version: 6.5.3
+    version: 6.6.1
 - type: olm.csv.metadata
   value:
     annotations:
@@ -14810,8 +14810,8 @@ properties:
       capabilities: Full Lifecycle
       categories: OpenShift Optional, Logging & Tracing, Observability
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:1e9202b0f6a94c87ac10777b6c6e25a52a0b8d1e970ee94e4f806424a7ca9a1e
-      createdAt: '2026-03-06T12:58:07Z'
+      containerImage: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:ab1ca5984df61deec69d8ebf2f9c52df45778beff841fd5758dd1678a7632c56
+      createdAt: '2026-06-30T11:12:06Z'
       description: "The Loki Operator for OCP provides a means for configuring and managing a Loki stack for cluster logging.\n## Prerequisites and Requirements\n### Loki Operator Namespace\nThe Loki Operator must be deployed to the global operator group namespace `openshift-operators-redhat`.\n### Memory Considerations\nLoki is a memory intensive application.  The initial\nset of OCP nodes may not be large enough to support the Loki stack.  Additional OCP nodes must be added\nto the OCP cluster if you desire to run with the recommended (or better) memory.\n"
       features.operators.openshift.io/disconnected: 'true'
       features.operators.openshift.io/fips-compliant: 'true'
@@ -14820,7 +14820,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'true'
       features.operators.openshift.io/token-auth-azure: 'true'
       features.operators.openshift.io/token-auth-gcp: 'true'
-      olm.skipRange: '>=6.3.0-0 <6.5.3'
+      olm.skipRange: '>=6.2.0-0 <6.6.1'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-operators-redhat
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -15573,6 +15573,7 @@ properties:
           - urn:alm:descriptor:com.tectonic.ui:select:dynamic
           - urn:alm:descriptor:com.tectonic.ui:select:openshift-logging
           - urn:alm:descriptor:com.tectonic.ui:select:openshift-network
+          - urn:alm:descriptor:com.tectonic.ui:select:passthrough
         - description: Openshift defines the configuration specific to Openshift modes.
           displayName: Openshift
           path: tenants.openshift
@@ -15585,6 +15586,30 @@ properties:
         - description: "EnableConsoleLabels can be used to add a set of additional stream labels to the OTLP input. These labels are\ncurrently used by the logs console in OpenShift.\n\nThis is not different from manually adding some or all of the attributes to the set of stream labels using the\nnormal OTLP configuration.\n\nThe additional attributes which are converted to stream labels are:\n\n - k8s.container.name\n - k8s.cronjob.name\n - k8s.daemonset.name\n - k8s.deployment.name\n - k8s.job.name\n - k8s.node.name\n - k8s.pod.name\n - k8s.statefulset.name\n - kubernetes.container_name\n - kubernetes.host\n - kubernetes.pod_name\n - service.name\n\nSee also: https://github.com/rhobs/observability-data-model/blob/main/cluster-logging.md#attributes"
           displayName: Enable Console labels
           path: tenants.openshift.otlp.enableConsoleLabels
+        - description: Passthrough defines the configuration specific to Passthrough mode.
+          displayName: Passthrough
+          path: tenants.passthrough
+        - description: "CA can be used to specify a custom list of trusted certificate authorities.\nThat will be used to validate the certificates of the clients that interact\nwith the gateway"
+          displayName: Certificate Authority Bundle
+          path: tenants.passthrough.ca
+        - description: ConfigMapName contains the name of the ConfigMap containing the referenced value.
+          displayName: ConfigMap Name
+          path: tenants.passthrough.ca.configMapName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name of the key used to get the value in either the referenced ConfigMap or Secret.
+          displayName: Key Name
+          path: tenants.passthrough.ca.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: SecretName contains the name of the Secret containing the referenced value.
+          displayName: Secret Name
+          path: tenants.passthrough.ca.secretName
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: "DefaultTenant defines the default tenant ID to use when X-Scope-OrgID header is not set.\nIf not set, requests without X-Scope-OrgID are rejected."
+          displayName: Default Tenant
+          path: tenants.passthrough.defaultTenant
         statusDescriptors:
         - description: Distributor is a map to the per pod status of the distributor deployment
           displayName: Distributor
@@ -15971,7 +15996,7 @@ properties:
           path: remoteWrite.client.authorization
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:select:basic
-          - urn:alm:descriptor:com.tectonic.ui:select:header
+          - urn:alm:descriptor:com.tectonic.ui:select:bearer
         - description: Name of a secret in the namespace configured for authorization secrets.
           displayName: Authorization Secret Name
           path: remoteWrite.client.authorizationSecretName
@@ -16105,14 +16130,16 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:af3f55db9970139d22a682a5912c524ecac38cb2c7ebc1c9a5070d8588f886ba
-  name: ''
-- image: registry.redhat.io/openshift-logging/logging-loki-rhel9@sha256:f414eeb4778e71b94bb31b0f2ee9749a7967378cbbb09543de2d3bf8dcd7609d
+- image: registry.redhat.io/openshift-logging/logging-loki-rhel9@sha256:e6993daf1b7287afd67fb348dc9c9cae08955869f95578b95c3eb99fbc4be263
   name: logging-loki-rhel9
-- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:1e9202b0f6a94c87ac10777b6c6e25a52a0b8d1e970ee94e4f806424a7ca9a1e
+- image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:04bcd8f7bc94a504e7b0f60d4f68a047c1ede64c5cb45a78971bdb0b33ceb53d
+  name: ''
+- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:ab1ca5984df61deec69d8ebf2f9c52df45778beff841fd5758dd1678a7632c56
   name: loki-rhel9-operator
-- image: registry.redhat.io/openshift-logging/lokistack-gateway-rhel9@sha256:77ae5cd1beb65ad230a8eeba0d98724d2f11fe282a39339639e1acd5c3c44b30
+- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:ab1ca5984df61deec69d8ebf2f9c52df45778beff841fd5758dd1678a7632c56
+  name: loki-rhel9-operator-1
+- image: registry.redhat.io/openshift-logging/lokistack-gateway-rhel9@sha256:243d0dd213621bc8c37aaa345c29f633d1440545ef9af431b092f4a9f28e27ed
   name: lokistack-gateway-rhel9
-- image: registry.redhat.io/openshift-logging/opa-openshift-rhel9@sha256:50c1a334f3cd3ee943fd1b8f72f9140f2231700fcad5a53bc83824a204e46b0a
+- image: registry.redhat.io/openshift-logging/opa-openshift-rhel9@sha256:b5a936ad84333ffacab0cb970716c759b2a147ea1428ecf06ba8e8096318071c
   name: opa-openshift-rhel9
 schema: olm.bundle
