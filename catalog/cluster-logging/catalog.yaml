@@ -92,9 +92,6 @@ entries:
 - name: cluster-logging.v6.4.6
   replaces: cluster-logging.v6.4.5
   skipRange: '>=6.2.0-0 <6.4.6'
-- name: cluster-logging.v6.4.7
-  replaces: cluster-logging.v6.4.6
-  skipRange: '>=6.2.0-0 <6.4.7'
 name: stable-6.4
 package: cluster-logging
 schema: olm.channel
@@ -108,6 +105,9 @@ entries:
 - name: cluster-logging.v6.5.2
   replaces: cluster-logging.v6.5.1
   skipRange: '>=6.3.0-0 <6.5.2'
+- name: cluster-logging.v6.5.3
+  replaces: cluster-logging.v6.5.2
+  skipRange: '>=6.3.0-0 <6.5.3'
 name: stable-6.5
 package: cluster-logging
 schema: olm.channel
@@ -37863,8 +37863,8 @@ relatedImages:
   name: vector-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:bdeec2c9d48981a6e2d6a03e34379232de1d4a858d6bc2c594eacd783cfcef9d
-name: cluster-logging.v6.4.7
+image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:a5e092c0dbc40b85fd7a93328c798e4721e7c059fb30b470501371149294f9b8
+name: cluster-logging.v6.5.3
 package: cluster-logging
 properties:
 - type: olm.gvk
@@ -37878,11 +37878,11 @@ properties:
     kind: ClusterLogForwarder
     version: v1
 - type: olm.maxOpenShiftVersion
-  value: '4.21'
+  value: '4.22'
 - type: olm.package
   value:
     packageName: cluster-logging
-    version: 6.4.7
+    version: 6.5.3
 - type: olm.csv.metadata
   value:
     annotations:
@@ -37890,8 +37890,8 @@ properties:
       capabilities: Seamless Upgrades
       categories: OpenShift Optional, Logging & Tracing, Observability
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:0a67cee83087c25f8dbf93485e41c076685331b9946e3d33459ea5273086b39f
-      createdAt: '2026-01-07T00:29:49Z'
+      containerImage: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:ab7cfe0c8c8ae31c55d67e5b65ab55fd060d46d065196fb8e1ee2f696e6e41f7
+      createdAt: '2026-02-19T21:00:21Z'
       description: The Red Hat OpenShift Logging Operator for OCP provides a means for configuring and managing log collection and forwarding.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
@@ -37903,12 +37903,12 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=6.2.0-0 <6.4.7'
+      olm.skipRange: '>=6.3.0-0 <6.5.3'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"observability.openshift.io/v1\",\n  \"kind\": \"ClusterLogForwarder\",\n  \"metadata\": {\n    \"name\": \"logging\"\n  }\n}\n"
       operatorframework.io/suggested-namespace: openshift-logging
       operators.openshift.io/infrastructure-features: '["disconnected","proxy-aware"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:0a67cee83087c25f8dbf93485e41c076685331b9946e3d33459ea5273086b39f
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:ab7cfe0c8c8ae31c55d67e5b65ab55fd060d46d065196fb8e1ee2f696e6e41f7
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-unknown
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
@@ -38477,6 +38477,9 @@ properties:
           path: outputs[0].http.authentication.username.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Format defines data format used to send data to remote destination.
+          displayName: Format
+          path: outputs[0].http.format
         - description: Headers specify optional headers to be sent with the request
           displayName: Headers
           path: outputs[0].http.headers
@@ -38550,7 +38553,7 @@ properties:
           path: outputs[0].kafka.authentication.sasl.username.secretName
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:text
-        - description: "Brokers specifies the list of broker endpoints of a Kafka cluster.\n\nThe list represents only the initial set used by the collector's Kafka client for the\nfirst connection only. The collector's Kafka client fetches constantly an updated list\nfrom Kafka. These updates are not reconciled back to the collector configuration.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme.\nIf none is provided, the target URL from the OutputSpec is used as fallback."
+        - description: "Brokers specifies the list of broker endpoints of a Kafka cluster.\n\nThe list represents only the initial set used by the collector's Kafka client for the\nfirst connection only. The collector's Kafka client fetches constantly an updated list\nfrom Kafka. These updates are not reconciled back to the collector configuration.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme and include a port number.\nIf none is provided, the target URL from the OutputSpec is used as fallback."
           displayName: Kafka Brokers
           path: outputs[0].kafka.brokers
         - description: "Topic specifies the target topic to send logs to. The value when not specified is 'topic'\n\nThe Topic can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}"
@@ -38569,7 +38572,7 @@ properties:
         - description: MaxWrite limits the maximum payload in terms of bytes of a single "send" to the output.
           displayName: Batch Size
           path: outputs[0].kafka.tuning.maxWrite
-        - description: "URL to send log records to. This field is optional.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme, for example: 'tls://kafka.secure.com:9093/app-topic'.\nThe 'username@password' part of `url` is ignored."
+        - description: "URL to send log records to. This field is optional.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme and include a port number, for example: 'tls://kafka.secure.com:9093/app-topic'.\nThe 'username@password' part of `url` is ignored."
           displayName: Destination URL
           path: outputs[0].kafka.url
           x-descriptors:
@@ -39076,7 +39079,7 @@ properties:
           path: outputs[0].syslog.tuning
         - displayName: Delivery Mode
           path: outputs[0].syslog.tuning.deliveryMode
-        - description: "An absolute URL, with a scheme. Valid schemes are: `tcp`, `tls`, `udp`\nFor example, to send syslog records using UDP:\n    url: udp://syslog.example.com:514"
+        - description: "An absolute URL, with a scheme and a port number. Valid schemes are: `tcp`, `tls`, `udp`\nFor example, to send syslog records using UDP:\n    url: udp://syslog.example.com:514"
           displayName: Destination URL
           path: outputs[0].syslog.url
           x-descriptors:
@@ -39292,12 +39295,12 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:bdeec2c9d48981a6e2d6a03e34379232de1d4a858d6bc2c594eacd783cfcef9d
+- image: registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:a5e092c0dbc40b85fd7a93328c798e4721e7c059fb30b470501371149294f9b8
   name: ''
-- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:0a67cee83087c25f8dbf93485e41c076685331b9946e3d33459ea5273086b39f
+- image: registry.redhat.io/openshift-logging/cluster-logging-rhel9-operator@sha256:ab7cfe0c8c8ae31c55d67e5b65ab55fd060d46d065196fb8e1ee2f696e6e41f7
   name: cluster-logging-rhel9-operator
-- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:4b6e569c2cec3b3a11aa730145ab966eecd90c3b2e064fe4721b385a8cd82d99
+- image: registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel9@sha256:62ee3e95e8de6f710f8074cbfa55264536f61a9ce470139368e6d2766172cd13
   name: log-file-metric-exporter-rhel9
-- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:557f99271ee3f77ed1ac018bf199c3a1c92e79d180109ed9d8e1d66c4ca3eee8
+- image: registry.redhat.io/openshift-logging/vector-rhel9@sha256:d5cf48299ab4fd38e8dbeef4b94f1ed95fa44cd30530bab29eeabd3aef1e3c72
   name: vector-rhel9
 schema: olm.bundle
