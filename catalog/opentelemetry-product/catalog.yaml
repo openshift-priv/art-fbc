@@ -101,6 +101,9 @@ entries:
 - name: opentelemetry-operator.v0.158.0-2
   replaces: opentelemetry-operator.v0.158.0-1
   skipRange: '>=0.33.0 <0.158.0-2'
+- name: opentelemetry-operator.v0.158.0-3
+  replaces: opentelemetry-operator.v0.158.0-2
+  skipRange: '>=0.33.0 <0.158.0-3'
 name: stable
 package: opentelemetry-product
 schema: olm.channel
@@ -7014,4 +7017,268 @@ relatedImages:
   name: manager
 - image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel8@sha256:317ec0de6548b46e15baa02b5760b9571af085450f1095832b99993ada263718
   name: target_allocator
+schema: olm.bundle
+---
+image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:eff2d0b559c77a005cdb2fb8dca2ead32439ad7ca9076ad0b3b880f2623b96fc
+name: opentelemetry-operator.v0.158.0-3
+package: opentelemetry-product
+properties:
+- type: olm.gvk
+  value:
+    group: opentelemetry.io
+    kind: Instrumentation
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: opentelemetry.io
+    kind: OpAMPBridge
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: opentelemetry.io
+    kind: OpenTelemetryCollector
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: opentelemetry.io
+    kind: OpenTelemetryCollector
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: opentelemetry.io
+    kind: TargetAllocator
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: opentelemetry-product
+    version: 0.158.0-3
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"opentelemetry.io/v1alpha1\",\n    \"kind\": \"Instrumentation\",\n    \"metadata\": {\n      \"name\": \"instrumentation\"\n    },\n    \"spec\": {\n      \"exporter\": {\n        \"endpoint\": \"http://otel-collector-headless:4317\"\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"opentelemetry.io/v1alpha1\",\n    \"kind\": \"OpAMPBridge\",\n    \"metadata\": {\n      \"name\": \"opampbridge-sample\"\n    },\n    \"spec\": {\n      \"capabilities\": {\n        \"AcceptsOpAMPConnectionSettings\": true,\n        \"AcceptsOtherConnectionSettings\": true,\n        \"AcceptsRemoteConfig\": true,\n        \"AcceptsRestartCommand\": true,\n        \"ReportsEffectiveConfig\": true,\n        \"ReportsHealth\": true,\n        \"ReportsOwnLogs\": true,\n        \"ReportsOwnMetrics\": true,\n        \"ReportsOwnTraces\": true,\n        \"ReportsRemoteConfig\": true,\n        \"ReportsStatus\": true\n      },\n      \"componentsAllowed\": {\n        \"exporters\": [\n          \"debug\"\n        ],\n        \"processors\": [\n          \"memory_limiter\"\n        ],\n        \"receivers\": [\n          \"otlp\"\n        ]\n      },\n      \"endpoint\": \"ws://opamp-server:4320/v1/opamp\"\n    }\n  },\n  {\n    \"apiVersion\": \"opentelemetry.io/v1alpha1\",\n    \"kind\": \"OpenTelemetryCollector\",\n    \"metadata\": {\n      \"name\": \"otel\"\n    },\n    \"spec\": {\n      \"config\": \"receivers:\\n  otlp:\\n    protocols: \\n      grpc: {}\\n      http: {}\\n\\nexporters:\\n  debug: {}\\n\\nservice:\\n  pipelines:\\n    traces:\\n      receivers: [otlp]\\n      exporters: [debug]\\n\"\n    }\n  },\n  {\n    \"apiVersion\": \"opentelemetry.io/v1beta1\",\n    \"kind\": \"OpenTelemetryCollector\",\n    \"metadata\": {\n      \"name\": \"otel\"\n    },\n    \"spec\": {\n      \"config\": {\n        \"exporters\": {\n          \"debug\": {}\n        },\n        \"receivers\": {\n          \"otlp\": {\n            \"protocols\": {\n              \"grpc\": {},\n              \"http\": {}\n            }\n          }\n        },\n        \"service\": {\n          \"pipelines\": {\n            \"traces\": {\n              \"exporters\": [\n                \"debug\"\n              ],\n              \"receivers\": [\n                \"otlp\"\n              ]\n            }\n          }\n        }\n      }\n    }\n  }\n]"
+      capabilities: Deep Insights
+      categories: Logging & Tracing,Monitoring,Observability
+      certified: 'false'
+      console.openshift.io/operator-monitoring-default: 'true'
+      containerImage: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
+      createdAt: '2026-08-14T14:48:33Z'
+      description: Provides the OpenTelemetry components, including the Collector
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=0.33.0 <0.158.0-3'
+      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/suggested-namespace: openshift-opentelemetry-operator
+      operators.openshift.io/infrastructure-features: '["disconnected"]'
+      operators.openshift.io/valid-subscription: '["opentelemetry-product"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.29.0
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: github.com/open-telemetry/opentelemetry-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Instrumentation is the spec for OpenTelemetry instrumentation.
+        displayName: OpenTelemetry Instrumentation
+        kind: Instrumentation
+        name: instrumentations.opentelemetry.io
+        resources:
+        - kind: Pod
+          name: ''
+          version: v1
+        version: v1alpha1
+      - description: OpAMPBridge is the Schema for the opampbridges API.
+        displayName: OpAMP Bridge
+        kind: OpAMPBridge
+        name: opampbridges.opentelemetry.io
+        resources:
+        - kind: ConfigMaps
+          name: ''
+          version: v1
+        - kind: Deployment
+          name: ''
+          version: apps/v1
+        - kind: Pod
+          name: ''
+          version: v1
+        - kind: Service
+          name: ''
+          version: v1
+        version: v1alpha1
+      - description: OpenTelemetryCollector is the Schema for the opentelemetrycollectors API.
+        displayName: OpenTelemetry Collector
+        kind: OpenTelemetryCollector
+        name: opentelemetrycollectors.opentelemetry.io
+        resources:
+        - kind: ConfigMaps
+          name: ''
+          version: v1
+        - kind: DaemonSets
+          name: ''
+          version: apps/v1
+        - kind: Deployment
+          name: ''
+          version: apps/v1
+        - kind: Ingress
+          name: ''
+          version: networking/v1
+        - kind: Pod
+          name: ''
+          version: v1
+        - kind: Service
+          name: ''
+          version: v1
+        - kind: StatefulSets
+          name: ''
+          version: apps/v1
+        specDescriptors:
+        - description: ObservabilitySpec defines how telemetry data gets handled.
+          displayName: Observability
+          path: observability
+        - description: Metrics defines the metrics configuration for operands.
+          displayName: Metrics Config
+          path: observability.metrics
+        - description: EnableMetrics specifies if ServiceMonitor or PodMonitor(for sidecar mode) should be created for the service managed by the OpenTelemetry Operator.
+          displayName: Create ServiceMonitors for OpenTelemetry Collector
+          path: observability.metrics.enableMetrics
+        - description: ObservabilitySpec defines how telemetry data gets handled.
+          displayName: Observability
+          path: targetAllocator.observability
+        - description: Metrics defines the metrics configuration for operands.
+          displayName: Metrics Config
+          path: targetAllocator.observability.metrics
+        - description: EnableMetrics specifies if ServiceMonitor or PodMonitor(for sidecar mode) should be created for the service managed by the OpenTelemetry Operator.
+          displayName: Create ServiceMonitors for OpenTelemetry Collector
+          path: targetAllocator.observability.metrics.enableMetrics
+        version: v1alpha1
+      - description: OpenTelemetryCollector is the Schema for the opentelemetrycollectors API.
+        displayName: OpenTelemetry Collector
+        kind: OpenTelemetryCollector
+        name: opentelemetrycollectors.opentelemetry.io
+        resources:
+        - kind: ConfigMaps
+          name: ''
+          version: v1
+        - kind: DaemonSets
+          name: ''
+          version: apps/v1
+        - kind: Deployment
+          name: ''
+          version: apps/v1
+        - kind: Pod
+          name: ''
+          version: v1
+        - kind: Service
+          name: ''
+          version: v1
+        - kind: StatefulSets
+          name: ''
+          version: apps/v1
+        specDescriptors:
+        - description: ObservabilitySpec defines how telemetry data gets handled.
+          displayName: Observability
+          path: observability
+        - description: Metrics defines the metrics configuration for operands.
+          displayName: Metrics Config
+          path: observability.metrics
+        - description: EnableMetrics specifies if ServiceMonitor or PodMonitor(for sidecar mode) should be created for the service managed by the OpenTelemetry Operator.
+          displayName: Create ServiceMonitors for OpenTelemetry Collector
+          path: observability.metrics.enableMetrics
+        - description: ObservabilitySpec defines how telemetry data gets handled.
+          displayName: Observability
+          path: targetAllocator.observability
+        - description: Metrics defines the metrics configuration for operands.
+          displayName: Metrics Config
+          path: targetAllocator.observability.metrics
+        - description: EnableMetrics specifies if ServiceMonitor or PodMonitor(for sidecar mode) should be created for the service managed by the OpenTelemetry Operator.
+          displayName: Create ServiceMonitors for OpenTelemetry Collector
+          path: targetAllocator.observability.metrics.enableMetrics
+        version: v1beta1
+      - description: TargetAllocator is the Schema for the targetallocators API.
+        displayName: Target Allocator
+        kind: TargetAllocator
+        name: targetallocators.opentelemetry.io
+        resources:
+        - kind: ConfigMaps
+          name: ''
+          version: v1
+        - kind: Deployment
+          name: ''
+          version: apps/v1
+        - kind: Pod
+          name: ''
+          version: v1
+        - kind: PodDisruptionBudget
+          name: ''
+          version: policy/v1
+        - kind: Service
+          name: ''
+          version: v1
+        - kind: ServiceAccount
+          name: ''
+          version: v1
+        specDescriptors:
+        - description: Enable enables the NetworkPolicy. The default value is taken from the operator feature-gate `--feature-gates=+operand.networkpolicy`.
+          displayName: Enable NetworkPolicy
+          path: networkPolicy.enabled
+        - description: ObservabilitySpec defines how telemetry data gets handled.
+          displayName: Observability
+          path: observability
+        - description: Metrics defines the metrics configuration for operands.
+          displayName: Metrics Config
+          path: observability.metrics
+        - description: Metrics defines the metrics configuration for operands.
+          displayName: Metrics Config
+          path: observability.metrics
+        - description: EnableMetrics specifies if ServiceMonitor or PodMonitor(for sidecar mode) should be created for the service managed by the OpenTelemetry Operator.
+          displayName: Create ServiceMonitors for OpenTelemetry Collector
+          path: observability.metrics.enableMetrics
+        - description: EnableMetrics specifies if ServiceMonitor or PodMonitor(for sidecar mode) should be created for the service managed by the OpenTelemetry Operator.
+          displayName: Create ServiceMonitors for OpenTelemetry Collector
+          path: observability.metrics.enableMetrics
+        version: v1alpha1
+    description: "Red Hat build of OpenTelemetry is a collection of tools, APIs, and SDKs. You use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) for analysis in order to understand your software's performance and behavior.\n\n### Operator features\n\n* **Sidecar injection** - annotate your pods and let the operator inject a sidecar.\n* **Managed upgrades** - updating the operator will automatically update your OpenTelemetry collectors.\n* **Deployment modes** - your collector can be deployed as sidecar, daemon set, or regular deployment.\n* **Service port management** - the operator detects which ports need to be exposed based on the provided configuration.\n\n### Support & Troubleshooting\n\nRed Hat build of OpenTelemetry is available as part of a Red Hat OpenShift subscription.\nChecking the [Red Hat Documentation](https://docs.redhat.com/en/documentation/red_hat_build_of_opentelemetry) is recommended when installing, configuring, and managing the Operator and instances."
+    displayName: Red Hat build of OpenTelemetry
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - opentelemetry
+    - tracing
+    - logging
+    - metrics
+    - monitoring
+    - troubleshooting
+    links:
+    - name: OpenTelemetry Operator
+      url: https://github.com/open-telemetry/opentelemetry-operator
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat support
+    maturity: alpha
+    minKubeVersion: 1.25.0
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:eff2d0b559c77a005cdb2fb8dca2ead32439ad7ca9076ad0b3b880f2623b96fc
+  name: ''
+- image: registry.redhat.io/rhosdt/opentelemetry-collector-rhel9@sha256:30701b7e8c875c78e0cef3c970aafdaf19591a573319e506148bde92225d2593
+  name: opentelemetry-collector-rhel9
+- image: registry.redhat.io/rhosdt/opentelemetry-rhel9-operator@sha256:6e55ae526e743f36e67aa8e2c9292b5339789665766408f7fbaedf3544e596c5
+  name: opentelemetry-rhel9-operator
+- image: registry.redhat.io/rhosdt/opentelemetry-target-allocator-rhel9@sha256:a7b08065387ee8b1e34169dc9c49ea9565bbfada23fbd076cfd56ebb20cc5669
+  name: opentelemetry-target-allocator-rhel9
 schema: olm.bundle
