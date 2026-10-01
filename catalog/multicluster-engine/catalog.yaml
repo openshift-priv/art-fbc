@@ -27,6 +27,9 @@ entries:
 - name: multicluster-engine.v2.10.6
   replaces: multicluster-engine.v2.10.5
   skipRange: '>=2.8.0 <2.10.6'
+- name: multicluster-engine.v2.10.7
+  replaces: multicluster-engine.v2.10.6
+  skipRange: '>=2.8.0 <2.10.7'
 name: stable-2.10
 package: multicluster-engine
 schema: olm.channel
@@ -52,6 +55,9 @@ entries:
 - name: multicluster-engine.v2.11.6
   replaces: multicluster-engine.v2.11.5
   skipRange: '>=2.10.0 <2.11.6'
+- name: multicluster-engine.v2.11.7
+  replaces: multicluster-engine.v2.11.6
+  skipRange: '>=2.10.0 <2.11.7'
 name: stable-2.11
 package: multicluster-engine
 schema: olm.channel
@@ -65,8 +71,9 @@ entries:
 - name: multicluster-engine.v2.17.2
   replaces: multicluster-engine.v2.17.1
   skipRange: '>=2.10.0 <2.17.2'
-- name: multicluster-engine.v0.0.1
+- name: multicluster-engine.v2.17.3
   replaces: multicluster-engine.v2.17.2
+  skipRange: '>=2.10.0 <2.17.3'
 name: stable-2.17
 package: multicluster-engine
 schema: olm.channel
@@ -1503,6 +1510,211 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-cluster-api-rhel9@sha256:c97532ebe68fa8495b159ba429f32aec16580a552471110f8232ed96d86afd8b
   name: ose_cluster_api_rhel9
 - image: registry.redhat.io/rhel8/postgresql-12@sha256:90ff918397585af14352689e7cc55933c6f8fd075b60eab0f706cbac1007c069
+  name: postgresql_12
+schema: olm.bundle
+---
+image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:196127aa10493963dc44ac34c23db3a70abda6612d21679d6af2f40d69d1d4c1
+name: multicluster-engine.v2.10.7
+package: multicluster-engine
+properties:
+- type: olm.gvk
+  value:
+    group: multicluster.openshift.io
+    kind: MultiClusterEngine
+    version: v1
+- type: olm.maxOpenShiftVersion
+  value: '4.21'
+- type: olm.package
+  value:
+    packageName: multicluster-engine
+    version: 2.10.7
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: '[{"apiVersion": "multicluster.openshift.io/v1", "kind": "MultiClusterEngine", "metadata": {"name": "multiclusterengine"}, "spec": {}}]'
+      capabilities: Seamless Upgrades
+      categories: Integration & Delivery
+      certified: 'true'
+      createdAt: '2026-09-25T00:24:07Z'
+      description: Foundational components for central management of multiple OpenShift Container Platform and Kubernetes clusters
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "4.21"}]'
+      olm.skipRange: '>=2.8.0 <2.10.7'
+      operatorframework.io/initialization-resource: '{"apiVersion":"multicluster.openshift.io/v1", "kind":"MultiClusterEngine","metadata":{"name":"engine"},"spec": {}}'
+      operatorframework.io/suggested-namespace: multicluster-engine
+      operators.openshift.io/infrastructure-features: '["disconnected", "proxy-aware", "fips"]'
+      operators.openshift.io/must-gather-image: registry.redhat.io/multicluster-engine/must-gather-rhel9@sha256:1d958b9b8e989d2d2ba2c6499184528649e5298896f4ef50732ee786838282b3
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/open-cluster-management/backplane-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: "MultiClusterEngine defines the configuration for an instance\nof a multicluster engine, a central point providing the foundational components for managing multiple Kubernetes-based clusters. The deployment of the multicluster engine components is\ndetermined based on the configuration that is defined in this resource."
+        displayName: MultiCluster Engine
+        kind: MultiClusterEngine
+        name: multiclusterengines.multicluster.openshift.io
+        specDescriptors:
+        - description: 'Specifies deployment replication for improved availability. Options are: Basic and High (default)'
+          displayName: Availability Configuration
+          path: availabilityConfig
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:select:High
+          - urn:alm:descriptor:com.tectonic.ui:select:Basic
+        - description: Override pull secret for accessing MultiClusterEngine operand and endpoint images
+          displayName: Image Pull Secret
+          path: imagePullSecret
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:Secret
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: The name of the local-cluster resource
+          displayName: Local Cluster Name
+          path: localClusterName
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:text
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: Developer Overrides
+          displayName: Developer Overrides
+          path: overrides
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: 'Provides optional configuration for components, the list of which can be found here: https://github.com/stolostron/backplane-operator/tree/main/docs/available-components.md'
+          displayName: Component Configuration
+          path: overrides.components
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: Namespace to install Assisted Installer operator
+          displayName: Custom Infrastructure Operator Namespace
+          path: overrides.infrastructureCustomNamespace
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: Location where MCE resources will be placed
+          displayName: Target Namespace
+          path: targetNamespace
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:text
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        version: v1
+    description: "Multicluster engine for Kubernetes provides the foundational components that are necessary for the centralized management of multiple Kubernetes-based clusters across data centers, public clouds, and private clouds. You can use the engine to create Red Hat OpenShift Container Platform clusters on selected providers, or import existing Kubernetes-based clusters. After the clusters are managed, you can use the APIs that are provided by the engine to distribute configuration based on placement policy. Placement policy is a significant part of creating sophisticated multicluster management applications because you can select the applicable clusters.\n## Installing\nInstall the multicluster engine for Kubernetes operator by following instructions that display when you click the `Install` button. After installing the operator, create an instance of the `MultiClusterEngine` resource to install the engine components that provide the management APIs. Note: If you are using the engine to manage non-OpenShift Container Platform 4.x clusters, you need to create a Kubernetes `Secret` resource that contains your OpenShift Container Platform pull secret. Specify this `Secret` in the `MultiClusterEngine` resource, as described in the install documentation.\nYou can find additional installation guidance in the [documentation](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.15/html/clusters/cluster_mce_overview#mce-install-intro). "
+    displayName: multicluster engine for Kubernetes
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - mce
+    - multicluster-engine
+    - multiclusterengine
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Documentation
+      url: https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.15/html/clusters/index
+    maintainers:
+    - email: acm-contact@redhat.com
+      name: Red Hat
+    maturity: stable
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/multicluster-engine/addon-manager-rhel9@sha256:8e86ad918d7499f3dca72d453653d64485a3dccb786ba36e7179f3772dc26be9
+  name: addon_manager
+- image: registry.redhat.io/multicluster-engine/assisted-image-service-rhel9@sha256:84f24fba5354a41987cf74f33d2e8e07b246190247111fd53db098c164bfc6e5
+  name: assisted_image_service
+- image: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9@sha256:23dc2a1e08f7598017daa0830fa425a128d918ea908af5cb0b606899639b8b7b
+  name: assisted_installer_agent
+- image: registry.redhat.io/multicluster-engine/assisted-installer-controller-rhel9@sha256:64157766d7bb729668ad2967c3a627d39189dfea54928d9173033614c8c23509
+  name: assisted_installer_controller
+- image: registry.redhat.io/multicluster-engine/assisted-installer-rhel9@sha256:b6c559fe9660076ff86164197c6d34be0d2e40bbfd123b3bf0e981060972c70f
+  name: assisted_installer
+- image: registry.redhat.io/multicluster-engine/assisted-service-9-rhel9@sha256:cd66da8a2cfc90e619005def2ce6fa87e281448a0c77e29645c9a0074e754b2e
+  name: assisted_service_9
+- image: registry.redhat.io/multicluster-engine/backplane-rhel9-operator@sha256:015fe8d162e1e6922c6ef76adae8c73b6ae63897cc6593d558d1dec000f48172
+  name: ''
+- image: registry.redhat.io/multicluster-engine/capoa-bootstrap-rhel9@sha256:10a57563ccc1435458e1b4fce3658e38944c8633693f02025122f9a67fd45b2d
+  name: cluster_api_provider_openshift_assisted_bootstrap
+- image: registry.redhat.io/multicluster-engine/capoa-control-plane-rhel9@sha256:97dad4cb3238651a797ee44c32aa765b93a4b9b3284733a077e108750fd79ac3
+  name: cluster_api_provider_openshift_assisted_control_plane
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-agent-rhel9@sha256:f84a2af425d742b8227575fe4a9577d21900413e77106e45fb06d3643f7ab1f7
+  name: cluster_api_provider_agent
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-aws-rhel9@sha256:be86d152c20d0bcb88009ad0fcad0a721271765252f2bfe73a6568ffe1c7030a
+  name: cluster_api_provider_aws_rhel9
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-kubevirt-rhel9@sha256:3a209ed5e860629383106593fb89b498462f4cfb79539ae2c1aecf298ff00e73
+  name: cluster_api_provider_kubevirt
+- image: registry.redhat.io/multicluster-engine/cluster-curator-controller-rhel9@sha256:fa5cd0fef059df3faf2e6d1e0e089d883fd41189eebc65d70e5e6166fae3eab5
+  name: cluster_curator_controller
+- image: registry.redhat.io/multicluster-engine/cluster-image-set-controller-rhel9@sha256:92cc84bcf0d547ca7fa0352fbe61a4512c9f9d50d38d345df0748d6023763994
+  name: cluster_image_set_controller
+- image: registry.redhat.io/multicluster-engine/cluster-proxy-addon-rhel9@sha256:7f031e5a51a206dd533c8fe67a99d2b0558c4503dba7afabd2899d0f5ddb7bae
+  name: cluster_proxy_addon
+- image: registry.redhat.io/multicluster-engine/cluster-proxy-rhel9@sha256:dcb6752b7aa1b04ab9a6e5bf4242fa8b44b769d9041c6d1b800526eb68c9b821
+  name: cluster_proxy
+- image: registry.redhat.io/multicluster-engine/clusterclaims-controller-rhel9@sha256:2f4c10e3060576bd52de1625a41650ca3d84a600b42a1f45ea2253d92b042fa5
+  name: clusterclaims_controller
+- image: registry.redhat.io/multicluster-engine/clusterlifecycle-state-metrics-rhel9@sha256:fd1b2bfa123bc4ac74fde6f1b968054d902e9c63d4d44bddd7fa999b5100407b
+  name: clusterlifecycle_state_metrics
+- image: registry.redhat.io/multicluster-engine/console-mce-rhel9@sha256:a33425d26a8f33e93db8aa6f1abc377787c53db1c87a695eea879c950949d2e8
+  name: console_mce
+- image: registry.redhat.io/multicluster-engine/discovery-rhel9@sha256:33393dbb9e5557d8d1231207c7a36dd340f2f845f20a9dd6be2c711c29dcd0f3
+  name: discovery_operator
+- image: registry.redhat.io/multicluster-engine/hive-rhel9@sha256:cb7110b21bac35e99f2f65cccea70687f0d0eaa405220f2c5020d194f4ce8ee0
+  name: openshift_hive
+- image: registry.redhat.io/multicluster-engine/hypershift-addon-rhel9-operator@sha256:e344641ff8a7a6d7014523882af5b0dda1b24ae65a9358032503f1f90c2238fc
+  name: hypershift_addon_operator
+- image: registry.redhat.io/multicluster-engine/hypershift-cli-rhel9@sha256:3f40a8e3618d1111db03a1cf46cffd30edee8b49fc998c91da2cb573b8928d6b
+  name: hypershift_cli
+- image: registry.redhat.io/multicluster-engine/hypershift-rhel9-operator@sha256:1caae04220c39ad371cfece1f4cb9d32faccdbc41adf95c6dfa922f0dfa0c168
+  name: hypershift_operator
+- image: registry.redhat.io/multicluster-engine/image-based-install-rhel9@sha256:9a9110bee9fd34af731a338b1e02c34c3fc0abbfce3fc55cf646121634fbed61
+  name: image_based_install_operator
+- image: registry.redhat.io/multicluster-engine/kube-rbac-proxy-mce-rhel9@sha256:81eecb7919b13aaa2563db19c41573c9a26430675fa15da0469a9df37f5082ee
+  name: kube_rbac_proxy_mce
+- image: registry.redhat.io/multicluster-engine/managed-serviceaccount-rhel9@sha256:a811634d78a9cd10788f19d8e376b30c1b077f24ab8b6ac94446397b811c9d8b
+  name: managed_serviceaccount
+- image: registry.redhat.io/multicluster-engine/managedcluster-import-controller-rhel9@sha256:5eb2b3be8fea9fe40e2f79b39a92d207d8d0ee5275d7bfc9bbeff4da76123120
+  name: managedcluster_import_controller
+- image: registry.redhat.io/multicluster-engine/mce-capi-webhook-config-rhel9@sha256:98e4f19e2626fdbd92db3c1b175d3be2085bdd16f888da63c52b54e07696d9ba
+  name: mce_capi_webhook_config_rhel9
+- image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:196127aa10493963dc44ac34c23db3a70abda6612d21679d6af2f40d69d1d4c1
+  name: ''
+- image: registry.redhat.io/multicluster-engine/multicloud-manager-rhel9@sha256:470f8a623673dd1c7c4e135976359165a55c2b99031efdc89beced2659c4d1cb
+  name: multicloud_manager
+- image: registry.redhat.io/multicluster-engine/must-gather-rhel9@sha256:1d958b9b8e989d2d2ba2c6499184528649e5298896f4ef50732ee786838282b3
+  name: backplane_must_gather
+- image: registry.redhat.io/multicluster-engine/placement-rhel9@sha256:d4095e7142c4e90037aa3419bd376f34439d4723721a7d1ef2a010d63d94e74e
+  name: placement
+- image: registry.redhat.io/multicluster-engine/provider-credential-controller-rhel9@sha256:87f7be71f27047a54be986d6806553fec9b989f05f14e9672d6597c412bb6015
+  name: provider_credential_controller
+- image: registry.redhat.io/multicluster-engine/registration-operator-rhel9@sha256:70154150d4b5ce0cf4e82ed0cc07fcee2982cc15c0d8f3e95c43a23947ac2e59
+  name: registration_operator
+- image: registry.redhat.io/multicluster-engine/registration-rhel9@sha256:aee121261c8b1d392836ab2ced78100b5dea3f59505460536213889b926d48be
+  name: registration
+- image: registry.redhat.io/multicluster-engine/work-rhel9@sha256:9326eede91624159b4d0b4c6da484f3e42b94924a4037eb842458fce744be73d
+  name: work
+- image: registry.redhat.io/openshift4/ose-baremetal-cluster-api-controllers-rhel9@sha256:c297e0c1962e2ce8dffa95b4722774a6ce5132bbfb7637f3897db7f51a148e02
+  name: ose_baremetal_cluster_api_controllers_rhel9
+- image: registry.redhat.io/openshift4/ose-cluster-api-rhel9@sha256:bcd033bfb03ce1e7b99e149bbdb1455cafaa41ea1993bda23f688684a318dfd6
+  name: ose_cluster_api_rhel9
+- image: registry.redhat.io/rhel8/postgresql-12@sha256:f87bd6e919e86e9be720a1a2853ea128d21c28ca67611f17c3165971dde1764d
   name: postgresql_12
 schema: olm.bundle
 ---
@@ -2955,6 +3167,213 @@ relatedImages:
   name: postgresql_13
 schema: olm.bundle
 ---
+image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:36716e34b85ec545897cbe73e91019ce77433457963312ce442127f195994482
+name: multicluster-engine.v2.11.7
+package: multicluster-engine
+properties:
+- type: olm.gvk
+  value:
+    group: multicluster.openshift.io
+    kind: MultiClusterEngine
+    version: v1
+- type: olm.maxOpenShiftVersion
+  value: '4.22'
+- type: olm.package
+  value:
+    packageName: multicluster-engine
+    version: 2.11.7
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: '[{"apiVersion": "multicluster.openshift.io/v1", "kind": "MultiClusterEngine", "metadata": {"name": "multiclusterengine"}, "spec": {}}]'
+      capabilities: Seamless Upgrades
+      categories: Integration & Delivery
+      certified: 'true'
+      createdAt: '2026-09-25T02:31:42Z'
+      description: Foundational components for central management of multiple OpenShift Container Platform and Kubernetes clusters
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "4.22"}]'
+      olm.skipRange: '>=2.10.0 <2.11.7'
+      operatorframework.io/initialization-resource: '{"apiVersion":"multicluster.openshift.io/v1", "kind":"MultiClusterEngine","metadata":{"name":"engine"},"spec": {}}'
+      operatorframework.io/suggested-namespace: multicluster-engine
+      operators.openshift.io/infrastructure-features: '["disconnected", "proxy-aware", "fips"]'
+      operators.openshift.io/must-gather-image: registry.redhat.io/multicluster-engine/must-gather-rhel9@sha256:2ab9aace2cbade4c0577e6fbe33e0572ffc025336b5004e2fa3189582e746de9
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      repository: https://github.com/open-cluster-management/backplane-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: "MultiClusterEngine defines the configuration for an instance\nof a multicluster engine, a central point providing the foundational components for managing multiple Kubernetes-based clusters. The deployment of the multicluster engine components is\ndetermined based on the configuration that is defined in this resource."
+        displayName: MultiCluster Engine
+        kind: MultiClusterEngine
+        name: multiclusterengines.multicluster.openshift.io
+        specDescriptors:
+        - description: 'Specifies deployment replication for improved availability. Options are: Basic and High (default)'
+          displayName: Availability Configuration
+          path: availabilityConfig
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:select:High
+          - urn:alm:descriptor:com.tectonic.ui:select:Basic
+        - description: Override pull secret for accessing MultiClusterEngine operand and endpoint images
+          displayName: Image Pull Secret
+          path: imagePullSecret
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:Secret
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: The name of the local-cluster resource
+          displayName: Local Cluster Name
+          path: localClusterName
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:text
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: Developer Overrides
+          displayName: Developer Overrides
+          path: overrides
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: 'Provides optional configuration for components, the list of which can be found here: https://github.com/stolostron/backplane-operator/tree/main/docs/available-components.md'
+          displayName: Component Configuration
+          path: overrides.components
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: Namespace to install Assisted Installer operator
+          displayName: Custom Infrastructure Operator Namespace
+          path: overrides.infrastructureCustomNamespace
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: Location where MCE resources will be placed
+          displayName: Target Namespace
+          path: targetNamespace
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:text
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        version: v1
+    description: "Multicluster engine for Kubernetes provides the foundational components that are necessary for the centralized management of multiple Kubernetes-based clusters across data centers, public clouds, and private clouds. You can use the engine to create Red Hat OpenShift Container Platform clusters on selected providers, or import existing Kubernetes-based clusters. After the clusters are managed, you can use the APIs that are provided by the engine to distribute configuration based on placement policy. Placement policy is a significant part of creating sophisticated multicluster management applications because you can select the applicable clusters.\n## Installing\nInstall the multicluster engine for Kubernetes operator by following instructions that display when you click the `Install` button. After installing the operator, create an instance of the `MultiClusterEngine` resource to install the engine components that provide the management APIs. Note: If you are using the engine to manage non-OpenShift Container Platform 4.x clusters, you need to create a Kubernetes `Secret` resource that contains your OpenShift Container Platform pull secret. Specify this `Secret` in the `MultiClusterEngine` resource, as described in the install documentation.\nYou can find additional installation guidance in the [documentation](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.16/html/clusters/cluster_mce_overview#mce-install-intro). "
+    displayName: multicluster engine for Kubernetes
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - mce
+    - multicluster-engine
+    - multiclusterengine
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Documentation
+      url: https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.16/html/clusters/index
+    maintainers:
+    - email: acm-contact@redhat.com
+      name: Red Hat
+    maturity: stable
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/multicluster-engine/addon-manager-rhel9@sha256:4906d304de65190a6fd4d2c320a5bde8634850019e9f1d1fd121cc31df90ac2f
+  name: addon_manager
+- image: registry.redhat.io/multicluster-engine/assisted-image-service-rhel9@sha256:8b89ec0ea9c916709566dffdd04e17e9f78f08f5f8d38bf0b45a725e14a7f409
+  name: assisted_image_service
+- image: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9@sha256:62eba04867cb6c89a2f7089270864dd4f12ff65c721a0c284616fb8476420894
+  name: assisted_installer_agent
+- image: registry.redhat.io/multicluster-engine/assisted-installer-controller-rhel9@sha256:51988dc2cae68150a5c19042af1e9d98ce1157e13d08f19bac8ad857a2679994
+  name: assisted_installer_controller
+- image: registry.redhat.io/multicluster-engine/assisted-installer-rhel9@sha256:3cfa5a80a8c1856cf2355a8363c9f618c6ad5c91951ad37a809e7aa16458c835
+  name: assisted_installer
+- image: registry.redhat.io/multicluster-engine/assisted-service-9-rhel9@sha256:4f1294ca2e45494b5d85af9f615630bc11ef537530e873fc806d36080c5f2cf8
+  name: assisted_service_9
+- image: registry.redhat.io/multicluster-engine/azure-service-operator-rhel9@sha256:7a8bf2311f91c431c53bd7fb6ac1f5e776a2bcdb7ff2b588e7a14a9cd59ebfa9
+  name: azure_service_operator_rhel9
+- image: registry.redhat.io/multicluster-engine/backplane-rhel9-operator@sha256:0830884b783a2e3fb8ac54392e76f3ccac3d3cc00215a41ce63ea19691a6c1d9
+  name: ''
+- image: registry.redhat.io/multicluster-engine/capoa-bootstrap-rhel9@sha256:f583ea256cddabae0ac1eed50d768a5af80976794ebe95c147fe3cac4d5b7481
+  name: cluster_api_provider_openshift_assisted_bootstrap
+- image: registry.redhat.io/multicluster-engine/capoa-control-plane-rhel9@sha256:a88f4c4b4a5d0b71a659225cc4c25cf23fb313c061c1c3e232d116b2aac369ff
+  name: cluster_api_provider_openshift_assisted_control_plane
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-agent-rhel9@sha256:2b51df2345f58dc8e154b42155195e564a8294bcd0e396b2c5473f3f865fab9c
+  name: cluster_api_provider_agent
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-aws-rhel9@sha256:c16350e8db05506f5146e065d4a01e235594e7bdb9e59aaefc19eb6cb39a135b
+  name: cluster_api_provider_aws_rhel9
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-azure-rhel9@sha256:1fccea0754dce669d8afd40c65f1c7ab3eb211810ecc537af30c2f3b8e1a7f5c
+  name: cluster_api_provider_azure_rhel9
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-kubevirt-rhel9@sha256:ccf327721d628d50e30539e7aa3412a86a4f6ac46c9861fe95eb8ec8450eec57
+  name: cluster_api_provider_kubevirt
+- image: registry.redhat.io/multicluster-engine/cluster-curator-controller-rhel9@sha256:5cdbfcde3e020739e6ee7b54d2838c1ab26b9f630a76578d9246172e67575711
+  name: cluster_curator_controller
+- image: registry.redhat.io/multicluster-engine/cluster-image-set-controller-rhel9@sha256:855382e72e1c46611c5ab9f8065b8a712f013855d239f7daee4969538a867c8f
+  name: cluster_image_set_controller
+- image: registry.redhat.io/multicluster-engine/cluster-proxy-rhel9@sha256:cc94a7e074862d4fb69ff5b6a4c145c2895dc4c4be5a1ca7a3d048ab413e0783
+  name: cluster_proxy
+- image: registry.redhat.io/multicluster-engine/clusterclaims-controller-rhel9@sha256:12e0999cf4970004b713f2e09e1fcc0fb43709703935795a0d2cf193916dbca6
+  name: clusterclaims_controller
+- image: registry.redhat.io/multicluster-engine/clusterlifecycle-state-metrics-rhel9@sha256:91029a3a722ac92b89f48bff87126ebe3d5d120033deb4ecc350d549778c3861
+  name: clusterlifecycle_state_metrics
+- image: registry.redhat.io/multicluster-engine/console-mce-rhel9@sha256:c6dfa8994fc872dc328361eeda33e5b9f0bfb1f63c533a84ab2a122cc6bde90e
+  name: console_mce
+- image: registry.redhat.io/multicluster-engine/discovery-rhel9@sha256:8c51bfd2bcc60266d7f236f9e4a4af1eb3f51569982e846f797d50f03ee325eb
+  name: discovery_operator
+- image: registry.redhat.io/multicluster-engine/hive-rhel9@sha256:a28efc565113606c0d6e431b5b1727dba5c6d316ea85dfcede9a3eadc759ef35
+  name: openshift_hive
+- image: registry.redhat.io/multicluster-engine/hypershift-addon-rhel9-operator@sha256:acd86a72c5e58685b59bb19ea3c7deaa8c6839125fe3b0db1c07e283dad1b0f0
+  name: hypershift_addon_operator
+- image: registry.redhat.io/multicluster-engine/hypershift-cli-rhel9@sha256:bf3e9c51c6fd2f2cb830ea5774673b6ec17b5566b0b8d0191fd192a033388b13
+  name: hypershift_cli
+- image: registry.redhat.io/multicluster-engine/hypershift-rhel9-operator@sha256:7cf7821688c3685c76648296dae54625c1a054a8e8d3d55402259625b7db4f92
+  name: hypershift_operator
+- image: registry.redhat.io/multicluster-engine/image-based-install-rhel9@sha256:d606502a0b6fdd10205c36c6e4fc907652b8127b5ffd63acd13e981b273e82ce
+  name: image_based_install_operator
+- image: registry.redhat.io/multicluster-engine/kube-rbac-proxy-mce-rhel9@sha256:0bf4b027dc21ef03e7028851a852d65f0c7f21acba16efe4554497379b8a95c9
+  name: kube_rbac_proxy_mce
+- image: registry.redhat.io/multicluster-engine/managed-serviceaccount-rhel9@sha256:3c83b2612d40cbba86fa7fff1814a5c48a9623f49030a38ed084ecd59c3278b1
+  name: managed_serviceaccount
+- image: registry.redhat.io/multicluster-engine/managedcluster-import-controller-rhel9@sha256:6a360f32a750ccfd2e6d8e7b46a02f9859afad59af98ec36007a7749bd26c5ee
+  name: managedcluster_import_controller
+- image: registry.redhat.io/multicluster-engine/mce-capi-webhook-config-rhel9@sha256:0f0f97be318ab2fd5100d0431c571775bf0215b9704e51db682b9c7863683cb5
+  name: mce_capi_webhook_config_rhel9
+- image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:36716e34b85ec545897cbe73e91019ce77433457963312ce442127f195994482
+  name: ''
+- image: registry.redhat.io/multicluster-engine/multicloud-manager-rhel9@sha256:6ab0a68ed6af721b3ac94f25dd6073fac8935a3e1f4c7873e680dbaf53b20a46
+  name: multicloud_manager
+- image: registry.redhat.io/multicluster-engine/must-gather-rhel9@sha256:2ab9aace2cbade4c0577e6fbe33e0572ffc025336b5004e2fa3189582e746de9
+  name: backplane_must_gather
+- image: registry.redhat.io/multicluster-engine/placement-rhel9@sha256:397898f991adb382fef0f346de9055e316fbd49dc6e8a95c5d32350b47157944
+  name: placement
+- image: registry.redhat.io/multicluster-engine/provider-credential-controller-rhel9@sha256:522e9f7db686bd8e98f91eb2bca0c33b8ad52238a7f64b58e8d0583e8b5e75b1
+  name: provider_credential_controller
+- image: registry.redhat.io/multicluster-engine/registration-operator-rhel9@sha256:01c321dbf3ee4da373d8bde828caddec98eda9a083fc49c9e882e668b327cd2f
+  name: registration_operator
+- image: registry.redhat.io/multicluster-engine/registration-rhel9@sha256:9b25b487fdc0c7a2803a40f3674b465cb96eadcb5f58b5586beedafc468ba9e5
+  name: registration
+- image: registry.redhat.io/multicluster-engine/work-rhel9@sha256:f0c1f8723c59247f513dba0c176897497d20fa0fb75e84499acb5b4dad892afc
+  name: work
+- image: registry.redhat.io/openshift4/ose-baremetal-cluster-api-controllers-rhel9@sha256:404f430662a92ce348d1b8b2b209cf2098b769c33c9e16da0ecadb3da86cbb31
+  name: ose_baremetal_cluster_api_controllers_rhel9
+- image: registry.redhat.io/openshift4/ose-cluster-api-rhel9@sha256:fe8d72f8707d76655c050e8d7e25e55cc1b6da4feb790fa010e7906255dddf05
+  name: ose_cluster_api_rhel9
+- image: registry.redhat.io/rhel9/postgresql-13@sha256:97b64c18a32944b86fd1a118aa0d1aa04ff1fad8068c3c20f6e94af24712ff36
+  name: postgresql_13
+schema: olm.bundle
+---
 image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:fc6964ee9238bb9a80c0cebad11856c488c4f2dfce952d220e6c9d0fe193c03f
 name: multicluster-engine.v2.17.0
 package: multicluster-engine
@@ -3600,8 +4019,8 @@ relatedImages:
   name: postgresql_15
 schema: olm.bundle
 ---
-image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:a2fd3dc372bcf638820f31a49047063b5b1117ae021186db43216e7a9fe85044
-name: multicluster-engine.v0.0.1
+image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:42ffbc7ae53cd6e340086d334bc8c05f35f7b9c6cafe033e96492cf6e5d88a3c
+name: multicluster-engine.v2.17.3
 package: multicluster-engine
 properties:
 - type: olm.gvk
@@ -3609,19 +4028,40 @@ properties:
     group: multicluster.openshift.io
     kind: MultiClusterEngine
     version: v1
+- type: olm.maxOpenShiftVersion
+  value: '5.0'
 - type: olm.package
   value:
     packageName: multicluster-engine
-    version: 0.0.1
+    version: 2.17.3
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"multicluster.openshift.io/v1\",\n    \"kind\": \"MultiClusterEngine\",\n    \"metadata\": {\n      \"name\": \"multiclusterengine\"\n    },\n    \"spec\": {}\n  }\n]"
-      capabilities: Basic Install
-      createdAt: '2026-02-05T19:18:08Z'
+      alm-examples: '[{"apiVersion": "multicluster.openshift.io/v1", "kind": "MultiClusterEngine", "metadata": {"name": "multiclusterengine"}, "spec": {}}]'
+      capabilities: Seamless Upgrades
+      categories: Integration & Delivery
+      certified: 'true'
+      createdAt: '2026-09-25T02:22:45Z'
+      description: Foundational components for central management of multiple OpenShift Container Platform and Kubernetes clusters
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "5.0"}]'
+      olm.skipRange: '>=2.10.0 <2.17.3'
+      operatorframework.io/initialization-resource: '{"apiVersion":"multicluster.openshift.io/v1", "kind":"MultiClusterEngine","metadata":{"name":"engine"},"spec": {}}'
+      operatorframework.io/suggested-namespace: multicluster-engine
+      operators.openshift.io/infrastructure-features: '["disconnected", "proxy-aware", "fips"]'
+      operators.openshift.io/must-gather-image: registry.redhat.io/multicluster-engine/must-gather-rhel9@sha256:a7fe0c2c6095ca36cd1156f18d709fd9b529a9fad0bac256e9dd298c64b7b4fc
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
-      operators.operatorframework.io/builder: operator-sdk-v1.41.1
-      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+      repository: https://github.com/open-cluster-management/backplane-operator
+      support: Red Hat
     apiServiceDefinitions: {}
     crdDescriptions:
       owned:
@@ -3671,32 +4111,125 @@ properties:
           - urn:alm:descriptor:io.kubernetes:text
           - urn:alm:descriptor:com.tectonic.ui:advanced
         version: v1
-    description: Provides the components making up the multiclusterengine
-    displayName: MultiCluster Engine
+    description: "Multicluster engine for Kubernetes provides the foundational components that are necessary for the centralized management of multiple Kubernetes-based clusters across data centers, public clouds, and private clouds. You can use the engine to create Red Hat OpenShift Container Platform clusters on selected providers, or import existing Kubernetes-based clusters. After the clusters are managed, you can use the APIs that are provided by the engine to distribute configuration based on placement policy. Placement policy is a significant part of creating sophisticated multicluster management applications because you can select the applicable clusters.\n## Installing\nInstall the multicluster engine for Kubernetes operator by following instructions that display when you click the `Install` button. After installing the operator, create an instance of the `MultiClusterEngine` resource to install the engine components that provide the management APIs. Note: If you are using the engine to manage non-OpenShift Container Platform 4.x clusters, you need to create a Kubernetes `Secret` resource that contains your OpenShift Container Platform pull secret. Specify this `Secret` in the `MultiClusterEngine` resource, as described in the install documentation.\nYou can find additional installation guidance in the [documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.17/html/clusters/cluster_mce_overview#mce-install-intro). "
+    displayName: multicluster engine for Kubernetes
     installModes:
     - supported: true
       type: OwnNamespace
-    - supported: true
+    - supported: false
       type: SingleNamespace
     - supported: false
       type: MultiNamespace
-    - supported: true
+    - supported: false
       type: AllNamespaces
     keywords:
+    - mce
+    - multicluster-engine
     - multiclusterengine
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
     links:
-    - name: Multicluster Engine
-      url: https://multicluster-engine.domain
+    - name: Documentation
+      url: https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.17/html/clusters/index
     maintainers:
     - email: acm-contact@redhat.com
       name: Red Hat
-    maturity: alpha
+    maturity: stable
     provider:
       name: Red Hat
-      url: https://multicluster-engine.domain
 relatedImages:
-- image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:a2fd3dc372bcf638820f31a49047063b5b1117ae021186db43216e7a9fe85044
+- image: registry.redhat.io/multicluster-engine/addon-manager-rhel9@sha256:5e57a14558ecfa039793be20aa7c6d8ccd98aaacd3948462c578b325cc450bd4
+  name: addon_manager
+- image: registry.redhat.io/multicluster-engine/assisted-image-service-rhel9@sha256:947f0fe0cc5e183d4dbe2fe908fe6a3e14576d71bf9fb13a0d79acffd693052d
+  name: assisted_image_service
+- image: registry.redhat.io/multicluster-engine/assisted-installer-agent-rhel9@sha256:17ce68e6d6269da953a52b25b2fc9ea7dff3243ba8c2967ed6afb26717932e9e
+  name: assisted_installer_agent
+- image: registry.redhat.io/multicluster-engine/assisted-installer-controller-rhel9@sha256:8360dd55dd35700a0a41860a2287bc3b614d0c9ba7eb1c38500e0813677320b2
+  name: assisted_installer_controller
+- image: registry.redhat.io/multicluster-engine/assisted-installer-rhel9@sha256:c43ec851c71044149f64140e9e83c2f62809fb8756cf722e0733d6d77b49609f
+  name: assisted_installer
+- image: registry.redhat.io/multicluster-engine/assisted-service-9-rhel9@sha256:81a5389803b8ab43951dd0dd1dcfb206bb1c457ff8667092b46c2adc6876304c
+  name: assisted_service_9
+- image: registry.redhat.io/multicluster-engine/azure-service-operator-rhel9@sha256:bc02428c9acd55c9ddad16fecbd120f059d099695c89b71d147727cfff73b43e
+  name: azure_service_operator_rhel9
+- image: registry.redhat.io/multicluster-engine/backplane-rhel9-operator@sha256:29397f4fcbbd495986263a04c4f0a08ee67a385dd32e4d8e1c0eca27a67c5d46
   name: ''
-- image: quay.io/stolostron/backplane-operator:latest
+- image: registry.redhat.io/multicluster-engine/capoa-bootstrap-rhel9@sha256:05120688d9aab709a2e57bda036d57894cbffba35d62d428dac5a038200154e2
+  name: cluster_api_provider_openshift_assisted_bootstrap
+- image: registry.redhat.io/multicluster-engine/capoa-control-plane-rhel9@sha256:ec66e9ddcd3d3888674505dc46dbd61abb5161fb72a58f735a52fd7a17f462de
+  name: cluster_api_provider_openshift_assisted_control_plane
+- image: registry.redhat.io/multicluster-engine/cloudevents-conductor-rhel9@sha256:591020b3cabb2542d0cbe7f4815cc6a12a8cd64c52ff1d0050983e88546dbe24
+  name: cloudevents_conductor
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-agent-rhel9@sha256:8d3fabdc3c4c9b97192346624f4f74a8b848435a5545657969f3d03a8d1f2752
+  name: cluster_api_provider_agent
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-aws-rhel9@sha256:f46cd3dfb26c740bca9867e13f67b9a79dee240c0ec0f193e820c4c3ceb7425e
+  name: cluster_api_provider_aws_rhel9
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-azure-rhel9@sha256:34318551ec9f47953504f09ba6d9978abe7de2e2948613b18bdab4c87a8601ec
+  name: cluster_api_provider_azure_rhel9
+- image: registry.redhat.io/multicluster-engine/cluster-api-provider-kubevirt-rhel9@sha256:84104a8f64b9feb55fec79ac7be911a3960d75004e56f220f76d7015aeee79c0
+  name: cluster_api_provider_kubevirt
+- image: registry.redhat.io/multicluster-engine/cluster-curator-controller-rhel9@sha256:f9d98584f32cf300632b0fb9f765395a881f859486d9b9d7899a351954763417
+  name: cluster_curator_controller
+- image: registry.redhat.io/multicluster-engine/cluster-image-set-controller-rhel9@sha256:be65a9890e2c6481572b622bc78a92a114fb7333efcb4b389ef854db8dabf5d1
+  name: cluster_image_set_controller
+- image: registry.redhat.io/multicluster-engine/cluster-permission-rhel9@sha256:3cfeeb2662eef432f6173d274b81f161b6df67130e8624d6a20fdd9143453da6
+  name: cluster_permission
+- image: registry.redhat.io/multicluster-engine/cluster-proxy-rhel9@sha256:8841b9e936f0212ff9150c48ba22fe181f04fec48540b8ab88afbd8569408fbb
+  name: cluster_proxy
+- image: registry.redhat.io/multicluster-engine/clusterclaims-controller-rhel9@sha256:90ca6b60e986fce3675d8047f450785122b0e4bc3c46a10395c812f10603319c
+  name: clusterclaims_controller
+- image: registry.redhat.io/multicluster-engine/clusterlifecycle-state-metrics-rhel9@sha256:7ca6d64ab7eb544836fecdfe1763fcaad92da9d875611f667e13a0d4e6795372
+  name: clusterlifecycle_state_metrics
+- image: registry.redhat.io/multicluster-engine/console-mce-rhel9@sha256:5e14275fdef1574dd3c81cf12f97f299ae8bef73986cb9bdaf9dac7ee2f7b4a3
+  name: console_mce
+- image: registry.redhat.io/multicluster-engine/discovery-rhel9@sha256:6449b2bcfba47f2244f54ab72bf7a209ce238a931512887c1ba7fc2a57996b54
+  name: discovery_operator
+- image: registry.redhat.io/multicluster-engine/hive-rhel9@sha256:38a7824f7d997ec03229e3f1f3761bc3f44064c6b67d202f41356bb3f0d81166
+  name: openshift_hive
+- image: registry.redhat.io/multicluster-engine/hypershift-addon-rhel9-operator@sha256:dc2144a333be57b096f64bbb6126bd20df26005b9dd8d9ce7d6d2147322eaa1e
+  name: hypershift_addon_operator
+- image: registry.redhat.io/multicluster-engine/hypershift-cli-rhel9@sha256:8fba9253acc47cda3b9578f1ae97fd4c64f984772895cfe1052dbd9240d0cd76
+  name: hypershift_cli
+- image: registry.redhat.io/multicluster-engine/hypershift-rhel9-operator@sha256:ee112b770bca4e6fa2cfd3fc5539bc4c91087a8a24b5d7d3d5bbe22a5fb73f69
+  name: hypershift_operator
+- image: registry.redhat.io/multicluster-engine/image-based-install-rhel9@sha256:ab8bb988e0d4c6a7a1bc2887da34413a046da8f8dc343a2258333ad4ff362820
+  name: image_based_install_operator
+- image: registry.redhat.io/multicluster-engine/kube-rbac-proxy-mce-rhel9@sha256:5c0abc5cb599d03c277ade7acf45c3651be9d5a64e46116743160c3b96a7fadf
+  name: kube_rbac_proxy_mce
+- image: registry.redhat.io/multicluster-engine/maestro-rhel9@sha256:0f4d6783e873bee8be25da2b0039891e56dc46301ce16f229538a679d4b5b0b1
+  name: maestro
+- image: registry.redhat.io/multicluster-engine/managed-serviceaccount-rhel9@sha256:7f8d70f1afedd2d2b61ffdd752b03b31497b2e222c603d04dc878cebd3fcc3ac
+  name: managed_serviceaccount
+- image: registry.redhat.io/multicluster-engine/managedcluster-import-controller-rhel9@sha256:71fd62d63b61ae6215632e1811c836ab1ba984dac1921b379fbc02659b839525
+  name: managedcluster_import_controller
+- image: registry.redhat.io/multicluster-engine/mce-capi-webhook-config-rhel9@sha256:b651ffe0d9f7ecf25668bf76eee323e30e8ef86c354a5630b03625f1ce71e116
+  name: mce_capi_webhook_config_rhel9
+- image: registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:42ffbc7ae53cd6e340086d334bc8c05f35f7b9c6cafe033e96492cf6e5d88a3c
   name: ''
+- image: registry.redhat.io/multicluster-engine/multicloud-manager-rhel9@sha256:b18942106238b9c2e4899bfcecdac0a6029121e3a110988e9f90889420738007
+  name: multicloud_manager
+- image: registry.redhat.io/multicluster-engine/must-gather-rhel9@sha256:a7fe0c2c6095ca36cd1156f18d709fd9b529a9fad0bac256e9dd298c64b7b4fc
+  name: backplane_must_gather
+- image: registry.redhat.io/multicluster-engine/placement-rhel9@sha256:8ede708df7efb658011429d9e84c6a8a84f1f605f319e8589bcc1e341cc8a534
+  name: placement
+- image: registry.redhat.io/multicluster-engine/provider-credential-controller-rhel9@sha256:0f9b8a5c1f89c72daaf3fa20d0ee713e5e8e78c9cf670a58d1183b718ca555ed
+  name: provider_credential_controller
+- image: registry.redhat.io/multicluster-engine/registration-operator-rhel9@sha256:1e9cb8be2b0b85fa0af21093d6b140236588b1cd4d35bf0de2440584d9f3a5d1
+  name: registration_operator
+- image: registry.redhat.io/multicluster-engine/registration-rhel9@sha256:03185980f458eadca8755302e48dcc918e732abfe7ccfe4c7b369c6a97744510
+  name: registration
+- image: registry.redhat.io/multicluster-engine/work-rhel9@sha256:948c8dc28c99732e0491ddc10af7d48fe938bbbbc437a916c0b1d1c92ee3e8db
+  name: work
+- image: registry.redhat.io/openshift4/ose-baremetal-cluster-api-controllers-rhel9@sha256:dc6c2cf43f4e42877b5687339f928950d5b017f7012ba40caa24914cc60639eb
+  name: ose_baremetal_cluster_api_controllers_rhel9
+- image: registry.redhat.io/openshift4/ose-cluster-api-rhel9@sha256:ca9f11550b723f04be7c379ca55e3e39928073f6266f9a1562eda2d606361450
+  name: ose_cluster_api_rhel9
+- image: registry.redhat.io/rhel9/postgresql-13@sha256:93c1a97cb77a6cb813749d87e7a4e611958ddf2ab23ad2363aa92de9b37106ae
+  name: postgresql_13
+- image: registry.redhat.io/rhel9/postgresql-15@sha256:905a50c33fb9d80b940727c88bab09b9d1a15f3b1c9bc2411b7aea6142f92922
+  name: postgresql_15
 schema: olm.bundle
