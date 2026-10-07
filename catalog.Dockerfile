@@ -20,3 +20,12 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.21
+ENV __doozer_key=ose-metallb-operator
+ENV __doozer_version=4.21.0
+ENV __doozer_release=20261007031654
+ENV __doozer_bundle_nvrs=ose-metallb-operator-bundle-container-v4.21.0.202610062113.p2.ga09e97e.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/metallb-operator
+LABEL io.openshift.build.commit.id=a09e97ee1bac3078b719202e1c784e7e05f70fc3
+LABEL com.redhat.art.name=ose-metallb-operator-fbc
+LABEL com.redhat.art.nvr=ose-metallb-operator-fbc-4.21.0-20261007031654
