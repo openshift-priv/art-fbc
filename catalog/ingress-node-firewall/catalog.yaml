@@ -87,8 +87,6 @@ entries:
   skipRange: '>=4.11.0 <4.17.0'
 - name: ingress-node-firewall.v4.17.0-202609201813
   skipRange: '>=4.11.0 <4.17.0'
-- name: ingress-node-firewall.v4.17.0-202610010231
-  skipRange: '>=4.11.0 <4.17.0'
   skips:
   - ingress-node-firewall.v4.17.0-202405300213
   - ingress-node-firewall.v4.17.0-202406241712
@@ -194,7 +192,6 @@ entries:
   - ingress-node-firewall.v4.17.0-202606230157
   - ingress-node-firewall.v4.17.0-202607180955
   - ingress-node-firewall.v4.17.0-202608240201
-  - ingress-node-firewall.v4.17.0-202609201813
 name: stable
 package: ingress-node-firewall
 schema: olm.channel
@@ -4036,101 +4033,5 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9@sha256:9aa5db12c3e79c3d93027d9fca24921c3db8ca45bc604e1724866353097e67e9
   name: ingress-node-firewall-rhel9
 - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:767e04a881378b4c06e3ebc7a805c188981a2fd71884f3fd76f3c832fe53e431
-  name: ose-kube-rbac-proxy-rhel9
-schema: olm.bundle
----
-image: registry.redhat.io/openshift4/ingress-node-firewall-operator-bundle@sha256:5d13ee6ff7d481a0ce423c58f3c9d02aab726afa6341cfdc915bbba77a6b0ce3
-name: ingress-node-firewall.v4.17.0-202610010231
-package: ingress-node-firewall
-properties:
-- type: olm.gvk
-  value:
-    group: ingressnodefirewall.openshift.io
-    kind: IngressNodeFirewall
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: ingressnodefirewall.openshift.io
-    kind: IngressNodeFirewallConfig
-    version: v1alpha1
-- type: olm.gvk
-  value:
-    group: ingressnodefirewall.openshift.io
-    kind: IngressNodeFirewallNodeState
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: ingress-node-firewall
-    version: 4.17.0-202610010231
-- type: olm.csv.metadata
-  value:
-    annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"ingressnodefirewall.openshift.io/v1alpha1\",\n    \"kind\": \"IngressNodeFirewall\",\n    \"metadata\": {\n      \"name\": \"ingressnodefirewall-demo2\"\n    },\n    \"spec\": {\n      \"ingress\": [\n        {\n          \"rules\": [\n            {\n              \"action\": \"Deny\",\n              \"order\": 10,\n              \"protocolConfig\": {\n                \"icmp\": {\n                  \"icmpType\": 8\n                },\n                \"protocol\": \"ICMP\"\n              }\n            },\n            {\n              \"action\": \"Deny\",\n              \"order\": 20,\n              \"protocolConfig\": {\n                \"protocol\": \"TCP\",\n                \"tcp\": {\n                  \"ports\": \"8000-9000\"\n                }\n              }\n            }\n          ],\n          \"sourceCIDRs\": [\n            \"172.16.0.0/12\"\n          ]\n        },\n        {\n          \"rules\": [\n            {\n              \"action\": \"Deny\",\n              \"order\": 10,\n              \"protocolConfig\": {\n                \"icmpv6\": {\n                  \"icmpType\": 128\n                },\n                \"protocol\": \"ICMPv6\"\n              }\n            }\n          ],\n          \"sourceCIDRs\": [\n            \"fc00:f853:ccd:e793::0/64\"\n          ]\n        }\n      ],\n      \"interfaces\": [\n        \"eth0\"\n      ],\n      \"nodeSelector\": {\n        \"matchLabels\": {\n          \"do-node-ingress-firewall\": \"true\"\n        }\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"ingressnodefirewall.openshift.io/v1alpha1\",\n    \"kind\": \"IngressNodeFirewallConfig\",\n    \"metadata\": {\n      \"name\": \"ingressnodefirewallconfig\",\n      \"namespace\": \"ingress-node-firewall-system\"\n    },\n    \"spec\": {\n      \"debug\": false,\n      \"ebpfProgramManagerMode\": false,\n      \"nodeSelector\": {\n        \"node-role.kubernetes.io/worker\": \"\"\n      }\n    }\n  }\n]"
-      capabilities: Basic Install
-      categories: Networking
-      certified: 'false'
-      containerImage: registry.redhat.io/openshift4/ingress-node-firewall-rhel9-operator@sha256:ec870f7fcf34774d997c1ad0929e5e062b3514f5466ad6cc96743226a322ac40
-      createdAt: '2024-07-23T17:17:45Z'
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.11.0 <4.17.0'
-      operatorframework.io/suggested-namespace: openshift-ingress-node-firewall
-      operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
-      operators.operatorframework.io/builder: operator-sdk-v1.34.1
-      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-      repository: https://github.com/openshift/ingress-node-firewall
-      support: Red Hat
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - kind: IngressNodeFirewallConfig
-        name: ingressnodefirewallconfigs.ingressnodefirewall.openshift.io
-        version: v1alpha1
-      - kind: IngressNodeFirewallNodeState
-        name: ingressnodefirewallnodestates.ingressnodefirewall.openshift.io
-        version: v1alpha1
-      - kind: IngressNodeFirewall
-        name: ingressnodefirewalls.ingressnodefirewall.openshift.io
-        version: v1alpha1
-    description: The Ingress node firewall operator, manages the configuration of cluster scoped Ingress Node firewall rules for Kubernetes.
-    displayName: Ingress Node Firewall Operator
-    installModes:
-    - supported: false
-      type: OwnNamespace
-    - supported: false
-      type: SingleNamespace
-    - supported: false
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - ingressnodefirewall
-    labels:
-      operatorframework.io/arch.amd64: supported
-      operatorframework.io/arch.arm64: supported
-      operatorframework.io/arch.ppc64le: supported
-      operatorframework.io/arch.s390x: supported
-    links:
-    - name: Ingress Node Firewall
-      url: https://github.com/openshift/ingress-node-firewall
-    maintainers:
-    - email: mmahmoud@redhat.com
-      name: msherif1234
-    maturity: alpha
-    provider:
-      name: Red Hat, Inc
-relatedImages:
-- image: registry.redhat.io/openshift4/ingress-node-firewall-operator-bundle@sha256:5d13ee6ff7d481a0ce423c58f3c9d02aab726afa6341cfdc915bbba77a6b0ce3
-  name: ''
-- image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9-operator@sha256:ec870f7fcf34774d997c1ad0929e5e062b3514f5466ad6cc96743226a322ac40
-  name: ingress-node-firewall-rhel9-operator
-- image: registry.redhat.io/openshift4/ingress-node-firewall-rhel9@sha256:57d4f6fffd21b3d0dd1f6d30ec2c48e3e0615ac95f9dbe3cb00deeb0a6f108ff
-  name: ingress-node-firewall-rhel9
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:a2d02b18a7b6d8e2ff20067f5a2937e734d9d54b6e4d43f1936fb2d005444e28
   name: ose-kube-rbac-proxy-rhel9
 schema: olm.bundle
