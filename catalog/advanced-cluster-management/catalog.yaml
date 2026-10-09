@@ -78,6 +78,9 @@ entries:
 - name: advanced-cluster-management.v2.17.3
   replaces: advanced-cluster-management.v2.17.2
   skipRange: '>=2.15.0 <2.17.3'
+- name: advanced-cluster-management.v2.17.4
+  replaces: advanced-cluster-management.v2.17.3
+  skipRange: '>=2.16.0 <2.17.4'
 name: release-2.17
 package: advanced-cluster-management
 schema: olm.channel
@@ -5793,3 +5796,152 @@ entries:
     schema: olm.bundle
 package: advanced-cluster-management
 schema: olm.deprecations
+---
+image: registry.redhat.io/rhacm2/acm-operator-bundle@sha256:f63c7a3d3452106b48071cee4e2dc5ae0a7f5e42624d52590fe02798e4e62b5c
+name: advanced-cluster-management.v2.17.4
+package: advanced-cluster-management
+properties:
+- type: olm.gvk
+  value:
+    group: operator.open-cluster-management.io
+    kind: MultiClusterHub
+    version: v1
+- type: olm.package
+  value:
+    packageName: advanced-cluster-management
+    version: 2.17.4
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"operator.open-cluster-management.io/v1\",\n    \"kind\": \"MultiClusterHub\",\n    \"metadata\": {\n      \"name\": \"multiclusterhub\",\n      \"namespace\": \"open-cluster-management\"\n    },\n    \"spec\": {}\n  }\n]"
+      capabilities: Basic Install
+      categories: Integration & Delivery
+      certified: 'false'
+      createdAt: '2026-01-29T21:20:16Z'
+      description: Open management of Openshift and Kubernetes clusters
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=2.16.0 <2.17.4'
+      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Advanced Cluster Management for Kubernetes"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.42.0
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+      repository: https://github.com/open-cluster-management/multiclusterhub-operator
+      support: The Open Cluster Management Project
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: "MulticlusterHub defines the configuration\nfor an instance of a multicluster hub, a central point for managing multiple\nKubernetes-based clusters. The deployment of multicluster hub components\nis determined based on the configuration that is defined in this resource."
+        displayName: MultiClusterHub
+        kind: MultiClusterHub
+        name: multiclusterhubs.operator.open-cluster-management.io
+        specDescriptors:
+        - description: 'Specifies deployment replication for improved availability. Options are: Basic and High (default)'
+          displayName: Availability Configuration
+          path: availabilityConfig
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:select:High
+          - urn:alm:descriptor:com.tectonic.ui:select:Basic
+        - description: (Deprecated) Provide the customized OpenShift default ingress CA certificate to RHACM
+          displayName: Custom CA Configmap
+          path: customCAConfigmap
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:io.kubernetes:ConfigMap
+        - description: Disable automatic import of the hub cluster as a managed cluster
+          displayName: Disable Hub Self Management
+          path: disableHubSelfManagement
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - description: Disable automatic update of ClusterImageSets
+          displayName: Disable Update ClusterImageSets
+          path: disableUpdateClusterImageSets
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - description: (Deprecated) Enable cluster backup
+          displayName: Enable Cluster Backup
+          path: enableClusterBackup
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: (Deprecated) Enable cluster proxy addon
+          displayName: Enable Cluster Proxy Addon
+          path: enableClusterProxyAddon
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: (Deprecated) Overrides for the default HiveConfig spec
+          displayName: Hive Config
+          path: hive
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: Override pull secret for accessing MultiClusterHub operand and endpoint images
+          displayName: Image Pull Secret
+          path: imagePullSecret
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:Secret
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: (Deprecated) Configuration options for ingress management
+          displayName: Ingress Management
+          path: ingress
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: The name of the local-cluster resource
+          displayName: Local Cluster Name
+          path: localClusterName
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:text
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: Developer Overrides
+          displayName: Developer Overrides
+          path: overrides
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: 'Provides optional configuration for components, the list of which can be found here: https://github.com/stolostron/multiclusterhub-operator/tree/main/docs/available-components.md'
+          displayName: Component Configuration
+          path: overrides.components
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: (Deprecated) Install cert-manager into its own namespace
+          displayName: Separate Certificate Management
+          path: separateCertificateManagement
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        version: v1
+    description: 'The Open Cluster Management Hub operator installs and maintains an instance of the OCM hub, a central management console for managing OpenShift and Kubernetes clusters. '
+    displayName: Advanced Cluster Management for Kubernetes
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - multiclusterhub
+    - install
+    links:
+    - name: Open Cluster Management
+      url: https://open-cluster-management.io/
+    maintainers:
+    - email: ocm-dev@open-cluster-management.io
+      name: Open Cluster Management Project team
+    maturity: alpha
+    provider:
+      name: Redhat
+relatedImages:
+- image: registry.redhat.io/rhacm2/acm-operator-bundle@sha256:f63c7a3d3452106b48071cee4e2dc5ae0a7f5e42624d52590fe02798e4e62b5c
+  name: ''
+- image: registry.redhat.io/rhacm2/multiclusterhub-rhel9@sha256:5ef9bbcba020a22cd2e8e1d19c6566b76ceeb7fdc77028a98902073d9c0a75ea
+  name: multiclusterhub-rhel9
+schema: olm.bundle
