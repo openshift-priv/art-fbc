@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=mtc-1.8
-ENV __doozer_key=openshift-migration-operator
-ENV __doozer_version=1.8.18
-ENV __doozer_release=20261012172900.ocp4.18
-ENV __doozer_bundle_nvrs=openshift-migration-operator-metadata-container-1.8.18.202610121655.p2.g7642f26.assembly.stream.el8-1
-LABEL io.openshift.build.source-location=https://github.com/migtools/mig-operator
-LABEL io.openshift.build.commit.id=7642f264f909d35fc335bfbf8e5227ad9a15f6f9
-LABEL com.redhat.art.name=openshift-migration-operator-fbc
-LABEL com.redhat.art.nvr=openshift-migration-operator-fbc-1.8.18-20261012172900.ocp4.18
-LABEL com.redhat.art.bundle.pullspec=quay.io/redhat-user-workloads/ocp-art-tenant/art-images@sha256:cfd457fd449a717aee4b64f489febe54c9edef8d29ada56526baf1163a3d1ed0
