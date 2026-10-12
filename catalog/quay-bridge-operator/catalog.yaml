@@ -102,9 +102,6 @@ entries:
 - name: quay-bridge-operator.v3.10.26
   replaces: quay-bridge-operator.v3.10.25
   skipRange: '>=3.7.0 <3.10.26'
-- name: quay-bridge-operator.v3.10.27
-  replaces: quay-bridge-operator.v3.10.26
-  skipRange: '>=3.7.0 <3.10.27'
 name: stable-3.10
 package: quay-bridge-operator
 schema: olm.channel
@@ -224,9 +221,6 @@ entries:
 - name: quay-bridge-operator.v3.12.22
   replaces: quay-bridge-operator.v3.12.21
   skipRange: '>=3.9.0 <3.12.22'
-- name: quay-bridge-operator.v3.12.23
-  replaces: quay-bridge-operator.v3.12.22
-  skipRange: '>=3.9.0 <3.12.23'
 name: stable-3.12
 package: quay-bridge-operator
 schema: olm.channel
@@ -357,9 +351,6 @@ entries:
 - name: quay-bridge-operator.v3.16.6
   replaces: quay-bridge-operator.v3.16.5
   skipRange: '>=3.13.0 <3.16.6'
-- name: quay-bridge-operator.v3.6.0
-  replaces: quay-bridge-operator.v3.16.6
-  skipRange: '>=3.5.x <3.6.0'
 name: stable-3.16
 package: quay-bridge-operator
 schema: olm.channel
@@ -389,6 +380,11 @@ schema: olm.channel
 entries:
 - name: quay-bridge-operator.v3.18.0
   skipRange: '>=3.15.x <3.18.0'
+- name: quay-bridge-operator.v3.18.1
+  replaces: quay-bridge-operator.v3.18.0
+  skipRange: '>=3.14.x <3.18.1'
+  skips:
+  - quay-bridge-operator.v3.18.0
 name: stable-3.18
 package: quay-bridge-operator
 schema: olm.channel
@@ -609,9 +605,6 @@ entries:
 - name: quay-bridge-operator.v3.9.26
   replaces: quay-bridge-operator.v3.9.25
   skipRange: '>=3.6.0 <3.9.26'
-- name: quay-bridge-operator.v3.9.27
-  replaces: quay-bridge-operator.v3.9.26
-  skipRange: '>=3.6.0 <3.9.27'
 name: stable-3.9
 package: quay-bridge-operator
 schema: olm.channel
@@ -3470,149 +3463,6 @@ relatedImages:
 - image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:0c14b0d72bb7596bd17e2203248e1f0188f86cd0c78d6e54a5302ad04d07b912
   name: ''
 - image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:fc5b8a63217a4792f381f77db4d6a94f805a60bf1088eabd203e75f79da5fca4
-  name: ''
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:70be7fae6fcf36f60baa6f4e7665e7a623be0029acfb59cc6eca7ce710a4cbfa
-name: quay-bridge-operator.v3.10.27
-package: quay-bridge-operator
-properties:
-- type: olm.gvk
-  value:
-    group: quay.redhat.com
-    kind: QuayIntegration
-    version: v1
-- type: olm.package
-  value:
-    packageName: quay-bridge-operator
-    version: 3.10.27
-- type: olm.csv.metadata
-  value:
-    annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"quay.redhat.com/v1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecret\": {\n        \"name\": \"quay-credentials\",\n        \"namespace\": \"openshift-operators\"\n      },\n      \"insecureRegistry\": false\n    }\n  }\n]"
-      capabilities: Full Lifecycle
-      categories: OpenShift Optional
-      containerImage: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:730456b519b282235c47745e8757bd3bdcc171c2b7dc53540c0f3e36225fd692
-      createdAt: 2021-07-09 14:07 UTC
-      description: Enhance OCP using Red Hat Red Hat container registry
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.7.x <3.10.27'
-      operators.openshift.io/infrastructure-features: '["disconnected", "fips"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Quay"]'
-      operators.operatorframework.io/builder: operator-sdk-v1.9.0+git
-      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-      quay-version: 3.10.27
-      repository: https://github.com/quay/quay-bridge-operator
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: QuayIntegration is the Schema for the quayintegrations API
-        displayName: Quay Integration
-        kind: QuayIntegration
-        name: quayintegrations.quay.redhat.com
-        specDescriptors:
-        - description: AllowlistNamespaces is a list of namespaces to include
-          displayName: List of namespaces to include
-          path: allowlistNamespaces
-        - description: ClusterID refers to the ID associated with this cluster.
-          displayName: Cluster ID
-          path: clusterID
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: CredentialsSecret refers to the Secret containing credentials to communicate with the Quay registry.
-          displayName: Credentials secret
-          path: credentialsSecret
-          x-descriptors:
-          - urn:alm:descriptor:io.kubernetes:Secret
-        - description: Key represents the specific key to reference from the secret
-          displayName: Key within the secret
-          path: credentialsSecret.key
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Name represents the name of the secret
-          displayName: Name of the secret
-          path: credentialsSecret.name
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Namespace represents the namespace containing the secret
-          displayName: Namespace containing the secret
-          path: credentialsSecret.namespace
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: DenylistNamespaces is a list of namespaces to exclude.
-          displayName: List of namespaces to exclude
-          path: denylistNamespaces
-        - description: InsecureRegistry refers to whether to skip TLS verification to the Quay registry.
-          displayName: Insecure Registry
-          path: insecureRegistry
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-        - description: OrganizationPrefix is the prefix assigned to organizations.
-          displayName: Organization Prefix
-          path: organizationPrefix
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: QuayHostname is the hostname of the Quay registry.
-          displayName: Quay hostname
-          path: quayHostname
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: ScheduledImageStreamImport determines whether to enable import scheduling on all managed ImageStreams.
-          displayName: Schedule ImageStream Imports
-          path: scheduledImageStreamImport
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-        statusDescriptors:
-        - displayName: Conditions
-          path: conditions
-          x-descriptors:
-          - urn:alm:descriptor:io.kubernetes.conditions
-        - displayName: Last Updated Time
-          path: lastUpdate
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        version: v1
-    description: Enhance OCP using Red Hat Quay container registry
-    displayName: Red Hat Quay Bridge Operator
-    installModes:
-    - supported: false
-      type: OwnNamespace
-    - supported: false
-      type: SingleNamespace
-    - supported: false
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - registry
-    - containers
-    - quay
-    labels:
-      operatorframework.io/arch.amd64: supported
-      operatorframework.io/arch.ppc64le: supported
-      operatorframework.io/arch.s390x: supported
-      operatorframework.io/os.linux: supported
-    links:
-    - name: Quay Bridge Operator
-      url: http://quay.io
-    maintainers:
-    - email: support@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:902ad634d0d497e95b8719091744b7ba17c8ebfe6083585cdff0d4c1aedc1566
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:70be7fae6fcf36f60baa6f4e7665e7a623be0029acfb59cc6eca7ce710a4cbfa
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:730456b519b282235c47745e8757bd3bdcc171c2b7dc53540c0f3e36225fd692
   name: ''
 schema: olm.bundle
 ---
@@ -8944,149 +8794,6 @@ relatedImages:
 - image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:4f07b87973fdd00d37f50b7dc944386f8ce7a072ede1b5500d0dfe4035575a7c
   name: ''
 - image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:a3d4d34f6b445d66e3adbf7d301760cf62348b237ca1d93d71b0a8b1624e890f
-  name: ''
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:517e924e8e3244ff9b8f5b49fa278374fb12ea9d0ec14340ac7d4075dc32e13e
-name: quay-bridge-operator.v3.12.23
-package: quay-bridge-operator
-properties:
-- type: olm.gvk
-  value:
-    group: quay.redhat.com
-    kind: QuayIntegration
-    version: v1
-- type: olm.package
-  value:
-    packageName: quay-bridge-operator
-    version: 3.12.23
-- type: olm.csv.metadata
-  value:
-    annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"quay.redhat.com/v1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecret\": {\n        \"name\": \"quay-credentials\",\n        \"namespace\": \"openshift-operators\"\n      },\n      \"insecureRegistry\": false\n    }\n  }\n]"
-      capabilities: Full Lifecycle
-      categories: OpenShift Optional
-      containerImage: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:024f8517f88b07297ab9aab9709da5d25afb45787cc3e759fda10c0e1e1e8a7f
-      createdAt: 2021-07-09 14:07 UTC
-      description: Enhance OCP using Red Hat Red Hat container registry
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.9.x <3.12.23'
-      operators.openshift.io/infrastructure-features: '["disconnected", "fips"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Quay"]'
-      operators.operatorframework.io/builder: operator-sdk-v1.9.0+git
-      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-      quay-version: 3.12.23
-      repository: https://github.com/quay/quay-bridge-operator
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: QuayIntegration is the Schema for the quayintegrations API
-        displayName: Quay Integration
-        kind: QuayIntegration
-        name: quayintegrations.quay.redhat.com
-        specDescriptors:
-        - description: AllowlistNamespaces is a list of namespaces to include
-          displayName: List of namespaces to include
-          path: allowlistNamespaces
-        - description: ClusterID refers to the ID associated with this cluster.
-          displayName: Cluster ID
-          path: clusterID
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: CredentialsSecret refers to the Secret containing credentials to communicate with the Quay registry.
-          displayName: Credentials secret
-          path: credentialsSecret
-          x-descriptors:
-          - urn:alm:descriptor:io.kubernetes:Secret
-        - description: Key represents the specific key to reference from the secret
-          displayName: Key within the secret
-          path: credentialsSecret.key
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Name represents the name of the secret
-          displayName: Name of the secret
-          path: credentialsSecret.name
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Namespace represents the namespace containing the secret
-          displayName: Namespace containing the secret
-          path: credentialsSecret.namespace
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: DenylistNamespaces is a list of namespaces to exclude.
-          displayName: List of namespaces to exclude
-          path: denylistNamespaces
-        - description: InsecureRegistry refers to whether to skip TLS verification to the Quay registry.
-          displayName: Insecure Registry
-          path: insecureRegistry
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-        - description: OrganizationPrefix is the prefix assigned to organizations.
-          displayName: Organization Prefix
-          path: organizationPrefix
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: QuayHostname is the hostname of the Quay registry.
-          displayName: Quay hostname
-          path: quayHostname
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: ScheduledImageStreamImport determines whether to enable import scheduling on all managed ImageStreams.
-          displayName: Schedule ImageStream Imports
-          path: scheduledImageStreamImport
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-        statusDescriptors:
-        - displayName: Conditions
-          path: conditions
-          x-descriptors:
-          - urn:alm:descriptor:io.kubernetes.conditions
-        - displayName: Last Updated Time
-          path: lastUpdate
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        version: v1
-    description: Enhance OCP using Red Hat Quay container registry
-    displayName: Red Hat Quay Bridge Operator
-    installModes:
-    - supported: false
-      type: OwnNamespace
-    - supported: false
-      type: SingleNamespace
-    - supported: false
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - registry
-    - containers
-    - quay
-    labels:
-      operatorframework.io/arch.amd64: supported
-      operatorframework.io/arch.ppc64le: supported
-      operatorframework.io/arch.s390x: supported
-      operatorframework.io/os.linux: supported
-    links:
-    - name: Quay Bridge Operator
-      url: http://quay.io
-    maintainers:
-    - email: support@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:902ad634d0d497e95b8719091744b7ba17c8ebfe6083585cdff0d4c1aedc1566
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:517e924e8e3244ff9b8f5b49fa278374fb12ea9d0ec14340ac7d4075dc32e13e
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:024f8517f88b07297ab9aab9709da5d25afb45787cc3e759fda10c0e1e1e8a7f
   name: ''
 schema: olm.bundle
 ---
@@ -16585,86 +16292,8 @@ relatedImages:
   name: ''
 schema: olm.bundle
 ---
-image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:4478b8a78bdde23e0d40476f8ad9e4bf0628fba7603a390e8de7e6a319abc1ec
-name: quay-bridge-operator.v3.4.7
-package: quay-bridge-operator
-properties:
-- type: olm.gvk
-  value:
-    group: redhatcop.redhat.io
-    kind: QuayIntegration
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: quay-bridge-operator
-    version: 3.4.7
-- type: olm.csv.metadata
-  value:
-    annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"redhatcop.redhat.io/v1alpha1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"my-quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecretName\": \"<NAMESPACE>/<SECRET>\",\n      \"quayHostname\": \"https://<QUAY_URL>\",\n      \"insecureRegistry\": false,\n      \"whitelistNamespaces\": [\"default\"]\n    }\n  }\n]"
-      capabilities: Full Lifecycle
-      categories: OpenShift Optional
-      containerImage: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e
-      createdAt: 2021-11-02 11:11 UTC
-      description: Enhance OCP using Red Hat Quay container registry
-      repository: https://github.com/redhat-cop/quay-openshift-registry-operator
-      tectonic-visibility: ocs
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: Represents a connected Quay instance.
-        displayName: Quay Integration
-        kind: QuayIntegration
-        name: quayintegrations.redhatcop.redhat.io
-        specDescriptors:
-        - description: List of namespaces that will not be enabled
-          displayName: Blacklisted Namespaces
-          path: blacklistNamespaces
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:blacklistNamespaces
-          - urn:alm:descriptor:com.tectonic.ui:string
-        - description: List of namespaces that will be enabled
-          displayName: Whitelisted Namespaces
-          path: whitelistNamespaces
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:whitelistNamespaces
-          - urn:alm:descriptor:com.tectonic.ui:string
-        version: v1alpha1
-    description: "## Overview\n\nThe OpenShift Container Platform contains an in cluster image registry for pushing and pulling images that either produced within the cluster or are references from external sources. Quay is a highly available, enterprise grade image registry with enhanced role based access control (RBAC) features. The goal of this operator is to support replicating the features found within OpenShift intgrated image registry with Quay.\n\n## Functionality\n\nThe following capabilities are enabled through this operator:\n\n* Synchronization of OpenShift namespaces as Quay organizations\n    * Creation of Robot accounts for each default namespace service account\n    * Creation of Secrets for each created Robot Account\n        * Associate Robot Secret to Service Account as Mountable and Image Pull Secret\n    * Synchronization of OpenShift ImageStreams as Quay Repositories\n* Automatically rewrite new Builds making use of ImageStreams to output to Quay\n* Automatically import ImageStream tag once build completes\n\n## Prerequisites\n\nThe following requirements must be satisfied prior to setting and configuring the integration between OpenShift and Quay:\n\n* A Red Hat Quay environment with a user with superuser permissions\n* A Red Hat OpenShift Container Platform environment (at least version 4.0) with cluster-admin permissions on an OpenShift cluster \n*\tOpenShift Command Line tool (CLI)\n\n## Setup and Configuration\n\nThe setup process involves steps within both Quay and OpenShift as described below:\n\n### Quay Setup\n\nThe integration between OpenShift and Quay makes extensive use of the Quay RESTFul API. To allow for other methods aside from user credentials to be used for authenticating against the API, an application is required to be created. When an application is created, an OAuth token is generated which can be used by the operator in OpenShift. Applications are created within a Quay organization. While an existing organization can be utilized, it is recommended that a dedicated organization be used.\n\n1.\tLogin to Quay as a user with superuser access and select the organization for which the external application will be configured within.\n2.\tOn the left hand side of the page, select **Applications**\n3.\tCreate a new application by selecting the **Create New Application** button and entering a name for the application\n4.\tAfter the new application has been created, select the application that was created\n5.\tOn the lefthand navigation bar, select the **Generate Token** button to create a new OAuth2 token\n6.\tSelect all of the checkboxes to grant the necessary access that is needed for the integration\n7.\tReview the permissions that will be assigned and then select the **Authorize Application** button\n8.\tTake note of the generated Access Token as it will be needed in the following section\n\n### OpenShift Setup\n\nTo complete the process to begin to integrate OpenShift and Quay, several steps are required. Before beginning, ensure that you have the OpenShift Command Line tool installed and that you are logged into OpenShift as a cluster administrator. \n\n#### Create A Secret for the Quay OAuth Token\n\nThe Operator will use the previously obtained Access Token to communicate with Quay. Store this token within OpenShift as a secret.\n\nExecute the following command to create a secret called `quay-integration` with a key called `token` containing the access token:\n\n```\n$ oc create secret generic quay-integration --from-literal=token=<access_token>\n```\n\nThis token will be referenced in the final section.\n\n#### MutatingWebhookConfiguration Support\n\nSupport for dynamic interception of API requests that are performed as part of OpenShift’s typical build process is facilitated through a [MutatingWebhookConfiguration](https://docs.openshift.com/container-platform/3.11/architecture/additional_concepts/dynamic_admission_controllers.html). A MutatingWebhookConfiguration allows for invoking an API running within a project on OpenShift when certain API requests are received. In particular, to support Quay’s integration with OpenShift, any new Build requests should be intercepted so that the output can be modified to target Quay instead of OpenShift’s integrated registry. \n\nKubernetes requires that the webhook endpoint is secured via SSL using a certificate that makes use of the certificate authority for the cluster. Fortunately, OpenShift provides support for generating a certificate signed by the cluster. A script is available in the documentation called `webhook-create-signed-cert.sh` that automates the process for requesting a new certificate.\n\nFirst, create a `Service` for the Operator's webhook endpoint:\n```yaml\napiVersion: v1\nkind: Service\nmetadata:\n  labels:\n    name: quay-bridge-operator\n  name: quay-bridge-operator\n  namespace: openshift-operators\nspec:\n  ports:\n    - name: https\n      port: 443\n      protocol: TCP\n      targetPort: 8443\n  selector:\n    name: quay-bridge-operator\n  sessionAffinity: None\n  type: ClusterIP\n```\n\nExecute the following command to request the certificate:\n\n```\n./webhook-create-signed-cert.sh --namespace openshift-operators --secret quay-bridge-operator-webhook-certs --service quay-bridge-operator\n```\n\nThe result will place the newly created private key and certificate within a secret within the secret specified. The secret will be mounted into the appropriate located within the operator as declared in the Deployment of the Operator. \n\nOnce the secret has been created, focus can shift to the `MutatingWebhookConfiguration` (see below). The majority of the content should be in place to apply to the cluster. The one section that requires configuration is the caBundle property. This refers to the Certificate Authority (CA) for the OpenShift environment. The OpenShift CA is available as a _ConfigMap_ within the `kube-system` namespace.\n\nExecute the following command to retrieve the CA and format the result as a single line so that it can be entered into the MutatingWebhookConfiguration resource:\n\n```\noc get configmap -n kube-system extension-apiserver-authentication -o=jsonpath='{.data.client-ca-file}' | base64 | tr -d '\\n'\n```\n\nReplace the `${CA_BUNDLE}` variable in the following `MutatingWebhookConfiguration` YAML and create it:\n\n```yaml\napiVersion: admissionregistration.k8s.io/v1\nkind: MutatingWebhookConfiguration \nmetadata:\n  name: quay-bridge-operator\nwebhooks:\n  - name: quayintegration.redhatcop.redhat.io\n    clientConfig: \n      service:\n        namespace: openshift-operators\n        name: quay-bridge-operator\n        path: \"/admissionwebhook\"\n      caBundle: \"${CA_BUNDLE}\"\n    rules: \n    - operations:  [ \"CREATE\" ]\n      apiGroups: [ \"build.openshift.io\" ]\n      apiVersions: [\"v1\" ]\n      resources: [ \"builds\" ]\n    failurePolicy: Fail\n```\n\n_Note: Until the operator is running, new requests for builds will fail since the webserver the MutatingWebhookConfiguration invokes is not available and a proper is response is required in order for the object to be persisted in etcd._\n\n#### Create the QuayIntegration Custom Resource\n\nFinally, to complete the integration between OpenShift and Quay, a `QuayIntegration` custom resource needs to be created.\n\nThe following is an example of a basic definition of a `QuayIntegration` resource associated from the associated CRD.\n\n```\napiVersion: redhatcop.redhat.io/v1alpha1\nkind: QuayIntegration\nmetadata:\n  name: example-quayintegration\nspec:\n  clusterID: openshift\n  credentialsSecretName: <NAMESPACE>/<SECRET>\n  quayHostname: https://<QUAY_URL>\n```\n\nThe _clusterID_ is a value which should be unique across the entire ecosystem. This value is optional and defaults to `openshift`.\n\nThe _credentialsSecretName_ is a NamespacedName value of the secret containing the token that was previously created.\n\nNote: If Quay is using self signed certificates, the property `insecureRegistry: true`\n\nOrganizations within Quay should be created for the related namespaces in OpenShift."
-    displayName: Quay Bridge Operator
-    installModes:
-    - supported: false
-      type: OwnNamespace
-    - supported: false
-      type: SingleNamespace
-    - supported: false
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - registry
-    - containers
-    - quay
-    links:
-    - name: Source Code
-      url: https://github.com/redhat-cop/quay-openshift-registry-operator
-    maintainers:
-    - email: quay-devel@redhat.com
-      name: Quay Engineering Team
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:4478b8a78bdde23e0d40476f8ad9e4bf0628fba7603a390e8de7e6a319abc1ec
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e
-  name: quay-bridge-operator-rhel8-501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e-annotation
-- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e
-  name: quay-bridge-operator
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:e8f0faca7743adcf93a441e2073a1fd9b848b2a067ce97e2fd4c39e9a7a73186
-name: quay-bridge-operator.v3.6.0
+image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:760f3cbe2008b4ee26fbcf0a9b13a94069157d2eeb7041f6d28c1879455f688b
+name: quay-bridge-operator.v3.18.1
 package: quay-bridge-operator
 properties:
 - type: olm.gvk
@@ -16675,14 +16304,14 @@ properties:
 - type: olm.package
   value:
     packageName: quay-bridge-operator
-    version: 3.6.0
+    version: 3.18.1
 - type: olm.csv.metadata
   value:
     annotations:
       alm-examples: "[\n  {\n    \"apiVersion\": \"quay.redhat.com/v1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecret\": {\n        \"name\": \"quay-credentials\",\n        \"namespace\": \"openshift-operators\"\n      },\n      \"insecureRegistry\": false\n    }\n  }\n]"
       capabilities: Full Lifecycle
       categories: OpenShift Optional
-      containerImage: registry.redhat.io/quay/quay-bridge-rhel9-operator@sha256:cab430ebc376bfd5b2854ceeffac14667d9e3bdd5ae86de8db3e7a7534683bec
+      containerImage: registry.redhat.io/quay/quay-bridge-rhel9-operator@sha256:e76bcdd3e22649d2bf33dd23179858efe6641d82eb07be3ecf24e44acacc3efd
       createdAt: 2021-07-09 14:07 UTC
       description: Enhance OCP using Red Hat Quay container registry
       features.operators.openshift.io/disconnected: 'true'
@@ -16692,7 +16321,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.5.x <3.6.0'
+      olm.skipRange: '>=3.14.x <3.18.1'
       operators.openshift.io/infrastructure-features: '["disconnected", "fips"]'
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-v1.9.0+git
@@ -16784,6 +16413,7 @@ properties:
     - quay
     labels:
       operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
       operatorframework.io/arch.ppc64le: supported
       operatorframework.io/arch.s390x: supported
       operatorframework.io/os.linux: supported
@@ -16797,12 +16427,221 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:e8f0faca7743adcf93a441e2073a1fd9b848b2a067ce97e2fd4c39e9a7a73186
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:746780334b4c4783725909cc3f6dfa883620f8ad6c5f0752b8d6388a3d47cbe5
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:760f3cbe2008b4ee26fbcf0a9b13a94069157d2eeb7041f6d28c1879455f688b
   name: ''
-- image: quay.io/redhat-user-workloads/ocp-art-tenant/art-images@sha256:e8f0faca7743adcf93a441e2073a1fd9b848b2a067ce97e2fd4c39e9a7a73186
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-rhel9-operator@sha256:cab430ebc376bfd5b2854ceeffac14667d9e3bdd5ae86de8db3e7a7534683bec
+- image: registry.redhat.io/quay/quay-bridge-rhel9-operator@sha256:e76bcdd3e22649d2bf33dd23179858efe6641d82eb07be3ecf24e44acacc3efd
   name: quay-bridge-rhel9-operator
+schema: olm.bundle
+---
+image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:4478b8a78bdde23e0d40476f8ad9e4bf0628fba7603a390e8de7e6a319abc1ec
+name: quay-bridge-operator.v3.4.7
+package: quay-bridge-operator
+properties:
+- type: olm.gvk
+  value:
+    group: redhatcop.redhat.io
+    kind: QuayIntegration
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: quay-bridge-operator
+    version: 3.4.7
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"redhatcop.redhat.io/v1alpha1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"my-quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecretName\": \"<NAMESPACE>/<SECRET>\",\n      \"quayHostname\": \"https://<QUAY_URL>\",\n      \"insecureRegistry\": false,\n      \"whitelistNamespaces\": [\"default\"]\n    }\n  }\n]"
+      capabilities: Full Lifecycle
+      categories: OpenShift Optional
+      containerImage: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e
+      createdAt: 2021-11-02 11:11 UTC
+      description: Enhance OCP using Red Hat Quay container registry
+      repository: https://github.com/redhat-cop/quay-openshift-registry-operator
+      tectonic-visibility: ocs
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents a connected Quay instance.
+        displayName: Quay Integration
+        kind: QuayIntegration
+        name: quayintegrations.redhatcop.redhat.io
+        specDescriptors:
+        - description: List of namespaces that will not be enabled
+          displayName: Blacklisted Namespaces
+          path: blacklistNamespaces
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:blacklistNamespaces
+          - urn:alm:descriptor:com.tectonic.ui:string
+        - description: List of namespaces that will be enabled
+          displayName: Whitelisted Namespaces
+          path: whitelistNamespaces
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:arrayFieldGroup:whitelistNamespaces
+          - urn:alm:descriptor:com.tectonic.ui:string
+        version: v1alpha1
+    description: "## Overview\n\nThe OpenShift Container Platform contains an in cluster image registry for pushing and pulling images that either produced within the cluster or are references from external sources. Quay is a highly available, enterprise grade image registry with enhanced role based access control (RBAC) features. The goal of this operator is to support replicating the features found within OpenShift intgrated image registry with Quay.\n\n## Functionality\n\nThe following capabilities are enabled through this operator:\n\n* Synchronization of OpenShift namespaces as Quay organizations\n    * Creation of Robot accounts for each default namespace service account\n    * Creation of Secrets for each created Robot Account\n        * Associate Robot Secret to Service Account as Mountable and Image Pull Secret\n    * Synchronization of OpenShift ImageStreams as Quay Repositories\n* Automatically rewrite new Builds making use of ImageStreams to output to Quay\n* Automatically import ImageStream tag once build completes\n\n## Prerequisites\n\nThe following requirements must be satisfied prior to setting and configuring the integration between OpenShift and Quay:\n\n* A Red Hat Quay environment with a user with superuser permissions\n* A Red Hat OpenShift Container Platform environment (at least version 4.0) with cluster-admin permissions on an OpenShift cluster \n*\tOpenShift Command Line tool (CLI)\n\n## Setup and Configuration\n\nThe setup process involves steps within both Quay and OpenShift as described below:\n\n### Quay Setup\n\nThe integration between OpenShift and Quay makes extensive use of the Quay RESTFul API. To allow for other methods aside from user credentials to be used for authenticating against the API, an application is required to be created. When an application is created, an OAuth token is generated which can be used by the operator in OpenShift. Applications are created within a Quay organization. While an existing organization can be utilized, it is recommended that a dedicated organization be used.\n\n1.\tLogin to Quay as a user with superuser access and select the organization for which the external application will be configured within.\n2.\tOn the left hand side of the page, select **Applications**\n3.\tCreate a new application by selecting the **Create New Application** button and entering a name for the application\n4.\tAfter the new application has been created, select the application that was created\n5.\tOn the lefthand navigation bar, select the **Generate Token** button to create a new OAuth2 token\n6.\tSelect all of the checkboxes to grant the necessary access that is needed for the integration\n7.\tReview the permissions that will be assigned and then select the **Authorize Application** button\n8.\tTake note of the generated Access Token as it will be needed in the following section\n\n### OpenShift Setup\n\nTo complete the process to begin to integrate OpenShift and Quay, several steps are required. Before beginning, ensure that you have the OpenShift Command Line tool installed and that you are logged into OpenShift as a cluster administrator. \n\n#### Create A Secret for the Quay OAuth Token\n\nThe Operator will use the previously obtained Access Token to communicate with Quay. Store this token within OpenShift as a secret.\n\nExecute the following command to create a secret called `quay-integration` with a key called `token` containing the access token:\n\n```\n$ oc create secret generic quay-integration --from-literal=token=<access_token>\n```\n\nThis token will be referenced in the final section.\n\n#### MutatingWebhookConfiguration Support\n\nSupport for dynamic interception of API requests that are performed as part of OpenShift’s typical build process is facilitated through a [MutatingWebhookConfiguration](https://docs.openshift.com/container-platform/3.11/architecture/additional_concepts/dynamic_admission_controllers.html). A MutatingWebhookConfiguration allows for invoking an API running within a project on OpenShift when certain API requests are received. In particular, to support Quay’s integration with OpenShift, any new Build requests should be intercepted so that the output can be modified to target Quay instead of OpenShift’s integrated registry. \n\nKubernetes requires that the webhook endpoint is secured via SSL using a certificate that makes use of the certificate authority for the cluster. Fortunately, OpenShift provides support for generating a certificate signed by the cluster. A script is available in the documentation called `webhook-create-signed-cert.sh` that automates the process for requesting a new certificate.\n\nFirst, create a `Service` for the Operator's webhook endpoint:\n```yaml\napiVersion: v1\nkind: Service\nmetadata:\n  labels:\n    name: quay-bridge-operator\n  name: quay-bridge-operator\n  namespace: openshift-operators\nspec:\n  ports:\n    - name: https\n      port: 443\n      protocol: TCP\n      targetPort: 8443\n  selector:\n    name: quay-bridge-operator\n  sessionAffinity: None\n  type: ClusterIP\n```\n\nExecute the following command to request the certificate:\n\n```\n./webhook-create-signed-cert.sh --namespace openshift-operators --secret quay-bridge-operator-webhook-certs --service quay-bridge-operator\n```\n\nThe result will place the newly created private key and certificate within a secret within the secret specified. The secret will be mounted into the appropriate located within the operator as declared in the Deployment of the Operator. \n\nOnce the secret has been created, focus can shift to the `MutatingWebhookConfiguration` (see below). The majority of the content should be in place to apply to the cluster. The one section that requires configuration is the caBundle property. This refers to the Certificate Authority (CA) for the OpenShift environment. The OpenShift CA is available as a _ConfigMap_ within the `kube-system` namespace.\n\nExecute the following command to retrieve the CA and format the result as a single line so that it can be entered into the MutatingWebhookConfiguration resource:\n\n```\noc get configmap -n kube-system extension-apiserver-authentication -o=jsonpath='{.data.client-ca-file}' | base64 | tr -d '\\n'\n```\n\nReplace the `${CA_BUNDLE}` variable in the following `MutatingWebhookConfiguration` YAML and create it:\n\n```yaml\napiVersion: admissionregistration.k8s.io/v1\nkind: MutatingWebhookConfiguration \nmetadata:\n  name: quay-bridge-operator\nwebhooks:\n  - name: quayintegration.redhatcop.redhat.io\n    clientConfig: \n      service:\n        namespace: openshift-operators\n        name: quay-bridge-operator\n        path: \"/admissionwebhook\"\n      caBundle: \"${CA_BUNDLE}\"\n    rules: \n    - operations:  [ \"CREATE\" ]\n      apiGroups: [ \"build.openshift.io\" ]\n      apiVersions: [\"v1\" ]\n      resources: [ \"builds\" ]\n    failurePolicy: Fail\n```\n\n_Note: Until the operator is running, new requests for builds will fail since the webserver the MutatingWebhookConfiguration invokes is not available and a proper is response is required in order for the object to be persisted in etcd._\n\n#### Create the QuayIntegration Custom Resource\n\nFinally, to complete the integration between OpenShift and Quay, a `QuayIntegration` custom resource needs to be created.\n\nThe following is an example of a basic definition of a `QuayIntegration` resource associated from the associated CRD.\n\n```\napiVersion: redhatcop.redhat.io/v1alpha1\nkind: QuayIntegration\nmetadata:\n  name: example-quayintegration\nspec:\n  clusterID: openshift\n  credentialsSecretName: <NAMESPACE>/<SECRET>\n  quayHostname: https://<QUAY_URL>\n```\n\nThe _clusterID_ is a value which should be unique across the entire ecosystem. This value is optional and defaults to `openshift`.\n\nThe _credentialsSecretName_ is a NamespacedName value of the secret containing the token that was previously created.\n\nNote: If Quay is using self signed certificates, the property `insecureRegistry: true`\n\nOrganizations within Quay should be created for the related namespaces in OpenShift."
+    displayName: Quay Bridge Operator
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - registry
+    - containers
+    - quay
+    links:
+    - name: Source Code
+      url: https://github.com/redhat-cop/quay-openshift-registry-operator
+    maintainers:
+    - email: quay-devel@redhat.com
+      name: Quay Engineering Team
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:4478b8a78bdde23e0d40476f8ad9e4bf0628fba7603a390e8de7e6a319abc1ec
+  name: ''
+- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e
+  name: quay-bridge-operator-rhel8-501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e-annotation
+- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:501fe9b003b5066b3936def0ef4de05abd1a12e795e718d6c9a62d2c6c804c2e
+  name: quay-bridge-operator
+schema: olm.bundle
+---
+image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:89ff146ee1ca5fd079bfc1d1dc2f84d3215edbeb7b540f7dde390d1508133229
+name: quay-bridge-operator.v3.6.0
+package: quay-bridge-operator
+properties:
+- type: olm.gvk
+  value:
+    group: quay.redhat.com
+    kind: QuayIntegration
+    version: v1
+- type: olm.package
+  value:
+    packageName: quay-bridge-operator
+    version: 3.6.0
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"quay.redhat.com/v1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecret\": {\n        \"name\": \"quay-credentials\",\n        \"namespace\": \"openshift-operators\"\n      },\n      \"insecureRegistry\": false\n    }\n  }\n]"
+      capabilities: Full Lifecycle
+      categories: OpenShift Optional
+      containerImage: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:6d7cf84f18b7061c9b75ba3e004edad135e08c774af18191e8f562d4a55a935b
+      createdAt: 2021-09-28 18:09 UTC
+      description: Enhance OCP using Red Hat Quay container registry
+      olm.skipRange: '>=3.3.x <3.6.0'
+      operators.openshift.io/infrastructure-features: '["disconnected"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.9.0+git
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: https://github.com/quay/quay-bridge-operator
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: QuayIntegration is the Schema for the quayintegrations API
+        displayName: Quay Integration
+        kind: QuayIntegration
+        name: quayintegrations.quay.redhat.com
+        specDescriptors:
+        - description: AllowlistNamespaces is a list of namespaces to include
+          displayName: List of namespaces to include
+          path: allowlistNamespaces
+        - description: ClusterID refers to the ID associated with this cluster.
+          displayName: Cluster ID
+          path: clusterID
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: CredentialsSecret refers to the Secret containing credentials to communicate with the Quay registry.
+          displayName: Credentials secret
+          path: credentialsSecret
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:Secret
+        - description: Key represents the specific key to reference from the secret
+          displayName: Key within the secret
+          path: credentialsSecret.key
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Name represents the name of the secret
+          displayName: Name of the secret
+          path: credentialsSecret.name
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: Namespace represents the namespace containing the secret
+          displayName: Namespace containing the secret
+          path: credentialsSecret.namespace
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: DenylistNamespaces is a list of namespaces to exclude.
+          displayName: List of namespaces to exclude
+          path: denylistNamespaces
+        - description: InsecureRegistry refers to whether to skip TLS verification to the Quay registry.
+          displayName: Insecure Registry
+          path: insecureRegistry
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - description: OrganizationPrefix is the prefix assigned to organizations.
+          displayName: Organization Prefix
+          path: organizationPrefix
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: QuayHostname is the hostname of the Quay registry.
+          displayName: Quay hostname
+          path: quayHostname
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        - description: ScheduledImageStreamImport determines whether to enable import scheduling on all managed ImageStreams.
+          displayName: Schedule ImageStream Imports
+          path: scheduledImageStreamImport
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        statusDescriptors:
+        - displayName: Conditions
+          path: conditions
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes.conditions
+        - displayName: Last Updated Time
+          path: lastUpdate
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
+        version: v1
+    description: Enhance OCP using Red Hat Quay container registry
+    displayName: Quay Bridge Operator
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - registry
+    - containers
+    - quay
+    links:
+    - name: Quay Bridge Operator
+      url: http://quay.io
+    maintainers:
+    - email: quay-devel@redhat.com
+      name: Quay Engineering Team
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:a5c16c64229aac3564c66816c123e81a849ff93b8a443cd6ff14bd8d63c06644
+  name: kube-rbac-proxy
+- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:89ff146ee1ca5fd079bfc1d1dc2f84d3215edbeb7b540f7dde390d1508133229
+  name: ''
+- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:6d7cf84f18b7061c9b75ba3e004edad135e08c774af18191e8f562d4a55a935b
+  name: quay-bridge-operator-rhel8-6d7cf84f18b7061c9b75ba3e004edad135e08c774af18191e8f562d4a55a935b-annotation
+- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:6d7cf84f18b7061c9b75ba3e004edad135e08c774af18191e8f562d4a55a935b
+  name: manager
 schema: olm.bundle
 ---
 image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:0d26d051081e4216e0526f37784bbb1af80e907708e2baffe5a10d993f1c9594
@@ -24875,144 +24714,6 @@ relatedImages:
 - image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:735e8d045b753f0c5692ac6eda7505f411715b7554c04cff1617bbca4bccfbfc
   name: ''
 - image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:70d4dcbd666fe6d32222b629bf7213e73126c56fc050d0693d23a6ce91e656cf
-  name: ''
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:5ed9fd3f7e0cb37d5af57d47034f09f86faff23ce312e5ef855810b93ea95611
-name: quay-bridge-operator.v3.9.27
-package: quay-bridge-operator
-properties:
-- type: olm.gvk
-  value:
-    group: quay.redhat.com
-    kind: QuayIntegration
-    version: v1
-- type: olm.package
-  value:
-    packageName: quay-bridge-operator
-    version: 3.9.27
-- type: olm.csv.metadata
-  value:
-    annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"quay.redhat.com/v1\",\n    \"kind\": \"QuayIntegration\",\n    \"metadata\": {\n      \"name\": \"quay\"\n    },\n    \"spec\": {\n      \"clusterID\": \"openshift\",\n      \"credentialsSecret\": {\n        \"name\": \"quay-credentials\",\n        \"namespace\": \"openshift-operators\"\n      },\n      \"insecureRegistry\": false\n    }\n  }\n]"
-      capabilities: Full Lifecycle
-      categories: OpenShift Optional
-      containerImage: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:15d0dff32c3f24cf3835ac2affb11573d7e716fa12578b9491e0c70b7f12f24a
-      createdAt: 2021-07-09 14:07 UTC
-      description: Enhance OCP using Red Hat Red Hat container registry
-      features.operators.openshift.io/disconnected: 'true'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.6.x <3.9.27'
-      operators.openshift.io/infrastructure-features: '["disconnected", "fips"]'
-      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Quay"]'
-      operators.operatorframework.io/builder: operator-sdk-v1.9.0+git
-      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-      quay-version: 3.9.27
-      repository: https://github.com/quay/quay-bridge-operator
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: QuayIntegration is the Schema for the quayintegrations API
-        displayName: Quay Integration
-        kind: QuayIntegration
-        name: quayintegrations.quay.redhat.com
-        specDescriptors:
-        - description: AllowlistNamespaces is a list of namespaces to include
-          displayName: List of namespaces to include
-          path: allowlistNamespaces
-        - description: ClusterID refers to the ID associated with this cluster.
-          displayName: Cluster ID
-          path: clusterID
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: CredentialsSecret refers to the Secret containing credentials to communicate with the Quay registry.
-          displayName: Credentials secret
-          path: credentialsSecret
-          x-descriptors:
-          - urn:alm:descriptor:io.kubernetes:Secret
-        - description: Key represents the specific key to reference from the secret
-          displayName: Key within the secret
-          path: credentialsSecret.key
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Name represents the name of the secret
-          displayName: Name of the secret
-          path: credentialsSecret.name
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: Namespace represents the namespace containing the secret
-          displayName: Namespace containing the secret
-          path: credentialsSecret.namespace
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: DenylistNamespaces is a list of namespaces to exclude.
-          displayName: List of namespaces to exclude
-          path: denylistNamespaces
-        - description: InsecureRegistry refers to whether to skip TLS verification to the Quay registry.
-          displayName: Insecure Registry
-          path: insecureRegistry
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-        - description: OrganizationPrefix is the prefix assigned to organizations.
-          displayName: Organization Prefix
-          path: organizationPrefix
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: QuayHostname is the hostname of the Quay registry.
-          displayName: Quay hostname
-          path: quayHostname
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        - description: ScheduledImageStreamImport determines whether to enable import scheduling on all managed ImageStreams.
-          displayName: Schedule ImageStream Imports
-          path: scheduledImageStreamImport
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
-        statusDescriptors:
-        - displayName: Conditions
-          path: conditions
-          x-descriptors:
-          - urn:alm:descriptor:io.kubernetes.conditions
-        - displayName: Last Updated Time
-          path: lastUpdate
-          x-descriptors:
-          - urn:alm:descriptor:com.tectonic.ui:text
-        version: v1
-    description: Enhance OCP using Red Hat Quay container registry
-    displayName: Red Hat Quay Bridge Operator
-    installModes:
-    - supported: false
-      type: OwnNamespace
-    - supported: false
-      type: SingleNamespace
-    - supported: false
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - registry
-    - containers
-    - quay
-    links:
-    - name: Quay Bridge Operator
-      url: http://quay.io
-    maintainers:
-    - email: support@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:902ad634d0d497e95b8719091744b7ba17c8ebfe6083585cdff0d4c1aedc1566
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-bundle@sha256:5ed9fd3f7e0cb37d5af57d47034f09f86faff23ce312e5ef855810b93ea95611
-  name: ''
-- image: registry.redhat.io/quay/quay-bridge-operator-rhel8@sha256:15d0dff32c3f24cf3835ac2affb11573d7e716fa12578b9491e0c70b7f12f24a
   name: ''
 schema: olm.bundle
 ---
