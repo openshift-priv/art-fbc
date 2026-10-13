@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.23
+ENV __doozer_key=pf-status-relay-operator
+ENV __doozer_version=4.23.0
+ENV __doozer_release=20261013093930
+ENV __doozer_bundle_nvrs=pf-status-relay-operator-bundle-container-v4.23.0.202610130128.p2.ge4fa4ed.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/pf-status-relay-operator
+LABEL io.openshift.build.commit.id=e4fa4ed83f8632965f7e0b126b6c90ce6f593bb4
+LABEL com.redhat.art.name=pf-status-relay-operator-fbc
+LABEL com.redhat.art.nvr=pf-status-relay-operator-fbc-4.23.0-20261013093930
+LABEL com.redhat.art.bundle.pullspec=quay.io/redhat-user-workloads/ocp-art-tenant/art-images@sha256:f24e40bdc6ef8e32c029cd21bac5a59e191aa016fdca3236ac3c8e71c1374834
