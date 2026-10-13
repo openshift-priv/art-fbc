@@ -82,9 +82,6 @@ entries:
 - name: loki-operator.v6.2.13
   replaces: loki-operator.v6.2.12
   skipRange: '>=6.0.0-0 <6.2.13'
-- name: loki-operator.v6.2.14
-  replaces: loki-operator.v6.2.13
-  skipRange: '>=6.0.0-0 <6.2.14'
 name: stable-6.2
 package: loki-operator
 schema: olm.channel
@@ -129,6 +126,9 @@ entries:
 - name: loki-operator.v6.4.6
   replaces: loki-operator.v6.4.5
   skipRange: '>=6.2.0-0 <6.4.6'
+- name: loki-operator.v6.4.7
+  replaces: loki-operator.v6.4.6
+  skipRange: '>=6.2.0-0 <6.4.7'
 name: stable-6.4
 package: loki-operator
 schema: olm.channel
@@ -47065,8 +47065,8 @@ relatedImages:
   name: opa-openshift-rhel9
 schema: olm.bundle
 ---
-image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:e6be91694c913320d56aa258bc701f7f5fc44f39ff8ec5d73492dcba2cb185b2
-name: loki-operator.v6.2.14
+image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:140282663fbcf4c0bc14fd5928cb5b5bf395f152e0bccea6c024daec038cb1eb
+name: loki-operator.v6.4.7
 package: loki-operator
 properties:
 - type: olm.gvk
@@ -47110,20 +47110,20 @@ properties:
     kind: RulerConfig
     version: v1beta1
 - type: olm.maxOpenShiftVersion
-  value: '4.20'
+  value: '4.21'
 - type: olm.package
   value:
     packageName: loki-operator
-    version: 6.2.14
+    version: 6.4.7
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"AlertingRule\",\n    \"metadata\": {\n      \"name\": \"alertingrule-sample\"\n    },\n    \"spec\": {\n      \"groups\": [\n        {\n          \"interval\": \"10m\",\n          \"name\": \"alerting-rules-group\",\n          \"rules\": [\n            {\n              \"alert\": \"HighPercentageError\",\n              \"annotations\": {\n                \"summary\": \"High request latency\"\n              },\n              \"expr\": \"sum(rate({app=\\\"foo\\\", env=\\\"production\\\"} |= \\\"error\\\" [5m])) by (job)\\n  /\\nsum(rate({app=\\\"foo\\\", env=\\\"production\\\"}[5m])) by (job)\\n  \\u003e 0.05\\n\",\n              \"for\": \"10m\",\n              \"labels\": {\n                \"severity\": \"page\"\n              }\n            },\n            {\n              \"alert\": \"HttpCredentialsLeaked\",\n              \"annotations\": {\n                \"message\": \"{{ $labels.job }} is leaking http basic auth credentials.\"\n              },\n              \"expr\": \"sum by (cluster, job, pod) (count_over_time({namespace=\\\"prod\\\"} |~ \\\"http(s?)://(\\\\\\\\w+):(\\\\\\\\w+)@\\\" [5m]) \\u003e 0)\",\n              \"for\": \"10m\",\n              \"labels\": {\n                \"severity\": \"critical\"\n              }\n            }\n          ]\n        }\n      ],\n      \"tenantID\": \"test-tenant\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"LokiStack\",\n    \"metadata\": {\n      \"name\": \"lokistack-sample\"\n    },\n    \"spec\": {\n      \"size\": \"1x.small\",\n      \"storage\": {\n        \"secret\": {\n          \"name\": \"test\"\n        }\n      },\n      \"storageClassName\": \"standard\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"RecordingRule\",\n    \"metadata\": {\n      \"name\": \"recordingrule-sample\"\n    },\n    \"spec\": {\n      \"groups\": [\n        {\n          \"interval\": \"10m\",\n          \"name\": \"recording-rules-group\",\n          \"rules\": [\n            {\n              \"expr\": \"sum(rate({container=\\\"myservice\\\"}[10m]))\\n\",\n              \"record\": \"myservice:requests:rate10m\"\n            },\n            {\n              \"expr\": \"sum(rate({container=\\\"otherservice\\\"}[1m]))\\n\",\n              \"record\": \"otherservice:requests:rate1m\"\n            }\n          ]\n        }\n      ],\n      \"tenantID\": \"test-tenant\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"RulerConfig\",\n    \"metadata\": {\n      \"name\": \"rulerconfig-sample\"\n    },\n    \"spec\": {\n      \"alertmanager\": {\n        \"discovery\": {\n          \"enableSRV\": true,\n          \"refreshInterval\": \"1m\"\n        },\n        \"enableV2\": true,\n        \"endpoints\": [\n          \"http://alertmanager-host1.mycompany.org\",\n          \"http://alertmanager-host2.mycompany.org\"\n        ],\n        \"externalLabels\": {\n          \"environment\": \"production\",\n          \"region\": \"us-east-2\"\n        },\n        \"externalUrl\": \"http://www.mycompany.org/alerts\",\n        \"notificationQueue\": {\n          \"capacity\": 1000,\n          \"forGracePeriod\": \"10m\",\n          \"forOutageTolerance\": \"1h\",\n          \"resendDelay\": \"1m\",\n          \"timeout\": \"30s\"\n        }\n      },\n      \"evaluationInterval\": \"1m\",\n      \"pollInterval\": \"1m\",\n      \"remoteWrite\": {\n        \"client\": {\n          \"authorization\": \"basic\",\n          \"authorizationSecretName\": \"my-secret-resource\",\n          \"name\": \"remote-write-log-metrics\",\n          \"proxyUrl\": \"http://proxy-host.mycompany.org\",\n          \"relabelConfigs\": [\n            {\n              \"action\": \"replace\",\n              \"regex\": \"ALERTS.*\",\n              \"replacement\": \"$1\",\n              \"separator\": \"\",\n              \"sourceLabels\": [\n                \"labelc\",\n                \"labeld\"\n              ],\n              \"targetLabel\": \"labelnew\"\n            }\n          ],\n          \"timeout\": \"30s\",\n          \"url\": \"http://remote-write-host.mycompany.org\"\n        },\n        \"enabled\": true,\n        \"refreshPeriod\": \"10s\"\n      }\n    }\n  }\n]"
+      alm-examples: "[\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"AlertingRule\",\n    \"metadata\": {\n      \"name\": \"alertingrule-sample\"\n    },\n    \"spec\": {\n      \"groups\": [\n        {\n          \"interval\": \"10m\",\n          \"name\": \"alerting-rules-group\",\n          \"rules\": [\n            {\n              \"alert\": \"HighPercentageError\",\n              \"annotations\": {\n                \"description\": \"Application {{ $labels.job }} in namespace example-namespace has an error rate above 5% for more than 10 minutes.\",\n                \"summary\": \"High error rate detected\"\n              },\n              \"expr\": \"sum(rate({app=\\\"foo\\\", env=\\\"production\\\", kubernetes_namespace_name=\\\"example-namespace\\\"} |= \\\"error\\\" [5m])) by (job)\\n  /\\nsum(rate({app=\\\"foo\\\", env=\\\"production\\\", kubernetes_namespace_name=\\\"example-namespace\\\"}[5m])) by (job)\\n  \\u003e 0.05\\n\",\n              \"for\": \"10m\",\n              \"labels\": {\n                \"severity\": \"warning\"\n              }\n            },\n            {\n              \"alert\": \"HttpCredentialsLeaked\",\n              \"annotations\": {\n                \"description\": \"Application {{ $labels.job }} in pod {{ $labels.pod }} is leaking HTTP basic auth credentials in logs.\",\n                \"summary\": \"HTTP credentials leaked in logs\"\n              },\n              \"expr\": \"sum by (cluster, job, pod) (count_over_time({kubernetes_namespace_name=\\\"example-namespace\\\"} |~ \\\"http(s?)://(\\\\\\\\w+):(\\\\\\\\w+)@\\\" [5m]) \\u003e 0)\",\n              \"for\": \"10m\",\n              \"labels\": {\n                \"severity\": \"critical\"\n              }\n            }\n          ]\n        }\n      ],\n      \"tenantID\": \"application\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"LokiStack\",\n    \"metadata\": {\n      \"name\": \"lokistack-sample\"\n    },\n    \"spec\": {\n      \"size\": \"1x.small\",\n      \"storage\": {\n        \"secret\": {\n          \"name\": \"test\"\n        }\n      },\n      \"storageClassName\": \"standard\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"RecordingRule\",\n    \"metadata\": {\n      \"name\": \"recordingrule-sample\"\n    },\n    \"spec\": {\n      \"groups\": [\n        {\n          \"interval\": \"10m\",\n          \"name\": \"recording-rules-group\",\n          \"rules\": [\n            {\n              \"expr\": \"sum(rate({container=\\\"myservice\\\"}[10m]))\\n\",\n              \"record\": \"myservice:requests:rate10m\"\n            },\n            {\n              \"expr\": \"sum(rate({container=\\\"otherservice\\\"}[1m]))\\n\",\n              \"record\": \"otherservice:requests:rate1m\"\n            }\n          ]\n        }\n      ],\n      \"tenantID\": \"test-tenant\"\n    }\n  },\n  {\n    \"apiVersion\": \"loki.grafana.com/v1\",\n    \"kind\": \"RulerConfig\",\n    \"metadata\": {\n      \"name\": \"rulerconfig-sample\"\n    },\n    \"spec\": {\n      \"alertmanager\": {\n        \"discovery\": {\n          \"enableSRV\": true,\n          \"refreshInterval\": \"1m\"\n        },\n        \"enableV2\": true,\n        \"endpoints\": [\n          \"http://alertmanager-host1.mycompany.org\",\n          \"http://alertmanager-host2.mycompany.org\"\n        ],\n        \"externalLabels\": {\n          \"environment\": \"production\",\n          \"region\": \"us-east-2\"\n        },\n        \"externalUrl\": \"http://www.mycompany.org/alerts\",\n        \"notificationQueue\": {\n          \"capacity\": 1000,\n          \"forGracePeriod\": \"10m\",\n          \"forOutageTolerance\": \"1h\",\n          \"resendDelay\": \"1m\",\n          \"timeout\": \"30s\"\n        }\n      },\n      \"evaluationInterval\": \"1m\",\n      \"pollInterval\": \"1m\",\n      \"remoteWrite\": {\n        \"client\": {\n          \"authorization\": \"basic\",\n          \"authorizationSecretName\": \"my-secret-resource\",\n          \"name\": \"remote-write-log-metrics\",\n          \"proxyUrl\": \"http://proxy-host.mycompany.org\",\n          \"relabelConfigs\": [\n            {\n              \"action\": \"replace\",\n              \"regex\": \"ALERTS.*\",\n              \"replacement\": \"$1\",\n              \"separator\": \"\",\n              \"sourceLabels\": [\n                \"labelc\",\n                \"labeld\"\n              ],\n              \"targetLabel\": \"labelnew\"\n            }\n          ],\n          \"timeout\": \"30s\",\n          \"url\": \"http://remote-write-host.mycompany.org\"\n        },\n        \"enabled\": true,\n        \"refreshPeriod\": \"10s\"\n      }\n    }\n  }\n]"
       capabilities: Full Lifecycle
       categories: OpenShift Optional, Logging & Tracing
       certified: 'false'
-      containerImage: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:715b6b1247676d4a58e8b26de899c078cf727f9ad46eac8b77eb1c644aa5a7bb
-      createdAt: '2026-04-24T15:00:14Z'
+      containerImage: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:445acf58cc06deaf00d8535833e13b3bb65bb1ca009c82fcdf74e82d651f3f77
+      createdAt: '2026-04-20T17:46:26Z'
       description: "The Loki Operator for OCP provides a means for configuring and managing a Loki stack for cluster logging.\n## Prerequisites and Requirements\n### Loki Operator Namespace\nThe Loki Operator must be deployed to the global operator group namespace `openshift-operators-redhat`.\n### Memory Considerations\nLoki is a memory intensive application.  The initial\nset of OCP nodes may not be large enough to support the Loki stack.  Additional OCP nodes must be added\nto the OCP cluster if you desire to run with the recommended (or better) memory.\n"
       features.operators.openshift.io/disconnected: 'true'
       features.operators.openshift.io/fips-compliant: 'true'
@@ -47132,7 +47132,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'true'
       features.operators.openshift.io/token-auth-azure: 'true'
       features.operators.openshift.io/token-auth-gcp: 'true'
-      olm.skipRange: '>=6.0.0-0 <6.2.14'
+      olm.skipRange: '>=6.2.0-0 <6.4.7'
       operatorframework.io/cluster-monitoring: 'true'
       operatorframework.io/suggested-namespace: openshift-operators-redhat
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
@@ -47526,6 +47526,14 @@ properties:
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:select:Managed
           - urn:alm:descriptor:com.tectonic.ui:select:Unmanaged
+        - description: "NetworkPolicies defines the NetworkPolicies configuration for LokiStack components.\nWhen enabled, the operator creates NetworkPolicies to control ingress/egress between\nLoki components and related services."
+          displayName: Network Policies
+          path: networkPolicies
+        - description: RuleSet determines which of the pre-defined sets of NetworkPolicy rules is used for this LokiStack.
+          displayName: Network Policy Rule-Set
+          path: networkPolicies.ruleSet
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:text
         - description: Proxy defines the spec for the object proxy to configure cluster proxy information.
           displayName: Cluster Proxy
           path: proxy
@@ -47735,6 +47743,11 @@ properties:
           path: template.ruler.replicas
           x-descriptors:
           - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: "When UseRequestsAsLimits is true, the operand Pods are configured to have resource limits equal to the resource\nrequests. This imposes a hard limit on resource usage of the LokiStack, but limits its ability to react to load\nspikes, whether on the ingestion or query side.\n\n\nNote: This is currently a tech-preview feature."
+          displayName: Use resource requests as limits
+          path: template.useRequestsAsLimits
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
         - description: Tenants defines the per-tenant authentication and authorization spec for the lokistack-gateway component.
           displayName: Tenants Configuration
           path: tenants
@@ -47821,7 +47834,7 @@ properties:
         - description: OTLP contains settings for ingesting data using OTLP in the OpenShift tenancy mode.
           displayName: OpenTelemetry Protocol
           path: tenants.openshift.otlp
-        - description: "DisableRecommendedAttributes can be used to reduce the number of attributes used as stream labels.\n\n\nEnabling this setting removes the \"recommended attributes\" from the generated Loki configuration. This will cause\nsome stream labels to disappear from the index, potentially making queries more expensive and less performant.\n\n\nNote that there is a set of \"required attributes\", needed for OpenShift Logging to work properly. Those will be\nadded to the configuration, even if this field is set to true.\n\n\nThis option is supposed to be combined with a custom attribute configuration listing the stream labels that\nshould continue to exist."
+        - description: "DisableRecommendedAttributes can be used to reduce the number of attributes used as stream labels.\n\n\nEnabling this setting removes the \"recommended attributes\" from the stream labels. This requires an update\nto queries that relied on these attributes as stream labels, as they will no longer be indexed as such.\n\n\nThe recommended attributes are:\n\n\n - k8s.container.name\n - k8s.cronjob.name\n - k8s.daemonset.name\n - k8s.deployment.name\n - k8s.job.name\n - k8s.node.name\n - k8s.pod.name\n - k8s.statefulset.name\n - kubernetes.container_name\n - kubernetes.host\n - kubernetes.pod_name\n - service.name\n\n\nThis option is supposed to be combined with a custom attribute configuration listing the stream labels that\nshould continue to exist.\n\n\nSee also: https://github.com/rhobs/observability-data-model/blob/main/cluster-logging.md#attributes"
           displayName: Disable recommended OTLP attributes
           path: tenants.openshift.otlp.disableRecommendedAttributes
         statusDescriptors:
@@ -48344,14 +48357,14 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:e6be91694c913320d56aa258bc701f7f5fc44f39ff8ec5d73492dcba2cb185b2
-  name: ''
-- image: registry.redhat.io/openshift-logging/logging-loki-rhel9@sha256:10c764a6c98da70d83af99f69ddb15eaf667c13d331c1e922993491bed5ff131
+- image: registry.redhat.io/openshift-logging/logging-loki-rhel9@sha256:90ab304b12402d6759330a338f7b26fcf9ac7ec4d601fcab2582dca99111544b
   name: logging-loki-rhel9
-- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:715b6b1247676d4a58e8b26de899c078cf727f9ad46eac8b77eb1c644aa5a7bb
+- image: registry.redhat.io/openshift-logging/loki-operator-bundle@sha256:140282663fbcf4c0bc14fd5928cb5b5bf395f152e0bccea6c024daec038cb1eb
+  name: ''
+- image: registry.redhat.io/openshift-logging/loki-rhel9-operator@sha256:445acf58cc06deaf00d8535833e13b3bb65bb1ca009c82fcdf74e82d651f3f77
   name: loki-rhel9-operator
-- image: registry.redhat.io/openshift-logging/lokistack-gateway-rhel9@sha256:8c2e81e0d1678b385f7067eb7dcddc45f3e374407534cd1c23c8bd770d5dc0dd
+- image: registry.redhat.io/openshift-logging/lokistack-gateway-rhel9@sha256:b5d9a8e0c15514d4148104a1e99956c0e445e750f3d0b76c66ab8b8797d24824
   name: lokistack-gateway-rhel9
-- image: registry.redhat.io/openshift-logging/opa-openshift-rhel9@sha256:23b4e4b63ac18854ce06a9184b3649fbef6b4fb42017d3c3422b06174e1c74ac
+- image: registry.redhat.io/openshift-logging/opa-openshift-rhel9@sha256:b2730664046caa2fe99359414cd4606f189fe8cd21289adecd7f62731671d6ef
   name: opa-openshift-rhel9
 schema: olm.bundle
