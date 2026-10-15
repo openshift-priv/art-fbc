@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=quay-3.17
-ENV __doozer_key=quay-operator
-ENV __doozer_version=3.17.6
-ENV __doozer_release=20261015013905.ocp4.22
-ENV __doozer_bundle_nvrs=quay-operator-metadata-container-3.17.6.202610150034.p2.g3c4984a.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/quay/quay-operator
-LABEL io.openshift.build.commit.id=3c4984a2c2a7688fbc4fce272ae322501386e61f
-LABEL com.redhat.art.name=quay-operator-fbc
-LABEL com.redhat.art.nvr=quay-operator-fbc-3.17.6-20261015013905.ocp4.22
-LABEL com.redhat.art.bundle.pullspec=quay.io/redhat-user-workloads/ocp-art-tenant/art-images@sha256:9b8f0dd7766aa1b94c4bf2a5abb56f3481cf5f2aee77bbe79b1cab753f2a6796
