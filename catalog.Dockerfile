@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=openshift-5.1
-ENV __doozer_key=sriov-network-operator
-ENV __doozer_version=5.1.0
-ENV __doozer_release=20261014005815
-ENV __doozer_bundle_nvrs=sriov-network-operator-metadata-container-v5.1.0.202610132111.p2.gabb119c.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/openshift/sriov-network-operator
-LABEL io.openshift.build.commit.id=abb119c9b63c76b312eac061eddd24007ca08c1d
-LABEL com.redhat.art.name=sriov-network-operator-fbc
-LABEL com.redhat.art.nvr=sriov-network-operator-fbc-5.1.0-20261014005815
-LABEL com.redhat.art.bundle.pullspec=quay.io/redhat-user-workloads/ocp-art-tenant/art-images@sha256:b01fde16fa2f39a311ecda1f6951c35d979995b39a3e642b50e997a31e721ca7
