@@ -102,9 +102,6 @@ entries:
 - name: container-security-operator.v3.10.26
   replaces: container-security-operator.v3.10.25
   skipRange: '>=3.7.0 <3.10.26'
-- name: container-security-operator.v3.10.27
-  replaces: container-security-operator.v3.10.26
-  skipRange: '>=3.7.0 <3.10.27'
 name: stable-3.10
 package: container-security-operator
 schema: olm.channel
@@ -224,9 +221,6 @@ entries:
 - name: container-security-operator.v3.12.22
   replaces: container-security-operator.v3.12.21
   skipRange: '>=3.9.0 <3.12.22'
-- name: container-security-operator.v3.12.23
-  replaces: container-security-operator.v3.12.22
-  skipRange: '>=3.9.0 <3.12.23'
 name: stable-3.12
 package: container-security-operator
 schema: olm.channel
@@ -332,8 +326,6 @@ entries:
 - name: container-security-operator.v3.15.8
   replaces: container-security-operator.v3.15.7
   skipRange: '>=3.12.0 <3.15.8'
-- name: container-security-operator.v3.15.9
-  replaces: container-security-operator.v3.15.8
 name: stable-3.15
 package: container-security-operator
 schema: olm.channel
@@ -381,6 +373,8 @@ entries:
 - name: container-security-operator.v3.17.5
   replaces: container-security-operator.v3.17.4
   skipRange: '>=3.14.0 <3.17.5'
+- name: container-security-operator.v3.17.6
+  replaces: container-security-operator.v3.17.5
 name: stable-3.17
 package: container-security-operator
 schema: olm.channel
@@ -388,6 +382,10 @@ schema: olm.channel
 entries:
 - name: container-security-operator.v3.18.0
   skipRange: '>=3.15.x <3.18.0'
+- name: container-security-operator.v3.18.1
+  replaces: container-security-operator.v3.18.0
+  skips:
+  - container-security-operator.v3.18.0
 name: stable-3.18
 package: container-security-operator
 schema: olm.channel
@@ -608,9 +606,6 @@ entries:
 - name: container-security-operator.v3.9.26
   replaces: container-security-operator.v3.9.25
   skipRange: '>=3.6.0 <3.9.26'
-- name: container-security-operator.v3.9.27
-  replaces: container-security-operator.v3.9.26
-  skipRange: '>=3.6.0 <3.9.27'
 name: stable-3.9
 package: container-security-operator
 schema: olm.channel
@@ -2149,83 +2144,6 @@ relatedImages:
 - image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:57eab4f5090e2733edee91465f04e43502976350a9ac0d0725daad1a19b9199b
   name: ''
 - image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:6c87b76b84d041197f45252cd4935fdb21cdbbcc8038c58131630b7bdb274479
-  name: ''
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:3ac12b6251e33a798bee205490dc71e07edd944e361f1c0179e9c6a9d97e4697
-name: container-security-operator.v3.10.27
-package: container-security-operator
-properties:
-- type: olm.gvk
-  value:
-    group: secscan.quay.redhat.com
-    kind: ImageManifestVuln
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: container-security-operator
-    version: 3.10.27
-- type: olm.csv.metadata
-  value:
-    annotations:
-      capabilities: Full Lifecycle
-      categories: Security
-      containerImage: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:7c9ec1f1b617695ce1899e09546d39f8e1dd1c372e5a8f81b13bd14b4564dd94
-      createdAt: '2020-04-13 00:00:00'
-      description: Identify image vulnerabilities in Kubernetes pods
-      features.operators.openshift.io/disconnected: 'false'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.7.x <3.10.27'
-      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Quay"]'
-      quay-version: 3.10.27
-      repository: https://github.com/quay/container-security-operator
-      tectonic-visibility: ocs
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: Represents a set of vulnerabilities in an image manifest.
-        displayName: Image Manifest Vulnerability
-        kind: ImageManifestVuln
-        name: imagemanifestvulns.secscan.quay.redhat.com
-        version: v1alpha1
-    description: The Container Security Operator (CSO) brings Quay and Clair metadata to Kubernetes / OpenShift. Starting with vulnerability information the scope will get expanded over time. If it runs on OpenShift, the corresponding vulnerability information is shown inside the OCP Console. The Container Security Operator enables cluster administrators to monitor known container image vulnerabilities in pods running on their Kubernetes cluster. The controller sets up a watch on pods in the specified namespace(s) and queries the container registry for vulnerability information. If the container registry supports image scanning, such as [Quay](https://github.com/quay/quay) with [Clair](https://github.com/quay/clair), then the Operator will expose any vulnerabilities found via the Kubernetes API in an `ImageManifestVuln` object.  This Operator requires no additional configuration after deployment, and will begin watching pods and populating `ImageManifestVulns` immediately once installed.
-    displayName: Red Hat Quay Container Security Operator
-    installModes:
-    - supported: true
-      type: OwnNamespace
-    - supported: true
-      type: SingleNamespace
-    - supported: true
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - open source
-    - containers
-    - security
-    labels:
-      operatorframework.io/arch.amd64: supported
-      operatorframework.io/arch.ppc64le: supported
-      operatorframework.io/arch.s390x: supported
-      operatorframework.io/os.linux: supported
-    links:
-    - name: Source Code
-      url: https://github.com/quay/container-security-operator
-    maintainers:
-    - email: support@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:3ac12b6251e33a798bee205490dc71e07edd944e361f1c0179e9c6a9d97e4697
-  name: ''
-- image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:7c9ec1f1b617695ce1899e09546d39f8e1dd1c372e5a8f81b13bd14b4564dd94
   name: ''
 schema: olm.bundle
 ---
@@ -5115,83 +5033,6 @@ relatedImages:
 - image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:bc431b10367e483c8f6b0a2e9732e9e95f7508afa0e37fe1efe02bb64a013fe6
   name: ''
 - image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:75d108d61e38276705da1ac0e149554556ab647f373b0478b1415a5c11635e94
-  name: ''
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:42df3d497bb31280c53b2ea87f44a9473a07d09050789071dbfbbc5f148547a6
-name: container-security-operator.v3.12.23
-package: container-security-operator
-properties:
-- type: olm.gvk
-  value:
-    group: secscan.quay.redhat.com
-    kind: ImageManifestVuln
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: container-security-operator
-    version: 3.12.23
-- type: olm.csv.metadata
-  value:
-    annotations:
-      capabilities: Full Lifecycle
-      categories: Security
-      containerImage: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:98361cb81fbd10143b2852ada44fce260e6c8e867329a1cde8ec08c5d118f63e
-      createdAt: '2020-04-13 00:00:00'
-      description: Identify image vulnerabilities in Kubernetes pods
-      features.operators.openshift.io/disconnected: 'false'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.9.x <3.12.23'
-      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Quay"]'
-      quay-version: 3.12.23
-      repository: https://github.com/quay/container-security-operator
-      tectonic-visibility: ocs
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: Represents a set of vulnerabilities in an image manifest.
-        displayName: Image Manifest Vulnerability
-        kind: ImageManifestVuln
-        name: imagemanifestvulns.secscan.quay.redhat.com
-        version: v1alpha1
-    description: The Container Security Operator (CSO) brings Quay and Clair metadata to Kubernetes / OpenShift. Starting with vulnerability information the scope will get expanded over time. If it runs on OpenShift, the corresponding vulnerability information is shown inside the OCP Console. The Container Security Operator enables cluster administrators to monitor known container image vulnerabilities in pods running on their Kubernetes cluster. The controller sets up a watch on pods in the specified namespace(s) and queries the container registry for vulnerability information. If the container registry supports image scanning, such as [Quay](https://github.com/quay/quay) with [Clair](https://github.com/quay/clair), then the Operator will expose any vulnerabilities found via the Kubernetes API in an `ImageManifestVuln` object.  This Operator requires no additional configuration after deployment, and will begin watching pods and populating `ImageManifestVulns` immediately once installed.
-    displayName: Red Hat Quay Container Security Operator
-    installModes:
-    - supported: true
-      type: OwnNamespace
-    - supported: true
-      type: SingleNamespace
-    - supported: true
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - open source
-    - containers
-    - security
-    labels:
-      operatorframework.io/arch.amd64: supported
-      operatorframework.io/arch.ppc64le: supported
-      operatorframework.io/arch.s390x: supported
-      operatorframework.io/os.linux: supported
-    links:
-    - name: Source Code
-      url: https://github.com/quay/container-security-operator
-    maintainers:
-    - email: support@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:42df3d497bb31280c53b2ea87f44a9473a07d09050789071dbfbbc5f148547a6
-  name: ''
-- image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:98361cb81fbd10143b2852ada44fce260e6c8e867329a1cde8ec08c5d118f63e
   name: ''
 schema: olm.bundle
 ---
@@ -9180,6 +9021,85 @@ relatedImages:
   name: ''
 schema: olm.bundle
 ---
+image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:ace99e59bbb066afa1c18eddabe30e836b5903728956dbaa4cd18b4988f38dc3
+name: container-security-operator.v3.17.6
+package: container-security-operator
+properties:
+- type: olm.gvk
+  value:
+    group: secscan.quay.redhat.com
+    kind: ImageManifestVuln
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: container-security-operator
+    version: 3.17.6
+- type: olm.csv.metadata
+  value:
+    annotations:
+      capabilities: Full Lifecycle
+      categories: Security
+      containerImage: registry.redhat.io/quay/quay-container-security-rhel9-operator@sha256:1ef87721ea1fdf1107585c431a2ea0ad73e273ec61367abcedc624003d45c0ee
+      createdAt: '2020-04-13 00:00:00'
+      description: Identify image vulnerabilities in Kubernetes pods
+      features.operators.openshift.io/disconnected: 'false'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      quay-version: v3.11.0
+      repository: https://github.com/quay/container-security-operator
+      tectonic-visibility: ocs
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents a set of vulnerabilities in an image manifest.
+        displayName: Image Manifest Vulnerability
+        kind: ImageManifestVuln
+        name: imagemanifestvulns.secscan.quay.redhat.com
+        version: v1alpha1
+    description: The Container Security Operator (CSO) brings Quay and Clair metadata to Kubernetes / OpenShift. Starting with vulnerability information the scope will get expanded over time. If it runs on OpenShift, the corresponding vulnerability information is shown inside the OCP Console. The Container Security Operator enables cluster administrators to monitor known container image vulnerabilities in pods running on their Kubernetes cluster. The controller sets up a watch on pods in the specified namespace(s) and queries the container registry for vulnerability information. If the container registry supports image scanning, such as [Quay](https://github.com/quay/quay) with [Clair](https://github.com/quay/clair), then the Operator will expose any vulnerabilities found via the Kubernetes API in an `ImageManifestVuln` object.  This Operator requires no additional configuration after deployment, and will begin watching pods and populating `ImageManifestVulns` immediately once installed.
+    displayName: Container Security
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: true
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - open source
+    - containers
+    - security
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Source Code
+      url: https://github.com/quay/container-security-operator
+    maintainers:
+    - email: quay-devel@redhat.com
+      name: Quay Engineering Team
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:ace99e59bbb066afa1c18eddabe30e836b5903728956dbaa4cd18b4988f38dc3
+  name: ''
+- image: registry.redhat.io/quay/quay-container-security-rhel9-operator@sha256:1ef87721ea1fdf1107585c431a2ea0ad73e273ec61367abcedc624003d45c0ee
+  name: quay-container-security-rhel9-operator
+- image: registry.redhat.io/quay/quay-container-security-rhel9-operator@sha256:1ef87721ea1fdf1107585c431a2ea0ad73e273ec61367abcedc624003d45c0ee
+  name: quay-container-security-rhel9-operator-1
+schema: olm.bundle
+---
 image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:6840404e712485db83fbfba9117eae50cf64c2a944eb58130c4455e138fa36ad
 name: container-security-operator.v3.18.0
 package: container-security-operator
@@ -9256,6 +9176,83 @@ relatedImages:
   name: ''
 - image: registry.redhat.io/quay/quay-container-security-operator-rhel9@sha256:8d2916e05effff5c189fca400b47183474eac895cd6fee289645b81b2ce06bc6
   name: ''
+schema: olm.bundle
+---
+image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:2afc2cbdc6567721d142ea894a4455c3daabe0032afb3f73af070e55b977c39c
+name: container-security-operator.v3.18.1
+package: container-security-operator
+properties:
+- type: olm.gvk
+  value:
+    group: secscan.quay.redhat.com
+    kind: ImageManifestVuln
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: container-security-operator
+    version: 3.18.1
+- type: olm.csv.metadata
+  value:
+    annotations:
+      capabilities: Full Lifecycle
+      categories: Security
+      containerImage: registry.redhat.io/quay/quay-container-security-rhel9-operator@sha256:211242328edf58ae768635be5ff7556debcb8523f17ed8520398cbfe69762d22
+      createdAt: '2020-04-13 00:00:00'
+      description: Identify image vulnerabilities in Kubernetes pods
+      features.operators.openshift.io/disconnected: 'false'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      quay-version: v3.11.0
+      repository: https://github.com/quay/container-security-operator
+      tectonic-visibility: ocs
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents a set of vulnerabilities in an image manifest.
+        displayName: Image Manifest Vulnerability
+        kind: ImageManifestVuln
+        name: imagemanifestvulns.secscan.quay.redhat.com
+        version: v1alpha1
+    description: The Container Security Operator (CSO) brings Quay and Clair metadata to Kubernetes / OpenShift. Starting with vulnerability information the scope will get expanded over time. If it runs on OpenShift, the corresponding vulnerability information is shown inside the OCP Console. The Container Security Operator enables cluster administrators to monitor known container image vulnerabilities in pods running on their Kubernetes cluster. The controller sets up a watch on pods in the specified namespace(s) and queries the container registry for vulnerability information. If the container registry supports image scanning, such as [Quay](https://github.com/quay/quay) with [Clair](https://github.com/quay/clair), then the Operator will expose any vulnerabilities found via the Kubernetes API in an `ImageManifestVuln` object.  This Operator requires no additional configuration after deployment, and will begin watching pods and populating `ImageManifestVulns` immediately once installed.
+    displayName: Container Security
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: true
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - open source
+    - containers
+    - security
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Source Code
+      url: https://github.com/quay/container-security-operator
+    maintainers:
+    - email: quay-devel@redhat.com
+      name: Quay Engineering Team
+    maturity: alpha
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:2afc2cbdc6567721d142ea894a4455c3daabe0032afb3f73af070e55b977c39c
+  name: ''
+- image: registry.redhat.io/quay/quay-container-security-rhel9-operator@sha256:211242328edf58ae768635be5ff7556debcb8523f17ed8520398cbfe69762d22
+  name: quay-container-security-rhel9-operator
 schema: olm.bundle
 ---
 image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:246712ce23cdd590ff83d84e9800b4ed761886ed5bab9f9cda4125a5d930e7e5
@@ -13506,78 +13503,6 @@ relatedImages:
   name: ''
 schema: olm.bundle
 ---
-image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:b587c26256a429d4660375a8ea87674656cb3619b2dae592f0ea94ea6ee43a30
-name: container-security-operator.v3.9.27
-package: container-security-operator
-properties:
-- type: olm.gvk
-  value:
-    group: secscan.quay.redhat.com
-    kind: ImageManifestVuln
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: container-security-operator
-    version: 3.9.27
-- type: olm.csv.metadata
-  value:
-    annotations:
-      capabilities: Full Lifecycle
-      categories: Security
-      containerImage: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:c6fcdd4ede6e86dc6413b12b293b17b6136fe061dd1dc0c96e609f9021d18298
-      createdAt: '2020-04-13 00:00:00'
-      description: Identify image vulnerabilities in Kubernetes pods
-      features.operators.openshift.io/disconnected: 'false'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=3.6.x <3.9.27'
-      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Quay"]'
-      quay-version: 3.9.27
-      repository: https://github.com/quay/container-security-operator
-      tectonic-visibility: ocs
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: Represents a set of vulnerabilities in an image manifest.
-        displayName: Image Manifest Vulnerability
-        kind: ImageManifestVuln
-        name: imagemanifestvulns.secscan.quay.redhat.com
-        version: v1alpha1
-    description: The Container Security Operator (CSO) brings Quay and Clair metadata to Kubernetes / OpenShift. Starting with vulnerability information the scope will get expanded over time. If it runs on OpenShift, the corresponding vulnerability information is shown inside the OCP Console. The Container Security Operator enables cluster administrators to monitor known container image vulnerabilities in pods running on their Kubernetes cluster. The controller sets up a watch on pods in the specified namespace(s) and queries the container registry for vulnerability information. If the container registry supports image scanning, such as [Quay](https://github.com/quay/quay) with [Clair](https://github.com/quay/clair), then the Operator will expose any vulnerabilities found via the Kubernetes API in an `ImageManifestVuln` object.  This Operator requires no additional configuration after deployment, and will begin watching pods and populating `ImageManifestVulns` immediately once installed.
-    displayName: Red Hat Quay Container Security Operator
-    installModes:
-    - supported: true
-      type: OwnNamespace
-    - supported: true
-      type: SingleNamespace
-    - supported: true
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - open source
-    - containers
-    - security
-    links:
-    - name: Source Code
-      url: https://github.com/quay/container-security-operator
-    maintainers:
-    - email: support@redhat.com
-      name: Red Hat
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:b587c26256a429d4660375a8ea87674656cb3619b2dae592f0ea94ea6ee43a30
-  name: ''
-- image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:c6fcdd4ede6e86dc6413b12b293b17b6136fe061dd1dc0c96e609f9021d18298
-  name: ''
-schema: olm.bundle
----
 image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:3626375a8a9eb871183b66074eecda3191b2bfbaf7cb8c92b5b7dfebc85b8898
 name: container-security-operator.v3.9.3
 package: container-security-operator
@@ -14066,82 +13991,4 @@ relatedImages:
   name: quay-container-security-operator-rhel8-50a3c38333a20aeab46f788ea5d4676cb97676c244d555d7b392033c67a03956-annotation
 - image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:50a3c38333a20aeab46f788ea5d4676cb97676c244d555d7b392033c67a03956
   name: container-security-operator
-schema: olm.bundle
----
-image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:c63f58ba285d7d44cc6385f1b89f7077e99c0fa57c09d5b0ab466e90b33a5679
-name: container-security-operator.v3.15.9
-package: container-security-operator
-properties:
-- type: olm.gvk
-  value:
-    group: secscan.quay.redhat.com
-    kind: ImageManifestVuln
-    version: v1alpha1
-- type: olm.package
-  value:
-    packageName: container-security-operator
-    version: 3.15.9
-- type: olm.csv.metadata
-  value:
-    annotations:
-      capabilities: Full Lifecycle
-      categories: Security
-      containerImage: quay.io/quay/container-security-operator@sha256:6eefeaee910251ba26c825746d11ae166a9781aeace5455b2766d26298911f13
-      createdAt: '2020-04-13 00:00:00'
-      description: Identify image vulnerabilities in Kubernetes pods
-      features.operators.openshift.io/disconnected: 'false'
-      features.operators.openshift.io/fips-compliant: 'true'
-      features.operators.openshift.io/proxy-aware: 'false'
-      features.operators.openshift.io/tls-profiles: 'false'
-      features.operators.openshift.io/token-auth-aws: 'false'
-      features.operators.openshift.io/token-auth-azure: 'false'
-      features.operators.openshift.io/token-auth-gcp: 'false'
-      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
-      quay-version: v3.11.0
-      repository: https://github.com/quay/container-security-operator
-      tectonic-visibility: ocs
-    apiServiceDefinitions: {}
-    crdDescriptions:
-      owned:
-      - description: Represents a set of vulnerabilities in an image manifest.
-        displayName: Image Manifest Vulnerability
-        kind: ImageManifestVuln
-        name: imagemanifestvulns.secscan.quay.redhat.com
-        version: v1alpha1
-    description: The Container Security Operator (CSO) brings Quay and Clair metadata to Kubernetes / OpenShift. Starting with vulnerability information the scope will get expanded over time. If it runs on OpenShift, the corresponding vulnerability information is shown inside the OCP Console. The Container Security Operator enables cluster administrators to monitor known container image vulnerabilities in pods running on their Kubernetes cluster. The controller sets up a watch on pods in the specified namespace(s) and queries the container registry for vulnerability information. If the container registry supports image scanning, such as [Quay](https://github.com/quay/quay) with [Clair](https://github.com/quay/clair), then the Operator will expose any vulnerabilities found via the Kubernetes API in an `ImageManifestVuln` object.  This Operator requires no additional configuration after deployment, and will begin watching pods and populating `ImageManifestVulns` immediately once installed.
-    displayName: Container Security
-    installModes:
-    - supported: true
-      type: OwnNamespace
-    - supported: true
-      type: SingleNamespace
-    - supported: true
-      type: MultiNamespace
-    - supported: true
-      type: AllNamespaces
-    keywords:
-    - open source
-    - containers
-    - security
-    labels:
-      operatorframework.io/arch.amd64: supported
-      operatorframework.io/arch.ppc64le: supported
-      operatorframework.io/arch.s390x: supported
-      operatorframework.io/os.linux: supported
-    links:
-    - name: Source Code
-      url: https://github.com/quay/container-security-operator
-    maintainers:
-    - email: quay-devel@redhat.com
-      name: Quay Engineering Team
-    maturity: alpha
-    provider:
-      name: Red Hat
-relatedImages:
-- image: quay.io/quay/container-security-operator@sha256:6eefeaee910251ba26c825746d11ae166a9781aeace5455b2766d26298911f13
-  name: container-security-operator
-- image: registry.redhat.io/quay/quay-container-security-operator-bundle@sha256:c63f58ba285d7d44cc6385f1b89f7077e99c0fa57c09d5b0ab466e90b33a5679
-  name: ''
-- image: registry.redhat.io/quay/quay-container-security-operator-rhel8@sha256:f87b3e4e55ca2b07fe627f564f89cde50094f006bdcab617a7dfb8941e4ccc04
-  name: quay-container-security-operator-rhel8
 schema: olm.bundle
