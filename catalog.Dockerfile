@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.22
+ENV __doozer_key=ose-support-log-gather-operator
+ENV __doozer_version=4.22.0
+ENV __doozer_release=20261020084703
+ENV __doozer_bundle_nvrs=ose-support-log-gather-operator-bundle-container-v4.22.0.202610200738.p2.g8c51b0d.assembly.test.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/must-gather-operator
+LABEL io.openshift.build.commit.id=8c51b0d9d46609d12b4fad33a4713100151bfc76
+LABEL com.redhat.art.name=ose-support-log-gather-operator-fbc
+LABEL com.redhat.art.nvr=ose-support-log-gather-operator-fbc-4.22.0-20261020084703
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/ose-support-log-gather-operator-bundle@sha256:1d6568b5b1f804376158f556c638eb84278f8ef15c6a10eb9a3709cc22567f47
