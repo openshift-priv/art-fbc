@@ -21,8 +21,8 @@ COPY --from=builder /tmp/cache /tmp/cache
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
 LABEL com.redhat.art.name=quay-operator-fbc-unified
-LABEL com.redhat.art.nvr=quay-operator-fbc-unified-4.13-20261022204410784267.ocp4.13
+LABEL com.redhat.art.nvr=quay-operator-fbc-unified-4.13-20261023014519384204.ocp4.13
 ENV __doozer_group=quay-3.10
 ENV __doozer_version=4.13
-ENV __doozer_release=20261022204410784267.ocp4.13
+ENV __doozer_release=20261023014519384204.ocp4.13
 ENV __doozer_bundle_nvrs=quay-operator-metadata-container-3.10.28.202610201620.p2.g99297d2.assembly.stream.el8-2,quay-operator-metadata-container-3.12.24.202610201635.p2.g916d524.assembly.stream.el8-2,quay-operator-metadata-container-3.14.10.202610201627.p2.g8fedcad.assembly.stream.el8-2,quay-operator-metadata-container-3.15.9.202610201734.p2.g01959bb.assembly.stream.el8-2,quay-operator-metadata-container-3.9.28.202610201928.p2.gfb8f4b1.assembly.stream.el8-2
