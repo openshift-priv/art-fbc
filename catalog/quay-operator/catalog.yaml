@@ -229,6 +229,9 @@ entries:
 - name: quay-operator.v3.12.22
   replaces: quay-operator.v3.12.21
   skipRange: '>=3.9.0 <3.12.22'
+- name: quay-operator.v3.12.24
+  replaces: quay-operator.v3.12.22
+  skipRange: '>=3.9.0 <3.12.24'
 name: stable-3.12
 package: quay-operator
 schema: olm.channel
@@ -30766,4 +30769,175 @@ relatedImages:
   name: component_postgres
 - image: registry.redhat.io/rhel8/redis-6@sha256:bb24ede28ec4cd2e416f6e299ee16531d8bc0a7496d3e44ac7619d9b09366737
   name: component_redis
+schema: olm.bundle
+---
+image: registry.redhat.io/quay/quay-operator-bundle@sha256:d90048fbcbb6a1f06cedb2e97ed2b52fa4d626cc2080bb08fb19f5aba79f4126
+name: quay-operator.v3.12.24
+package: quay-operator
+properties:
+- type: olm.gvk
+  value:
+    group: quay.redhat.com
+    kind: QuayRegistry
+    version: v1
+- type: olm.package
+  value:
+    packageName: quay-operator
+    version: 3.12.24
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"quay.redhat.com/v1\",\n    \"kind\": \"QuayRegistry\",\n    \"metadata\": {\n      \"name\": \"example-registry\"\n    },\n    \"spec\": {\n      \"components\": [\n        {\"kind\": \"clair\", \"managed\": true},\n        {\"kind\": \"postgres\", \"managed\": true},\n        {\"kind\": \"objectstorage\", \"managed\": true},\n        {\"kind\": \"redis\", \"managed\": true},\n        {\"kind\": \"horizontalpodautoscaler\", \"managed\": true},\n        {\"kind\": \"route\", \"managed\": true},\n        {\"kind\": \"mirror\", \"managed\": true},\n        {\"kind\": \"monitoring\", \"managed\": true},\n        {\"kind\": \"tls\", \"managed\": true},\n        {\"kind\": \"quay\", \"managed\": true},\n        {\"kind\": \"clairpostgres\", \"managed\": true}\n      ]\n    }\n  }\n]"
+      capabilities: Full Lifecycle
+      categories: Integration & Delivery
+      containerImage: registry.redhat.io/quay/quay-operator-rhel8@sha256:413bb71c7c93303ee351f16866a57b975b73361764a541805e2a314a1c4696cd
+      createdAt: 2021-04-23 10:04:00+00:00
+      description: Opinionated deployment of Quay on Kubernetes.
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=3.9.0 <3.12.24'
+      operators.openshift.io/infrastructure-features: '["disconnected", "proxy-aware", "fips"]'
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      quay-version: v3.12.24
+      repository: https://github.com/quay/quay-operator
+      support: Project Quay
+      tectonic-visibility: ocs
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: Represents a full Quay registry installation.
+        displayName: Quay Registry
+        kind: QuayRegistry
+        name: quayregistries.quay.redhat.com
+        resources:
+        - kind: Deployment
+          name: ''
+          version: ''
+        - kind: ReplicaSet
+          name: ''
+          version: ''
+        - kind: Pod
+          name: ''
+          version: ''
+        - kind: Secret
+          name: ''
+          version: ''
+        - kind: Job
+          name: ''
+          version: ''
+        - kind: ConfigMap
+          name: ''
+          version: ''
+        - kind: ServiceAccount
+          name: ''
+          version: ''
+        - kind: PersistentVolumeClaim
+          name: ''
+          version: ''
+        - kind: Ingress
+          name: ''
+          version: ''
+        - kind: Route
+          name: ''
+          version: ''
+        - kind: Role
+          name: ''
+          version: ''
+        - kind: Rolebinding
+          name: ''
+          version: ''
+        - kind: HorizontalPodAutoscaler
+          name: ''
+          version: ''
+        - kind: ServiceMonitor
+          name: ''
+          version: ''
+        - kind: PrometheusRule
+          name: ''
+          version: ''
+        specDescriptors:
+        - description: Name of the Quay config secret containing base configuration and custom SSL certificates.
+          displayName: Config Bundle Secret
+          path: configBundleSecret
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:Secret
+        - description: Declares how the Operator should handle supplemental Quay services.
+          displayName: Components
+          path: components
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: The unique name of this type of component.
+          displayName: Kind
+          path: components[0].kind
+        - description: Indicates whether lifecycle of this component is managed by the Operator or externally.
+          displayName: Managed
+          path: components[0].managed
+        statusDescriptors:
+        - description: The currently installed version of all Quay components.
+          displayName: Current Version
+          path: currentVersion
+        - description: Observed conditions of Quay components.
+          displayName: Conditions
+          path: conditions
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes.conditions
+        - description: Externally accessible URL for container pull/push and web frontend.
+          displayName: Registry Endpoint
+          path: registryEndpoint
+          x-descriptors:
+          - urn:alm:descriptor:org.w3:link
+        version: v1
+    description: Opinionated deployment of Quay on Kubernetes.
+    displayName: Quay
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: true
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - open source
+    - containers
+    - registry
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Source Code
+      url: https://github.com/quay/quay-operator
+    maintainers:
+    - email: quay-sig@googlegroups.com
+      name: Project Quay Contributors
+    maturity: stable
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/quay/quay-operator-bundle@sha256:d90048fbcbb6a1f06cedb2e97ed2b52fa4d626cc2080bb08fb19f5aba79f4126
+  name: ''
+- image: registry.redhat.io/quay/clair-rhel8@sha256:f4035e542d5a4224f49407a2c65110989aa2c7cc891b1b75368cac6c9d9b6701
+  name: clair-rhel8
+- image: registry.redhat.io/quay/quay-builder-qemu-rhcos-rhel8@sha256:11c42b1fb5853f5cd91477e49a1612c7bc81155201b4ee4bf60ad16a84a69ec7
+  name: quay-builder-qemu-rhcos-rhel8
+- image: registry.redhat.io/quay/quay-builder-rhel8@sha256:334efe31f02a8352ca3a9fd5fa9f6c20cd310954ca7824cad1355495cc5ee5c9
+  name: quay-builder-rhel8
+- image: registry.redhat.io/quay/quay-operator-rhel8@sha256:413bb71c7c93303ee351f16866a57b975b73361764a541805e2a314a1c4696cd
+  name: quay-operator-rhel8
+- image: registry.redhat.io/quay/quay-rhel8@sha256:cd99c3d25ff7c38e74200a26d99ab9d1ab5b962fbb6e16b11f31031189c19881
+  name: quay-rhel8
+- image: registry.redhat.io/rhel8/postgresql-10@sha256:eec360a32519d45c885efbfc6539dc5ff74447e1aceeb5115d1aa30b40c52aeb
+  name: postgresql-10
+- image: registry.redhat.io/rhel8/postgresql-13@sha256:186ef1730eac1b0b55dd22e238c2020633c390892534f1e795947433b01f0f42
+  name: postgresql-13
+- image: registry.redhat.io/rhel8/redis-6@sha256:47bb8e93e07f17e3ce904c1f121c29622aaf79eb33d5915fe51fd99833b7653d
+  name: redis-6
 schema: olm.bundle
