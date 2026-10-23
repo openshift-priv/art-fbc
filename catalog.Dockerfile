@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=zero-trust-1.0
+ENV __doozer_key=zero-trust-workload-identity-manager
+ENV __doozer_version=1.0.0
+ENV __doozer_release=20261023183934.ocp4.21
+ENV __doozer_bundle_nvrs=zero-trust-workload-identity-manager-metadata-container-1.0.3.202610231511.p2.g79259b4.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/zero-trust-workload-identity-manager
+LABEL io.openshift.build.commit.id=79259b4829674b46b2b5c57cf1dd34dfef97059b
+LABEL com.redhat.art.name=zero-trust-workload-identity-manager-fbc
+LABEL com.redhat.art.nvr=zero-trust-workload-identity-manager-fbc-1.0.0-20261023183934.ocp4.21
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-operator-bundle@sha256:aa280baceaab34274be4d2a0740ed27a86606aadd24b22ad0c5b031232fe2f08
