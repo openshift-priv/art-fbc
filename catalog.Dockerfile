@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.19
+ENV __doozer_key=openshift-kubernetes-nmstate-operator
+ENV __doozer_version=4.19.0
+ENV __doozer_release=20261027101811
+ENV __doozer_bundle_nvrs=ose-kubernetes-nmstate-operator-bundle-container-v4.19.0.202610270902.p2.g8ed4806.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/kubernetes-nmstate
+LABEL io.openshift.build.commit.id=8ed48069317a390c6e68ef05f88663251b68bfe0
+LABEL com.redhat.art.name=openshift-kubernetes-nmstate-operator-fbc
+LABEL com.redhat.art.nvr=openshift-kubernetes-nmstate-operator-fbc-4.19.0-20261027101811
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/kubernetes-nmstate-operator-bundle@sha256:93271236a88ae4e85db230851cc91a0d1809671190087f0d653e038ba790e082
