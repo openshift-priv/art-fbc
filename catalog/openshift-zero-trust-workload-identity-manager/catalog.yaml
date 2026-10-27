@@ -17,6 +17,7 @@ entries:
   skipRange: '>=1.0.1 <1.0.2'
 - name: zero-trust-workload-identity-manager.v1.0.3
   replaces: zero-trust-workload-identity-manager.v1.0.2
+  skipRange: '>=1.0.2 <1.0.3'
 name: stable-v1
 package: openshift-zero-trust-workload-identity-manager
 schema: olm.channel
@@ -802,7 +803,7 @@ relatedImages:
   name: ''
 schema: olm.bundle
 ---
-image: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-operator-bundle@sha256:aa280baceaab34274be4d2a0740ed27a86606aadd24b22ad0c5b031232fe2f08
+image: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-operator-bundle@sha256:6b5ef727858418ad237f79a4dce138f689c8c6022c8e8d15de745d5fe70dd7cc
 name: zero-trust-workload-identity-manager.v1.0.3
 package: openshift-zero-trust-workload-identity-manager
 properties:
@@ -856,8 +857,8 @@ properties:
       alm-examples: "[\n  {\n    \"apiVersion\": \"operator.openshift.io/v1alpha1\",\n    \"kind\": \"SpiffeCSIDriver\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"cluster\"\n    },\n    \"spec\": {\n      \"agentSocketPath\": \"/run/spire/agent-sockets\",\n      \"pluginName\": \"csi.spiffe.io\"\n    }\n  },\n  {\n    \"apiVersion\": \"operator.openshift.io/v1alpha1\",\n    \"kind\": \"SpireAgent\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"cluster\"\n    },\n    \"spec\": {\n      \"logFormat\": \"text\",\n      \"logLevel\": \"info\",\n      \"nodeAttestor\": {\n        \"k8sPSATEnabled\": \"true\"\n      },\n      \"workloadAttestors\": {\n        \"k8sEnabled\": \"true\",\n        \"workloadAttestorsVerification\": {\n          \"type\": \"auto\"\n        }\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"operator.openshift.io/v1alpha1\",\n    \"kind\": \"SpireOIDCDiscoveryProvider\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"cluster\"\n    },\n    \"spec\": {\n      \"csiDriverName\": \"csi.spiffe.io\",\n      \"jwtIssuer\": \"https://oidc-discovery.example.com\",\n      \"logFormat\": \"text\",\n      \"logLevel\": \"info\",\n      \"managedRoute\": \"true\",\n      \"replicaCount\": 1\n    }\n  },\n  {\n    \"apiVersion\": \"operator.openshift.io/v1alpha1\",\n    \"kind\": \"SpireServer\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"cluster\"\n    },\n    \"spec\": {\n      \"caKeyType\": \"rsa-2048\",\n      \"caSubject\": {\n        \"commonName\": \"SPIRE Server CA\",\n        \"country\": \"US\",\n        \"organization\": \"Example Corp\"\n      },\n      \"caValidity\": \"24h\",\n      \"datastore\": {\n        \"connectionString\": \"/run/spire/data/datastore.sqlite3\",\n        \"databaseType\": \"sqlite3\",\n        \"maxIdleConns\": 2,\n        \"maxOpenConns\": 100\n      },\n      \"defaultJWTValidity\": \"5m\",\n      \"defaultX509Validity\": \"1h\",\n      \"federation\": {\n        \"bundleEndpoint\": {\n          \"profile\": \"https_spiffe\",\n          \"refreshHint\": 300\n        },\n        \"federatesWith\": [\n          {\n            \"bundleEndpointProfile\": \"https_spiffe\",\n            \"bundleEndpointUrl\": \"https://federation.partner.example.com:8443\",\n            \"endpointSpiffeId\": \"spiffe://partner.example.com/federation/endpoint\",\n            \"trustDomain\": \"partner.example.com\"\n          }\n        ],\n        \"managedRoute\": \"true\"\n      },\n      \"jwtIssuer\": \"https://oidc-discovery.example.com\",\n      \"logFormat\": \"text\",\n      \"logLevel\": \"info\",\n      \"persistence\": {\n        \"accessMode\": \"ReadWriteOnce\",\n        \"size\": \"2Gi\",\n        \"storageClass\": \"\"\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"operator.openshift.io/v1alpha1\",\n    \"kind\": \"ZeroTrustWorkloadIdentityManager\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"cluster\"\n    },\n    \"spec\": {\n      \"bundleConfigMap\": \"spire-bundle\",\n      \"clusterName\": \"prod-cluster\",\n      \"trustDomain\": \"example.com\"\n    }\n  },\n  {\n    \"apiVersion\": \"spire.spiffe.io/v1alpha1\",\n    \"kind\": \"ClusterFederatedTrustDomain\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"example.com\"\n    },\n    \"spec\": {\n      \"bundleEndpointProfile\": \"https_web\",\n      \"trustDomain\": \"example.com\"\n    }\n  },\n  {\n    \"apiVersion\": \"spire.spiffe.io/v1alpha1\",\n    \"kind\": \"ClusterSPIFFEID\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"example-workload\",\n      \"namespace\": \"default\"\n    },\n    \"spec\": {\n      \"dnsNameTemplates\": [\n        \"*.example.com\"\n      ],\n      \"ttl\": 3600,\n      \"workloadSelector\": {\n        \"k8sServiceAccount\": {\n          \"name\": \"example-sa\",\n          \"namespace\": \"example-ns\"\n        }\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"spire.spiffe.io/v1alpha1\",\n    \"kind\": \"ClusterStaticEntry\",\n    \"metadata\": {\n      \"labels\": {\n        \"app.kubernetes.io/created-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/managed-by\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/name\": \"zero-trust-workload-identity-manager\",\n        \"app.kubernetes.io/part-of\": \"zero-trust-workload-identity-manager\"\n      },\n      \"name\": \"example-static-entry\",\n      \"namespace\": \"default\"\n    },\n    \"spec\": {\n      \"parentID\": \"spiffe://example.com/spire/server\",\n      \"selectors\": [\n        {\n          \"type\": \"unix\",\n          \"value\": \"uid:1000\"\n        }\n      ],\n      \"spiffeID\": \"spiffe://example.com/example-workload\",\n      \"ttl\": 3600\n    }\n  }\n]"
       capabilities: Basic Install
       console.openshift.io/disable-operand-delete: 'true'
-      containerImage: openshift.io/zero-trust-workload-identity-manager
-      createdAt: '2026-10-09T13:24:53Z'
+      containerImage: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-rhel9@sha256:502d09bef8975af61ce28ace45e9797bab539c6cafb29e701c8f9e2923c7add2
+      createdAt: 2026-10-19 05:19:05
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
       features.operators.openshift.io/csi: 'true'
@@ -935,22 +936,22 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-operator-bundle@sha256:aa280baceaab34274be4d2a0740ed27a86606aadd24b22ad0c5b031232fe2f08
-  name: ''
 - image: registry.redhat.io/openshift4/ose-csi-node-driver-registrar-rhel9@sha256:c47b8ff5caf919e0462981288e6d17da64aa2aaa546a818fd97d3ae656f9e173
-  name: ose-csi-node-driver-registrar-rhel9
+  name: node-driver-registrar
 - image: registry.redhat.io/ubi9@sha256:5858f9ace07316e3b12caab62f6c2481a5030bb6bafdca5a9ea324c321ef36df
-  name: ubi9
-- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-csi-driver-rhel9@sha256:54ba392c0925191407ae610cef5ab9e94f2a2e2fb68970802b025ec98c9eaee4
-  name: spiffe-csi-driver-rhel9
-- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-agent-rhel9@sha256:cb903f69abfc0ef66dea19ec6ce5bc98d5b46748cf5cdff60f6deba49807ed8a
-  name: spiffe-spire-agent-rhel9
-- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-controller-manager-rhel9@sha256:7f6841c4f66b586da012cc02bea0d1c3ca813e00332e41a90fa27505db4adccc
-  name: spiffe-spire-controller-manager-rhel9
-- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-oidc-discovery-provider-rhel9@sha256:f08f48c4aaec866277486bef7a2a65f621a2110976182bf4b8542b2e22977646
-  name: spiffe-spire-oidc-discovery-provider-rhel9
-- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-server-rhel9@sha256:9c8f94ea9fc5e1a981f2c7a7e57c2182a8f48d642e1f62fa44b0b788bfe489a0
-  name: spiffe-spire-server-rhel9
-- image: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-rhel9@sha256:9c2c86cc4b0ce15626d8549bfd7018759a290f6a9e17e3bd9972120f32c36a6f
-  name: zero-trust-workload-identity-manager-rhel9
+  name: spiffe-csi-init-container
+- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-csi-driver-rhel9@sha256:4c96d6e9d3d07576f9e0444fb23a0d314dddfb39f9ac1d18a44b160a644192e8
+  name: spiffe-csi-driver
+- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-agent-rhel9@sha256:4aa53ebeb71098e02db27e14bab72dfb46d03a504171d0b73db1620b950bcc3f
+  name: spire-agent
+- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-controller-manager-rhel9@sha256:5248fa1036ead8c6126919a6b3d399039f8f14e2a2377c9d4ffc0ea669b0fed7
+  name: spire-controller-manager
+- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-oidc-discovery-provider-rhel9@sha256:9f5181ee027c9acc3726d6b4aa91adedd7207a869185d72707d8eec1dfbe7d13
+  name: spire-oidc-discovery-provider
+- image: registry.redhat.io/zero-trust-workload-identity-manager/spiffe-spire-server-rhel9@sha256:3d5ee4d9bef2ffd0e5561430d73ec0f7dcf3699be879ea58e2e13c6762e66a3c
+  name: spire-server
+- image: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-operator-bundle@sha256:6b5ef727858418ad237f79a4dce138f689c8c6022c8e8d15de745d5fe70dd7cc
+  name: ''
+- image: registry.redhat.io/zero-trust-workload-identity-manager/zero-trust-workload-identity-manager-rhel9@sha256:502d09bef8975af61ce28ace45e9797bab539c6cafb29e701c8f9e2923c7add2
+  name: ''
 schema: olm.bundle
