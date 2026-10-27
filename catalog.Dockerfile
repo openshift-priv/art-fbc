@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=openshift-4.18
-ENV __doozer_key=ose-aws-efs-csi-driver-operator
-ENV __doozer_version=4.18.0
-ENV __doozer_release=20261025102539
-ENV __doozer_bundle_nvrs=ose-aws-efs-csi-driver-operator-bundle-container-v4.18.0.202610250921.p2.g14fb085.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/openshift/csi-operator
-LABEL io.openshift.build.commit.id=14fb0852e9a2c68aca971e9c106d38c3c2301c66
-LABEL com.redhat.art.name=ose-aws-efs-csi-driver-operator-fbc
-LABEL com.redhat.art.nvr=ose-aws-efs-csi-driver-operator-fbc-4.18.0-20261025102539
-LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/ose-aws-efs-csi-driver-operator-bundle@sha256:22d7f8354c13b86e7beaa5f57ba8121580450106a545140110e83e6649980862
