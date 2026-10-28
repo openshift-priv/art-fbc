@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=logging-6.2
+ENV __doozer_key=cluster-logging-operator
+ENV __doozer_version=6.2.14
+ENV __doozer_release=20261028154332.ocp4.16
+ENV __doozer_bundle_nvrs=ose-cluster-logging-operator-metadata-container-6.2.14.202610281415.p2.g5ea59d4.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/cluster-logging-operator
+LABEL io.openshift.build.commit.id=5ea59d489194f244ed5f079dd7695a3c328ffdf3
+LABEL com.redhat.art.name=cluster-logging-operator-fbc
+LABEL com.redhat.art.nvr=cluster-logging-operator-fbc-6.2.14-20261028154332.ocp4.16
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift-logging/cluster-logging-operator-bundle@sha256:7614b0e8758e686c0a39ffbc86f17b9f799c5c1b4d2ea0db7dcc46cc533da523
