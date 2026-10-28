@@ -21,8 +21,8 @@ COPY --from=builder /tmp/cache /tmp/cache
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
 LABEL com.redhat.art.name=quay-fbc-unified
-LABEL com.redhat.art.nvr=quay-fbc-unified-4.22-20261026192134994941.ocp4.22
+LABEL com.redhat.art.nvr=quay-fbc-unified-4.22-20261028130132988045.ocp4.22
 ENV __doozer_group=quay-3.16
 ENV __doozer_version=4.22
-ENV __doozer_release=20261026192134994941.ocp4.22
-ENV __doozer_bundle_nvrs=container-security-operator-metadata-container-3.16.7.202610241446.p2.gce626cf.assembly.stream.el9-1,container-security-operator-metadata-container-3.17.7.202610261448.p2.gf32848b.assembly.stream.el9-1,container-security-operator-metadata-container-3.18.3.202610241446.p2.g9c7385b.assembly.stream.el9-1,quay-bridge-operator-metadata-container-3.16.7.202610241446.p2.gfb76353.assembly.stream.el9-1,quay-bridge-operator-metadata-container-3.17.7.202610261448.p2.g7e838b2.assembly.stream.el9-1,quay-bridge-operator-metadata-container-3.18.3.202610241446.p2.gfe48dd9.assembly.stream.el9-1,quay-operator-metadata-container-3.16.7.202610241530.p2.gc8d7ec8.assembly.stream.el9-2,quay-operator-metadata-container-3.17.7.202610261448.p2.g015d069.assembly.stream.el9-2,quay-operator-metadata-container-3.18.3.202610241530.p2.ga410e2d.assembly.stream.el9-2
+ENV __doozer_release=20261028130132988045.ocp4.22
+ENV __doozer_bundle_nvrs=container-security-operator-metadata-container-3.16.7.202610271524.p2.gce626cf.assembly.stream.el9-1,container-security-operator-metadata-container-3.17.7.202610271744.p2.gf32848b.assembly.stream.el9-1,container-security-operator-metadata-container-3.18.3.202610271230.p2.g9c7385b.assembly.stream.el9-1,quay-bridge-operator-metadata-container-3.16.7.202610260619.p2.gfb76353.assembly.stream.el9-1,quay-bridge-operator-metadata-container-3.17.7.202610271744.p2.g7e838b2.assembly.stream.el9-1,quay-bridge-operator-metadata-container-3.18.3.202610271230.p2.gfe48dd9.assembly.stream.el9-1,quay-operator-metadata-container-3.16.7.202610262229.p2.gc8d7ec8.assembly.stream.el9-1,quay-operator-metadata-container-3.17.7.202610271744.p2.g32efb22.assembly.stream.el9-2,quay-operator-metadata-container-3.18.3.202610271447.p2.ga410e2d.assembly.stream.el9-1
