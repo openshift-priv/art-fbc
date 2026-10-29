@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.13
+ENV __doozer_key=local-storage-operator
+ENV __doozer_version=4.13.0
+ENV __doozer_release=20261029194141
+ENV __doozer_bundle_nvrs=local-storage-operator-metadata-container-v4.13.0.202610291213.p2.g4624a1e.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/local-storage-operator
+LABEL io.openshift.build.commit.id=4624a1e795f129fc50bfcddbf5cbe0bcecf1de1f
+LABEL com.redhat.art.name=local-storage-operator-fbc
+LABEL com.redhat.art.nvr=local-storage-operator-fbc-4.13.0-20261029194141
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/ose-local-storage-operator-bundle@sha256:1b4d630ba1a550f3ced0ca3e9e36fdbe0dac40d4d4d8bbf6a2c52274c988f8cd
