@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=acm-2.15
+ENV __doozer_key=multiclusterhub-operator
+ENV __doozer_version=2.15.9
+ENV __doozer_release=20261029114844.ocp4.19
+ENV __doozer_bundle_nvrs=acm-multiclusterhub-operator-metadata-container-2.15.9.202610291025.p2.g32b0bc5.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/stolostron/multiclusterhub-operator
+LABEL io.openshift.build.commit.id=32b0bc59d08f2829b439e5bea99d2226df470e40
+LABEL com.redhat.art.name=multiclusterhub-operator-fbc
+LABEL com.redhat.art.nvr=multiclusterhub-operator-fbc-2.15.9-20261029114844.ocp4.19
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/rhacm2/acm-operator-bundle@sha256:861e7c85f5665c998af8b0b0b4f8c53374f16f41673240dee43ab1e726840492
