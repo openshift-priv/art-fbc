@@ -99,6 +99,8 @@ entries:
   skipRange: '>=4.3.0-0 <4.17.0-202609211013'
 - name: sriov-network-operator.v4.17.0-202610011032
   skipRange: '>=4.3.0-0 <4.17.0-202610011032'
+- name: sriov-network-operator.v4.17.0-202610281828
+  skipRange: '>=4.3.0-0 <4.17.0-202610281828'
   skips:
   - sriov-network-operator.v4.17.0-202406031613
   - sriov-network-operator.v4.17.0-202406201342
@@ -221,6 +223,7 @@ entries:
   - sriov-network-operator.v4.17.0-202607171753
   - sriov-network-operator.v4.17.0-202608240201
   - sriov-network-operator.v4.17.0-202609211013
+  - sriov-network-operator.v4.17.0-202610011032
 name: stable
 package: sriov-network-operator
 schema: olm.channel
@@ -7674,5 +7677,167 @@ relatedImages:
 - image: registry.redhat.io/openshift4/ose-sriov-rdma-cni-rhel9@sha256:e48bd3252bbc1726b0b5b4af30b7c8a2b206f1a84855f9b087ef0be1f095acf5
   name: ose-sriov-rdma-cni-rhel9
 - image: registry.redhat.io/openshift4/sriov-cni-rhel9@sha256:1afc9734c867497f86b72d4fb6540017ec391738e18a49d9dff2654be8eb57f4
+  name: sriov-cni-rhel9
+schema: olm.bundle
+---
+image: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle@sha256:6628debd086282123ac5e450c7cd581fd605a8ac945360a4efea2656fb2cd65f
+name: sriov-network-operator.v4.17.0-202610281828
+package: sriov-network-operator
+properties:
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: OVSNetwork
+    version: v1
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: SriovIBNetwork
+    version: v1
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: SriovNetwork
+    version: v1
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: SriovNetworkNodePolicy
+    version: v1
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: SriovNetworkNodeState
+    version: v1
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: SriovNetworkPoolConfig
+    version: v1
+- type: olm.gvk
+  value:
+    group: sriovnetwork.openshift.io
+    kind: SriovOperatorConfig
+    version: v1
+- type: olm.package
+  value:
+    packageName: sriov-network-operator
+    version: 4.17.0-202610281828
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: "[\n  {\n    \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n    \"kind\": \"SriovIBNetwork\",\n    \"metadata\": {\n      \"name\": \"example-sriovibnetwork\",\n      \"namespace\": \"openshift-sriov-network-operator\"\n    },\n    \"spec\": {\n      \"ipam\": \"{\\n  \\\"type\\\": \\\"host-local\\\",\\n  \\\"subnet\\\": \\\"10.56.217.0/24\\\",\\n  \\\"rangeStart\\\": \\\"10.56.217.171\\\",\\n  \\\"rangeEnd\\\": \\\"10.56.217.181\\\",\\n  \\\"routes\\\": [{\\n    \\\"dst\\\": \\\"0.0.0.0/0\\\"\\n  }],\\n  \\\"gateway\\\": \\\"10.56.217.1\\\"\\n}\\n\",\n      \"linkState\": \"auto\",\n      \"networkNamespace\": \"default\",\n      \"resourceName\": \"mellanoxnics\"\n    }\n  },\n  {\n    \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n    \"kind\": \"SriovNetwork\",\n    \"metadata\": {\n      \"name\": \"example-sriovnetwork\",\n      \"namespace\": \"openshift-sriov-network-operator\"\n    },\n    \"spec\": {\n      \"ipam\": \"{\\n  \\\"type\\\": \\\"host-local\\\",\\n  \\\"subnet\\\": \\\"10.56.217.0/24\\\",\\n  \\\"rangeStart\\\": \\\"10.56.217.171\\\",\\n  \\\"rangeEnd\\\": \\\"10.56.217.181\\\",\\n  \\\"routes\\\": [{\\n    \\\"dst\\\": \\\"0.0.0.0/0\\\"\\n  }],\\n  \\\"gateway\\\": \\\"10.56.217.1\\\"\\n}\\n\",\n      \"networkNamespace\": \"default\",\n      \"resourceName\": \"intelnics\",\n      \"spoofChk\": \"on\",\n      \"trust\": \"off\",\n      \"vlan\": 0\n    }\n  },\n  {\n    \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n    \"kind\": \"SriovNetworkNodePolicy\",\n    \"metadata\": {\n      \"name\": \"policy-1\",\n      \"namespace\": \"openshift-sriov-network-operator\"\n    },\n    \"spec\": {\n      \"deviceType\": \"vfio-pci\",\n      \"mtu\": 9000,\n      \"nicSelector\": {\n        \"pfNames\": [\n          \"eth1\"\n        ],\n        \"rootDevices\": [\n          \"0000:01:00.1\"\n        ],\n        \"vendor\": \"8086\"\n      },\n      \"nodeSelector\": {\n        \"feature.node.kubernetes.io/network-sriov.capable\": \"true\"\n      },\n      \"numVfs\": 6,\n      \"priority\": 99,\n      \"resourceName\": \"intelnics\"\n    }\n  },\n  {\n    \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n    \"kind\": \"SriovNetworkNodeState\",\n    \"metadata\": {\n      \"name\": \"minikube\",\n      \"namespace\": \"openshift-sriov-network-operator\"\n    },\n    \"spec\": {\n      \"interfaces\": []\n    }\n  },\n  {\n    \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n    \"kind\": \"SriovNetworkPoolConfig\",\n    \"metadata\": {\n      \"name\": \"sriovnetworkpoolconfig-sample\"\n    },\n    \"spec\": {\n      \"foo\": \"bar\"\n    }\n  },\n  {\n    \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n    \"kind\": \"SriovOperatorConfig\",\n    \"metadata\": {\n      \"name\": \"default\",\n      \"namespace\": \"openshift-sriov-network-operator\"\n    },\n    \"spec\": {\n      \"enableInjector\": true,\n      \"enableOperatorWebhook\": true,\n      \"logLevel\": 2\n    }\n  }\n]"
+      capabilities: Basic Install
+      categories: Networking
+      certified: 'false'
+      containerImage: registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:92c314dba1ac2e7d9acbbcb204ac64899dfff69a8c19576610e30d2d417928b2
+      createdAt: '2026-05-05T06:48:34Z'
+      description: An operator for configuring SR-IOV components and initializing SRIOV network devices in Openshift cluster.
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'true'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'false'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.skipRange: '>=4.3.0-0 <4.17.0-202610281828'
+      operatorframework.io/cluster-monitoring: 'true'
+      operatorframework.io/initialization-resource: "{\n  \"apiVersion\": \"sriovnetwork.openshift.io/v1\",\n  \"kind\": \"SriovOperatorConfig\",\n  \"metadata\": {\n    \"name\": \"default\"\n  },\n  \"spec\": {\n    \"configurationMode\": \"daemon\",\n    \"disableDrain\": false,\n    \"enableInjector\": true,\n    \"enableOperatorWebhook\": true,\n    \"logLevel\": 2\n  }\n}"
+      operatorframework.io/suggested-namespace: openshift-sriov-network-operator
+      operatorframework.io/suggested-namespace-template: "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"Namespace\",\n  \"metadata\": {\n    \"name\": \"openshift-sriov-network-operator\",\n    \"annotations\": {\n      \"workload.openshift.io/allowed\": \"management\"\n    }\n  }\n}"
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.34.1
+      operators.operatorframework.io/internal-objects: '["sriovnetworknodestates.sriovnetwork.openshift.io"]'
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+      support: Red Hat
+      target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: OVSNetwork is the Schema for the ovsnetworks API
+        displayName: OVSNetwork
+        kind: OVSNetwork
+        name: ovsnetworks.sriovnetwork.openshift.io
+        version: v1
+      - description: SriovIBNetwork is the Schema for the sriovibnetworks API
+        displayName: Sriov IBNetwork
+        kind: SriovIBNetwork
+        name: sriovibnetworks.sriovnetwork.openshift.io
+        version: v1
+      - description: SriovNetworkNodePolicy is the Schema for the sriovnetworknodepolicies API
+        displayName: Sriov Network Node Policy
+        kind: SriovNetworkNodePolicy
+        name: sriovnetworknodepolicies.sriovnetwork.openshift.io
+        version: v1
+      - description: SriovNetworkNodeState is the Schema for the sriovnetworknodestates API
+        displayName: Sriov Network Node State
+        kind: SriovNetworkNodeState
+        name: sriovnetworknodestates.sriovnetwork.openshift.io
+        version: v1
+      - kind: SriovNetworkPoolConfig
+        name: sriovnetworkpoolconfigs.sriovnetwork.openshift.io
+        version: v1
+      - description: SriovNetwork is the Schema for the sriovnetworks API
+        displayName: Sriov Network
+        kind: SriovNetwork
+        name: sriovnetworks.sriovnetwork.openshift.io
+        version: v1
+      - description: SriovOperatorConfig is the Schema for the sriovoperatorconfigs API
+        displayName: Sriov Operator Config
+        kind: SriovOperatorConfig
+        name: sriovoperatorconfigs.sriovnetwork.openshift.io
+        version: v1
+    description: "# SR-IOV Network Operator for Openshift\n\n## Introduction\nThe sriov-network-operator is generally responsible for configuring the sriov components in a openshift cluster.\n\n### Supported Features\n* Initialize the SR-IOV NICs on nodes.\n* provision SR-IOV device plugin on selected node.\n* provision SR-IOV CNI plugin on selected nodes.\n* manage configuration of SR-IOV device plugin.\n* generate net-att-def CRs for SR-IOV CNI plugin.\n\nThis operator has to run in namespace 'openshift-sriov-network-operator'. An Operator Group is also required to install this operator:\n\n```\n$ oc create namespace openshift-sriov-network-operator\n\n$ oc create -f - <<EOF\napiVersion: operators.coreos.com/v1\nkind: OperatorGroup\nmetadata:\n  name: sriov-network-operators\n  namespace: openshift-sriov-network-operator\nspec:\n  targetNamespaces:\n  - openshift-sriov-network-operator\nEOF\n```\n"
+    displayName: SR-IOV Network Operator
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+    keywords:
+    - network
+    - sr-iov
+    - sriov
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.ppc64le: supported
+    links:
+    - name: Source Code
+      url: https://github.com/k8snetworkplumbingwg/sriov-network-operator
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/openshift4/ose-sriov-network-operator-bundle@sha256:6628debd086282123ac5e450c7cd581fd605a8ac945360a4efea2656fb2cd65f
+  name: ''
+- image: registry.redhat.io/openshift4/ose-kube-rbac-proxy-rhel9@sha256:2d5fdb42294b403e192f58e9227048af3c14444dbdcc35b1b2a5d6a17170a3c6
+  name: ose-kube-rbac-proxy-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-dp-admission-controller-rhel9@sha256:b21f02fd0cfadbbf13e55138d93796a7fdb96135b9160f299c06bbe1a40d1f34
+  name: ose-sriov-dp-admission-controller-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-infiniband-cni-rhel9@sha256:83a26e15a4cc288304576cc1f367b56355e28418c82e44863440fb7278e9d499
+  name: ose-sriov-infiniband-cni-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-network-config-daemon-rhel9@sha256:55a19517b4297620ca6e6ff14ca5c52d2e28ecc81445bff416255423ef1266ef
+  name: ose-sriov-network-config-daemon-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-network-device-plugin-rhel9@sha256:a4820da079184f5699860a77ba0d6675dc65c962c1c4c86a6e504795ceeffde4
+  name: ose-sriov-network-device-plugin-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-network-metrics-exporter-rhel9@sha256:daecb5d4d1d4d661efa2fcb423e61c532f0955b965425ee42828024b206cad5f
+  name: ose-sriov-network-metrics-exporter-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-network-rhel9-operator@sha256:92c314dba1ac2e7d9acbbcb204ac64899dfff69a8c19576610e30d2d417928b2
+  name: ose-sriov-network-rhel9-operator
+- image: registry.redhat.io/openshift4/ose-sriov-network-webhook-rhel9@sha256:174a4724254fa1e861556831684bfff3f9f56d90142e6f1872ef2c18660905bc
+  name: ose-sriov-network-webhook-rhel9
+- image: registry.redhat.io/openshift4/ose-sriov-rdma-cni-rhel9@sha256:2e8e055e7d6e87ec125e75494baa5bd005c1bd79551618db69ad469e3c860fa5
+  name: ose-sriov-rdma-cni-rhel9
+- image: registry.redhat.io/openshift4/sriov-cni-rhel9@sha256:0bfdb4cba2ac27580d3e8e9b1af15de99614bdaf74b539d4d12e538e073cf431
   name: sriov-cni-rhel9
 schema: olm.bundle
