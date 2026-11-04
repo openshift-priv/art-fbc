@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=kueue-1.4
+ENV __doozer_key=kueue-operator
+ENV __doozer_version=1.4.4
+ENV __doozer_release=20261104220556.ocp5.0
+ENV __doozer_bundle_nvrs=kueue-operator-metadata-container-1.4.4.202611041728.p2.g9ce568c.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/kueue-operator
+LABEL io.openshift.build.commit.id=9ce568cf9f9947a3e6b7b273a52949e431fa8112
+LABEL com.redhat.art.name=kueue-operator-fbc
+LABEL com.redhat.art.nvr=kueue-operator-fbc-1.4.4-20261104220556.ocp5.0
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/kueue/kueue-operator-bundle@sha256:329e9d6a070e1bc353d862460004e029c5c96f7d5415e86310904d24cc5fe106
