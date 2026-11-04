@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=mta-8.3
+ENV __doozer_key=mta-operator
+ENV __doozer_version=8.3.4
+ENV __doozer_release=20261104051542.ocp4.19
+ENV __doozer_bundle_nvrs=mta-operator-metadata-container-8.3.4.202611032215.p2.g393f61d.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/migtools/mta-operator
+LABEL io.openshift.build.commit.id=393f61d80484531e220652c626cbf06bec836bcd
+LABEL com.redhat.art.name=mta-operator-fbc
+LABEL com.redhat.art.nvr=mta-operator-fbc-8.3.4-20261104051542.ocp4.19
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/mta/mta-operator-bundle@sha256:bdd2d4b2fdeacdd935ed5126c9919f600edfa9ea4355e2a11a9688bfe0dd9665
