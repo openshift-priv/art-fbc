@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.14
+ENV __doozer_key=clusterresourceoverride-operator
+ENV __doozer_version=4.14.0
+ENV __doozer_release=20261105211056
+ENV __doozer_bundle_nvrs=ose-clusterresourceoverride-operator-metadata-container-v4.14.0.202611051340.p2.g022e925.assembly.stream.el8-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/cluster-resource-override-admission-operator
+LABEL io.openshift.build.commit.id=022e9252c7060033a47b28c3446295bd3fd4c005
+LABEL com.redhat.art.name=clusterresourceoverride-operator-fbc
+LABEL com.redhat.art.nvr=clusterresourceoverride-operator-fbc-4.14.0-20261105211056
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/ose-clusterresourceoverride-operator-bundle@sha256:44b480d446f71d07fb3c3bbaa73da54654e2f577942800f07da11e6b86a4b8e9
