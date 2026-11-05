@@ -1,14 +1,18 @@
 # Quay production catalog with manual fixes for OCP 4.21
 
-The source is `registry.redhat.io/redhat/redhat-operator-index:v4.21`, captured on November 5, 2026. This commit contains only production catalog objects; manual fixes are applied in the next commit.
+The source is `registry.redhat.io/redhat/redhat-operator-index:v4.21`, captured on November 5, 2026. The production baseline is preserved and the version-specific manual fixes are layered on top.
 
 | Package | Production bundles | Manual additions | Total bundles | Channels | Default channel |
 | --- | ---: | ---: | ---: | ---: | --- |
-| container-security-operator | 182 | 0 | 182 | 15 | stable-3.17 |
-| quay-bridge-operator | 182 | 0 | 182 | 15 | stable-3.17 |
-| quay-operator | 172 | 0 | 172 | 15 | stable-3.17 |
+| container-security-operator | 182 | 3 | 185 | 15 | stable-3.17 |
+| quay-bridge-operator | 182 | 3 | 185 | 15 | stable-3.17 |
+| quay-operator | 172 | 3 | 175 | 15 | stable-3.17 |
 
 `unified-provenance.json` records the immutable index and linux/amd64 extraction manifest, every production source file and its hash, output hashes, package counts, and any manual overlay. All JSON files under each of the three production package directories are included, preserving split catalogs as well as single-file catalogs. JSON is converted to YAML without changing values, list order, or schemas.
+
+The manual overlay is the catalog delta between `5a7271126f8e484858471973620c24205881c4ef` and `936bc08e6a373043d2b203f6e4df8b04e21dca97` on `art-quay-fbc-unified-4-21`. Source commits: `afbe62707907935b252e523c24e03383a7188dc5`, `936bc08e6a373043d2b203f6e4df8b04e21dca97`.
+
+Only restored bundles and their channel entries are included. Edits to channel entries for excluded automated source builds are omitted. Production bundle objects, existing channel entries, defaults, and deprecations are preserved. The original mirror set is restored for the manual bundle references.
 
 No automated source FBC builds are selected. `inputs` and `__doozer_bundle_nvrs` are empty; manual additions are recorded separately. The Dockerfile keeps the original 4.21 operator-registry base and execution group, with a new planned NVR.
 
