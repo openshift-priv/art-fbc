@@ -13,7 +13,7 @@ name: stable
 package: nfd
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:2ed05848a72c2f5f7daae350e51820b629478c0efcf0205e5cf72b5209be161d
+image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:f6e853b9941dca35ac572bdf9d2f4ce32c4bfb3b9182133360b442e23a323fd7
 name: nfd.v5.0.0
 package: nfd
 properties:
@@ -57,7 +57,7 @@ properties:
       alm-examples: "[\n  {\n    \"apiVersion\": \"nfd.k8s-sigs.io/v1alpha1\",\n    \"kind\": \"NodeFeatureRule\",\n    \"metadata\": {\n      \"name\": \"my-sample-rule-object\"\n    },\n    \"spec\": {\n      \"rules\": [\n        {\n          \"labels\": {\n            \"my-sample-feature\": \"true\"\n          },\n          \"matchFeatures\": [\n            {\n              \"feature\": \"kernel.loadedmodule\",\n              \"matchExpressions\": {\n                \"dummy\": {\n                  \"op\": \"Exists\"\n                }\n              }\n            },\n            {\n              \"feature\": \"kernel.config\",\n              \"matchExpressions\": {\n                \"X86\": {\n                  \"op\": \"In\",\n                  \"value\": [\n                    \"y\"\n                  ]\n                }\n              }\n            }\n          ],\n          \"name\": \"my sample rule\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"nfd.openshift.io/v1\",\n    \"kind\": \"NodeFeatureDiscovery\",\n    \"metadata\": {\n      \"name\": \"nfd-instance\",\n      \"namespace\": \"openshift-nfd\"\n    },\n    \"spec\": {\n      \"operand\": {\n        \"imagePullPolicy\": \"IfNotPresent\",\n        \"servicePort\": 12000\n      },\n      \"workerConfig\": {\n        \"configData\": \"core:\\n#  labelWhiteList:\\n#  noPublish: false\\n  sleepInterval: 60s\\n#  sources: [all]\\n#  klog:\\n#    addDirHeader: false\\n#    alsologtostderr: false\\n#    logBacktraceAt:\\n#    logtostderr: true\\n#    skipHeaders: false\\n#    stderrthreshold: 2\\n#    v: 0\\n#    vmodule:\\n##   NOTE: the following options are not dynamically run-time \\n##          configurable and require a nfd-worker restart to take effect\\n##          after being changed\\n#    logDir:\\n#    logFile:\\n#    logFileMaxSize: 1800\\n#    skipLogHeaders: false\\nsources:\\n#  cpu:\\n#    cpuid:\\n##     NOTE: whitelist has priority over blacklist\\n#      attributeBlacklist:\\n#        - \\\"BMI1\\\"\\n#        - \\\"BMI2\\\"\\n#        - \\\"CLMUL\\\"\\n#        - \\\"CMOV\\\"\\n#        - \\\"CX16\\\"\\n#        - \\\"ERMS\\\"\\n#        - \\\"F16C\\\"\\n#        - \\\"HTT\\\"\\n#        - \\\"LZCNT\\\"\\n#        - \\\"MMX\\\"\\n#        - \\\"MMXEXT\\\"\\n#        - \\\"NX\\\"\\n#        - \\\"POPCNT\\\"\\n#        - \\\"RDRAND\\\"\\n#        - \\\"RDSEED\\\"\\n#        - \\\"RDTSCP\\\"\\n#        - \\\"SGX\\\"\\n#        - \\\"SSE\\\"\\n#        - \\\"SSE2\\\"\\n#        - \\\"SSE3\\\"\\n#        - \\\"SSE4.1\\\"\\n#        - \\\"SSE4.2\\\"\\n#        - \\\"SSSE3\\\"\\n#      attributeWhitelist:\\n#  kernel:\\n#    kconfigFile: \\\"/path/to/kconfig\\\"\\n#    configOpts:\\n#      - \\\"NO_HZ\\\"\\n#      - \\\"X86\\\"\\n#      - \\\"DMI\\\"\\n  pci:\\n    deviceClassWhitelist:\\n      - \\\"0200\\\"\\n      - \\\"03\\\"\\n      - \\\"12\\\"\\n    deviceLabelFields:\\n#      - \\\"class\\\"\\n      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#      - \\\"subsystem_vendor\\\"\\n#      - \\\"subsystem_device\\\"\\n#  usb:\\n#    deviceClassWhitelist:\\n#      - \\\"0e\\\"\\n#      - \\\"ef\\\"\\n#      - \\\"fe\\\"\\n#      - \\\"ff\\\"\\n#    deviceLabelFields:\\n#      - \\\"class\\\"\\n#      - \\\"vendor\\\"\\n#      - \\\"device\\\"\\n#  custom:\\n#    - name: \\\"my.kernel.feature\\\"\\n#      matchOn:\\n#        - loadedKMod: [\\\"example_kmod1\\\", \\\"example_kmod2\\\"]\\n#    - name: \\\"my.pci.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            class: [\\\"0200\\\"]\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#        - pciId :\\n#            vendor: [\\\"8086\\\"]\\n#            device: [\\\"1000\\\", \\\"1100\\\"]\\n#    - name: \\\"my.usb.feature\\\"\\n#      matchOn:\\n#        - usbId:\\n#          class: [\\\"ff\\\"]\\n#          vendor: [\\\"03e7\\\"]\\n#          device: [\\\"2485\\\"]\\n#        - usbId:\\n#          class: [\\\"fe\\\"]\\n#          vendor: [\\\"1a6e\\\"]\\n#          device: [\\\"089a\\\"]\\n#    - name: \\\"my.combined.feature\\\"\\n#      matchOn:\\n#        - pciId:\\n#            vendor: [\\\"15b3\\\"]\\n#            device: [\\\"1014\\\", \\\"1017\\\"]\\n#          loadedKMod : [\\\"vendor_kmod1\\\", \\\"vendor_kmod2\\\"]\\n\"\n      }\n    }\n  }\n]"
       capabilities: Deep Insights
       categories: Integration & Delivery,OpenShift Optional
-      containerImage: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:09a2300d39242c712d3507aac0356a34ce3fe3a931128fed388f7bc473f0678b
+      containerImage: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:d58f11411dc8f03b1fb9b031e9808468cec666c62e1f43149b6199b121775d39
       createdAt: '2026-03-15T14:13:57Z'
       description: "The Node Feature Discovery Operator manages the detection of hardware features and configuration in a Kubernetes cluster by labeling the nodes with hardware-specific information. The Node Feature Discovery (NFD) will label the host with node-specific attributes, like PCI cards, kernel, or OS version, and many more.\n\nNFD consists  of the following software components:\n\nThe NFD Operator is based on the Operator Framework an open source toolkit to manage Kubernetes native applications, called Operators, in an effective, automated, and scalable way.\n\n##NFD-Master\nNFD-Master is the daemon responsible for communication towards the Kubernetes API. That is, it receives labeling requests from the worker and modifies node objects accordingly.\n\n##NFD-Worker\nNFD-Worker is a daemon responsible for feature detection. It then communicates the information to nfd-master which does the actual node labeling. One instance of nfd-worker is supposed to be running on each node of the cluster.\n\n##NFD-Topology-Updater\nNFD-Topology-Updater is a daemon responsible for examining allocated resources on a worker node to account for resources available to be allocated to new pod on a per-zone basis (where a zone can be a NUMA node). It then communicates the information to nfd-master which does the NodeResourceTopology CR creation corresponding to all the nodes in the cluster. One instance of nfd-topology-updater is supposed to be running on each node of the cluster."
       features.operators.openshift.io/cnf: 'false'
@@ -138,11 +138,11 @@ properties:
       name: Red Hat
       url: https://github.com/openshift/cluster-nfd-operator
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:2ed05848a72c2f5f7daae350e51820b629478c0efcf0205e5cf72b5209be161d
+- image: registry.redhat.io/openshift5/ose-cluster-nfd-operator-bundle@sha256:f6e853b9941dca35ac572bdf9d2f4ce32c4bfb3b9182133360b442e23a323fd7
   name: ''
-- image: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:09a2300d39242c712d3507aac0356a34ce3fe3a931128fed388f7bc473f0678b
+- image: registry.redhat.io/openshift5/ose-cluster-nfd-rhel9-operator@sha256:d58f11411dc8f03b1fb9b031e9808468cec666c62e1f43149b6199b121775d39
   name: ose-cluster-nfd-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-node-feature-discovery-rhel9@sha256:4a8f221c17a62a4d1c6682dfdbcf660ba276cdfa0cafd833b282d42ba26cccc0
+- image: registry.redhat.io/openshift5/ose-node-feature-discovery-rhel9@sha256:28c8bf320411179422a021d0fc21c2baa6367a809b26b461fc347e9aa8d88ed5
   name: ose-node-feature-discovery-rhel9
 schema: olm.bundle
 ---
@@ -356,14 +356,14 @@ name: ingress-node-firewall
 schema: olm.package
 ---
 entries:
-- name: ingress-node-firewall.v5.0.0
-  skipRange: '>=4.11.0 <5.0.0'
+- name: ingress-node-firewall.v5.1.0-202611021231
+  skipRange: '>=4.11.0 <5.1.0'
 name: stable
 package: ingress-node-firewall
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ingress-node-firewall-operator-bundle@sha256:1b7e5ed7bfa106a0fd89821b2d57c649f7a8b17e4539de357a198b451c5319ae
-name: ingress-node-firewall.v5.0.0
+image: registry.redhat.io/openshift5/ingress-node-firewall-operator-bundle@sha256:63c262b6cfc718fa1ba847cb8a3ec800c9beca580b24d3dea1cc9d00d00feea5
+name: ingress-node-firewall.v5.1.0-202611021231
 package: ingress-node-firewall
 properties:
 - type: olm.gvk
@@ -384,7 +384,7 @@ properties:
 - type: olm.package
   value:
     packageName: ingress-node-firewall
-    version: 5.0.0
+    version: 5.1.0-202611021231
 - type: olm.csv.metadata
   value:
     annotations:
@@ -392,7 +392,7 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/ingress-node-firewall-rhel9-operator@sha256:c7f6e207d7b9108f7eed4163489afd87cb3e0b7d135692e91fde815d27ce02e9
+      containerImage: registry.redhat.io/openshift5/ingress-node-firewall-rhel9-operator@sha256:8a25e98e155223f7e553a4af91480fda8e21098ab993655ebba884d142b6a916
       createdAt: '2026-07-16T09:39:18Z'
       features.operators.openshift.io/disconnected: 'true'
       features.operators.openshift.io/fips-compliant: 'true'
@@ -401,7 +401,7 @@ properties:
       features.operators.openshift.io/token-auth-aws: 'false'
       features.operators.openshift.io/token-auth-azure: 'false'
       features.operators.openshift.io/token-auth-gcp: 'false'
-      olm.skipRange: '>=4.11.0 <5.0.0'
+      olm.skipRange: '>=4.11.0 <5.1.0'
       operatorframework.io/suggested-namespace: openshift-ingress-node-firewall
       operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
       operators.operatorframework.io/builder: operator-sdk-v1.34.1
@@ -448,11 +448,11 @@ properties:
     provider:
       name: Red Hat, Inc
 relatedImages:
-- image: registry.redhat.io/openshift5/ingress-node-firewall-operator-bundle@sha256:1b7e5ed7bfa106a0fd89821b2d57c649f7a8b17e4539de357a198b451c5319ae
+- image: registry.redhat.io/openshift5/ingress-node-firewall-operator-bundle@sha256:63c262b6cfc718fa1ba847cb8a3ec800c9beca580b24d3dea1cc9d00d00feea5
   name: ''
-- image: registry.redhat.io/openshift5/ingress-node-firewall-rhel9-operator@sha256:c7f6e207d7b9108f7eed4163489afd87cb3e0b7d135692e91fde815d27ce02e9
+- image: registry.redhat.io/openshift5/ingress-node-firewall-rhel9-operator@sha256:8a25e98e155223f7e553a4af91480fda8e21098ab993655ebba884d142b6a916
   name: ingress-node-firewall-rhel9-operator
-- image: registry.redhat.io/openshift5/ingress-node-firewall-rhel9@sha256:5bd8ff337f333472d2c73c286070857e602ff012de0759edecefcc7d11417295
+- image: registry.redhat.io/openshift5/ingress-node-firewall-rhel9@sha256:1c8deef57d862b40553d2b867c981d997a83401f14b8f740052b2604fbe83b5a
   name: ingress-node-firewall-rhel9
 schema: olm.bundle
 ---
@@ -1973,7 +1973,7 @@ name: stable
 package: metallb-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:9894018d3c6559fa8c104bc40ac2ea3864eb7982cec3ed06d36ffe50da471784
+image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:5022dda36b9ebe86fa00ed9b19110f5ac247506182d81c07b72b7c88a2c7d97e
 name: metallb-operator.v5.0.0
 package: metallb-operator
 properties:
@@ -2063,7 +2063,7 @@ properties:
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:8b2ee80ec5a039f7f8fa9a47be86e37535fb4d534922b4ed04cedd7e9fd6cf35
+      containerImage: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:6677dd18e20b10daede80451f73da3f7dd6b0a65d446b89ea6ea841472500900
       createdAt: '2023-06-06T15:25:00Z'
       description: An operator for deploying MetalLB on a kubernetes cluster.
       features.operators.openshift.io/disconnected: 'true'
@@ -2173,13 +2173,13 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/frr-rhel9@sha256:a7bdf94fc228c127006547564519ecffdcf6953e03ec66c54d2d1eff966d5209
+- image: registry.redhat.io/openshift5/frr-rhel9@sha256:8d7446fc5002a8a41c3ee3903fc32f98d152ccb0c30a787ec2567f36254bc44d
   name: frr-rhel9
-- image: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:8b2ee80ec5a039f7f8fa9a47be86e37535fb4d534922b4ed04cedd7e9fd6cf35
+- image: registry.redhat.io/openshift5/metallb-rhel9-operator@sha256:6677dd18e20b10daede80451f73da3f7dd6b0a65d446b89ea6ea841472500900
   name: metallb-rhel9-operator
-- image: registry.redhat.io/openshift5/metallb-rhel9@sha256:fc78755598c750a70e6b94a9336e451a0f4ed59ee04ff4e9de95f2e6e4ee0bdc
+- image: registry.redhat.io/openshift5/metallb-rhel9@sha256:3eb756b36340497085a04ecd5cde04ee84d59f3b945a6c9f9b713cd740cde86c
   name: metallb-rhel9
-- image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:9894018d3c6559fa8c104bc40ac2ea3864eb7982cec3ed06d36ffe50da471784
+- image: registry.redhat.io/openshift5/ose-metallb-operator-bundle@sha256:5022dda36b9ebe86fa00ed9b19110f5ac247506182d81c07b72b7c88a2c7d97e
   name: ''
 schema: olm.bundle
 ---
@@ -2830,7 +2830,7 @@ name: stable
 package: support-log-gather-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:5b6082fe9a472231df2dcb9c432566be31b013facf2eb089451eb4ab9ba0e705
+image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:ed88efcfe58f29e8abc168540ec4557811a9f5394c4d508704533248fffac816
 name: support-log-gather-operator.v5.0.0
 package: support-log-gather-operator
 properties:
@@ -2855,7 +2855,7 @@ properties:
     annotations:
       capabilities: Full Lifecycle
       categories: Monitoring, Application Runtime
-      containerImage: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:a69e1e97920a11fd3e39b9dcffb0dca215b579933cb62e23d01561ecb725d19f
+      containerImage: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:cda62555039d20e0c31fe736193205a0b28e4ab3ea626b85436aeca947f40cb6
       createdAt: '2020-07-31T16:12:36Z'
       description: Operator to enable CEE to collect must-gathers from OSDv4 clusters
       features.operators.openshift.io/cnf: 'false'
@@ -2925,13 +2925,29 @@ properties:
     provider:
       name: Red Hat, Inc
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-must-gather-rhel9@sha256:47e2621a4cb1c9c730bce9e1c76ecee7cb6d67f43bcb089e034483ff0cc55b50
+- image: registry.redhat.io/openshift5/ose-must-gather-rhel9@sha256:2e60f07addd9ce1726b1d438d73a6cc476be310df5a86ce1ee52d7bb5dedc27d
   name: ose-must-gather-rhel9
-- image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:5b6082fe9a472231df2dcb9c432566be31b013facf2eb089451eb4ab9ba0e705
+- image: registry.redhat.io/openshift5/ose-support-log-gather-operator-bundle@sha256:ed88efcfe58f29e8abc168540ec4557811a9f5394c4d508704533248fffac816
   name: ''
-- image: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:a69e1e97920a11fd3e39b9dcffb0dca215b579933cb62e23d01561ecb725d19f
+- image: registry.redhat.io/openshift5/ose-support-log-gather-rhel9-operator@sha256:cda62555039d20e0c31fe736193205a0b28e4ab3ea626b85436aeca947f40cb6
   name: ose-support-log-gather-rhel9-operator
 schema: olm.bundle
+---
+package: support-log-gather-operator
+schema: io.openshift.operators.lifecycles.v1alpha1
+versions:
+- name: '5.0'
+  phases:
+  - endDate: '2027-11-30'
+    name: Full support
+    startDate: '2026-11-03'
+  - endDate: '2028-11-30'
+    name: Maintenance support
+    startDate: '2027-12-01'
+  platformCompatibility:
+  - name: openshift
+    versions:
+    - '5.0'
 ---
 defaultChannel: stable
 icon:
@@ -3032,7 +3048,7 @@ name: stable
 package: ptp-operator
 schema: olm.channel
 ---
-image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:b7e27cb2e9619e37219afd4ec54f6a2802bbc42a6c6be6883c94c177a4ab6537
+image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:9c0b8e9493650a8df4e6a736522f897c74068d3957b133b545654759196f0d6f
 name: ptp-operator.v5.0.0
 package: ptp-operator
 properties:
@@ -3063,12 +3079,12 @@ properties:
 - type: olm.csv.metadata
   value:
     annotations:
-      alm-examples: "[\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"NodePtpDevice\",\n    \"metadata\": {\n      \"name\": \"node.example.com\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"PtpConfig\",\n    \"metadata\": {\n      \"name\": \"example-ptpconfig\"\n    },\n    \"spec\": {\n      \"profile\": [\n        {\n          \"interface\": \"ens787f1\",\n          \"name\": \"profile1\",\n          \"phc2sysOpts\": \"-a -r\",\n          \"ptp4lOpts\": \"-s -2\",\n          \"ptpClockThreshold\": {}\n        }\n      ],\n      \"recommend\": [\n        {\n          \"match\": [\n            {\n              \"nodeLabel\": \"node-role.kubernetes.io/worker=\",\n              \"nodeName\": \"node.example.com\"\n            }\n          ],\n          \"priority\": 4,\n          \"profile\": \"profile1\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"PtpOperatorConfig\",\n    \"metadata\": {\n      \"name\": \"default\"\n    },\n    \"spec\": {\n      \"daemonNodeSelector\": {\n        \"feature.node.kubernetes.io/ptp-capable\": \"yes\",\n        \"node-role.kubernetes.io/worker\": \"\"\n      },\n      \"ptpEventConfig\": {}\n    }\n  }\n]"
+      alm-examples: "[\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"NodePtpDevice\",\n    \"metadata\": {\n      \"name\": \"node.example.com\"\n    },\n    \"spec\": {}\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"PtpConfig\",\n    \"metadata\": {\n      \"name\": \"example-ptpconfig\"\n    },\n    \"spec\": {\n      \"profile\": [\n        {\n          \"interface\": \"ens787f1\",\n          \"name\": \"profile1\",\n          \"phc2sysOpts\": \"-a -r\",\n          \"ptp4lOpts\": \"-s -2\",\n          \"ptpClockThreshold\": {}\n        }\n      ],\n      \"recommend\": [\n        {\n          \"match\": [\n            {\n              \"nodeLabel\": \"node-role.kubernetes.io/worker=\",\n              \"nodeName\": \"node.example.com\"\n            }\n          ],\n          \"priority\": 4,\n          \"profile\": \"profile1\"\n        }\n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v1\",\n    \"kind\": \"PtpOperatorConfig\",\n    \"metadata\": {\n      \"name\": \"default\"\n    },\n    \"spec\": {\n      \"daemonNodeSelector\": {\n        \"feature.node.kubernetes.io/ptp-capable\": \"yes\",\n        \"node-role.kubernetes.io/worker\": \"\"\n      },\n      \"ptpEventConfig\": {}\n    }\n  },\n  {\n    \"apiVersion\": \"ptp.openshift.io/v2alpha1\",\n    \"kind\": \"HardwareConfig\",\n    \"metadata\": {\n      \"name\": \"example-hardwareconfig\"\n    },\n    \"spec\": {\n      \"profile\": {\n        \"clockChain\": {\n          \"structure\": [\n            {\n              \"dpll\": {\n                \"networkInterface\": \"ens787f1\"\n              },\n              \"name\": \"nic1\"\n            }\n          ]\n        },\n        \"clockType\": \"T-GM\",\n        \"name\": \"example-profile\"\n      },\n      \"relatedPtpProfileName\": \"profile1\"\n    }\n  }\n]"
       capabilities: Basic Install
       categories: Networking
       certified: 'false'
-      containerImage: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:9172a27d217da6d265f51600c797b6c7c7694c334777e2bb0c2d57587798f7fe
-      createdAt: '2026-07-02T18:03:02Z'
+      containerImage: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:693a38543b38604fe291a930ec0fe64f27862942cb5e1ec614cf12ae8b127143
+      createdAt: '2026-09-15T08:10:09Z'
       description: This software enables configuration of Precision Time Protocol(PTP) on Kubernetes. It detects hardware capable PTP devices on each node, and configures linuxptp processes such as ptp4l, phc2sys and timemaster.
       features.operators.openshift.io/cnf: 'false'
       features.operators.openshift.io/cni: 'false'
@@ -3083,17 +3099,19 @@ properties:
       olm.skipRange: '>=4.3.0-0 <5.0.0'
       operatorframework.io/suggested-namespace: openshift-ptp
       operators.openshift.io/infrastructure-features: '["disconnected"]'
-      operators.openshift.io/must-gather-image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:f85229b4f2b3d93926411c7238fd9485080eb8aa8a61886b19c7a3422419ad1d
+      operators.openshift.io/must-gather-image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:3c500d10f96f30b0b79180c700bd23c5ea6f87b3fdbbe9b104c08660c09d2dec
       operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine", "OpenShift Container Platform", "OpenShift Platform Plus"]'
-      operators.operatorframework.io/builder: operator-sdk-v1.36.1-ocp
-      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      operators.operatorframework.io/builder: operator-sdk-v1.38.0-ocp
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
       provider: Red Hat
       repository: https://github.com/k8snetworkplumbingwg/ptp-operator
       support: Red Hat
     apiServiceDefinitions: {}
     crdDescriptions:
       owned:
-      - kind: HardwareConfig
+      - description: HardwareConfig is the Schema for the hardwareconfigs API
+        displayName: Hardware Config
+        kind: HardwareConfig
         name: hardwareconfigs.ptp.openshift.io
         version: v2alpha1
       - description: NodePtpDevice is the Schema for the nodeptpdevices API
@@ -3153,17 +3171,17 @@ properties:
     provider:
       name: Red Hat
 relatedImages:
-- image: registry.redhat.io/openshift5/ose-cloud-event-proxy-rhel9@sha256:04188cf4fbf325114527eeab3046ab7c2650dea6b6bbf4620b3f64fec426b911
+- image: registry.redhat.io/openshift5/ose-cloud-event-proxy-rhel9@sha256:5172d3db1d5dc147c044ac948f4b63054b18c1a43df2622fe846bb1ed9433820
   name: ose-cloud-event-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:f8de8927d2c94c1f0464512c4b0cdafc5c9f7ca2e81b0a6327125f865cb66327
+- image: registry.redhat.io/openshift5/ose-kube-rbac-proxy-rhel9@sha256:c745f03984dd319b4ac26a5da11f3219b43489fea4882c673fd3bb6489d8429b
   name: ose-kube-rbac-proxy-rhel9
-- image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:b7e27cb2e9619e37219afd4ec54f6a2802bbc42a6c6be6883c94c177a4ab6537
+- image: registry.redhat.io/openshift5/ose-ptp-operator-bundle@sha256:9c0b8e9493650a8df4e6a736522f897c74068d3957b133b545654759196f0d6f
   name: ''
-- image: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:9172a27d217da6d265f51600c797b6c7c7694c334777e2bb0c2d57587798f7fe
+- image: registry.redhat.io/openshift5/ose-ptp-rhel9-operator@sha256:693a38543b38604fe291a930ec0fe64f27862942cb5e1ec614cf12ae8b127143
   name: ose-ptp-rhel9-operator
-- image: registry.redhat.io/openshift5/ose-ptp-rhel9@sha256:23c03c2a2aad7909121bdfdf5feb9124c6c6799f17ae65afc0194af18f12b465
+- image: registry.redhat.io/openshift5/ose-ptp-rhel9@sha256:cd2cc8892de48854b3a5e1f13718c1a5035305cdbb30be43c0f5daaeb495e587
   name: ose-ptp-rhel9
-- image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:f85229b4f2b3d93926411c7238fd9485080eb8aa8a61886b19c7a3422419ad1d
+- image: registry.redhat.io/openshift5/ptp-must-gather-rhel9@sha256:3c500d10f96f30b0b79180c700bd23c5ea6f87b3fdbbe9b104c08660c09d2dec
   name: ptp-must-gather-rhel9
 schema: olm.bundle
 ---
