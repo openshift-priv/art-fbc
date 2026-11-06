@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=oadp-1.5
+ENV __doozer_key=oadp-operator
+ENV __doozer_version=1.5.9
+ENV __doozer_release=20261106052158.ocp4.19
+ENV __doozer_bundle_nvrs=oadp-operator-metadata-container-1.5.9.202611052324.p2.g229be98.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/oadp-operator
+LABEL io.openshift.build.commit.id=229be981000e5e50db14638e543456cc94a94943
+LABEL com.redhat.art.name=oadp-operator-fbc
+LABEL com.redhat.art.nvr=oadp-operator-fbc-1.5.9-20261106052158.ocp4.19
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/oadp/oadp-operator-bundle@sha256:144d129f221ec708fbddddb197afeb74b8452770d7596473d88bab77c430a45b
