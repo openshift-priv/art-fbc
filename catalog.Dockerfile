@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=coo-1.5
-ENV __doozer_key=cluster-observability-operator
-ENV __doozer_version=1.5.5
-ENV __doozer_release=20261110103635.ocp4.22
-ENV __doozer_bundle_nvrs=cluster-observability-operator-bundle-container-1.5.5.202611100926.p2.g48863a4.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/rhobs/observability-operator
-LABEL io.openshift.build.commit.id=48863a43395c14260a1919bdd25f6b9312b04b52
-LABEL com.redhat.art.name=cluster-observability-operator-fbc
-LABEL com.redhat.art.nvr=cluster-observability-operator-fbc-1.5.5-20261110103635.ocp4.22
-LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/cluster-observability-operator/cluster-observability-operator-bundle@sha256:a70fb016d9becf462b555966de7346ecf3200eab42023b4f053d2527999b1f87
