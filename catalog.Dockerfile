@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=rhosdt-0.158
-ENV __doozer_key=opentelemetry-operator
-ENV __doozer_version=0.158.0
-ENV __doozer_release=20261110024825.ocp4.12
-ENV __doozer_bundle_nvrs=opentelemetry-operator-bundle-container-0.158.0.202611100101.p2.g1559622.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/openshift/open-telemetry-opentelemetry-operator
-LABEL io.openshift.build.commit.id=1559622b1058d0633ef258a8d2e0d8a5c2bd339a
-LABEL com.redhat.art.name=opentelemetry-operator-fbc
-LABEL com.redhat.art.nvr=opentelemetry-operator-fbc-0.158.0-20261110024825.ocp4.12
-LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/rhosdt/opentelemetry-operator-bundle@sha256:04f9cd87cb9f225b253f3a504548ccb60021fcce092a0862bc7defd63309e02f
