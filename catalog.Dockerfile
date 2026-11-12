@@ -20,13 +20,3 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
-ENV __doozer_group=external-secrets-1.1
-ENV __doozer_key=external-secrets-operator
-ENV __doozer_version=1.1.0
-ENV __doozer_release=20261109070901.ocp4.19
-ENV __doozer_bundle_nvrs=external-secrets-operator-metadata-container-1.1.0.202611090302.p2.g2e365a2.assembly.stream.el9-1
-LABEL io.openshift.build.source-location=https://github.com/openshift/external-secrets-operator
-LABEL io.openshift.build.commit.id=2e365a2d0b3734be7a8e39b0906b5681703ed4b1
-LABEL com.redhat.art.name=external-secrets-operator-fbc
-LABEL com.redhat.art.nvr=external-secrets-operator-fbc-1.1.0-20261109070901.ocp4.19
-LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:2c69f89242741c395f9ce580230c7f1b05a29a3ce3c1d1e895beaba4ac8fb393
