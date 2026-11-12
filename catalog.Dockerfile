@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-5.0
+ENV __doozer_key=ingress-node-firewall-operator
+ENV __doozer_version=5.0.0
+ENV __doozer_release=20261112081144
+ENV __doozer_bundle_nvrs=ingress-node-firewall-operator-bundle-container-v5.0.0.202611091752.p2.g6c8a1cb.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/ingress-node-firewall
+LABEL io.openshift.build.commit.id=6c8a1cb2c125022807797b8c33898b2feeccb984
+LABEL com.redhat.art.name=ingress-node-firewall-operator-fbc
+LABEL com.redhat.art.nvr=ingress-node-firewall-operator-fbc-5.0.0-20261112081144
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift5/ingress-node-firewall-operator-bundle@sha256:3994e095db59b471a2601f382f412c39a9ab48f58b67b9321680815faf4e5515
