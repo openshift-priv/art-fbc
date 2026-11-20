@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.20
+ENV __doozer_key=cluster-nfd-operator
+ENV __doozer_version=4.20.0
+ENV __doozer_release=20261120181903
+ENV __doozer_bundle_nvrs=cluster-nfd-operator-metadata-container-v4.20.0.202611200817.p2.g41d06ac.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/cluster-nfd-operator
+LABEL io.openshift.build.commit.id=41d06aca5c9b19b694004decc55f43db9d2adeeb
+LABEL com.redhat.art.name=cluster-nfd-operator-fbc
+LABEL com.redhat.art.nvr=cluster-nfd-operator-fbc-4.20.0-20261120181903
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/ose-cluster-nfd-operator-bundle@sha256:00e00a6ae32897c43084248fb1e20cddb9ae9a82eecd34f2f044309ed7605bcf
