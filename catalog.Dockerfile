@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=cert-manager-1.19
+ENV __doozer_key=cert-manager-operator
+ENV __doozer_version=1.19.0
+ENV __doozer_release=20261120051952.ocp4.22
+ENV __doozer_bundle_nvrs=cert-manager-operator-metadata-container-1.19.0.202611191213.p2.g96d5529.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/cert-manager-operator
+LABEL io.openshift.build.commit.id=96d5529d1295e35ff6f59dedbbfa1a0659affeeb
+LABEL com.redhat.art.name=cert-manager-operator-fbc
+LABEL com.redhat.art.nvr=cert-manager-operator-fbc-1.19.0-20261120051952.ocp4.22
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/cert-manager/cert-manager-operator-bundle@sha256:b362369e06981f29ac064dd4d2a7a2d03f2200dc2a92f9a791b286732e315302
