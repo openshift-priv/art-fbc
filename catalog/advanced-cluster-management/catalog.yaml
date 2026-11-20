@@ -28,6 +28,11 @@ schema: olm.channel
 entries:
 - name: advanced-cluster-management.v5.0.0
   skipRange: '>=2.17.0-0 <5.0.0'
+- name: advanced-cluster-management.v5.0.1
+  replaces: advanced-cluster-management.v5.0.0
+  skipRange: '>=2.17.0-0 <5.0.1'
+  skips:
+  - advanced-cluster-management.v5.0.0
 name: release-5.0
 package: advanced-cluster-management
 schema: olm.channel
@@ -35,6 +40,11 @@ schema: olm.channel
 entries:
 - name: advanced-cluster-management.v5.0.0
   skipRange: '>=2.17.0-0 <5.0.0'
+- name: advanced-cluster-management.v5.0.1
+  replaces: advanced-cluster-management.v5.0.0
+  skipRange: '>=2.17.0-0 <5.0.1'
+  skips:
+  - advanced-cluster-management.v5.0.0
 name: stable-5.0
 package: advanced-cluster-management
 schema: olm.channel
@@ -1584,5 +1594,240 @@ relatedImages:
 - image: registry.redhat.io/rhel9/memcached@sha256:f5a698417c81a6cf4b99a787e7c264bf804838d19fb77c5c6f5f355225cb932a
   name: memcached
 - image: registry.redhat.io/rhel9/postgresql-16@sha256:00455f08b15940a326fcb84caacdb0e15543477f0d7b74d54eb46f9147f39be3
+  name: postgresql-16
+schema: olm.bundle
+---
+image: registry.redhat.io/rhacm2/acm-operator-bundle@sha256:f000221a24b58000b0ceda839552f2d890c53e1c4fb7888e53603c947200e2e5
+name: advanced-cluster-management.v5.0.1
+package: advanced-cluster-management
+properties:
+- type: olm.gvk
+  value:
+    group: operator.open-cluster-management.io
+    kind: MultiClusterHub
+    version: v1
+- type: olm.maxOpenShiftVersion
+  value: '5.1'
+- type: olm.package
+  value:
+    packageName: advanced-cluster-management
+    version: 5.0.1
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: '[{"apiVersion": "operator.open-cluster-management.io/v1", "kind": "MultiClusterHub", "metadata": {"name": "multiclusterhub", "namespace": "open-cluster-management"}, "spec": {}}]'
+      capabilities: Seamless Upgrades
+      categories: Integration & Delivery
+      certified: 'true'
+      createdAt: '2026-09-17T12:27:09Z'
+      description: Advanced provisioning and management of OpenShift and Kubernetes clusters
+      features.operators.openshift.io/cnf: 'false'
+      features.operators.openshift.io/cni: 'false'
+      features.operators.openshift.io/csi: 'false'
+      features.operators.openshift.io/disconnected: 'true'
+      features.operators.openshift.io/fips-compliant: 'true'
+      features.operators.openshift.io/proxy-aware: 'true'
+      features.operators.openshift.io/tls-profiles: 'false'
+      features.operators.openshift.io/token-auth-aws: 'false'
+      features.operators.openshift.io/token-auth-azure: 'false'
+      features.operators.openshift.io/token-auth-gcp: 'false'
+      olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "5.1"}]'
+      olm.skipRange: '>=2.17.0-0 <5.0.1'
+      operatorframework.io/initialization-resource: '{"apiVersion":"operator.open-cluster-management.io/v1", "kind":"MultiClusterHub","metadata":{"name":"multiclusterhub","namespace":"open-cluster-management"}, "spec": {}}'
+      operatorframework.io/suggested-namespace: open-cluster-management
+      operators.openshift.io/infrastructure-features: '["disconnected", "proxy-aware", "fips"]'
+      operators.openshift.io/must-gather-image: registry.redhat.io/rhacm2/acm-must-gather-rhel9@sha256:1512f59f7d8f8aac9f8f681434451ab672196c57b9077370d6d4938a9bc1493e
+      operators.openshift.io/valid-subscription: '["OpenShift Platform Plus", "Red Hat Advanced Cluster Management for Kubernetes"]'
+      repository: https://github.com/open-cluster-management/multiclusterhub-operator
+      support: Red Hat
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - description: "MulticlusterHub defines the configuration\nfor an instance of a multicluster hub, a central point for managing multiple\nKubernetes-based clusters. The deployment of multicluster hub components\nis determined based on the configuration that is defined in this resource."
+        displayName: MultiClusterHub
+        kind: MultiClusterHub
+        name: multiclusterhubs.operator.open-cluster-management.io
+        specDescriptors:
+        - description: 'Specifies deployment replication for improved availability. Options are: Basic and High (default)'
+          displayName: Availability Configuration
+          path: availabilityConfig
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:select:High
+          - urn:alm:descriptor:com.tectonic.ui:select:Basic
+        - description: Disable automatic import of the hub cluster as a managed cluster
+          displayName: Disable Hub Self Management
+          path: disableHubSelfManagement
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - description: Disable automatic update of ClusterImageSets
+          displayName: Disable Update ClusterImageSets
+          path: disableUpdateClusterImageSets
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+          - urn:alm:descriptor:com.tectonic.ui:booleanSwitch
+        - description: Override pull secret for accessing MultiClusterHub operand and endpoint images
+          displayName: Image Pull Secret
+          path: imagePullSecret
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:Secret
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: The name of the local-cluster resource
+          displayName: Local Cluster Name
+          path: localClusterName
+          x-descriptors:
+          - urn:alm:descriptor:io.kubernetes:text
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: NetworkPolicies configures NetworkPolicy deployment for ACM components
+          displayName: NetworkPolicies Configuration
+          path: networkPolicies
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:advanced
+        - description: Developer Overrides
+          displayName: Developer Overrides
+          path: overrides
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        - description: 'Provides optional configuration for components, the list of which can be found here: https://github.com/stolostron/multiclusterhub-operator/tree/main/docs/available-components.md'
+          displayName: Component Configuration
+          path: overrides.components
+          x-descriptors:
+          - urn:alm:descriptor:com.tectonic.ui:hidden
+        version: v1
+    description: "Red Hat Advanced Cluster Management for Kubernetes provides the multicluster hub, a central management console for managing multiple Kubernetes-based clusters across data centers, public clouds, and private clouds. You can use the hub to create Red Hat OpenShift Container Platform clusters on selected providers, or import existing Kubernetes-based clusters. After the clusters are managed, you can set compliance requirements to ensure that the clusters maintain the specified security requirements. You can also deploy business applications across your clusters.\n\n## How to install\nUse of this Red Hat product requires a licensing and subscription agreement.\n\nInstall the Red Hat Advanced Cluster Management for Kubernetes operator by following instructions presented when you click the `Install` button. After installing the operator, create an instance of the `MultiClusterHub` resource to install the hub.\n\nNote that if you will be using the hub to manage non-OpenShift 4.x clusters, you will need to create a Kubernetes `Secret` resource containing your OpenShift pull secret and specify this `Secret` in the `MultiClusterHub` resource, as described in the install documentation.\n### Special considerations for disconnected network environments\nIf you are installing Red Hat Advanced Cluster Management for Kubernetes in a disconnected network environment, there are some special install and upgrade requirements.\n#### Include multicluster engine for Kubernetes in mirrored catalog\nInstalling an OLM operator in a disconnected network environment involves the use of a local mirrored operator catalog and image registry. Red Hat Advanced Cluster Management for Kubernetes requires (and automatically installs) the multicluster engine for Kuberenetes operator so this operator package is needed in your local mirrored operator catalog in addition to the one for Red Hat Advanced Cluster Management for Kubernetes.\n\nif you are using a full mirror of the Red Hat operators catalog, no special action is needed when creating the mirror catalog.\n\nIf you are using a filtered (rather than full) mirror of the OLM catalog, be sure to include both the `advanced-cluster-management` **and** `multicluster-engine` packages in your mirrored catalog when creating it.\n#### Add annotation to MultiClusterHub resource\nIf you are installing or upgrading to a Red Hat Advanced Cluster Management for Kubernetes release prior to release 2.7, an `mce-subscription-spec` annotation is required in the instance of the `MultiClusterHub` resource you create to set up your hub. This annotation identifies the catalog source for your local mirrored operator catalog and is required when installing releases prior to release 2.7 regardless of whether your local mirrored operator catalog is a full mirror or a filtered one.\n\nThe `mce-subscription-spec` annotation is not usually needed, and thus can usually be omitted, when installing or upgrading to release 2.7 or a later release. Starting with release 2.7, the Red Hat Advanced Cluster Management for Kubernetes operator is able to automatically determine the catalog source to use in typical scenarios.\n\nThe following is an example of the `mce-subscription-spec` annotation:\n\n```\n apiVersion: operator.open-cluster-management.io/v1\n kind: MultiClusterHub\n metadata:\n \tannotations:\n \t\tinstaller.open-cluster-management.io/mce-subscription-spec: '{\"source\": \"my-catalog-source\"}'\n spec: {}\n\n```\n\nReplace `my-catalog-source` with the name of your catalog source.\n\nIf you are creating the `MultiClusterHub` resource using the OperatorHub UI, switch to the YAML view for the resource in order to insert the annotation.\n### Where to find more installation information\nYou can find additional installation guidance in the [install documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/5.0/html/install/index). "
+    displayName: Advanced Cluster Management for Kubernetes
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - acm
+    - advanced-cluster-management
+    - install
+    - multiclusterhub
+    - rhacm
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Documentation
+      url: https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/5.0/
+    maintainers:
+    - email: acm-contact@redhat.com
+      name: Red Hat
+    maturity: stable
+    provider:
+      name: Red Hat
+relatedImages:
+- image: registry.redhat.io/rhacm2/acm-operator-bundle@sha256:f000221a24b58000b0ceda839552f2d890c53e1c4fb7888e53603c947200e2e5
+  name: ''
+- image: registry.redhat.io/openshift5/ose-configmap-reloader-rhel9@sha256:ec8d65e60b5b16ae1096959a351809ed29b2a2850c3437db71b6d253414e8fd3
+  name: ose-configmap-reloader-rhel9
+- image: registry.redhat.io/rhacm2/acm-cli-rhel9@sha256:50bc2120e9f0e4cfb532cfa1448ea6de659acff43da697edaf710b1c554a87b1
+  name: acm-cli-rhel9
+- image: registry.redhat.io/rhacm2/acm-governance-policy-addon-controller-rhel9@sha256:d8893c065ea31227e297ac629ba03ba66923c16cd6c33a6ab86cbc579ca8eec9
+  name: acm-governance-policy-addon-controller-rhel9
+- image: registry.redhat.io/rhacm2/acm-governance-policy-framework-addon-rhel9@sha256:da482d7069bcd1d4ac02f2c1ac36b9f617afcb7ee9caf9489c3dba51afcc22c9
+  name: acm-governance-policy-framework-addon-rhel9
+- image: registry.redhat.io/rhacm2/acm-grafana-rhel9@sha256:6e3cc3e0cac5fe17b2d3d4d74f57bee57e0a7db9398127b51eddf8c306f5281b
+  name: acm-grafana-rhel9
+- image: registry.redhat.io/rhacm2/acm-multicluster-observability-addon-rhel9@sha256:ae2f5ef314ee8a62f7b4cad783a585081d13a11896debc3cefa29b8d66348ab3
+  name: acm-multicluster-observability-addon-rhel9
+- image: registry.redhat.io/rhacm2/acm-must-gather-rhel9@sha256:1512f59f7d8f8aac9f8f681434451ab672196c57b9077370d6d4938a9bc1493e
+  name: acm-must-gather-rhel9
+- image: registry.redhat.io/rhacm2/acm-prometheus-config-reloader-rhel9@sha256:706dbb6f0a7dd2091e79a4b5fa7b6cba77fc8775a7ce2b7e332bee55a56db56a
+  name: acm-prometheus-config-reloader-rhel9
+- image: registry.redhat.io/rhacm2/acm-prometheus-rhel9@sha256:58958fc20ad433214b4505676359983660132d078fc416c3f95bcf474e15f702
+  name: acm-prometheus-rhel9
+- image: registry.redhat.io/rhacm2/acm-search-indexer-rhel9@sha256:58145c0b5adbabc9bc3708b806ed6259e00ae439055232b6a11d9b1918cdf8cd
+  name: acm-search-indexer-rhel9
+- image: registry.redhat.io/rhacm2/acm-search-v2-api-rhel9@sha256:0586df82770492209c1fa815eb2c840cceed8f3b777f5da120535b3de8450108
+  name: acm-search-v2-api-rhel9
+- image: registry.redhat.io/rhacm2/acm-search-v2-rhel9@sha256:793791e6f3f9994e1e24ddb81d89368f4e54ca21899f1204858ce6ae95fc755a
+  name: acm-search-v2-rhel9
+- image: registry.redhat.io/rhacm2/acm-siteconfig-rhel9@sha256:5ddcfd6848dce09e0fcbd518f32cc610a80b2ca6dd3dcf89db7c6b3b7267d1e7
+  name: acm-siteconfig-rhel9
+- image: registry.redhat.io/rhacm2/acm-volsync-addon-controller-rhel9@sha256:a3c20f9ddb1aff35455b3f39979fcea2c032dd207374c7ce6a87b22188bcf6e5
+  name: acm-volsync-addon-controller-rhel9
+- image: registry.redhat.io/rhacm2/cert-policy-controller-rhel9@sha256:72a02110d0c5159d0cb67aa930444af0f08808615cc2e1935cd448b3dc229dc2
+  name: cert-policy-controller-rhel9
+- image: registry.redhat.io/rhacm2/cluster-backup-rhel9-operator@sha256:0a746c0d5f7bb2b02664214e3bf0a899bb60ec9cc2d0901cd995cf7d8a4e5d1e
+  name: cluster-backup-rhel9-operator
+- image: registry.redhat.io/rhacm2/config-policy-controller-rhel9@sha256:8abb46db066e88d0f7b051ca965c7c21bec45735af8fbf360da6727de96c5b0c
+  name: config-policy-controller-rhel9
+- image: registry.redhat.io/rhacm2/console-rhel9@sha256:86916b1b2dd10223fb7a4c953934a21c84c9a3b844821fd5e87c64b47cb6c177
+  name: console-rhel9
+- image: registry.redhat.io/rhacm2/endpoint-monitoring-rhel9-operator@sha256:feb2ce5778606aae0be9664a8f836753f58403b449b12c5f0dc0c319336f67f7
+  name: endpoint-monitoring-rhel9-operator
+- image: registry.redhat.io/rhacm2/governance-policy-propagator-rhel9@sha256:d9fa2336121494b3e1861d46afc6556177d21b103610d62d4ff53c55f1abd66f
+  name: governance-policy-propagator-rhel9
+- image: registry.redhat.io/rhacm2/grafana-dashboard-loader-rhel9@sha256:12eac653b56c0974de73f0d3dd544878baabb38a87606f6d5b83e338eb66fb39
+  name: grafana-dashboard-loader-rhel9
+- image: registry.redhat.io/rhacm2/insights-client-rhel9@sha256:c997a99b07c7d5d25cc3b307ce2a4381e9033d2b077df34a9d19890d7b7dc43a
+  name: insights-client-rhel9
+- image: registry.redhat.io/rhacm2/insights-metrics-rhel9@sha256:3df1448f731be04a9eed47792735809666fa2540b8c26b842564cf3037fe0a1b
+  name: insights-metrics-rhel9
+- image: registry.redhat.io/rhacm2/klusterlet-addon-controller-rhel9@sha256:0972b2a17ffdcb3a8b8d9e5b1bc7459b6a4846255fe39fcf3fa2a294bd39c1fa
+  name: klusterlet-addon-controller-rhel9
+- image: registry.redhat.io/rhacm2/kube-rbac-proxy-rhel9@sha256:5aeaa0a027c9828cff4feb1c2379cd18c57a74d4166134bae046e6c40be2ef59
+  name: kube-rbac-proxy-rhel9
+- image: registry.redhat.io/rhacm2/kube-state-metrics-rhel9@sha256:7d8288e09051149d36d89e92bc32e2b6c5e55171afdca79e258fb4515f54ec90
+  name: kube-state-metrics-rhel9
+- image: registry.redhat.io/rhacm2/memcached-exporter-rhel9@sha256:e87d30526c1cb128899c2c196d280cf898636195772d9f7e677b03fcc5b6bbea
+  name: memcached-exporter-rhel9
+- image: registry.redhat.io/rhacm2/metrics-collector-rhel9@sha256:91e44731d46e9a6045a53633fedd961b09ba435812e3a1692eee309fcbce4c48
+  name: metrics-collector-rhel9
+- image: registry.redhat.io/rhacm2/mtv-integrations-rhel9@sha256:5ef1fc837d7343ef1acb80e3b7c3de1e8f27825db3ccf090061609382c3a0cd6
+  name: mtv-integrations-rhel9
+- image: registry.redhat.io/rhacm2/multicloud-integrations-rhel9@sha256:c1edd7b89ea8c279bc9cd22afd4442b0a905c85b9058b27de9131dd1881b01aa
+  name: multicloud-integrations-rhel9
+- image: registry.redhat.io/rhacm2/multicluster-observability-rhel9-operator@sha256:5c393e6c838ea6e8f31a7bed038e7faadb680130b05fc661f475c6e8f3cb0502
+  name: multicluster-observability-rhel9-operator
+- image: registry.redhat.io/rhacm2/multicluster-operators-application-rhel9@sha256:0d4365de63e6cdb51454b3c93a24e990c6ba9c6e51d18e773aef3484ee430f2e
+  name: multicluster-operators-application-rhel9
+- image: registry.redhat.io/rhacm2/multicluster-operators-channel-rhel9@sha256:23ac97a5f3248ee2dd3f5a92c71a4edd548631bcdac8f44bf7b905a2cf181f82
+  name: multicluster-operators-channel-rhel9
+- image: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9@sha256:a136929195f8dcb04423c2f054c7a57ec38827e8abdb649ecc0ec86bb70ecb8a
+  name: multicluster-operators-subscription-rhel9
+- image: registry.redhat.io/rhacm2/multicluster-role-assignment-rhel9@sha256:e9fb2836af9865418b6b4370f3e5d2baef15539104fbbdfedb0dfabd1dc2d635
+  name: multicluster-role-assignment-rhel9
+- image: registry.redhat.io/rhacm2/multiclusterhub-rhel9@sha256:de2693a4e105afcf16952f84feda5063f7eaa2f94e92a4b785046c2e0f07f628
+  name: multiclusterhub-rhel9
+- image: registry.redhat.io/rhacm2/node-exporter-rhel9@sha256:81561661e7fd683deae55580a2f6e513c49dd7fb8eff4bdf1c89b504979ae6f4
+  name: node-exporter-rhel9
+- image: registry.redhat.io/rhacm2/obo-prometheus-rhel9-operator@sha256:288b3172dec6de5d2f43849c3f0b268a5be92ff05227a9603f32cb2031ed5752
+  name: obo-prometheus-rhel9-operator
+- image: registry.redhat.io/rhacm2/observatorium-rhel9-operator@sha256:1560bcfcd36a12adc395b645c408ffb02a8af4862ad86628653dd9f13277738f
+  name: observatorium-rhel9-operator
+- image: registry.redhat.io/rhacm2/observatorium-rhel9@sha256:5a6bf69cf3abeac43deceaf025f3df6774bd8c5499889944f371fcac6e1aa383
+  name: observatorium-rhel9
+- image: registry.redhat.io/rhacm2/prometheus-alertmanager-rhel9@sha256:7a0500194251b76e465b4607da73460fb10dca32e90da3edffdd5ab8dfe15a69
+  name: prometheus-alertmanager-rhel9
+- image: registry.redhat.io/rhacm2/prometheus-rhel9@sha256:22c263bf5787a224b19a9c9806b5ebfae05ad7176c0cdf53888aec187faec9cb
+  name: prometheus-rhel9
+- image: registry.redhat.io/rhacm2/rbac-query-proxy-rhel9@sha256:9d4e6d09df767a787ec1d28c836c5b652fe6c645b4c2cea95b5e4ce2cbb8764e
+  name: rbac-query-proxy-rhel9
+- image: registry.redhat.io/rhacm2/search-collector-rhel9@sha256:53353f3280f16e380c8bf50548d3db089e6e30f30442cb8593f6f1b1db00e9a9
+  name: search-collector-rhel9
+- image: registry.redhat.io/rhacm2/submariner-addon-rhel9@sha256:05cf8a12aa0ea36cb4ae165f562a423a52dee242c40162d0fdedf89de96f4d38
+  name: submariner-addon-rhel9
+- image: registry.redhat.io/rhacm2/thanos-receive-controller-rhel9@sha256:fefccfdc728ec7d0667b568c7fbb111fbc7bfdc01f46ca5e78dad57a634c7271
+  name: thanos-receive-controller-rhel9
+- image: registry.redhat.io/rhacm2/thanos-rhel9@sha256:9e311d2187923f445c85f2a5b7691b8e7a4545e3539eb89644a8c031bef5f899
+  name: thanos-rhel9
+- image: registry.redhat.io/rhacm2/volsync-rhel9@sha256:6fa8a7c1e8bcf3a0b4f12b6e8ff549a1fd80ac52586a37e1c4fd561a81dcd86f
+  name: volsync-rhel9
+- image: registry.redhat.io/rhel9/memcached@sha256:d13b0ecbbb4b0159ab6e4ce20ead70b3c3d94b3d34b1d9101a9cb6289cecf125
+  name: memcached
+- image: registry.redhat.io/rhel9/postgresql-16@sha256:cf20f6229c5c1cc4cd65be6636b5b06620ba9adb844dfbe080fa7a50605ecd52
   name: postgresql-16
 schema: olm.bundle
