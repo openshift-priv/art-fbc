@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=mce-2.17
+ENV __doozer_key=backplane-operator
+ENV __doozer_version=2.17.5
+ENV __doozer_release=20261121044422.ocp4.21
+ENV __doozer_bundle_nvrs=mce-backplane-operator-metadata-container-2.17.5.202611210217.p2.gbe82957.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/stolostron/backplane-operator
+LABEL io.openshift.build.commit.id=be8295700ad343f26ba18e6434b1f54b5e05448c
+LABEL com.redhat.art.name=backplane-operator-fbc
+LABEL com.redhat.art.nvr=backplane-operator-fbc-2.17.5-20261121044422.ocp4.21
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/multicluster-engine/mce-operator-bundle@sha256:000ee133378d54efcf8147fe6388b40bdb30da97bc418cf082d18bbe7d245e04
