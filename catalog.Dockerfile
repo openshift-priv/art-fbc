@@ -21,8 +21,8 @@ COPY --from=builder /tmp/cache /tmp/cache
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
 LABEL com.redhat.art.name=mta-fbc-unified
-LABEL com.redhat.art.nvr=mta-fbc-unified-4.18-20261123194228243822.ocp4.18
+LABEL com.redhat.art.nvr=mta-fbc-unified-4.18-20261124222212932854.ocp4.18
 ENV __doozer_group=mta-8.2
 ENV __doozer_version=4.18
-ENV __doozer_release=20261123194228243822.ocp4.18
+ENV __doozer_release=20261124222212932854.ocp4.18
 ENV __doozer_bundle_nvrs=mta-operator-metadata-container-8.2.3.202610081038.p2.ge7c3318.assembly.stream.el9-1,mta-operator-metadata-container-8.3.3.202610231521.p2.g393f61d.assembly.stream.el9-1
