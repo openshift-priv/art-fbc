@@ -20,3 +20,13 @@ COPY --from=builder /tmp/cache /tmp/cache
 # Set FBC-specific label for the location of the FBC root directory
 # in the image
 LABEL operators.operatorframework.io.index.configs.v1=/configs
+ENV __doozer_group=openshift-4.18
+ENV __doozer_key=ose-secrets-store-csi-driver-operator
+ENV __doozer_version=4.18.0
+ENV __doozer_release=20261128193221
+ENV __doozer_bundle_nvrs=ose-secrets-store-csi-driver-operator-bundle-container-v4.18.0.202611280951.p2.g6fbdb90.assembly.stream.el9-1
+LABEL io.openshift.build.source-location=https://github.com/openshift/secrets-store-csi-driver-operator
+LABEL io.openshift.build.commit.id=6fbdb909557d08f74f739ca227e629b67eed3af3
+LABEL com.redhat.art.name=ose-secrets-store-csi-driver-operator-fbc
+LABEL com.redhat.art.nvr=ose-secrets-store-csi-driver-operator-fbc-4.18.0-20261128193221
+LABEL com.redhat.art.bundle.pullspec=registry.redhat.io/openshift4/ose-secrets-store-csi-driver-operator-bundle@sha256:453e48c3f908dcff3ea3a79b6eaae127b1accc72695789a75dc280348f6c9208
